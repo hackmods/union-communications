@@ -1,4 +1,10 @@
-﻿## 2026-09-30 — TOTP encryption, restore drill, authenticator icon
+﻿## 2026-09-30 — Brand Lookbook (Atlas-inspired)
+
+- Shared `BrandLookbook` + `BrandLookbookScope` paints real Hub `ui/*` and `BrandKitPreview` from Brand Kit / draft themes without writing steward localStorage.
+- Public `/brand-kit/showcase` linked from Brand Kit nav, sticky preview, and Match hint. What's new: `brand-lookbook`.
+- Union admin `/app/union-brand` and Site Admin brand-styles / host-brand embed the same gallery (full vs compact) for pre-save QA of chrome vs canvas colours.
+
+## 2026-09-30 — TOTP encryption, restore drill, authenticator icon
 
 - Confirmed and pending TOTP secrets are AES-256-GCM at rest when `AUTH_TOTP_ENCRYPTION_KEY` is set (required for hosted/production Postgres). Legacy plaintext still verifies after restore.
 - `npm run db:mfa-restore-smoke` (`ops:verify-durable`) dump/restores a scratch database and checks a live authenticator code.

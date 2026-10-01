@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
+import { BrandLookbook } from "@/components/brand/BrandLookbook";
+import { brandKitFromTheme } from "@/lib/brand/lookbook-kit";
 import { canvasFontFamily, type CanvasFontId } from "@/lib/comms/canvas-fonts";
 import { getUnionPreset } from "@/lib/constants/unionPresets";
 import type { UnionBrandTheme } from "@/lib/brand/union-brand-theme";
@@ -774,6 +776,25 @@ export function BrandStylesAdminForm() {
                             <p className="mt-2 text-xs text-red-800">
                               {t("brandStylesInvalidHex")}
                             </p>
+                          ) : null}
+                          {valid ? (
+                            <div className="mt-4">
+                              <p className="mb-2 text-xs font-semibold text-opseu-dark">
+                                {t("brandStylesLookbook")}
+                              </p>
+                              <BrandLookbook
+                                brandKit={brandKitFromTheme({
+                                  primaryColor: draft.primaryColor.toUpperCase(),
+                                  secondaryColor: draft.secondaryColor.toUpperCase(),
+                                  accentColor: draft.accentColor.toUpperCase(),
+                                  headlineFontId: draft.headlineFontId as CanvasFontId,
+                                  bodyFontId: draft.bodyFontId as CanvasFontId,
+                                })}
+                                hydrated
+                                mode="compact"
+                                idPrefix={`site-admin-${row.id}`}
+                              />
+                            </div>
                           ) : null}
                         </>
                       ) : null}

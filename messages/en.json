@@ -4252,7 +4252,8 @@
       "preview": "Preview",
       "style": "Style",
       "links": "Links and signature",
-      "display": "Display settings"
+      "display": "Display settings",
+      "lookbook": "Lookbook"
     },
     "previewTitle": "Live preview",
     "previewDescription": "See your current logo, local identity, colours, and canvas style together.",
@@ -4638,6 +4639,120 @@
       "useUnionMarkHint": "Bundled starter mark for {union}. Compact for headers and circular crops.",
       "usePlatform": "UnionOps mark",
       "usePlatformHint": "Platform U mark that tints to your primary brand colour. Used by default when no other logo is selected."
+    },
+    "lookbook": {
+      "eyebrow": "Brand lookbook",
+      "title": "See your brand on real Officer Hub pieces",
+      "description": "Buttons, forms, alerts, and a Comms sample all use the colours and fonts in this Brand Kit — including readable Officer Hub chrome when it differs from export colours.",
+      "compactTitle": "Live lookbook",
+      "compactDescription": "How this draft theme paints Officer Hub controls and a Comms sample before you save.",
+      "navLabel": "Lookbook sections",
+      "nav": {
+        "foundations": "Foundations",
+        "actions": "Actions",
+        "forms": "Forms",
+        "selection": "Selection",
+        "feedback": "Feedback",
+        "surfaces": "Surfaces",
+        "comms": "Comms",
+        "overlays": "Overlays"
+      },
+      "foundations": {
+        "title": "Foundations",
+        "intro": "Raw Brand Kit colours for exports, plus Officer Hub chrome colours derived so white labels and headings stay readable.",
+        "brandRamp": "Brand Kit colours",
+        "primary": "Primary",
+        "secondary": "Secondary",
+        "accent": "Accent",
+        "chrome": "Officer Hub chrome",
+        "interactive": "Interactive (buttons)",
+        "interactiveNote": "Darkened so white labels meet WCAG AA",
+        "heading": "Heading ink",
+        "chromeCallout": "Officer Hub buttons and nav use this interactive fill, not always your raw primary. Comms canvases keep the Brand Kit primary for exports.",
+        "type": "Type",
+        "typeHeadline": "Headline — {font}",
+        "typeBody": "Body copy uses {font}. Change fonts in Brand Kit Style or your union theme editor."
+      },
+      "actions": {
+        "title": "Actions",
+        "intro": "The same Button and ButtonLink components Officer Hub uses, painted by Officer Hub chrome.",
+        "variants": "Variants",
+        "primary": "Primary",
+        "secondary": "Secondary",
+        "outline": "Outline",
+        "ghost": "Ghost",
+        "sizes": "Sizes and states",
+        "small": "Small",
+        "base": "Base",
+        "large": "Large",
+        "disabled": "Disabled",
+        "links": "Links as buttons",
+        "linkPrimary": "Brand Kit",
+        "linkOutline": "Edit colours"
+      },
+      "forms": {
+        "title": "Forms",
+        "intro": "Text fields and selects share one focus ring in the Officer Hub brand colour.",
+        "inputLabel": "Local name",
+        "inputPlaceholder": "Your local",
+        "selectLabel": "Collection",
+        "selectOptionA": "Full-time",
+        "selectOptionB": "Part-time"
+      },
+      "selection": {
+        "title": "Selection",
+        "intro": "Checkboxes and radios use the brand accent for the selected mark.",
+        "checkboxOn": "Send reminders",
+        "checkboxOff": "Share with stewards",
+        "radioLegend": "Meeting format",
+        "radioOne": "In person",
+        "radioTwo": "Online"
+      },
+      "feedback": {
+        "title": "Feedback",
+        "intro": "Callouts and badges carry intent in colour and words.",
+        "brand": "Brand note — soft tint from Officer Hub chrome.",
+        "success": "Saved. Your theme is ready for Match on Brand Kit.",
+        "warning": "Two fields need a six-digit hex colour before save.",
+        "danger": "Could not save. Check your connection and try again.",
+        "badges": "Badges",
+        "badgeDefault": "Brand",
+        "badgeSuccess": "Ready",
+        "badgeWarning": "Review",
+        "badgeDanger": "Blocked",
+        "badgeMuted": "Draft"
+      },
+      "surfaces": {
+        "title": "Surfaces",
+        "intro": "Cards and empty states officers see across Officer Hub tools.",
+        "cardDefault": "Default card",
+        "cardGhost": "Ghost card",
+        "cardOutline": "Outline card",
+        "cardBody": "Body copy sits on the system surface.",
+        "emptyTitle": "Nothing here yet",
+        "emptyBody": "When this list fills, cards above show how items look.",
+        "skeleton": "Loading placeholders"
+      },
+      "comms": {
+        "title": "Comms sample",
+        "intro": "The same canvas preview Brand Kit uses — export colours and fonts, not Officer Hub button fill.",
+        "styleLink": "Edit canvas style"
+      },
+      "overlays": {
+        "title": "Overlays",
+        "intro": "Dialogs leave the page flow. Escape or the close control dismisses them.",
+        "open": "Open dialog",
+        "dialogTitle": "Confirm brand look",
+        "dialogBody": "This dialog uses the same Officer Hub chrome as the rest of Officer Hub.",
+        "close": "Close"
+      },
+      "pageBack": "Back to Brand Kit",
+      "pageCta": "Open full lookbook",
+      "pageCtaHint": "See buttons, forms, and Officer Hub chrome with your live Brand Kit.",
+      "matchLookbook": "Preview Officer Hub lookbook",
+      "matchLookbookHint": "See how Match will paint Officer Hub controls before you apply it.",
+      "showcaseTitle": "Brand lookbook",
+      "showcaseDescription": "A live gallery of Officer Hub controls and a Comms sample using the Brand Kit saved in this browser."
     }
   },
   "assets": {
@@ -8185,6 +8300,10 @@
       "learn-ui-chrome": {
         "title": "Learn pages start sooner",
         "body": "Related links sit after the lesson, Steward 101 opens on the floor content faster, Officer Learning shows a compact progress rail, workshop copy drops jargon, and Create tools link to canonical /learn pages."
+      },
+      "brand-lookbook": {
+        "title": "Brand lookbook",
+        "body": "Open the lookbook from Brand Kit to see Officer Hub buttons, forms, and chrome painted with your colours before you print or export."
       }
     }
   },
@@ -8421,7 +8540,7 @@
       "directoryLink": "Local directory",
       "backToHub": "Back to Officer Hub",
       "brandTitle": "Union brand",
-      "brandIntro": "Choose your union's Brand Kit preset and adjust its colours and fonts.",
+      "brandIntro": "Choose your union’s Brand Kit preset, adjust colours and fonts, and check the lookbook before you save.",
       "presetLabel": "Brand Kit preset",
       "presetNone": "No preset",
       "themeHeading": "Custom theme",
@@ -8445,7 +8564,9 @@
       "directoryUnpaid": "The local directory is not enabled for your union.",
       "directoryEmpty": "No locals are listed for your union yet.",
       "directoryLocal": "Local {number}",
-      "directoryDivision": "Bargaining collective: {id}"
+      "directoryDivision": "Bargaining collective: {id}",
+      "lookbookHeading": "Brand lookbook",
+      "lookbookIntro": "Live preview of your draft theme on Officer Hub controls and a Comms sample. Save above to publish it for members."
     },
     "platformOperator": {
       "menu": "Platform",
@@ -9520,7 +9641,9 @@
       "localMoveConfirmHelp": "Type the current local number (before any rename) to confirm.",
       "localMoveSingleLocalConflictCount": "The destination allows one local per member, and {count} members already have another active local there. Check end other memberships, then refresh preview.",
       "localMoveConflictMembers": "{count} members would keep conflicting memberships unless you end them.",
-      "localMoveWarningArchived": "This local is archived. It will stay archived after the move unless you restore it in the destination union."
+      "localMoveWarningArchived": "This local is archived. It will stay archived after the move unless you restore it in the destination union.",
+      "brandStylesLookbook": "Lookbook for this theme",
+      "hostBrandLookbook": "Host brand lookbook"
     },
     "signingIn": "Signing in...",
     "writeNoUnion": "No union is assigned to this account — ask a platform operator to assign one before saving.",

@@ -4252,7 +4252,8 @@
       "preview": "Aperçu",
       "style": "Style",
       "links": "Liens et signature",
-      "display": "Affichage"
+      "display": "Affichage",
+      "lookbook": "Carnet"
     },
     "previewTitle": "Aperçu en direct",
     "previewDescription": "Voyez ensemble votre logo, l’identité de votre section, vos couleurs et le style de canevas.",
@@ -4638,7 +4639,121 @@
       "usePlatformHint": "Monogramme U de la plateforme qui prend la couleur de marque principale. Utilisé par défaut lorsqu'aucun autre logo n'est choisi."
     },
     "packCallout": "Pour déplacer la Trousse de marque, les noms des dirigeants, l’affichage et le brouillon de site vers un autre navigateur, utilisez Trousse locale — un seul fichier versionné.",
-    "packLink": "Ouvrir Trousse locale"
+    "packLink": "Ouvrir Trousse locale",
+    "lookbook": {
+      "eyebrow": "Carnet de marque",
+      "title": "Voir votre marque sur de vrais éléments du Hub des dirigeants",
+      "description": "Boutons, formulaires, alertes et un échantillon Comms utilisent les couleurs et polices de ce kit de marque — y compris le chrome lisible du Hub des dirigeants lorsqu’il diffère des couleurs d’export.",
+      "compactTitle": "Carnet en direct",
+      "compactDescription": "Comment ce thème provisoire peint les commandes du Hub des dirigeants et un échantillon Comms avant l’enregistrement.",
+      "navLabel": "Sections du carnet",
+      "nav": {
+        "foundations": "Fondations",
+        "actions": "Actions",
+        "forms": "Formulaires",
+        "selection": "Sélection",
+        "feedback": "Rétroaction",
+        "surfaces": "Surfaces",
+        "comms": "Comms",
+        "overlays": "Superpositions"
+      },
+      "foundations": {
+        "title": "Fondations",
+        "intro": "Couleurs brutes du kit pour les exports, plus le chrome du Hub des dirigeants dérivé pour que les libellés blancs et les titres restent lisibles.",
+        "brandRamp": "Couleurs du kit de marque",
+        "primary": "Principale",
+        "secondary": "Secondaire",
+        "accent": "Accent",
+        "chrome": "Chrome du Hub des dirigeants",
+        "interactive": "Interactif (boutons)",
+        "interactiveNote": "Assombri pour que les libellés blancs respectent le WCAG AA",
+        "heading": "Encre des titres",
+        "chromeCallout": "Les boutons et la navigation du Hub des dirigeants utilisent ce rempli interactif, pas toujours votre primaire brute. Les canevas Comms gardent la primaire du kit pour les exports.",
+        "type": "Typographie",
+        "typeHeadline": "Titre — {font}",
+        "typeBody": "Le corps utilise {font}. Changez les polices dans Style du kit ou dans l’éditeur de thème de votre syndicat."
+      },
+      "actions": {
+        "title": "Actions",
+        "intro": "Les mêmes composants Button et ButtonLink que le Hub des dirigeants, peints par le chrome du Hub des dirigeants.",
+        "variants": "Variantes",
+        "primary": "Principal",
+        "secondary": "Secondaire",
+        "outline": "Contour",
+        "ghost": "Fantôme",
+        "sizes": "Tailles et états",
+        "small": "Petit",
+        "base": "Base",
+        "large": "Grand",
+        "disabled": "Désactivé",
+        "links": "Liens en boutons",
+        "linkPrimary": "Kit de marque",
+        "linkOutline": "Modifier les couleurs"
+      },
+      "forms": {
+        "title": "Formulaires",
+        "intro": "Champs et listes partagent un anneau de focus dans la couleur de marque du Hub des dirigeants.",
+        "inputLabel": "Nom de la section locale",
+        "inputPlaceholder": "Votre section locale",
+        "selectLabel": "Collection",
+        "selectOptionA": "Temps plein",
+        "selectOptionB": "Temps partiel"
+      },
+      "selection": {
+        "title": "Sélection",
+        "intro": "Cases et boutons radio utilisent l’accent de marque pour la marque sélectionnée.",
+        "checkboxOn": "Envoyer des rappels",
+        "checkboxOff": "Partager avec les délégués",
+        "radioLegend": "Format de réunion",
+        "radioOne": "En personne",
+        "radioTwo": "En ligne"
+      },
+      "feedback": {
+        "title": "Rétroaction",
+        "intro": "Encadrés et badges portent l’intention par la couleur et les mots.",
+        "brand": "Note de marque — teinte douce du chrome du Hub des dirigeants.",
+        "success": "Enregistré. Votre thème est prêt pour Apparier dans le kit de marque.",
+        "warning": "Deux champs exigent une couleur hexadécimale à six chiffres avant l’enregistrement.",
+        "danger": "Impossible d’enregistrer. Vérifiez la connexion et réessayez.",
+        "badges": "Badges",
+        "badgeDefault": "Marque",
+        "badgeSuccess": "Prêt",
+        "badgeWarning": "À revoir",
+        "badgeDanger": "Bloqué",
+        "badgeMuted": "Brouillon"
+      },
+      "surfaces": {
+        "title": "Surfaces",
+        "intro": "Cartes et états vides que les dirigeants voient dans les outils du Hub des dirigeants.",
+        "cardDefault": "Carte par défaut",
+        "cardGhost": "Carte fantôme",
+        "cardOutline": "Carte contour",
+        "cardBody": "Le texte repose sur la surface du système.",
+        "emptyTitle": "Rien ici pour l’instant",
+        "emptyBody": "Quand cette liste se remplit, les cartes ci-dessus montrent l’apparence des éléments.",
+        "skeleton": "Placeholders de chargement"
+      },
+      "comms": {
+        "title": "Échantillon Comms",
+        "intro": "Le même aperçu canevas que le kit de marque — couleurs et polices d’export, pas le rempli des boutons du Hub des dirigeants.",
+        "styleLink": "Modifier le style du canevas"
+      },
+      "overlays": {
+        "title": "Superpositions",
+        "intro": "Les dialogues quittent le flux de la page. Échap ou le bouton de fermeture les ferme.",
+        "open": "Ouvrir le dialogue",
+        "dialogTitle": "Confirmer l’apparence",
+        "dialogBody": "Ce dialogue utilise le même chrome du Hub des dirigeants que le reste du Hub des dirigeants.",
+        "close": "Fermer"
+      },
+      "pageBack": "Retour au kit de marque",
+      "pageCta": "Ouvrir le carnet complet",
+      "pageCtaHint": "Voir boutons, formulaires et chrome du Hub des dirigeants avec votre kit de marque en direct.",
+      "matchLookbook": "Aperçu du carnet du Hub des dirigeants",
+      "matchLookbookHint": "Voir comment Apparier peindra les commandes du Hub des dirigeants avant de l’appliquer.",
+      "showcaseTitle": "Carnet de marque",
+      "showcaseDescription": "Une galerie en direct des commandes du Hub des dirigeants et d’un échantillon Comms avec le kit de marque enregistré dans ce navigateur."
+    }
   },
   "graphicMaker": {
     "title": "Créateur graphique",
@@ -8131,6 +8246,10 @@
       "learn-ui-chrome": {
         "title": "Les pages Apprendre démarrent plus vite",
         "body": "Les liens connexes passent après la leçon, Steward 101 ouvre plus vite sur le contenu de plancher, la Formation des dirigeants montre un rail de progression compact, le texte des ateliers abandonne le jargon, et les outils Créer pointent vers les pages /learn canoniques."
+      },
+      "brand-lookbook": {
+        "title": "Carnet de marque",
+        "body": "Ouvrez le carnet depuis le kit de marque pour voir boutons, formulaires et chrome du Hub des dirigeants peints avec vos couleurs avant d’imprimer ou d’exporter."
       }
     }
   },
@@ -8367,7 +8486,7 @@
       "directoryLink": "Répertoire des sections locales",
       "backToHub": "Retour au Hub des dirigeants",
       "brandTitle": "Marque du syndicat",
-      "brandIntro": "Choisissez la Trousse de marque de votre syndicat et ajustez ses couleurs et ses polices.",
+      "brandIntro": "Choisissez le préréglage Brand Kit de votre syndicat, ajustez couleurs et polices, et vérifiez le carnet avant d’enregistrer.",
       "presetLabel": "Trousse de marque",
       "presetNone": "Aucune trousse",
       "themeHeading": "Thème personnalisé",
@@ -8391,7 +8510,9 @@
       "directoryUnpaid": "Le répertoire des sections locales n’est pas activé pour votre syndicat.",
       "directoryEmpty": "Aucune section locale n’est encore inscrite pour votre syndicat.",
       "directoryLocal": "Section locale {number}",
-      "directoryDivision": "Collectif de négociation : {id}"
+      "directoryDivision": "Collectif de négociation : {id}",
+      "lookbookHeading": "Carnet de marque",
+      "lookbookIntro": "Aperçu en direct de votre thème provisoire sur les commandes du Hub des dirigeants et un échantillon Comms. Enregistrez ci-dessus pour le publier aux membres."
     },
     "platformOperator": {
       "menu": "Plateforme",
@@ -9466,7 +9587,9 @@
       "localMoveConfirmHelp": "Tapez le numéro de section actuel (avant tout renommage) pour confirmer.",
       "localMoveSingleLocalConflictCount": "La destination n’autorise qu’une section par membre, et {count} membres ont déjà une autre section active là-bas. Cochez terminer les autres affiliations, puis actualisez l’aperçu.",
       "localMoveConflictMembers": "{count} membres conserveraient des affiliations en conflit sauf si vous les terminez.",
-      "localMoveWarningArchived": "Cette section est archivée. Elle restera archivée après le déplacement sauf si vous la restaurez dans le syndicat de destination."
+      "localMoveWarningArchived": "Cette section est archivée. Elle restera archivée après le déplacement sauf si vous la restaurez dans le syndicat de destination.",
+      "brandStylesLookbook": "Carnet de ce thème",
+      "hostBrandLookbook": "Carnet de la marque hôte"
     },
     "signingIn": "Connexion...",
     "writeNoUnion": "Aucun syndicat n’est assigné à ce compte — demandez à un opérateur de plateforme d’en assigner un avant d’enregistrer.",

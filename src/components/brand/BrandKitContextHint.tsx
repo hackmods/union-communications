@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { useBrandStore } from "@/store/brand-store";
 import type { UnionBrandTheme } from "@/lib/brand/union-brand-theme";
 
@@ -16,6 +17,7 @@ import type { UnionBrandTheme } from "@/lib/brand/union-brand-theme";
 export function BrandKitContextHint() {
   const { status } = useSession();
   const t = useTranslations("brandKit.contextHint");
+  const tLookbook = useTranslations("brandKit.lookbook");
   const brandKit = useBrandStore((s) => s.brandKit);
   const applyUnionPresetId = useBrandStore((s) => s.applyUnionPresetId);
   const applyBrandTheme = useBrandStore((s) => s.applyBrandTheme);
@@ -137,6 +139,12 @@ export function BrandKitContextHint() {
           >
             {busy ? t("matchBusy") : t("matchAction")}
           </Button>
+          <div className="mt-2 space-y-1">
+            <ButtonLink href="/brand-kit/showcase" variant="outline" size="sm">
+              {tLookbook("matchLookbook")}
+            </ButtonLink>
+            <p className="text-xs text-slate-600">{tLookbook("matchLookbookHint")}</p>
+          </div>
         </div>
       ) : null}
       {message ? (

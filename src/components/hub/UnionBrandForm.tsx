@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
+import { BrandLookbook } from "@/components/brand/BrandLookbook";
+import { brandKitFromTheme, type LookbookColourSource } from "@/lib/brand/lookbook-kit";
 import type { UnionBrandTheme } from "@/lib/brand/union-brand-theme";
 import { getUnionPreset } from "@/lib/constants/unionPresets";
 import type { CanvasFontId } from "@/lib/comms/canvas-fonts";
@@ -20,6 +22,27 @@ const EMPTY_THEME: UnionBrandTheme = {
   headlineFontId: "montserrat",
   bodyFontId: "sourceSans",
 };
+
+function resolveLookbookTheme(
+  themeEnabled: boolean,
+  theme: UnionBrandTheme,
+  presetId: string,
+): UnionBrandTheme | LookbookColourSource {
+  if (themeEnabled && HEX.test(theme.primaryColor) && HEX.test(theme.secondaryColor) && HEX.test(theme.accentColor)) {
+    return theme;
+  }
+  const preset = getUnionPreset(presetId);
+  if (preset) {
+    return {
+      primaryColor: preset.primaryColor.toUpperCase(),
+      secondaryColor: preset.secondaryColor.toUpperCase(),
+      accentColor: (preset.accentColor ?? preset.primaryColor).toUpperCase(),
+      headlineFontId: preset.canvasFontDefaults?.headline ?? "montserrat",
+      bodyFontId: preset.canvasFontDefaults?.body ?? "sourceSans",
+    };
+  }
+  return EMPTY_THEME;
+}
 
 export function UnionBrandForm() {
   const t = useTranslations("hub.unionAdmin");
@@ -56,6 +79,11 @@ export function UnionBrandForm() {
     setTheme((current) => ({ ...current, [key]: value }));
     setMessage("");
   };
+
+  const lookbookKit = useMemo(
+    () => brandKitFromTheme(resolveLookbookTheme(themeEnabled, theme, presetId)),
+    [themeEnabled, theme, presetId],
+  );
 
   const save = async () => {
     if (themeEnabled && [theme.primaryColor, theme.secondaryColor, theme.accentColor].some((value) => !HEX.test(value))) {
@@ -94,69 +122,83 @@ export function UnionBrandForm() {
   if (!data) return <p role="alert" className="text-red-700">{error || t("loadFailed")}</p>;
 
   return (
-    <section className="mt-8 space-y-6 rounded-xl border border-gray-200 bg-white p-4 sm:p-6" aria-label={data.union.name}>
-      <p className="text-lg font-semibold text-opseu-dark">{data.union.name}</p>
-      <label className="block space-y-1 text-sm font-medium text-opseu-dark">
-        <span>{t("presetLabel")}</span>
-        <select
-          value={presetId}
-          onChange={(event) => {
-            const next = event.target.value;
-            setPresetId(next);
-            setMessage("");
-            const preset = getUnionPreset(next);
-            if (preset && !themeEnabled) {
-              setTheme({
-                primaryColor: preset.primaryColor.toUpperCase(),
-                secondaryColor: preset.secondaryColor.toUpperCase(),
-                accentColor: (preset.accentColor ?? preset.primaryColor).toUpperCase(),
-                headlineFontId: preset.canvasFontDefaults?.headline ?? "montserrat",
-                bodyFontId: preset.canvasFontDefaults?.body ?? "sourceSans",
-              });
-            }
-          }}
-          className="mt-1 min-h-11 w-full rounded-md border border-gray-300 bg-white px-3"
-        >
-          <option value="">{t("presetNone")}</option>
-          {data.presets.map((preset) => <option key={preset.id} value={preset.id}>{preset.name}</option>)}
-        </select>
-      </label>
-      <div>
-        <h2 className="text-lg font-semibold text-opseu-dark">{t("themeHeading")}</h2>
-        <p className="mt-1 text-sm text-gray-600">{t("themeHint")}</p>
-        <label className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium">
-          <input type="checkbox" checked={themeEnabled} onChange={(event) => setThemeEnabled(event.target.checked)} />
-          {t("themeEnabled")}
+    <>
+      <section className="mt-8 space-y-6 rounded-xl border border-gray-200 bg-white p-4 sm:p-6" aria-label={data.union.name}>
+        <p className="text-lg font-semibold text-opseu-dark">{data.union.name}</p>
+        <label className="block space-y-1 text-sm font-medium text-opseu-dark">
+          <span>{t("presetLabel")}</span>
+          <select
+            value={presetId}
+            onChange={(event) => {
+              const next = event.target.value;
+              setPresetId(next);
+              setMessage("");
+              const preset = getUnionPreset(next);
+              if (preset && !themeEnabled) {
+                setTheme({
+                  primaryColor: preset.primaryColor.toUpperCase(),
+                  secondaryColor: preset.secondaryColor.toUpperCase(),
+                  accentColor: (preset.accentColor ?? preset.primaryColor).toUpperCase(),
+                  headlineFontId: preset.canvasFontDefaults?.headline ?? "montserrat",
+                  bodyFontId: preset.canvasFontDefaults?.body ?? "sourceSans",
+                });
+              }
+            }}
+            className="mt-1 min-h-11 w-full rounded-md border border-gray-300 bg-white px-3"
+          >
+            <option value="">{t("presetNone")}</option>
+            {data.presets.map((preset) => <option key={preset.id} value={preset.id}>{preset.name}</option>)}
+          </select>
         </label>
-      </div>
-      {themeEnabled ? (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {(["primaryColor", "secondaryColor", "accentColor"] as const).map((key) => (
-            <label key={key} className="block text-sm font-medium text-opseu-dark">
-              <span>{t(key)}</span>
-              <span className="mt-1 flex items-center gap-2">
-                <span className="h-8 w-8 shrink-0 rounded border border-gray-300" style={{ backgroundColor: HEX.test(theme[key]) ? theme[key] : "#FFFFFF" }} aria-hidden="true" />
-                <input value={theme[key]} onChange={(event) => updateTheme(key, event.target.value)} maxLength={7} className="min-h-11 min-w-0 flex-1 rounded-md border border-gray-300 px-3" />
-              </span>
-            </label>
-          ))}
-          {(["headlineFontId", "bodyFontId"] as const).map((key) => (
-            <label key={key} className="block text-sm font-medium text-opseu-dark">
-              <span>{t(key === "headlineFontId" ? "headlineFont" : "bodyFont")}</span>
-              <select value={theme[key] ?? ""} onChange={(event) => updateTheme(key, event.target.value)} className="mt-1 min-h-11 w-full rounded-md border border-gray-300 bg-white px-3">
-                {data.fonts[key === "headlineFontId" ? "headline" : "body"].map((font) => (
-                  <option key={font} value={font}>{tFonts(font as CanvasFontId)}</option>
-                ))}
-              </select>
-            </label>
-          ))}
+        <div>
+          <h2 className="text-lg font-semibold text-opseu-dark">{t("themeHeading")}</h2>
+          <p className="mt-1 text-sm text-gray-600">{t("themeHint")}</p>
+          <label className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium">
+            <input type="checkbox" checked={themeEnabled} onChange={(event) => setThemeEnabled(event.target.checked)} />
+            {t("themeEnabled")}
+          </label>
         </div>
-      ) : null}
-      {error ? <p role="alert" className="text-sm text-red-700">{error}</p> : null}
-      {message ? <p role="status" className="text-sm text-green-700">{message}</p> : null}
-      <button type="button" disabled={saving} onClick={() => void save()} className="min-h-11 rounded-md bg-opseu-blue px-5 py-2 font-semibold text-white disabled:opacity-60">
-        {saving ? t("saving") : t("save")}
-      </button>
-    </section>
+        {themeEnabled ? (
+          <div className="grid gap-4 sm:grid-cols-2">
+            {(["primaryColor", "secondaryColor", "accentColor"] as const).map((key) => (
+              <label key={key} className="block text-sm font-medium text-opseu-dark">
+                <span>{t(key)}</span>
+                <span className="mt-1 flex items-center gap-2">
+                  <span className="h-8 w-8 shrink-0 rounded border border-gray-300" style={{ backgroundColor: HEX.test(theme[key]) ? theme[key] : "#FFFFFF" }} aria-hidden="true" />
+                  <input value={theme[key]} onChange={(event) => updateTheme(key, event.target.value)} maxLength={7} className="min-h-11 min-w-0 flex-1 rounded-md border border-gray-300 px-3" />
+                </span>
+              </label>
+            ))}
+            {(["headlineFontId", "bodyFontId"] as const).map((key) => (
+              <label key={key} className="block text-sm font-medium text-opseu-dark">
+                <span>{t(key === "headlineFontId" ? "headlineFont" : "bodyFont")}</span>
+                <select value={theme[key] ?? ""} onChange={(event) => updateTheme(key, event.target.value)} className="mt-1 min-h-11 w-full rounded-md border border-gray-300 bg-white px-3">
+                  {data.fonts[key === "headlineFontId" ? "headline" : "body"].map((font) => (
+                    <option key={font} value={font}>{tFonts(font as CanvasFontId)}</option>
+                  ))}
+                </select>
+              </label>
+            ))}
+          </div>
+        ) : null}
+        {error ? <p role="alert" className="text-sm text-red-700">{error}</p> : null}
+        {message ? <p role="status" className="text-sm text-green-700">{message}</p> : null}
+        <button type="button" disabled={saving} onClick={() => void save()} className="min-h-11 rounded-md bg-opseu-blue px-5 py-2 font-semibold text-white disabled:opacity-60">
+          {saving ? t("saving") : t("save")}
+        </button>
+      </section>
+
+      <section id="lookbook" className="mt-8 scroll-mt-28 space-y-3">
+        <h2 className="text-xl font-bold text-opseu-dark">{t("lookbookHeading")}</h2>
+        <p className="text-sm text-gray-600">{t("lookbookIntro")}</p>
+        <BrandLookbook
+          brandKit={lookbookKit}
+          hydrated
+          mode="full"
+          idPrefix="union-brand-lookbook"
+          showCommsStyleLink
+        />
+      </section>
+    </>
   );
 }

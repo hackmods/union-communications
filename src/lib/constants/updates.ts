@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "brand-lookbook",
+    date: "2026-09-30",
+    kind: "added",
+    href: "/brand-kit/showcase",
+  },
+  {
     id: "mfa-authenticator-icon",
     date: "2026-09-30",
     kind: "improved",
