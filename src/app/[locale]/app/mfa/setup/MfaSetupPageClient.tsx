@@ -73,6 +73,7 @@ export function MfaSetupPageClient() {
   const [secretCopied, setSecretCopied] = useState(false);
   const [replaceSubmitting, setReplaceSubmitting] = useState(false);
   const [sessionVerified, setSessionVerified] = useState(false);
+  const [sessionVerificationPending, setSessionVerificationPending] = useState(false);
   /** Sync lock — auto-submit + Enter can race past React `confirming` state. */
   const confirmLockRef = useRef(false);
   const startEnrollLockRef = useRef(false);
@@ -291,6 +292,7 @@ export function MfaSetupPageClient() {
       // visible even if Auth.js cannot consume the browser grant afterwards.
       enrollmentConfirmedRef.current = true;
       setRecoveryCodes(body.recoveryCodes ?? []);
+      setSessionVerificationPending(true);
       retryCountdown.clear();
       setState("done");
       let verified = false;
@@ -304,6 +306,7 @@ export function MfaSetupPageClient() {
         }
       }
       setSessionVerified(verified);
+      setSessionVerificationPending(false);
       // Keep lock held so a late Enter/auto-submit cannot POST the same code again.
     } catch {
       setError(t("mfaSetupError"));
@@ -337,6 +340,7 @@ export function MfaSetupPageClient() {
           codes={recoveryCodes}
           requireAcknowledge
           continueLabel={tJourney("continueToWork")}
+          continueDisabled={sessionVerificationPending}
           onContinue={() =>
             router.push(
               sessionVerified
@@ -345,7 +349,9 @@ export function MfaSetupPageClient() {
             )
           }
         />
-        {sessionVerified ? (
+        {sessionVerificationPending ? (
+          <p className="text-sm text-gray-600" role="status">{t("verifying")}</p>
+        ) : sessionVerified ? (
           <p className="text-sm text-gray-600">{tErrors("nextCodeHint")}</p>
         ) : (
           <Callout tone="warning" role="alert">

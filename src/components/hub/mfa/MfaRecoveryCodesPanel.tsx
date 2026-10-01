@@ -14,6 +14,7 @@ type MfaRecoveryCodesPanelProps = {
   requireAcknowledge?: boolean;
   onContinue?: () => void;
   continueLabel?: string;
+  continueDisabled?: boolean;
   /** Rotate form (manage view). */
   onRotate?: (code: string) => Promise<void>;
   rotating?: boolean;
@@ -40,6 +41,7 @@ export function MfaRecoveryCodesPanel({
   requireAcknowledge = false,
   onContinue,
   continueLabel,
+  continueDisabled = false,
   onRotate,
   rotating,
   rotateError,
@@ -129,7 +131,7 @@ export function MfaRecoveryCodesPanel({
           {onContinue ? (
             <Button
               className="min-h-11 w-full"
-              disabled={requireAcknowledge && !saved}
+              disabled={continueDisabled || (requireAcknowledge && !saved)}
               onClick={onContinue}
             >
               {continueLabel ?? t("continue")}

@@ -1,6 +1,7 @@
 ﻿## 2026-10-01 — Keep MFA recovery codes visible during session refresh
 
 - Enrollment confirmation now retains the recovery-code screen across Auth.js loading/authenticated transitions. Refresh no longer rechecks enrollment and redirects away before codes are saved.
+- Continue waits for session verification to settle while recovery codes remain available to copy/download. Pending verification is announced instead of showing a premature failure warning.
 - The browser test opens the manual-key disclosure explicitly and asserts the final confirmation request/response, with no manual rescue click. The earlier clock-skew hypothesis was disproved by matched clocks and a successful confirmation using the visible key.
 - Regression and release evidence: [`mfa-review-2026-09-30.md`](audit/mfa-review-2026-09-30.md), F5 and Phase 5B. Hosted acceptance remains open.
 - What's new: `mfa-save-recovery-codes` (EN/FR, Hub).

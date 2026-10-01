@@ -62,6 +62,8 @@ Fix: atomically claim a versioned pending enrollment and commit secret, replay s
 
 **F5 browser regression found 2026-10-01:** Even after preserving codes before `session.update()`, Auth.js changes status from authenticated to loading and back. Setup's status effect reread enrollment and redirected away from the one-time codes. The new committed-enrollment guard suppresses that status reload, and loading no longer hides the completed code screen. A component test reproduces the status transitions; a rebuilt production image passes the enrollment browser journey through acknowledgment and return to Hub. This belongs to F5/Phase 2C, not a new feature phase.
 
+**F5 continuation timing follow-up:** The typed-code/Enter browser variant exposed a second race: acknowledgment and Continue could run while `session.update()` was still pending, routing to the challenge despite successful enrollment. Continue now waits for the refresh result, with an announced pending state; the recovery codes stay readable and downloadable. Both filled-code and typed-code/Enter scenarios pass on the rebuilt image with exactly one confirmation request. Browser paste/autofill, privileged Postgres accounts, and hosted release acceptance remain separate open checks.
+
 ### F6 — P2: setup auto-submit reads stale React state
 
 Evidence: `src/components/hub/mfa/MfaCodeField.tsx:72–75`; `src/app/[locale]/app/mfa/setup/MfaSetupPageClient.tsx:160–176,357–362`.

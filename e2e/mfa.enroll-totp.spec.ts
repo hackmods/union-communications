@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 import { hubLogin } from "./helpers/auth";
 import { generateTotp } from "../src/lib/auth/totp";
 
+const typedEnter = process.env.MFA_E2E_INPUT === "typed-enter";
+
 /**
  * First-time TOTP enrollment when the host requires authenticator mode.
  * Default demo/sandbox hosts leave AUTH_MFA_ENABLED off — this spec skips.
@@ -12,7 +14,7 @@ test.describe("MFA TOTP enrollment", () => {
     "Run against a host with AUTH_MFA_ENABLED=true and AUTH_MFA_MODE=totp",
   );
 
-  test("solo steward enrolls with one authenticator code", async ({ page }) => {
+  test(`solo steward enrolls with one authenticator code (${typedEnter ? "typed plus Enter" : "filled"})`, async ({ page }) => {
     await hubLogin(page, "solo@unionops.test");
     await page.goto("/en/app/mfa/setup");
     await expect(
@@ -35,12 +37,42 @@ test.describe("MFA TOTP enrollment", () => {
     expect(/^[A-Z2-7]+$/.test(secret), "manual key must be readable before generating a code").toBe(true);
     const code = generateTotp(secret);
     const codeField = page.getByLabel(/6-digit code|code à 6 chiffres/i);
+    let confirmationRequests = 0;
+    page.on("request", (request) => {
+      if (request.url().includes("/api/mfa/enroll/confirm") &&
+          request.method() === "POST" && !request.redirectedFrom()) {
+        confirmationRequests += 1;
+      }
+    });
     const confirmation = page.waitForResponse((response) =>
       response.url().includes("/api/mfa/enroll/confirm") &&
       response.request().method() === "POST" &&
       response.status() !== 308 && response.status() !== 307,
     );
-    await codeField.fill(code);
+    if (typedEnter) {
+      // Hold the server response so Enter occurs while auto-submit is pending.
+      // Use the real endpoint and factor validation; only delivery is delayed.
+      let confirmationStarted!: () => void;
+      const started = new Promise<void>((resolve) => { confirmationStarted = resolve; });
+      let releaseConfirmation!: () => void;
+      const released = new Promise<void>((resolve) => { releaseConfirmation = resolve; });
+      await page.route(/\/api\/mfa\/enroll\/confirm\/?$/, async (route) => {
+        const response = await route.fetch();
+        confirmationStarted();
+        await released;
+        await route.fulfill({ response });
+      });
+      try {
+        await codeField.pressSequentially(code);
+        await started;
+        await expect(codeField).toBeDisabled();
+        await page.keyboard.press("Enter");
+      } finally {
+        releaseConfirmation();
+      }
+    } else {
+      await codeField.fill(code);
+    }
     const confirmationResponse = await confirmation;
     expect(confirmationResponse.request().postDataJSON().code === code,
       "auto-submit must send the completed code").toBe(true);
@@ -58,5 +90,6 @@ test.describe("MFA TOTP enrollment", () => {
     await page.getByLabel(/I have saved these codes|J.ai enregistré ces codes/i).check();
     await page.getByRole("button", { name: /Continue|Continuer/i }).click();
     await expect(page).toHaveURL(/\/en\/app\/?(?:\?.*)?$/, { timeout: 20_000 });
+    expect(confirmationRequests, "Enter must not duplicate enrollment confirmation").toBe(1);
   });
 });

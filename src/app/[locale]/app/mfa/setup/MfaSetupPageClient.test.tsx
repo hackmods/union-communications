@@ -89,8 +89,12 @@ vi.mock("@/components/hub/mfa", async (importOriginal) => {
       <button type="button" disabled={rotating} onClick={() => onRotate?.("123456")}>rotate</button>
     </div>
   ),
-  MfaRecoveryCodesPanel: ({ codes }: { codes: string[] }) =>
-    <div data-testid="recovery-codes">{codes.join(",")}</div>,
+  MfaRecoveryCodesPanel: ({ codes, continueDisabled, onContinue }: {
+    codes: string[]; continueDisabled?: boolean; onContinue?: () => void;
+  }) => <div>
+    <div data-testid="recovery-codes">{codes.join(",")}</div>
+    {onContinue ? <button disabled={continueDisabled} onClick={onContinue}>continue</button> : null}
+  </div>,
   MfaReplaceGate: ({ onConfirm }: {
     onConfirm: (value: string, kind: "totp" | "recovery") => void;
   }) => {
@@ -157,10 +161,15 @@ describe("MfaSetupPageClient", () => {
     sessionState.status = "loading";
     view.rerender(<MfaSetupPageClient />);
     expect(screen.getByTestId("recovery-codes").textContent).toBe(codes.join(","));
+    expect((screen.getByText("continue") as HTMLButtonElement).disabled).toBe(true);
+    expect(screen.getByRole("status").textContent).toBe("verifying");
+    fireEvent.click(screen.getByText("continue"));
+    expect(routerMock.push).not.toHaveBeenCalled();
     sessionState.status = "authenticated";
     view.rerender(<MfaSetupPageClient />);
     finishUpdate({ user: { mfaVerified: true } });
-    await waitFor(() => expect(screen.queryByText("session_not_verified")).toBeNull());
+    await waitFor(() => expect((screen.getByText("continue") as HTMLButtonElement).disabled).toBe(false));
+    expect(screen.queryByText("session_not_verified")).toBeNull();
     expect(screen.getByTestId("recovery-codes").textContent).toBe(codes.join(","));
     expect(routerMock.replace).not.toHaveBeenCalled();
     expect(fetchMock.mock.calls.filter(([url]) => String(url).endsWith("/api/mfa/status"))).toHaveLength(1);
