@@ -8,6 +8,7 @@ import { MobilePreviewStage } from "@/components/tools/MobilePreviewStage";
 import { Callout } from "@/components/ui/Callout";
 import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import { cn } from "@/lib/utils";
+import { moveTabFocus } from "@/lib/utils/tab-keyboard";
 
 type ToolEditorLayoutProps = {
   title: ReactNode;
@@ -131,6 +132,7 @@ export function ToolEditorLayout({
       <div
         className="mt-4 flex gap-2 lg:hidden"
         role="tablist"
+        aria-orientation="horizontal"
         aria-label={t("toolEditorPanes")}
       >
         <button
@@ -139,6 +141,11 @@ export function ToolEditorLayout({
           id={editTabId}
           aria-controls={editPanelId}
           aria-selected={pane === "edit"}
+          data-tab-key="edit"
+          tabIndex={pane === "edit" ? 0 : -1}
+          onKeyDown={(event) =>
+            moveTabFocus(event, pane, ["edit", "preview"], setPane)
+          }
           className={cn(
             "min-h-11 min-w-[5.5rem] flex-1 rounded-lg px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
             pane === "edit"
@@ -155,6 +162,11 @@ export function ToolEditorLayout({
           id={previewTabId}
           aria-controls={previewPanelId}
           aria-selected={pane === "preview"}
+          data-tab-key="preview"
+          tabIndex={pane === "preview" ? 0 : -1}
+          onKeyDown={(event) =>
+            moveTabFocus(event, pane, ["edit", "preview"], setPane)
+          }
           className={cn(
             "min-h-11 min-w-[5.5rem] flex-1 rounded-lg px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
             pane === "preview"
@@ -210,8 +222,8 @@ export function ToolEditorLayout({
               pane === "edit" &&
               miniCollapsed &&
               "fixed left-0 top-0 z-[-1] w-[min(100vw,36rem)] -translate-x-[150%] opacity-0 pointer-events-none",
-            showMini &&
-              "-mx-4 sticky top-14 z-20 border-b border-gray-200 bg-white/95 px-4 py-2 shadow-sm backdrop-blur-sm sm:-mx-6 sm:px-6",
+              showMini &&
+              "-mx-4 sticky top-[var(--site-header-height,3.5rem)] z-20 border-b border-gray-200 bg-white/95 px-4 py-2 shadow-sm backdrop-blur-sm sm:-mx-6 sm:px-6",
             !showMini && "space-y-3 lg:space-y-4",
             "lg:top-4 lg:z-auto lg:mx-0 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none lg:backdrop-blur-none lg:sticky",
           )}

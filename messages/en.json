@@ -7674,6 +7674,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "editor-keyboard-tabs": {
+        "title": "Switch between editing and preview with your keyboard",
+        "body": "In tool editors with Edit and Preview tabs, use the arrow keys to switch tabs while keeping your work in place."
+      },
       "mfa-save-recovery-codes": {
         "title": "Save recovery codes before leaving setup",
         "body": "Your new recovery codes stay on screen while Officer Hub verifies your session. Save them and confirm you have a copy before continuing."

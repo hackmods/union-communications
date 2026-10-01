@@ -7620,6 +7620,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "editor-keyboard-tabs": {
+        "title": "Passez de la modification à l’aperçu avec votre clavier",
+        "body": "Dans les outils qui proposent des onglets de modification et d’aperçu, utilisez les touches fléchées pour changer d’onglet tout en conservant votre travail."
+      },
       "mfa-save-recovery-codes": {
         "title": "Enregistrez les codes de récupération avant de quitter la configuration",
         "body": "Vos nouveaux codes de récupération restent à l’écran pendant que le Hub des dirigeants vérifie votre session. Enregistrez-les et confirmez que vous en avez une copie avant de continuer."

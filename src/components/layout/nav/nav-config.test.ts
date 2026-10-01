@@ -6,9 +6,28 @@ import {
   toolGroups,
   UTILITY_TOOL_SLUGS,
   toolSurfaceForSlug,
+  shellContextForPath,
+  primaryNavForContext,
 } from "./nav-config";
 
 describe("public primary navigation", () => {
+  it("keeps catalog roots public with or without trailing slashes", () => {
+    for (const path of ["/", "/create", "/create/", "/utilities/", "/learn/", "/platform/"]) {
+      expect(shellContextForPath(path)).toBe("public");
+    }
+  });
+
+  it("uses task chrome without conflating route prefixes", () => {
+    expect(shellContextForPath("/create/graphic-maker/")).toBe("public-task");
+    expect(shellContextForPath("/utilities/rtw-accommodation/")).toBe("public-task");
+    expect(shellContextForPath("/app/")).toBe("hub");
+    expect(shellContextForPath("/portal/circles/example/")).toBe("portal");
+    expect(shellContextForPath("/application")).toBe("public");
+    expect(primaryNavForContext("hub").map((item) => item.key)).toEqual(["brandKit"]);
+    expect(primaryNavForContext("public-task").map((item) => item.key))
+      .toEqual(["brandKit", "create", "utilities"]);
+  });
+
   it("keeps Brand Kit, Create, Utilities, Learn, and Platform as direct destinations", () => {
     expect(PUBLIC_PRIMARY_NAV).toEqual([
       { href: "/create/brand-kit", key: "brandKit" },

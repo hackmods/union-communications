@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Badge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -151,15 +151,11 @@ export function GrievanceDashboard() {
           )}
         </div>
         <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
-          <Link href="/app/overdue" className="w-full sm:w-auto">
-            <Button variant="outline" className="w-full sm:w-auto">
-              {tq("overdue.nav")}
-            </Button>
-          </Link>
+          <ButtonLink href="/app/overdue" variant="outline" className="w-full sm:w-auto">
+            {tq("overdue.nav")}
+          </ButtonLink>
           {!readOnly && (
-            <Link href="/app/grievances/new" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto">{t("newGrievance")}</Button>
-            </Link>
+            <ButtonLink href="/app/grievances/new" className="w-full sm:w-auto">{t("newGrievance")}</ButtonLink>
           )}
         </div>
       </div>
@@ -244,9 +240,7 @@ export function GrievanceDashboard() {
             title={t("empty")}
             action={
               !readOnly ? (
-                <Link href="/app/grievances/new">
-                  <Button size="sm">{t("newGrievance")}</Button>
-                </Link>
+                <ButtonLink href="/app/grievances/new" size="sm">{t("newGrievance")}</ButtonLink>
               ) : undefined
             }
           />

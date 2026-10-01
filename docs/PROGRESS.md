@@ -1,3 +1,10 @@
+## 2026-10-01 — Recover UI uplift foundations
+
+- Recovered the missing product-refactor audit from the original worktree, preserving its historical pilot status. `docs/product-refactor/13_UPLIFT_BASELINE.md` records exactly what was integrated onto current main.
+- Integrated contextual navigation, shared sticky measurements, keyboard editor tabs, dialog focus containment, associated form hints/errors and valid grievance action links. Corrected integration defects and added focused regression coverage.
+- Typecheck, production build and 17 foundation tests pass. The repository lint command skips ESLint under TypeScript 7; browser revalidation is blocked by the browser tool URL policy. Full smoke and responsive acceptance remain outstanding.
+- Added seven UI direction/handoff documents and an EN/FR keyboard-tabs update. The homepage redesign is not implemented. Ryan requested a pause after this baseline checkpoint to control compute use.
+
 ## 2026-10-01 — Keep MFA recovery codes visible during session refresh
 
 - Enrollment confirmation now retains the recovery-code screen across Auth.js loading/authenticated transitions. Refresh no longer rechecks enrollment and redirects away before codes are saved.

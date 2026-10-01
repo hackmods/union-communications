@@ -1,3 +1,5 @@
+import { toolSurfaceForSlug } from "@/lib/seo/utility-tool-slugs";
+
 export type NavLinkKey =
   | "resources"
   | "guide"
@@ -113,6 +115,53 @@ export const PUBLIC_PRIMARY_NAV: readonly PublicPrimaryNavItem[] = [
   { href: "/learn", key: "learn" },
   { href: "/platform", key: "platform" },
 ] as const;
+
+export type ShellContext = "public" | "public-task" | "hub" | "portal";
+const FOCUSED_PUBLIC_ROUTE_ROOTS = [
+  "/captions",
+  "/email-preferences",
+  "/feedback",
+  "/join",
+  "/meetings",
+  "/outreach",
+  "/poll",
+  "/r",
+  "/request-access",
+] as const;
+
+/** Resolve chrome from the current route. This is presentation only; it grants no access. */
+export function shellContextForPath(pathname: string): ShellContext {
+  pathname = pathname.replace(/\/+$/, "") || "/";
+  if (pathname === "/app" || pathname.startsWith("/app/")) return "hub";
+  if (pathname === "/portal" || pathname.startsWith("/portal/")) return "portal";
+  if (
+    pathname.startsWith("/create/") ||
+    pathname.startsWith("/tools/") ||
+    (pathname.startsWith("/utilities/") &&
+      toolSurfaceForSlug(pathname.split("/")[2] ?? "") === "utilities") ||
+    pathname === "/login" ||
+    FOCUSED_PUBLIC_ROUTE_ROOTS.some(
+      (route) => pathname === route || pathname.startsWith(`${route}/`),
+    )
+  ) {
+    return "public-task";
+  }
+  return "public";
+}
+
+/** Public discovery stays broad; tasks and workspaces keep only useful escapes. */
+export function primaryNavForContext(context: ShellContext) {
+  if (context === "public") return PUBLIC_PRIMARY_NAV;
+  if (context === "public-task") {
+    return PUBLIC_PRIMARY_NAV.filter((item) =>
+      item.href === "/create/brand-kit" ||
+      item.href === "/create" ||
+      item.href === "/utilities",
+    );
+  }
+  // Keep the direct Brand Kit route available from authenticated workspaces.
+  return PUBLIC_PRIMARY_NAV.filter((item) => item.href === "/create/brand-kit");
+}
 
 export function isPublicPrimaryNavActive(
   pathname: string,

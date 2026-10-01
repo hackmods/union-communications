@@ -14,6 +14,7 @@ import {
 } from "@/components/hub/hub-tool-catalog";
 import type { HubModule, UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
+import { observeStickyHeight } from "@/lib/layout/observe-sticky-height";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { preferredHubToolsMenuWidth } from "@/lib/utils/flyout-geometry";
 import { Emoji } from "@/components/ui/Emoji";
@@ -62,28 +63,11 @@ export function HubNav() {
     const update = () => {
       setDrawerTop(Math.ceil(el.getBoundingClientRect().bottom));
     };
-    update();
-    const observer =
-      typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(update)
-        : null;
-    observer?.observe(el);
-    // Public header height changes with Accessibility text scale — keep the
-    // Hub drawer pinned under the live bar bottom, not a stale offset.
-    const siteHeader = document.querySelector("header");
-    if (siteHeader) observer?.observe(siteHeader);
-    window.addEventListener("resize", update);
+    const stopMeasure = observeStickyHeight(el, "--hub-nav-height", update);
     window.addEventListener("scroll", update, true);
-    const mutation = new MutationObserver(update);
-    mutation.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-font-size", "style", "class"],
-    });
     return () => {
-      observer?.disconnect();
-      window.removeEventListener("resize", update);
+      stopMeasure();
       window.removeEventListener("scroll", update, true);
-      mutation.disconnect();
     };
     // Re-bind when the drawer opens so the first open paint uses a fresh bottom.
   }, [drawerOpen, pathname]);

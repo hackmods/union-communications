@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
+import { getFocusable } from "@/components/layout/nav/focusables";
 
 type DialogProps = {
   open: boolean;
@@ -29,20 +30,81 @@ export function Dialog({
 }: DialogProps) {
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
+  const onCloseRef = useRef(onClose);
+  useEffect(() => { onCloseRef.current = onClose; }, [onClose]);
 
   useEffect(() => {
     if (!open) return;
+    const panel = panelRef.current;
+    if (!panel) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onCloseRef.current();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const items = getFocusable(panel).filter(
+        (item) => item.getClientRects().length > 0,
+      );
+      if (items.length === 0) {
+        e.preventDefault();
+        panel.focus();
+        return;
+      }
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey && (active === first || active === panel || !panel.contains(active))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (active === last || active === panel || !panel.contains(active))) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
-    const prev = document.activeElement as HTMLElement | null;
-    panelRef.current?.focus();
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const overlay = panel.parentElement;
+    const inertSiblings = new Map<HTMLElement, boolean>();
+    let branch: HTMLElement | null = overlay ?? null;
+    while (branch?.parentElement && branch.parentElement !== document.body) {
+      const parent = branch.parentElement;
+      for (const sibling of Array.from(parent.children)) {
+        if (
+          sibling !== branch &&
+          sibling instanceof HTMLElement &&
+          !inertSiblings.has(sibling)
+        ) {
+          inertSiblings.set(sibling, sibling.inert);
+          sibling.inert = true;
+        }
+      }
+      branch = parent;
+    }
+    if (branch?.parentElement === document.body) {
+      for (const sibling of Array.from(document.body.children)) {
+        if (
+          sibling !== branch &&
+          sibling instanceof HTMLElement &&
+          !inertSiblings.has(sibling)
+        ) {
+          inertSiblings.set(sibling, sibling.inert);
+          sibling.inert = true;
+        }
+      }
+    }
+    panel.focus();
     return () => {
       window.removeEventListener("keydown", onKey);
-      prev?.focus?.();
+      document.body.style.overflow = previousOverflow;
+      inertSiblings.forEach((wasInert, sibling) => {
+        sibling.inert = wasInert;
+      });
+      if (previousFocus?.isConnected && !previousFocus.closest("[inert]")) previousFocus.focus();
     };
-  }, [open, onClose]);
+  }, [open]);
 
   if (!open) return null;
 

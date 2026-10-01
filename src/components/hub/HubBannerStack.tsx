@@ -11,6 +11,7 @@ import { MfaReenrollGraceBanner } from "@/components/hub/MfaReenrollGraceBanner"
 import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { isDemoSite } from "@/lib/features/demo-site";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { observeStickyHeight } from "@/lib/layout/observe-sticky-height";
 
 type Props = {
   /** From server layout via `isMemoryCaseDataActive()` — not readable in the browser. */
@@ -44,23 +45,7 @@ export function HubBannerStack({
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    const update = () => {
-      const height = Math.ceil(el.getBoundingClientRect().height);
-      document.documentElement.style.setProperty(
-        "--hub-banner-stack-height",
-        `${height}px`,
-      );
-    };
-
-    update();
-    if (typeof ResizeObserver === "undefined") return;
-    const observer = new ResizeObserver(update);
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-      document.documentElement.style.removeProperty("--hub-banner-stack-height");
-    };
+    return observeStickyHeight(el, "--hub-banner-stack-height");
   }, []);
 
   return (

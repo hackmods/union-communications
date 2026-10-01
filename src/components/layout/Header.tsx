@@ -15,12 +15,20 @@ import { OfficerHubNavLink } from "./OfficerHubNavLink";
 import { LocalPortalNavLink } from "./LocalPortalNavLink";
 import { PlatformOperatorNavDropdown } from "@/components/platform/PlatformOperatorNavDropdown";
 import { MobileNavDrawer } from "./nav/MobileNavDrawer";
-import { isPublicPrimaryNavActive, PUBLIC_PRIMARY_NAV } from "./nav/nav-config";
+import { observeStickyHeight } from "@/lib/layout/observe-sticky-height";
+import {
+  isPublicPrimaryNavActive,
+  PUBLIC_PRIMARY_NAV,
+  primaryNavForContext,
+  shellContextForPath,
+} from "./nav/nav-config";
 
 export function Header() {
   const t = useTranslations("nav");
   const th = useTranslations("hub");
   const pathname = usePathname();
+  const shellContext = shellContextForPath(pathname);
+  const primaryNav = primaryNavForContext(shellContext);
   const [drawer, setDrawer] = useState<{ path: string } | null>(null);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -37,35 +45,24 @@ export function Header() {
       "inline-flex min-h-10 items-center rounded-md px-2.5 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-opseu-blue/5 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
       active && "bg-opseu-blue/10 font-semibold text-opseu-dark",
     );
+  const renderPrimaryLink = (item: (typeof PUBLIC_PRIMARY_NAV)[number]) => {
+    const active = isPublicPrimaryNavActive(pathname, item.href);
+    return (
+      <Link
+        key={item.href}
+        href={item.href}
+        aria-current={active ? "page" : undefined}
+        className={linkClass(active)}
+      >
+        {t(item.key)}
+      </Link>
+    );
+  };
 
   useLayoutEffect(() => {
     const element = headerRef.current;
     if (!element) return;
-    const updateHeight = () => {
-      const height = Math.ceil(element.getBoundingClientRect().height);
-      setHeaderHeight(height);
-      document.documentElement.style.setProperty("--site-header-height", `${height}px`);
-    };
-    updateHeight();
-    const observer =
-      typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(updateHeight)
-        : null;
-    observer?.observe(element);
-    // Accessibility text scale changes rem sizing — remeasure even if the
-    // ResizeObserver batch is delayed behind a preference MutationObserver.
-    const mutation = new MutationObserver(updateHeight);
-    mutation.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-font-size", "style", "class"],
-    });
-    window.addEventListener("resize", updateHeight);
-    return () => {
-      observer?.disconnect();
-      mutation.disconnect();
-      window.removeEventListener("resize", updateHeight);
-      document.documentElement.style.removeProperty("--site-header-height");
-    };
+    return observeStickyHeight(element, "--site-header-height", setHeaderHeight);
   }, [drawerOpen]);
 
   const closeDrawer = useCallback(() => {
@@ -113,26 +110,23 @@ export function Header() {
         </Link>
 
         <nav className="hidden flex-wrap items-center gap-1 xl:flex" aria-label={t("mainNav")}>
-          {PUBLIC_PRIMARY_NAV.map((item) => {
-            const active = isPublicPrimaryNavActive(pathname, item.href);
-            return (
-              <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={linkClass(active)}>
-                {t(item.key)}
-              </Link>
-            );
-          })}
+          {shellContext === "public"
+            ? PUBLIC_PRIMARY_NAV.map(renderPrimaryLink)
+            : primaryNav.map(renderPrimaryLink)}
           <OfficerHubNavLink />
           <LocalPortalNavLink />
         </nav>
 
         <div className="flex w-full shrink-0 flex-wrap items-center justify-end gap-2 xl:w-auto">
-          <Link
-            href="/search"
-            aria-current={isActive("/search") ? "page" : undefined}
-            className={cn(linkClass(isActive("/search")), "hidden xl:inline-flex")}
-          >
-            <span aria-hidden="true" className="mr-1.5">⌕</span>{t("search")}
-          </Link>
+          {shellContext === "public" ? (
+            <Link
+              href="/search"
+              aria-current={isActive("/search") ? "page" : undefined}
+              className={cn(linkClass(isActive("/search")), "hidden xl:inline-flex")}
+            >
+              <span aria-hidden="true" className="mr-1.5">⌕</span>{t("search")}
+            </Link>
+          ) : null}
           <div className="hidden xl:contents">
             <PlatformOperatorNavDropdown />
             <AuthAccountControls layout="inline" showHubLink={false} showPortalLink={false} />
@@ -167,6 +161,7 @@ export function Header() {
         <MobileNavDrawer
           headerHeight={headerHeight}
           pathname={pathname}
+          shellContext={shellContext}
           onClose={closeDrawer}
           onCloseAfterNav={closeDrawerAfterNav}
           drawerId={drawerId}
