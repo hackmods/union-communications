@@ -226,11 +226,14 @@ export function HostBrandAdminForm() {
           ] as const
         ).map(([key, labelKey, locked]) => {
           const invalid = !HEX.test(brand[key].trim());
+          const labelId = `host-${key}-label`;
+          const hexId = `host-${key}-hex`;
           return (
             <div key={key}>
               <label
+                id={labelId}
                 className="block text-xs font-medium text-opseu-gray-dark"
-                htmlFor={`host-${key}`}
+                htmlFor={hexId}
               >
                 {t(labelKey)}
                 {locked ? ` (${t("hostBrandEnvLocked")})` : ""}
@@ -238,7 +241,7 @@ export function HostBrandAdminForm() {
               <div className="mt-1 flex items-center gap-2">
                 <input
                   type="color"
-                  id={`host-${key}`}
+                  aria-labelledby={labelId}
                   disabled={locked}
                   className="h-9 w-12 rounded border border-opseu-gray/25 bg-white disabled:opacity-50"
                   value={safeHex(brand[key], "#C2410C")}
@@ -247,6 +250,7 @@ export function HostBrandAdminForm() {
                   }
                 />
                 <input
+                  id={hexId}
                   disabled={locked}
                   className={`w-full rounded border px-2 py-1.5 font-mono text-sm disabled:opacity-50 ${
                     invalid ? "border-red-500" : "border-opseu-gray/25"

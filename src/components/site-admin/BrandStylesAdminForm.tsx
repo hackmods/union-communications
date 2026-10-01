@@ -673,18 +673,21 @@ export function BrandStylesAdminForm() {
                               ] as const
                             ).map(([key, labelKey]) => {
                               const invalid = !HEX.test(draft[key].trim());
+                              const labelId = `${key}-label-${row.id}`;
+                              const hexId = `${key}-hex-${row.id}`;
                               return (
                                 <div key={key}>
                                   <label
+                                    id={labelId}
                                     className="block text-xs font-medium text-opseu-gray-dark"
-                                    htmlFor={`${key}-${row.id}`}
+                                    htmlFor={hexId}
                                   >
                                     {t(labelKey)}
                                   </label>
                                   <div className="mt-1 flex items-center gap-2">
                                     <input
                                       type="color"
-                                      id={`${key}-${row.id}`}
+                                      aria-labelledby={labelId}
                                       className="h-9 w-12 cursor-pointer rounded border border-opseu-gray/25 bg-white"
                                       value={safeHex(draft[key], "#C2410C")}
                                       onChange={(e) =>
@@ -698,6 +701,7 @@ export function BrandStylesAdminForm() {
                                       }
                                     />
                                     <input
+                                      id={hexId}
                                       className={`w-full rounded border px-2 py-1.5 font-mono text-sm text-opseu-dark ${
                                         invalid
                                           ? "border-red-500"

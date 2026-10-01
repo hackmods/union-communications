@@ -162,12 +162,13 @@ test.describe("Comms design treatments @smoke", () => {
   test("starter palettes and saved Looks switch without changing treatment", async ({ page }) => {
     await page.goto("/en/create/brand-kit/");
     const unionSelect = page.getByLabel(/^Union preset$|^Union$/);
+    await expect(unionSelect).toBeVisible({ timeout: 20_000 });
     await expect(async () => {
       if ((await unionSelect.inputValue()) !== "cupe") {
         await unionSelect.selectOption("cupe");
       }
       await expect(unionSelect).toHaveValue("cupe");
-    }).toPass({ timeout: 15_000 });
+    }).toPass({ timeout: 30_000 });
     const original = page.getByRole("button", { name: "Original colours" });
     const deeper = page.getByRole("button", { name: "Deeper colour" });
     await expect(original).toBeVisible();

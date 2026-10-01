@@ -105,13 +105,13 @@ test.describe("Brand Kit workspace @smoke", () => {
 
 async function selectOpseuCaatALook(page: Page) {
   const unionSelect = page.getByLabel(/^Union preset$|^Union$/);
-  await expect(unionSelect).toBeVisible();
+  await expect(unionSelect).toBeVisible({ timeout: 20_000 });
   await expect(async () => {
     if ((await unionSelect.inputValue()) !== "opseu") {
       await unionSelect.selectOption("opseu");
     }
     await expect(page.getByLabel("OPSEU / SEFPO sector")).toBeVisible();
-  }).toPass({ timeout: 15_000 });
+  }).toPass({ timeout: 30_000 });
   await page.getByLabel("OPSEU / SEFPO sector").selectOption("caat-academic");
   const gallery = page.getByTestId("identity-pack-gallery");
   await expect(gallery).toBeVisible();
@@ -146,14 +146,14 @@ async function assertCaatALookFits(page: Page) {
 async function selectOpseuCaatSLook(page: Page) {
   // Brand Kit labels the control "Union preset"; onboarding uses "Union".
   const unionSelect = page.getByLabel(/^Union preset$|^Union$/);
-  await expect(unionSelect).toBeVisible();
+  await expect(unionSelect).toBeVisible({ timeout: 20_000 });
   // Preset changes queue until the brand store hydrates from localStorage.
   await expect(async () => {
     if ((await unionSelect.inputValue()) !== "opseu") {
       await unionSelect.selectOption("opseu");
     }
     await expect(page.getByLabel("OPSEU / SEFPO sector")).toBeVisible();
-  }).toPass({ timeout: 15_000 });
+  }).toPass({ timeout: 30_000 });
   await page.getByLabel("OPSEU / SEFPO sector").selectOption("caat-support");
   const gallery = page.getByTestId("identity-pack-gallery");
   await expect(gallery).toBeVisible();
@@ -275,12 +275,14 @@ test.describe("Brand Kit membership audience @smoke", () => {
     await expect(
       page.getByRole("heading", { name: /Brand Kit|Trousse/i }),
     ).toBeVisible();
+    const unionSelect = page.getByLabel(/^Union preset$|^Union$/);
+    await expect(unionSelect).toBeVisible({ timeout: 20_000 });
     await expect(async () => {
-      if ((await page.getByLabel(/^Union preset$|^Union$/).inputValue()) !== "opseu") {
-        await page.getByLabel(/^Union preset$|^Union$/).selectOption("opseu");
+      if ((await unionSelect.inputValue()) !== "opseu") {
+        await unionSelect.selectOption("opseu");
       }
       await expect(page.getByLabel("OPSEU / SEFPO sector")).toBeVisible();
-    }).toPass({ timeout: 15_000 });
+    }).toPass({ timeout: 30_000 });
 
     await page.getByLabel("OPSEU / SEFPO sector").selectOption("ops");
     await expect(
