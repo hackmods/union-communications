@@ -24,7 +24,6 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
-  {
     id: "mfa-save-recovery-codes",
     date: "2026-10-01",
     kind: "improved",
