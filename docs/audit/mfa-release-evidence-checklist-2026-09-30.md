@@ -10,7 +10,7 @@ Use this checklist before describing the repaired MFA flow as restored on a host
 - [x] Broad MFA unit suite passed: 26 files, 161 tests.
 - [x] TypeScript and targeted ESLint passed for the changed MFA surface.
 - [x] Attempt `npm run test:smoke`: it planned 411 cases, then was stopped after multiple unrelated Brand Kit/builders cases showed public-page 404s. This run does not establish MFA browser coverage.
-- [ ] Run the MFA browser spec against an isolated browser server. The current attempt to start a fresh local Next dev server failed with Windows `spawn EPERM`.
+- [x] Attempted the MFA enrollment browser spec against an isolated port. Default Turbopack stopped with an `invalid node_modules symlink outside filesystem root` panic. Webpack dev started, but the login route returned 500 because `src/lib/comms/canvas-fonts.ts` imports `node:fs/promises` through the Brand Kit seed path; Playwright therefore could not reach MFA. This is a local app/toolchain blocker, not an MFA pass.
 - [ ] Manual keyboard, mobile, zoom, and EN/FR language review.
 
 Local release-evidence prerequisites are unavailable in this checkout: neither database URL is configured, and Docker Desktop denies access to its Linux engine pipe. Continue with the operator-owned hosted checks below rather than treating a mock store as Postgres evidence.
