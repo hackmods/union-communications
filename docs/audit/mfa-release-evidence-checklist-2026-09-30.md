@@ -12,9 +12,11 @@ Use this checklist before describing the repaired MFA flow as restored on a host
 - [x] Full unit suite passed: 528 files; 3,197 passed, 2 skipped, 1 todo. The two CPU-heavy XLSX serialization tests now have explicit 15-second budgets, consistent with existing PDF export tests, and pass under full-suite load.
 - [x] Attempt `npm run test:smoke`: it planned 411 cases, then was stopped after multiple unrelated Brand Kit/builders cases showed public-page 404s. This run does not establish MFA browser coverage.
 - [x] Attempted the MFA enrollment browser spec against an isolated port. Default Turbopack stopped with an `invalid node_modules symlink outside filesystem root` panic. Webpack dev started, but the login route returned 500 because `src/lib/comms/canvas-fonts.ts` imports `node:fs/promises` through the Brand Kit seed path; Playwright therefore could not reach MFA. This is a local app/toolchain blocker, not an MFA pass.
+- [x] Built the current production image and ran `scripts/docker-migrate-smoke.sh` against its unique disposable Compose project. Fresh deploy and historical journal-hole repair verified through `0092_mfa_reenroll_grace`; concurrent no-op deploys serialized; removing a required column caused startup to fail closed. The script cleaned up its container and volume.
+- [x] Started a separate unique disposable Postgres project, applied migrations, seeded its demo fixtures, and ran `npm run db:rls-smoke` using the limited `unionops_app` role. The smoke passed account-scoped MFA RLS checks and app binders for pending enrollment, attempts, and grant issue/consume. The role check confirmed no `BYPASSRLS`. See [`session-knowledge-2026-09-30-mfa-local-release-evidence.md`](session-knowledge-2026-09-30-mfa-local-release-evidence.md).
 - [ ] Manual keyboard, mobile, zoom, and EN/FR language review.
 
-Local release-evidence prerequisites are unavailable in this checkout: neither database URL is configured, no `psql`, `pg_isready`, or local Postgres service is present, and Docker Desktop denies access to its Linux engine pipe. Continue with the operator-owned hosted checks below rather than treating a mock store as Postgres evidence.
+Local disposable Postgres evidence is now available. This does not attest hosted image identity/configuration, multi-replica behavior, concurrency/fault injection, encryption-key restore, or browser journeys. The MFA binder smoke has a documented limitation: attempt/grant helpers may use memory fallback, so their return values alone do not prove the rows were persisted. Continue with the hosted checks below and verify durable rows directly before treating the full gate as passed.
 
 ## Operator-owned hosted proof
 
@@ -46,7 +48,8 @@ Run in a production-like, disposable environment with a dedicated fixture accoun
 | Evidence | Result / reference | Date / reviewer |
 |---|---|---|
 | Deployed image digest + source commit | Pending | — |
-| Verified DB tail + shape + role/RLS | Pending | — |
+| Local disposable DB tail + shape + role/RLS | Passed: `0092_mfa_reenroll_grace`; `unionops_app` has no `BYPASSRLS`; MFA RLS/binder smoke passed. See session note. | 2026-09-30 / Codex |
+| Hosted DB tail + shape + role/RLS | Pending | — |
 | Replica and restart sequence | Pending | — |
 | Concurrency and fault injection | Pending | — |
 | Encryption-key restore drill | Pending | — |
