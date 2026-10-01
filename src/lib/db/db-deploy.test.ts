@@ -15,14 +15,15 @@ const migrationsDir = join(process.cwd(), "src/lib/db/migrations");
 
 describe("database deploy journal contract", () => {
   it("accepts the shipped one-to-one contiguous journal", () => {
+    const sqlTags = readdirSync(migrationsDir)
+      .filter((file) => /^\d{4}_.+\.sql$/.test(file))
+      .map((file) => file.replace(/\.sql$/, ""))
+      .sort();
     const { entries } = readAndValidateJournal(migrationsDir);
-    expect(entries.at(-1)).toMatchObject({
-      idx: 94,
-      tag: "0094_outreach_lists_admin_rls",
-    });
-    expect(entries).toHaveLength(
-      readdirSync(migrationsDir).filter((file) => /^\d{4}_.+\.sql$/.test(file)).length,
-    );
+    const tail = entries.at(-1);
+    expect(tail?.tag).toBe(sqlTags.at(-1));
+    expect(tail?.idx).toBe(sqlTags.length - 1);
+    expect(entries).toHaveLength(sqlTags.length);
   });
 
   it("rejects a SQL file missing from the journal before merge", () => {

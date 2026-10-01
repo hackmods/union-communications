@@ -22,6 +22,7 @@ Full narrative: [`docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md`]
 - `platform_meta`, `boot_commit_accepted`, and the separate data-migration runner are retired. Data correction belongs in a forward, idempotent Drizzle migration.
 - Load `postgres`/`drizzle-orm` via `createRequire` against `MIGRATE_DIR` (standalone image has no root `node_modules`). postgres.js 3.4's documented `onnotice: false` still falls through to `console.log`; use a no-op `onnotice` callback until that runtime behavior changes.
 - Production is always fail-closed. `MIGRATE_CONTINUE_ON_ERROR=true` is ignored with `NODE_ENV=production`. Local pipeline: `npm run db:deploy`; integrity check: `npm run db:check`.
+- Unit contract [`db-deploy.test.ts`](../../src/lib/db/db-deploy.test.ts) asserts the journal tail **from the shipped SQL filenames** — do not hardcode a migration tag/`idx` that will rot on the next append. See [`.cursor/rules/ci-contract-hygiene.mdc`](ci-contract-hygiene.mdc).
 
 ## CapRover deploy preference
 

@@ -1,0 +1,47 @@
+---
+description: Keep typecheck, unit contract tests, and e2e smoke green when touching migrations, public paths, health, audit, brand admin, or smoke specs
+globs: src/lib/db/migrations/**,src/lib/db/db-deploy.test.ts,src/app/sitemap.ts,src/lib/ops/content-review-catalog.ts,src/lib/ops/health-status.ts,src/lib/ops/*health*.test.ts,src/lib/ops/host-readiness*.test.ts,src/lib/audit/**,src/app/api/site-admin/**,src/components/site-admin/**,e2e/**/*.spec.ts
+alwaysApply: false
+---
+
+# CI contract hygiene
+
+Lessons from the 2026-10-01 main CI unblock:
+[`docs/audit/session-knowledge-2026-10-01-ci-unblock.md`](../../docs/audit/session-knowledge-2026-10-01-ci-unblock.md).
+
+Before merging changes in the globs above, run the matching local gates — do not wait for GitHub.
+
+## Migrations / journal
+
+- Ship SQL + `meta/_journal.json` + generated shape together (`npm run db:check`).
+- The unit contract derives the expected journal **tail from the shipped SQL files** — do not hardcode a stale `idx`/`tag` in `db-deploy.test.ts`.
+- When health / host-readiness **fixtures** embed a `tailTag` / `tailIdx`, those values are mock data only; keep them consistent within the fixture, not necessarily equal to production’s latest migration.
+
+## Public paths ↔ content review
+
+- Adding a path to [`SHELL_PATHS` / `PUBLIC_PATHS`](../../src/app/sitemap.ts) also requires an entry in [`content-review-catalog.ts`](../../src/lib/ops/content-review-catalog.ts) (`SITE_SHELL_PATHS` or the derived section).
+- Guard: `npm run test:unit -- src/lib/ops/content-review-catalog.test.ts`.
+
+## HealthStatus / typecheck fixtures
+
+- New **required** fields on `HealthStatus` must be set in every `baseHealth()` / fixture helper (`host-readiness*.test.ts`, `deploy-notify.test.ts`, etc.). `Partial<HealthStatus>` overrides alone do not satisfy a required property that the base object omits.
+- Env stubs in tests: prefer `as unknown as NodeJS.ProcessEnv` when the object is not a full `ProcessEnv`.
+
+## Audit log writes
+
+- Use `metadata: Record<string, string>` on `auditLog.log`. There is no `details` field. Coerce booleans/`null` with `String(...)` / `?? ""`.
+
+## Brand admin + axe / e2e
+
+- Colour **picker + hex** pairs: both inputs need an accessible name (label/`htmlFor` on hex, `aria-labelledby` on the picker). Whole-page axe on Site Admin will fail unlabeled hex fields.
+- If the same component mounts twice on one page (e.g. host + union lookbooks), smoke locators must be **scoped** (`locator('#brand-style-panel-…')` / `getByTestId` under a unique ancestor) — never bare `getByTestId('brand-lookbook')` on that page.
+- Brand Kit union/sector selects: wait for hydration with `toPass` (store rewrites localStorage presets). Prefer ≥20s visible + ≥30s `toPass` for preset races already seen as flaky in CI.
+
+## Minimum local commands
+
+```bash
+npm run typecheck
+npm run test:unit -- src/lib/db/db-deploy.test.ts src/lib/ops/content-review-catalog.test.ts
+# when UI/routes or e2e specs change:
+npm run test:smoke -- e2e/brand-lookbook.smoke.spec.ts
+```

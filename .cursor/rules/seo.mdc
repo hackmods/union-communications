@@ -19,6 +19,7 @@ Prevent GSC “Page with redirect” / bad canonical noise from **leaking the Ca
 - Keep [`routing.ts`](../../src/i18n/routing.ts) **`alternateLinks: false`**. Middleware Link headers otherwise advertise unprefixed `x-default` (then 307), fighting HTML hreflang.
 - Sitemap [`PUBLIC_PATHS`](../../src/app/sitemap.ts): only canonical **HTTPS + `/{en|fr}/…/`** URLs. Public discovery paths come from [`PUBLIC_CATALOG`](../../src/lib/comms/public-catalog.ts); Hub/`/app` stays noindex and out of the sitemap.
 - New public indexable discovery routes: add to the shared catalog with EN/FR titles and summaries; non-catalog utility pages belong in the sitemap shell list. Retired paths stay out of sitemap, canonical, and hreflang output.
+- **Operator content review map:** any new `SHELL_PATHS` / `PUBLIC_PATHS` leaf must also appear in [`content-review-catalog.ts`](../../src/lib/ops/content-review-catalog.ts). Guard: `npm run test:unit -- src/lib/ops/content-review-catalog.test.ts`. See [`.cursor/rules/ci-contract-hygiene.mdc`](ci-contract-hygiene.mdc).
 
 ## Cache headers
 
