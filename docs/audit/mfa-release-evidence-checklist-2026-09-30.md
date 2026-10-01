@@ -20,6 +20,7 @@ Use this checklist before describing the repaired MFA flow as restored on a host
 - [x] With `unionops_app` table privileges temporarily revoked on a disposable database, pending write/clear, attempt reservation, grant issue/consume, and recovery-code rotation fault checks passed. Durable operations failed closed; transaction state stayed unchanged. The exercise surfaced F11: raw driver messages included bound values. MFA logs now record only error type and safe SQLSTATE; focused redaction tests pass.
 - [x] The expanded fault smoke was rerun after log redaction. Its emitted MFA failures contained only account ID, error type, and SQLSTATE `42501`; no SQL statement or bound values appeared.
 - [ ] Manual keyboard, mobile, zoom, and EN/FR language review.
+- [x] Local production-image Chromium enrollment passed after correcting the manual-key selector and fixing the F5 session-refresh redirect. The test checks the exact auto-submitted code, final HTTP 200, recovery-code acknowledgment, and return to Hub. This uses a disposable memory/demo account, not hosted Postgres or privileged-route acceptance. See the 2026-10-01 follow-up in the local evidence note.
 
 Local disposable Postgres evidence is now available. The RLS smoke uses an independent owner connection to assert durable attempt/grant state, so memory fallback cannot make those binder checks pass. It also exercises concurrent operations in one process. This does not attest hosted image identity/configuration, cross-replica behavior, production-key recovery, hosted concurrency/fault injection, or browser journeys. Continue with the hosted checks below.
 
@@ -64,6 +65,7 @@ Run in a production-like, disposable environment with a dedicated fixture accoun
 | Local throwaway-key encryption restore | Passed: ciphertext restored and verified; missing/wrong-key paths failed without mutation. | 2026-09-30 / Codex |
 | Hosted encryption-key restore drill | Pending | — |
 | MFA browser + EN/FR/accessibility review | Pending | — |
+| Local demo enrollment browser journey | Passed on rebuilt production image: auto-submit through saved-code acknowledgment and Hub return; F5 Auth.js transition regression fixed. Hosted and broader browser coverage remain open. | 2026-10-01 / Codex |
 | Rollback image / restore reference | Pending | — |
 
 This checklist is a release gate, not proof that the hosted deployment has passed it. Keep the corresponding ledger row open until the operator evidence is attached.

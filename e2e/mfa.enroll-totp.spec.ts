@@ -23,19 +23,29 @@ test.describe("MFA TOTP enrollment", () => {
     ).toBeVisible({ timeout: 20_000 });
 
     await page.getByRole("button", { name: /Generate setup code|Générer/i }).click();
-    await page.getByText(/Can't scan the QR code|Impossible de scanner/i).click();
-    const secretField = page.locator("details p.font-mono");
+    // The help panel repeats "Can't scan" and is visible before QR generation.
+    // Scope the click to the disclosure that actually contains the manual key.
+    const manualSetup = page.locator("details").filter({ has: page.locator("p.font-mono") });
+    await manualSetup.locator("summary").click();
+    const secretField = manualSetup.locator("p.font-mono");
+    await expect(secretField).toBeVisible();
     await expect(secretField).toHaveText(/^[A-Z2-7]+$/);
     const secret = (await secretField.innerText()).trim();
 
-    // Generate against the app's HTTP clock. Local browser runners and a
-    // containerized app can have enough clock skew to exceed the TOTP window.
-    const clockResponse = await page.request.get("/api/health");
-    const serverDate = clockResponse.headers()["date"];
-    expect(serverDate, "app response should include its server clock").toBeTruthy();
-    const code = generateTotp(secret, Date.parse(serverDate!));
+    expect(/^[A-Z2-7]+$/.test(secret), "manual key must be readable before generating a code").toBe(true);
+    const code = generateTotp(secret);
     const codeField = page.getByLabel(/6-digit code|code à 6 chiffres/i);
+    const confirmation = page.waitForResponse((response) =>
+      response.url().includes("/api/mfa/enroll/confirm") &&
+      response.request().method() === "POST" &&
+      response.status() !== 308 && response.status() !== 307,
+    );
     await codeField.fill(code);
+    const confirmationResponse = await confirmation;
+    expect(confirmationResponse.request().postDataJSON().code === code,
+      "auto-submit must send the completed code").toBe(true);
+    const outcome = await confirmationResponse.json();
+    expect(confirmationResponse.status(), `confirmation outcome: ${outcome.code ?? "success"}`).toBe(200);
     // Filling six digits must submit the exact completed value on its own.
     // A manual Confirm click here would hide a broken auto-submit path.
     await expect(

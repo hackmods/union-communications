@@ -76,6 +76,7 @@ export function MfaSetupPageClient() {
   /** Sync lock — auto-submit + Enter can race past React `confirming` state. */
   const confirmLockRef = useRef(false);
   const startEnrollLockRef = useRef(false);
+  const enrollmentConfirmedRef = useRef(false);
 
   const mapApiError = (code: unknown, fallback: string) =>
     officerMfaErrorMessage(code, (key) => tErrors(key), fallback);
@@ -87,6 +88,10 @@ export function MfaSetupPageClient() {
   }, [status, router]);
 
   const loadSetupStatus = useCallback(async () => {
+    // Auth.js update() transitions through loading/authenticated. After a
+    // successful confirmation, a new status read would redirect an enrolled
+    // user away from their one-time recovery codes before they can save them.
+    if (enrollmentConfirmedRef.current) return;
     setState("loadingStatus");
     setStatusRequestId(null);
     try {
@@ -139,7 +144,7 @@ export function MfaSetupPageClient() {
     : Math.max(0, Math.ceil((pendingExpiresAt - clockNow) / 1000));
   const pendingExpired = pendingSecondsRemaining === 0;
 
-  if (status === "loading" || !session?.user || state === "loadingStatus") {
+  if ((status === "loading" && state !== "done") || !session?.user || state === "loadingStatus") {
     return (
       <PageShell size="nestedAuth" className="py-4 md:py-6">
         <p className="text-gray-600" aria-live="polite">
@@ -284,6 +289,7 @@ export function MfaSetupPageClient() {
       };
       // Confirmation commits and the plaintext codes are one-time. Keep them
       // visible even if Auth.js cannot consume the browser grant afterwards.
+      enrollmentConfirmedRef.current = true;
       setRecoveryCodes(body.recoveryCodes ?? []);
       retryCountdown.clear();
       setState("done");

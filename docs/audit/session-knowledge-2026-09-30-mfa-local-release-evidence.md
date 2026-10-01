@@ -15,6 +15,15 @@ No database URL or PostgreSQL client was required from the host. Docker Compose 
 
 ## Limits and continuation
 
+### 2026-10-01 browser follow-up
+
+- Docker API access succeeds with elevated execution; the earlier sandbox permission denial did not establish that Docker was unavailable. The disposable container and runner clocks matched.
+- The enrollment test's broad “Can't scan” locator could click the help panel before QR generation finished. Its hidden manual-key paragraph had text content but empty `innerText`, yielding an invalid TOTP. Scope the disclosure to the manual-key paragraph and assert visibility plus a nonempty key. The server-clock workaround from `f53f0cf6` was removed after disproving that diagnosis.
+- After correcting the test, the old production image accepted the exact auto-submitted code with HTTP 200 but redirected away from recovery codes. Auth.js `update()` transitions through loading/authenticated; the setup status effect reran, discovered enrollment, and redirected. The F5 follow-up records confirmation before refreshing the session and preserves the completed screen through that transition.
+- Built `union-communications:mfa-recovery-check`, image ID `sha256:03ea964b167cbe42256851b45d274b1ceea88d610d0728848fc486ea9290e950`. Its Chromium enrollment E2E passed in 3.6 seconds: visible manual key, exact six-digit auto-submit, HTTP 200, recovery codes, saved-code acknowledgment, and return to `/en/app/`. The temporary app container was stopped. This used an isolated demo memory account with direct `node server.js` startup on port 3100; it does not prove hosted database/replica behavior or a privileged account's protected navigation.
+- Focused tests: 91 tests across eight files passed (the October catalog assertion was updated and its seven tests rerun). TypeScript, changed-file ESLint, and production image build passed. Full-project lint was attempted and failed with six pre-existing errors in `e2e/officer-learning.quiz.audit.spec.ts` and `scripts/mock-server-only.cjs`, plus warnings in unchanged files. No push or deployment was performed.
+- Resume with real-account Postgres browser flows, typed/paste/autofill and Enter races, recovery replacement/rotation, reset/deep-return, status retry, and EN/FR/accessibility. Do not repeat the resolved clock investigation or count this demo journey as hosted release acceptance.
+
 The MFA app-binder smoke checks durable rows independently, so a successful memory fallback cannot satisfy those assertions. It covers a fresh process handoff and concurrent attempt/grant operations against local Postgres. Hosted replica A/B/restart proof, broader races, and fault injection remain open.
 
 Continue Phase 5B with hosted image/configuration evidence, replica A/B/restart handoff, multi-replica concurrency and fault injection, an encrypted TOTP backup restore with the production key and verified recovery procedure, browser typed/paste/autofill and recovery journeys, EN/FR/accessibility review, and a rollback image/restore reference. Keep the hosted checklist items open until those artifacts exist.

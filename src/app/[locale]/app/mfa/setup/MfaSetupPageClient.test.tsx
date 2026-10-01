@@ -3,16 +3,17 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-const { updateMock, routerMock, routeState } = vi.hoisted(() => ({
+const { updateMock, routerMock, routeState, sessionState } = vi.hoisted(() => ({
   updateMock: vi.fn(),
   routerMock: { push: vi.fn(), replace: vi.fn() },
   routeState: { query: "" },
+  sessionState: { status: "authenticated" as "authenticated" | "loading" },
 }));
 
 vi.mock("next-auth/react", () => ({
   useSession: () => ({
     data: { user: { id: "mfa-setup-ui-user" } },
-    status: "authenticated",
+    status: sessionState.status,
     update: updateMock,
   }),
 }));
@@ -123,11 +124,48 @@ afterEach(() => {
   vi.unstubAllGlobals();
   updateMock.mockReset();
   routeState.query = "";
+  sessionState.status = "authenticated";
   routerMock.push.mockReset();
   routerMock.replace.mockReset();
 });
 
 describe("MfaSetupPageClient", () => {
+  it("keeps recovery codes visible across Auth.js loading/authenticated transitions", async () => {
+    const codes = ["AAAA-BBBB-CCCC-DDDD"];
+    let enrolled = false;
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      const url = String(input);
+      let body: unknown;
+      if (url.endsWith("/api/mfa/status")) {
+        body = { enabled: true, required: true, mode: "totp", enrolled };
+      } else if (url.endsWith("/api/mfa/enroll/confirm")) {
+        enrolled = true;
+        body = { recoveryCodes: codes, mfaGrant: "grant" };
+      } else {
+        body = { secret: "JBSWY3DPEHPK3PXP", otpauthUri: "otpauth://test" };
+      }
+      return { ok: true, status: 200, headers: new Headers(), json: async () => body };
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    let finishUpdate!: (value: unknown) => void;
+    updateMock.mockImplementation(() => new Promise((resolve) => { finishUpdate = resolve; }));
+    const view = render(<MfaSetupPageClient />);
+    fireEvent.click(await screen.findByText("mfaSetupGenerate"));
+    fireEvent.change(await screen.findByLabelText("mfaSetupCodeLabel"), { target: { value: "123456" } });
+    await waitFor(() => expect(updateMock).toHaveBeenCalled());
+
+    sessionState.status = "loading";
+    view.rerender(<MfaSetupPageClient />);
+    expect(screen.getByTestId("recovery-codes").textContent).toBe(codes.join(","));
+    sessionState.status = "authenticated";
+    view.rerender(<MfaSetupPageClient />);
+    finishUpdate({ user: { mfaVerified: true } });
+    await waitFor(() => expect(screen.queryByText("session_not_verified")).toBeNull());
+    expect(screen.getByTestId("recovery-codes").textContent).toBe(codes.join(","));
+    expect(routerMock.replace).not.toHaveBeenCalled();
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).endsWith("/api/mfa/status"))).toHaveLength(1);
+  });
+
   it("submits the sixth digit directly and keeps one-time codes when session refresh fails", async () => {
     const codes = ["AAAA-BBBB-CCCC-DDDD"];
     const jsonResponse = (body: unknown) => ({

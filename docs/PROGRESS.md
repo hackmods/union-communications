@@ -1,4 +1,11 @@
-﻿## 2026-09-30 — TOTP encryption, restore drill, authenticator icon
+﻿## 2026-10-01 — Keep MFA recovery codes visible during session refresh
+
+- Enrollment confirmation now retains the recovery-code screen across Auth.js loading/authenticated transitions. Refresh no longer rechecks enrollment and redirects away before codes are saved.
+- The browser test opens the manual-key disclosure explicitly and asserts the final confirmation request/response, with no manual rescue click. The earlier clock-skew hypothesis was disproved by matched clocks and a successful confirmation using the visible key.
+- Regression and release evidence: [`mfa-review-2026-09-30.md`](audit/mfa-review-2026-09-30.md), F5 and Phase 5B. Hosted acceptance remains open.
+- What's new: `mfa-save-recovery-codes` (EN/FR, Hub).
+
+## 2026-09-30 — TOTP encryption, restore drill, authenticator icon
 
 - Confirmed and pending TOTP secrets are AES-256-GCM at rest when `AUTH_TOTP_ENCRYPTION_KEY` is set (required for hosted/production Postgres). Legacy plaintext still verifies after restore.
 - `npm run db:mfa-restore-smoke` (`ops:verify-durable`) dump/restores a scratch database and checks a live authenticator code.

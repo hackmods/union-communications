@@ -7492,6 +7492,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "mfa-save-recovery-codes": {
+        "title": "Enregistrez les codes de récupération avant de quitter la configuration",
+        "body": "Vos nouveaux codes de récupération restent à l’écran pendant que le Hub des dirigeants vérifie votre session. Enregistrez-les et confirmez que vous en avez une copie avant de continuer."
+      },
       "mfa-authenticator-icon": {
         "title": "Les applis d’authentification peuvent afficher la marque UnionOps",
         "body": "Scannez le code QR de configuration et votre appli d’authentification peut charger l’icône UnionOps à côté de votre compte. Les codes fonctionnent quand même si l’appli ignore l’image."

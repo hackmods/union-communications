@@ -7546,6 +7546,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "mfa-save-recovery-codes": {
+        "title": "Save recovery codes before leaving setup",
+        "body": "Your new recovery codes stay on screen while Officer Hub verifies your session. Save them and confirm you have a copy before continuing."
+      },
       "mfa-authenticator-icon": {
         "title": "Authenticator apps can show the UnionOps mark",
         "body": "Scan the setup QR and your authenticator can load the UnionOps icon beside your account. Codes still work if the app ignores the picture."
