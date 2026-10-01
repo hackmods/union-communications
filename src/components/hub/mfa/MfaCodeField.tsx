@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useId } from "react";
 import { Input } from "@/components/ui/Input";
 
 type MfaCodeFieldProps = {
@@ -15,6 +16,7 @@ type MfaCodeFieldProps = {
   /** Fires once when a 6-digit TOTP value is complete (not for recovery codes). */
   onTotpComplete?: (code: string) => void;
   hint?: string;
+  error?: string | null;
 };
 
 /** Verification code field — 6-digit TOTP or longer recovery codes. */
@@ -29,11 +31,21 @@ export function MfaCodeField({
   id,
   onTotpComplete,
   hint,
+  error,
 }: MfaCodeFieldProps) {
+  const generatedId = useId();
+  const inputId = id ?? `mfa-code-${generatedId}`;
+  const hintId = hint ? `${inputId}-hint` : undefined;
+  const errorId = error ? `${inputId}-error` : undefined;
+
+  useEffect(() => {
+    if (error && !disabled) document.getElementById(inputId)?.focus();
+  }, [disabled, error, inputId]);
+
   return (
     <div className="space-y-1">
       <Input
-        id={id}
+        id={inputId}
         label={label}
         value={value}
         autoFocus={autoFocus}
@@ -66,8 +78,11 @@ export function MfaCodeField({
         placeholder={allowRecovery ? undefined : "000000"}
         disabled={disabled}
         required
+        aria-invalid={Boolean(error)}
+        aria-describedby={[hintId, errorId].filter(Boolean).join(" ") || undefined}
       />
-      {hint ? <p className="text-xs text-gray-500">{hint}</p> : null}
+      {hint ? <p id={hintId} className="text-xs text-gray-500">{hint}</p> : null}
+      {error ? <p id={errorId} className="text-sm text-red-600" role="alert">{error}</p> : null}
     </div>
   );
 }

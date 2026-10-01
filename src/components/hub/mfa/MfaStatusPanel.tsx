@@ -20,6 +20,7 @@ type MfaStatusPanelProps = {
   onRotate?: (code: string) => Promise<void>;
   rotating?: boolean;
   rotateError?: string | null;
+  retrySecondsRemaining?: number;
 };
 
 function continueLabelKey(nextPath?: string | null): string {
@@ -42,6 +43,7 @@ export function MfaStatusPanel({
   onRotate,
   rotating,
   rotateError,
+  retrySecondsRemaining,
 }: MfaStatusPanelProps) {
   const t = useTranslations("hub.mfaJourney");
   const continueLabel = t(continueLabelKey(nextPath));
@@ -97,6 +99,7 @@ export function MfaStatusPanel({
         onRotate={!revealingCodes ? onRotate : undefined}
         rotating={rotating}
         rotateError={rotateError}
+        retrySecondsRemaining={retrySecondsRemaining}
       />
       {!revealingCodes ? (
         <>

@@ -77,7 +77,7 @@ export async function setPendingSecret(
   secret: string,
   now = Date.now(),
   env: NodeJS.ProcessEnv = process.env,
-): Promise<void> {
+): Promise<number> {
   assertPendingStoreAvailable(env);
   const entry: PendingEnrollment = { secret, expiresAt: now + PENDING_TTL_MS };
 
@@ -124,6 +124,7 @@ export async function setPendingSecret(
 
   pending.set(userId, entry);
   sharedPendingForTests?.set(userId, { ...entry });
+  return entry.expiresAt;
 }
 
 export async function getPendingSecret(

@@ -35,4 +35,22 @@ describe("MfaCodeField", () => {
     fireEvent.change(input, { target: { value: "123456" } });
     expect(onTotpComplete).toHaveBeenCalledTimes(1);
   });
+
+  it("associates hint and error text with the focused input", () => {
+    render(
+      <MfaCodeField
+        label="Authenticator code"
+        value="123"
+        onChange={() => undefined}
+        hint="Use the current six-digit code."
+        error="That code was already used."
+      />,
+    );
+    const input = screen.getByLabelText("Authenticator code");
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    const describedBy = input.getAttribute("aria-describedby") ?? "";
+    expect(describedBy).toContain("-hint");
+    expect(describedBy).toContain("-error");
+    expect(document.activeElement).toBe(input);
+  });
 });

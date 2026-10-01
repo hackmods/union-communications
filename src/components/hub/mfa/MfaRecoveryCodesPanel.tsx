@@ -18,6 +18,7 @@ type MfaRecoveryCodesPanelProps = {
   onRotate?: (code: string) => Promise<void>;
   rotating?: boolean;
   rotateError?: string | null;
+  retrySecondsRemaining?: number;
 };
 
 function downloadCodes(codes: string[], filename: string) {
@@ -42,6 +43,7 @@ export function MfaRecoveryCodesPanel({
   onRotate,
   rotating,
   rotateError,
+  retrySecondsRemaining = 0,
 }: MfaRecoveryCodesPanelProps) {
   const t = useTranslations("hub.mfaJourney.recovery");
   const [saved, setSaved] = useState(false);
@@ -148,18 +150,21 @@ export function MfaRecoveryCodesPanel({
             label={t("rotateCodeLabel")}
             value={rotationCode}
             onChange={setRotationCode}
-            disabled={rotating}
+            disabled={rotating || retrySecondsRemaining > 0}
             autoFocus
+            error={rotateError}
           />
-          {rotateError ? (
-            <p className="text-sm text-red-600" role="alert">
-              {rotateError}
+          {retrySecondsRemaining > 0 ? (
+            <p className="text-sm text-amber-800" role="status" aria-live="polite">
+              {t("retryCountdown", {
+                time: `${String(Math.floor(retrySecondsRemaining / 60)).padStart(2, "0")}:${String(retrySecondsRemaining % 60).padStart(2, "0")}`,
+              })}
             </p>
           ) : null}
           <Button
             type="submit"
             variant="outline"
-            disabled={rotating}
+            disabled={rotating || retrySecondsRemaining > 0}
             className="min-h-11 w-full"
           >
             {rotating ? t("regenerating") : t("regenerate")}

@@ -15,6 +15,7 @@ import {
   MfaRecoveryCodesPanel,
   MfaReplaceGate,
   MfaSetupSteps,
+  useMfaRetryCountdown,
 } from "@/components/hub/mfa";
 import {
   classifySubmittedMfaCode,
@@ -37,6 +38,12 @@ type EnrollState =
   | "confirming"
   | "done";
 
+function formatRetryTime(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const remainder = seconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
+}
+
 export function MfaSetupPageClient() {
   const t = useTranslations("hub");
   const tJourney = useTranslations("hub.mfaJourney");
@@ -53,10 +60,13 @@ export function MfaSetupPageClient() {
   const [state, setState] = useState<EnrollState>("loadingStatus");
   const [secret, setSecret] = useState<string | null>(null);
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
+  const [pendingExpiresAt, setPendingExpiresAt] = useState<number | null>(null);
+  const [clockNow, setClockNow] = useState(() => Date.now());
   const [code, setCode] = useState("");
   const [replaceCode, setReplaceCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [statusRequestId, setStatusRequestId] = useState<string | null>(null);
+  const retryCountdown = useMfaRetryCountdown();
   const [confirmCanContinueToChallenge, setConfirmCanContinueToChallenge] =
     useState(false);
   const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
@@ -118,6 +128,17 @@ export function MfaSetupPageClient() {
     if (status !== "authenticated") return;
     void Promise.resolve().then(loadSetupStatus);
   }, [status, loadSetupStatus]);
+
+  useEffect(() => {
+    if (pendingExpiresAt === null || (state !== "ready" && state !== "confirming")) return;
+    const timer = window.setInterval(() => setClockNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, [pendingExpiresAt, state]);
+
+  const pendingSecondsRemaining = pendingExpiresAt === null
+    ? null
+    : Math.max(0, Math.ceil((pendingExpiresAt - clockNow) / 1000));
+  const pendingExpired = pendingSecondsRemaining === 0;
 
   if (status === "loading" || !session?.user || state === "loadingStatus") {
     return (
@@ -183,14 +204,20 @@ export function MfaSetupPageClient() {
         };
         setConfirmCanContinueToChallenge(false);
         setError(mapApiError(body.code, t("mfaSetupError")));
+        if (body.code === "limited") {
+          retryCountdown.start(Number(res.headers.get("Retry-After")) || 900);
+        }
         setState(body.requiresCurrentCode || replaceMode ? "replaceGate" : "idle");
         return;
       }
       const body = (await res.json()) as {
         secret: string;
         otpauthUri: string;
+        expiresAt?: number;
       };
       setSecret(body.secret);
+      setPendingExpiresAt(typeof body.expiresAt === "number" ? body.expiresAt : null);
+      setClockNow(Date.now());
       const QRCode = (await import("qrcode")).default;
       const dataUrl = await QRCode.toDataURL(body.otpauthUri, {
         margin: 1,
@@ -233,6 +260,9 @@ export function MfaSetupPageClient() {
         };
         setConfirmCanContinueToChallenge(body.code === "no_pending");
         setError(mapApiError(body.code, t("mfaSetupError")));
+        if (body.code === "limited") {
+          retryCountdown.start(Number(res.headers.get("Retry-After")) || 900);
+        }
         setState("ready");
         confirmLockRef.current = false;
         return;
@@ -246,6 +276,7 @@ export function MfaSetupPageClient() {
       // Confirmation commits and the plaintext codes are one-time. Keep them
       // visible even if Auth.js cannot consume the browser grant afterwards.
       setRecoveryCodes(body.recoveryCodes ?? []);
+      retryCountdown.clear();
       setState("done");
       let verified = false;
       if (body.mfaGrant) {
@@ -269,6 +300,17 @@ export function MfaSetupPageClient() {
   const handleConfirm = async (e: React.FormEvent) => {
     e.preventDefault();
     await confirmWithCode(code);
+  };
+
+  const restartEnrollment = () => {
+    setError(null);
+    setCode("");
+    if (replaceMode) {
+      setReplaceCode("");
+      setState("replaceGate");
+    } else {
+      void startEnroll();
+    }
   };
 
   if (state === "done") {
@@ -321,8 +363,9 @@ export function MfaSetupPageClient() {
         <MfaReplaceGate
           code={replaceCode}
           onCodeChange={setReplaceCode}
-          loading={replaceSubmitting}
+          loading={replaceSubmitting || retryCountdown.waiting}
           error={error}
+          retrySecondsRemaining={retryCountdown.secondsRemaining}
           cancelHref={hubMfaChallengeHref(nextPath)}
           onConfirm={(submittedCode) => void startEnroll(submittedCode ?? replaceCode)}
         />
@@ -352,7 +395,19 @@ export function MfaSetupPageClient() {
 
       {state === "ready" || state === "confirming" ? (
         <div className="space-y-4">
-          {qrDataUrl ? (
+          {pendingExpired ? (
+            <Callout tone="warning" role="status">
+              <p>{tJourney("setupExpired.body")}</p>
+              <Button type="button" className="mt-3 min-h-11" onClick={restartEnrollment}>
+                {tJourney("setupExpired.restart")}
+              </Button>
+            </Callout>
+          ) : pendingSecondsRemaining !== null ? (
+            <p className="text-center text-sm text-gray-600" role="status" aria-live="polite">
+              {tJourney("setupExpiryCountdown", { time: formatRetryTime(pendingSecondsRemaining) })}
+            </p>
+          ) : null}
+          {!pendingExpired && qrDataUrl ? (
             <div className="flex flex-col items-center gap-2">
               {/* eslint-disable-next-line @next/next/no-img-element -- data: URL, no next/image benefit */}
               <img
@@ -367,7 +422,7 @@ export function MfaSetupPageClient() {
               </p>
             </div>
           ) : null}
-          {secret ? (
+          {!pendingExpired && secret ? (
             <details
               open={manualOpen}
               className="rounded-lg border border-gray-200 bg-gray-50/60 open:bg-white"
@@ -406,17 +461,18 @@ export function MfaSetupPageClient() {
               </div>
             </details>
           ) : null}
-          <form
+          {!pendingExpired ? <form
             id="mfa-setup-confirm-form"
             onSubmit={handleConfirm}
             className="space-y-3"
           >
-            <MfaCodeField
+          <MfaCodeField
               label={t("mfaSetupCodeLabel")}
               value={code}
               onChange={setCode}
-              disabled={state === "confirming"}
+              disabled={state === "confirming" || retryCountdown.waiting}
               autoFocus
+              error={error}
             onTotpComplete={(totp) => {
               if (state === "ready") {
                 void confirmWithCode(totp);
@@ -424,8 +480,7 @@ export function MfaSetupPageClient() {
             }}
             />
             {error ? (
-              <div className="space-y-1" role="alert">
-                <p className="text-sm text-red-600">{error}</p>
+              <div className="space-y-1">
                 {confirmCanContinueToChallenge ? (
                   <Link
                     href={hubMfaChallengeHref(nextPath)}
@@ -436,9 +491,14 @@ export function MfaSetupPageClient() {
                 ) : null}
               </div>
             ) : null}
+            {retryCountdown.waiting ? (
+              <p className="text-sm text-amber-800" role="status" aria-live="polite">
+                {tJourney("retryCountdown", { time: formatRetryTime(retryCountdown.secondsRemaining) })}
+              </p>
+            ) : null}
             <Button
               type="submit"
-              disabled={state === "confirming" || !looksLikeTotpCode(code)}
+              disabled={state === "confirming" || retryCountdown.waiting || !looksLikeTotpCode(code)}
               className="min-h-11 w-full"
             >
               {state === "confirming" ? t("verifying") : t("mfaSetupConfirm")}
@@ -447,7 +507,7 @@ export function MfaSetupPageClient() {
               type="button"
               variant="outline"
               className="min-h-11 w-full"
-              disabled={state === "confirming"}
+              disabled={state === "confirming" || retryCountdown.waiting}
               onClick={() => {
                 if (replaceMode) {
                   setReplaceCode("");
@@ -460,7 +520,7 @@ export function MfaSetupPageClient() {
             >
               {replaceMode ? tJourney("replace.generateAgain") : t("mfaSetupRegenerate")}
             </Button>
-          </form>
+          </form> : null}
         </div>
       ) : null}
     </MfaJourneyShell>

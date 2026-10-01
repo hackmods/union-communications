@@ -10107,6 +10107,7 @@
         "continue": "Continuer vers la vérification",
         "rotateHint": "Générez un nouvel ensemble de codes de récupération. Vos anciens codes inutilisés cesseront de fonctionner.",
         "rotateCodeLabel": "Code actuel de l’authenticator",
+        "retryCountdown": "Vous pourrez réessayer dans {time}.",
         "regenerate": "Générer de nouveaux codes de récupération",
         "regenerating": "Génération...",
         "lowWarning": "Il vous reste presque plus de codes de récupération. Générez-en bientôt un nouvel ensemble.",
@@ -10186,8 +10187,19 @@
       "continueToBumping": "Continuer vers le bumpage",
       "continueToTime": "Continuer vers le temps",
       "continueToWorkArea": "Continuer vers votre travail",
-      "challengeCodeLabel": "Code d’authenticator ou de récupération",
-      "challengeCodeHint": "Utilisez le code à six chiffres de l’appli, ou collez un code de récupération à usage unique.",
+      "factorChoiceLabel": "Choisir une méthode de vérification",
+      "authenticatorChoice": "Appli d’authentification",
+      "recoveryChoice": "Code de récupération",
+      "authenticatorCodeLabel": "Code d’authentification à six chiffres",
+      "authenticatorCodeHint": "Ouvrez votre appli d’authentification. Le code se renouvelle environ toutes les 30 secondes.",
+      "recoveryCodeLabel": "Code de récupération à usage unique",
+      "recoveryCodeHint": "Entrez l’un des codes de récupération enregistrés lors de la configuration. Chaque code ne fonctionne qu’une fois.",
+      "retryCountdown": "Vous pourrez réessayer dans {time}.",
+      "setupExpiryCountdown": "Ce code QR expire dans {time}.",
+      "setupExpired": {
+        "body": "Ce code QR a expiré et ne peut plus confirmer la configuration. Générez un nouveau code pour continuer.",
+        "restart": "Générer un nouveau code QR"
+      },
       "errors": {
         "empty": "Entrez le code à 6 chiffres de votre authenticator.",
         "invalid": "Ce code ne correspond pas. Attendez un nouveau numéro, ou utilisez un code de récupération.",
@@ -10201,7 +10213,7 @@
         "session_not_verified": "Votre authenticator est enregistré, mais ce navigateur a encore besoin d’un nouveau code de votre appli. Ouvrez la page d’identité et entrez le prochain numéro — pas celui que vous venez d’utiliser.",
         "not_enrolled": "Ce compte n’a pas encore d’authenticator. Configurez-en un, puis réessayez.",
         "limited": "Trop d’essais. Attendez quelques minutes, puis entrez un nouveau code de votre appli.",
-        "no_pending": "Aucune configuration QR n’est en attente. Elle a peut-être expiré ou déjà été confirmée. Essayez le code de votre authenticator; générez un nouveau code QR seulement si la configuration n’a pas abouti.",
+        "no_pending": "Aucune configuration QR n’est en attente. Elle a peut-être expiré ou déjà été confirmée. Essayez le code de votre authenticator. Générez un nouveau code QR seulement si la configuration n’a pas abouti.",
         "nextCodeHint": "Si une autre page demande un code, utilisez le prochain numéro affiché par votre appli — pas celui que vous venez d’entrer.",
         "challengeCta": "Entrer un nouveau code de vérification"
       },

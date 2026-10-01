@@ -12,9 +12,11 @@ import {
   MfaHelpPanel,
   MfaJourneyShell,
   MfaStatusPanel,
+  useMfaRetryCountdown,
 } from "@/components/hub/mfa";
 import {
   classifySubmittedMfaCode,
+  looksLikeRecoveryCode,
   officerMfaErrorMessage,
 } from "@/lib/auth/mfa-client-codes";
 import { resolveMfaCopyIntent } from "@/lib/auth/mfa-copy-context";
@@ -34,6 +36,12 @@ type MfaStatus = {
   recoveryCodesRemaining: number | null;
 };
 
+function formatRetryTime(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const remainder = seconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
+}
+
 export function MfaPageClient() {
   const t = useTranslations("hub");
   const tJourney = useTranslations("hub.mfaJourney");
@@ -45,8 +53,10 @@ export function MfaPageClient() {
     () => safeMfaReturnPath(searchParams.get("next")),
     [searchParams],
   );
+  const retryCountdown = useMfaRetryCountdown();
 
   const [code, setCode] = useState("");
+  const [factorChoice, setFactorChoice] = useState<"authenticator" | "recovery">("authenticator");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [mfaStatus, setMfaStatus] = useState<MfaStatus | null>(null);
@@ -218,11 +228,18 @@ export function MfaPageClient() {
         const body = (await response.json().catch(() => ({}))) as {
           recoveryCodes?: string[];
           mfaGrant?: string;
+          code?: string;
         };
         if (!response.ok || !body.recoveryCodes?.length || !body.mfaGrant) {
-          setRotateError(t("mfaError"));
+          if (body.code === "limited") {
+            retryCountdown.start(Number(response.headers.get("Retry-After")) || 900);
+            setRotateError(tErrors("limited"));
+          } else {
+            setRotateError(t("mfaError"));
+          }
           return;
         }
+        retryCountdown.clear();
         setNewRecoveryCodes(body.recoveryCodes);
         setMfaStatus((prev) =>
           prev
@@ -266,6 +283,7 @@ export function MfaPageClient() {
           onRotate={handleRotate}
           rotating={rotatingRecoveryCodes}
           rotateError={rotateError}
+          retrySecondsRemaining={retryCountdown.secondsRemaining}
         />
       </MfaJourneyShell>
     );
@@ -314,6 +332,9 @@ export function MfaPageClient() {
             t("mfaError"),
           ),
         );
+        if (errBody.code === "limited") {
+          retryCountdown.start(Number(res.headers.get("Retry-After")) || 900);
+        }
         verifyLockRef.current = false;
         setLoading(false);
         return;
@@ -332,6 +353,7 @@ export function MfaPageClient() {
         setLoading(false);
         return;
       }
+      retryCountdown.clear();
 
       const nextSession = await update({ mfaGrant: body.mfaGrant });
       if (!nextSession?.user?.mfaVerified) {
@@ -357,6 +379,10 @@ export function MfaPageClient() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (factorChoice === "recovery" && !looksLikeRecoveryCode(code)) {
+      setError(officerMfaErrorMessage("invalid", (key) => tErrors(key), t("mfaError")));
+      return;
+    }
     await verifyWithCode(code);
   };
 
@@ -367,29 +393,51 @@ export function MfaPageClient() {
       help={<MfaHelpPanel step="challenge" />}
     >
       <form onSubmit={handleSubmit} className="space-y-3">
+        <div role="group" aria-label={tJourney("factorChoiceLabel")} className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            aria-pressed={factorChoice === "authenticator"}
+            onClick={() => { setFactorChoice("authenticator"); setCode(""); setError(null); }}
+            className={`min-h-11 rounded-md border px-3 py-2 text-sm font-medium ${factorChoice === "authenticator" ? "border-opseu-blue bg-blue-50 text-opseu-blue" : "border-gray-300 text-gray-700"}`}
+          >
+            {tJourney("authenticatorChoice")}
+          </button>
+          <button
+            type="button"
+            aria-pressed={factorChoice === "recovery"}
+            onClick={() => { setFactorChoice("recovery"); setCode(""); setError(null); }}
+            className={`min-h-11 rounded-md border px-3 py-2 text-sm font-medium ${factorChoice === "recovery" ? "border-opseu-blue bg-blue-50 text-opseu-blue" : "border-gray-300 text-gray-700"}`}
+          >
+            {tJourney("recoveryChoice")}
+          </button>
+        </div>
         <MfaCodeField
-          label={tJourney("challengeCodeLabel")}
+          label={tJourney(factorChoice === "authenticator" ? "authenticatorCodeLabel" : "recoveryCodeLabel")}
           value={code}
           onChange={setCode}
-          allowRecovery
+          allowRecovery={factorChoice === "recovery"}
+          autoComplete={factorChoice === "authenticator" ? "one-time-code" : "off"}
           disabled={loading}
           autoFocus
-          hint={tJourney("challengeCodeHint")}
-          onTotpComplete={(totp) => {
-            if (!loading) void verifyWithCode(totp);
-          }}
+          hint={tJourney(factorChoice === "authenticator" ? "authenticatorCodeHint" : "recoveryCodeHint")}
+          error={error}
+          onTotpComplete={factorChoice === "authenticator"
+            ? (totp) => { if (!loading) void verifyWithCode(totp); }
+            : undefined}
         />
-        {error ? (
-          <p className="text-sm text-red-600" role="alert">
-            {error}
+        {retryCountdown.waiting ? (
+          <p className="text-sm text-amber-800" role="status" aria-live="polite">
+            {tJourney("retryCountdown", { time: formatRetryTime(retryCountdown.secondsRemaining) })}
           </p>
         ) : null}
         <Button
           type="submit"
           disabled={
             loading ||
-            classifySubmittedMfaCode(code) === "empty" ||
-            classifySubmittedMfaCode(code) === "invalid"
+            retryCountdown.waiting ||
+            (factorChoice === "authenticator"
+              ? classifySubmittedMfaCode(code) !== "totp"
+              : !looksLikeRecoveryCode(code))
           }
           className="min-h-11 w-full"
         >

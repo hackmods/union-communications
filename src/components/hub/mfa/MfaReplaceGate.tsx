@@ -12,6 +12,7 @@ type MfaReplaceGateProps = {
   onConfirm: (submittedCode?: string) => void;
   loading?: boolean;
   error?: string | null;
+  retrySecondsRemaining?: number;
   cancelHref?: string;
 };
 
@@ -22,6 +23,7 @@ export function MfaReplaceGate({
   onConfirm,
   loading,
   error,
+  retrySecondsRemaining = 0,
   cancelHref,
 }: MfaReplaceGateProps) {
   const t = useTranslations("hub.mfaJourney");
@@ -46,16 +48,19 @@ export function MfaReplaceGate({
           onChange={onCodeChange}
           disabled={loading}
           autoFocus
+          error={error}
           onTotpComplete={(submittedCode) => {
             if (!loading) onConfirm(submittedCode);
           }}
         />
-        {error ? (
-          <p className="text-sm text-red-600" role="alert">
-            {error}
+        {retrySecondsRemaining > 0 ? (
+          <p className="text-sm text-amber-800" role="status" aria-live="polite">
+            {t("retryCountdown", {
+              time: `${String(Math.floor(retrySecondsRemaining / 60)).padStart(2, "0")}:${String(retrySecondsRemaining % 60).padStart(2, "0")}`,
+            })}
           </p>
         ) : null}
-        <Button type="submit" disabled={loading || !ready} className="min-h-11 w-full">
+        <Button type="submit" disabled={loading || retrySecondsRemaining > 0 || !ready} className="min-h-11 w-full">
           {loading ? tHub("verifying") : t("replace.continue")}
         </Button>
       </form>

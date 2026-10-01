@@ -85,8 +85,9 @@ export async function POST(request: Request) {
   }
 
   const secret = generateTotpSecret();
+  let expiresAt: number;
   try {
-    await setPendingSecret(session.user.id, secret);
+    expiresAt = await setPendingSecret(session.user.id, secret);
   } catch (error) {
     console.error("[auth] MFA pending enrollment store unavailable", {
       userId: session.user.id,
@@ -108,5 +109,7 @@ export async function POST(request: Request) {
     resolveTotpAuthenticatorImageUrl(),
   );
 
-  return NextResponse.json({ secret, otpauthUri, replacing: Boolean(existingSecret) });
+  return NextResponse.json({ secret, otpauthUri, replacing: Boolean(existingSecret), expiresAt }, {
+    headers: { "Cache-Control": "private, no-store" },
+  });
 }

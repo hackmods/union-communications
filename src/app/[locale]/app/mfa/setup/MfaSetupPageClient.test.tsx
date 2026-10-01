@@ -37,18 +37,23 @@ vi.mock("@/components/ui/Button", () => ({
 vi.mock("@/components/ui/Callout", () => ({
   Callout: ({ children }: { children: React.ReactNode }) => <div role="alert">{children}</div>,
 }));
-vi.mock("@/components/hub/mfa", () => ({
+vi.mock("@/components/hub/mfa", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/components/hub/mfa")>();
+  return {
+  ...actual,
   MfaCodeField: ({
     label,
     value,
     onChange,
     onTotpComplete,
+    allowRecovery,
     disabled,
   }: {
     label: string;
     value: string;
     onChange: (value: string) => void;
     onTotpComplete?: (value: string) => void;
+    allowRecovery?: boolean;
     disabled?: boolean;
   }) => (
     <input
@@ -58,7 +63,7 @@ vi.mock("@/components/hub/mfa", () => ({
       onChange={(event) => {
         const next = event.target.value;
         onChange(next);
-        if (/^\d{6}$/.test(next)) onTotpComplete?.(next);
+        if (!allowRecovery && /^\d{6}$/.test(next)) onTotpComplete?.(next);
       }}
     />
   ),
@@ -100,7 +105,8 @@ vi.mock("@/components/hub/mfa", () => ({
     </div>
   ),
   MfaSetupSteps: () => null,
-}));
+  };
+});
 vi.mock("qrcode", () => ({ default: { toDataURL: vi.fn(async () => "data:image/png;base64,qr") } }));
 
 import { MfaSetupPageClient } from "@/app/[locale]/app/mfa/setup/MfaSetupPageClient";
@@ -137,6 +143,7 @@ describe("MfaSetupPageClient", () => {
       }
       return jsonResponse({
         secret: "JBSWY3DPEHPK3PXP", otpauthUri: "otpauth://totp/UnionOps?secret=JBSWY3DPEHPK3PXP",
+        expiresAt: Date.now() + 10 * 60_000,
       });
     });
     vi.stubGlobal("fetch", fetchMock);
@@ -264,5 +271,108 @@ describe("MfaSetupPageClient", () => {
     expect(updateMock).toHaveBeenCalledWith({ mfaGrant: "rotation-grant" });
     expect(fetchMock.mock.calls.filter(([url]) => String(url).endsWith("/api/mfa/status"))).toHaveLength(2);
     expect(screen.getByTestId("mfa-variant").textContent).toBe("verified");
+  });
+
+  it("keeps recovery entry separate so a six-digit prefix cannot auto-submit as TOTP", async () => {
+    const status = {
+      enabled: true,
+      required: true,
+      mode: "totp",
+      enrolled: true,
+      needsEnrollment: false,
+      mfaVerified: false,
+      recoveryCodesRemaining: 8,
+      reenrollGrace: false,
+    };
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      void init;
+      if (String(input).endsWith("/api/mfa/status")) {
+        return { ok: true, status: 200, headers: new Headers(), json: async () => status };
+      }
+      return {
+        ok: true,
+        status: 200,
+        headers: new Headers(),
+        json: async () => ({ mfaGrant: "recovery-grant" }),
+      };
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    updateMock.mockResolvedValue({ user: { mfaVerified: true } });
+
+    render(<MfaPageClient />);
+    fireEvent.click(await screen.findByText("recoveryChoice"));
+    const recoveryField = await screen.findByLabelText("recoveryCodeLabel");
+    fireEvent.change(recoveryField, { target: { value: "234567" } });
+    expect(screen.getByText("verifyMfa").closest("button")).toBeDisabled();
+    expect(fetchMock.mock.calls).toHaveLength(1);
+
+    fireEvent.change(recoveryField, { target: { value: "ABCD-EFGH-JKLM-NPQR" } });
+    fireEvent.click(screen.getByText("verifyMfa"));
+    await waitFor(() => expect(routerMock.push).toHaveBeenCalledWith("/app"));
+    const verifyRequest = fetchMock.mock.calls.find(([url]) => String(url).endsWith("/api/mfa/verify"));
+    expect(verifyRequest?.[1]?.body).toBe(JSON.stringify({ code: "ABCD-EFGH-JKLM-NPQR" }));
+  });
+
+  it("hides an expired QR and offers a clean restart", async () => {
+    let enrollCount = 0;
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      if (String(input).endsWith("/api/mfa/status")) {
+        return {
+          ok: true,
+          status: 200,
+          headers: new Headers(),
+          json: async () => ({ enabled: true, required: true, mode: "totp", enrolled: false }),
+        };
+      }
+      enrollCount += 1;
+      return {
+        ok: true,
+        status: 200,
+        headers: new Headers(),
+        json: async () => ({
+          secret: "JBSWY3DPEHPK3PXP",
+          otpauthUri: "otpauth://totp/UnionOps?secret=JBSWY3DPEHPK3PXP",
+          expiresAt: enrollCount === 1 ? Date.now() - 1000 : Date.now() + 600_000,
+        }),
+      };
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<MfaSetupPageClient />);
+    fireEvent.click(await screen.findByText("mfaSetupGenerate"));
+    expect(await screen.findByText("setupExpired.body")).toBeTruthy();
+    expect(screen.queryByLabelText("mfaSetupCodeLabel")).toBeNull();
+    fireEvent.click(screen.getByText("setupExpired.restart"));
+    expect(await screen.findByLabelText("mfaSetupCodeLabel")).toBeTruthy();
+    expect(enrollCount).toBe(2);
+  });
+
+  it("shows the Retry-After countdown and disables MFA submission while limited", async () => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      if (String(input).endsWith("/api/mfa/status")) {
+        return {
+          ok: true,
+          status: 200,
+          headers: new Headers(),
+          json: async () => ({
+            enabled: true, required: true, mode: "totp", enrolled: true,
+            needsEnrollment: false, mfaVerified: false, reenrollGrace: false,
+          }),
+        };
+      }
+      return {
+        ok: false,
+        status: 429,
+        headers: new Headers({ "Retry-After": "3" }),
+        json: async () => ({ code: "limited" }),
+      };
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<MfaPageClient />);
+    const totpField = await screen.findByLabelText("authenticatorCodeLabel");
+    fireEvent.change(totpField, { target: { value: "123456" } });
+    expect(await screen.findByText(/^retryCountdown:00:0[23]$/)).toBeTruthy();
+    expect(screen.getByText("verifyMfa").closest("button")).toBeDisabled();
   });
 });
