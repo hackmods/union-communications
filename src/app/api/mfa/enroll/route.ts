@@ -7,6 +7,7 @@ import { reserveMfaVerificationAttempt } from "@/lib/auth/mfa-attempt-limits";
 import { classifySubmittedMfaCode } from "@/lib/auth/mfa-client-codes";
 import { resolveMfaMode, verifyMfaCode } from "@/lib/auth/mfa-policy";
 import { withMfaAccountLock } from "@/lib/auth/mfa-account-lock";
+import { mfaErrorMetadata } from "@/lib/auth/mfa-durable-fallback-signal";
 import { consumeTotpCounterForUser } from "@/lib/auth/mfa-totp-counters";
 import { getTotpSecretForUser } from "@/lib/auth/mfa-user-secret";
 
@@ -110,7 +111,7 @@ export async function POST(request: Request) {
           } catch (error) {
             console.error("[auth] MFA replacement attempt reserve failed", {
               userId: session.user.id,
-              message: error instanceof Error ? error.message : String(error),
+              ...mfaErrorMetadata(error),
             });
             return {
               ok: false,
@@ -152,7 +153,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("[auth] MFA pending enrollment store unavailable", {
       userId: session.user.id,
-      message: error instanceof Error ? error.message : String(error),
+      ...mfaErrorMetadata(error),
     });
     return NextResponse.json(
       {

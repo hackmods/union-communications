@@ -6,6 +6,7 @@ import {
 import { isMfaOperatorBypassEmail } from "@/lib/auth/mfa-operator-bypass";
 import { loadAuthAccountById } from "@/lib/auth/sign-inable-account";
 import { auditLog } from "@/lib/audit/store";
+import { mfaErrorMetadata } from "@/lib/auth/mfa-durable-fallback-signal";
 
 export type FreshMfaStepUpFailure = {
   ok: false;
@@ -54,7 +55,7 @@ export async function verifyFreshMfaStepUp(input: {
       } catch (error) {
         console.error("[auth] MFA operator bypass audit failed", {
           userId: input.userId,
-          message: error instanceof Error ? error.message : String(error),
+          ...mfaErrorMetadata(error),
         });
       }
       return { ok: true, required: false, bypassed: true };
@@ -62,7 +63,7 @@ export async function verifyFreshMfaStepUp(input: {
   } catch (error) {
     console.error("[auth] MFA operator bypass account lookup failed", {
       userId: input.userId,
-      message: error instanceof Error ? error.message : String(error),
+      ...mfaErrorMetadata(error),
     });
     // Fail closed into normal step-up rather than granting a silent bypass.
   }

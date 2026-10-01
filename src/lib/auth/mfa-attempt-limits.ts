@@ -1,6 +1,6 @@
 import { eq, lte, lt, or, sql } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
-import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
+import { mfaErrorMetadata, noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
 import { mustFailClosedOnMfaDurableStoreError } from "@/lib/auth/mfa-durable-store-policy";
 import { toTimestamptzSqlParam } from "@/lib/auth/timestamptz-sql-param";
 import { getDb } from "@/lib/db/client";
@@ -115,7 +115,7 @@ export async function reserveMfaVerificationAttempt(
       console.error("[auth] MFA attempt-limit Postgres write failed", {
         userId,
         hosted,
-        message: error instanceof Error ? error.message : String(error),
+        ...mfaErrorMetadata(error),
       });
       noteMfaDurableFallback("attempt_limit");
       if (mustFailClosedOnMfaDurableStoreError(env)) throw error;

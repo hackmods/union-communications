@@ -10,6 +10,7 @@
  */
 
 import type { MfaClientCode } from "@/lib/auth/mfa-client-codes";
+import { mfaErrorMetadata } from "@/lib/auth/mfa-durable-fallback-signal";
 import { getTotpSecretForUser } from "@/lib/auth/mfa-user-secret";
 import {
   hostedCustomerProfileEnabled,
@@ -185,7 +186,7 @@ export async function verifyMfaCode(input: {
     } catch (error) {
       console.error("[auth] MFA verification safeguards unavailable", {
         userId: input.userId,
-        message: error instanceof Error ? error.message : String(error),
+        ...mfaErrorMetadata(error),
       });
       return {
         ok: false,
@@ -228,7 +229,7 @@ export async function verifyMfaCode(input: {
   } catch (error) {
     console.error("[auth] TOTP secret read failed during verify", {
       userId: input.userId,
-      message: error instanceof Error ? error.message : String(error),
+      ...mfaErrorMetadata(error),
     });
     return {
       ok: false,
@@ -264,7 +265,7 @@ export async function verifyMfaCode(input: {
   } catch (error) {
     console.error("[auth] TOTP replay protection unavailable", {
       userId: input.userId,
-      message: error instanceof Error ? error.message : String(error),
+      ...mfaErrorMetadata(error),
     });
     return {
       ok: false,

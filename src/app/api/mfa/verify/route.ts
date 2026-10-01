@@ -9,8 +9,13 @@ import { reserveMfaVerificationAttempt } from "@/lib/auth/mfa-attempt-limits";
 import { consumeTotpCounterForUser } from "@/lib/auth/mfa-totp-counters";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
 import { withMfaAccountLock } from "@/lib/auth/mfa-account-lock";
+import { mfaErrorMetadata } from "@/lib/auth/mfa-durable-fallback-signal";
 
-class MfaFactorStoreUnavailableError extends Error {}
+class MfaFactorStoreUnavailableError extends Error {
+  constructor(readonly failure: unknown) {
+    super("MFA factor store unavailable");
+  }
+}
 
 /** Verify, consume the factor, and issue its one-time grant as one account operation. */
 export async function POST(request: Request) {
@@ -86,7 +91,7 @@ export async function POST(request: Request) {
         } catch (error) {
           console.error("[auth] MFA verify attempt reserve failed", {
             userId: session.user.id,
-            message: error instanceof Error ? error.message : String(error),
+            ...mfaErrorMetadata(error),
           });
           await recordOutcome("auth.mfa_verify_unavailable", "error");
           return respond({ error: "MFA verification safeguards are unavailable.",
@@ -127,7 +132,7 @@ export async function POST(request: Request) {
         try {
           consumed = await consumeTotpCounterForUser(session.user.id, matchedCounter);
         } catch (error) {
-          throw new MfaFactorStoreUnavailableError(error instanceof Error ? error.message : String(error));
+          throw new MfaFactorStoreUnavailableError(error);
         }
         if (!consumed) {
           await recordOutcome("auth.mfa_verify_failed", "denied");
@@ -138,7 +143,7 @@ export async function POST(request: Request) {
         try {
           recoveryUsed = await consumeMfaRecoveryCode(session.user.id, code);
         } catch (error) {
-          throw new MfaFactorStoreUnavailableError(error instanceof Error ? error.message : String(error));
+          throw new MfaFactorStoreUnavailableError(error);
         }
         if (!recoveryUsed) {
           await recordOutcome("auth.mfa_verify_failed", "denied");
@@ -165,7 +170,7 @@ export async function POST(request: Request) {
     if (error instanceof MfaFactorStoreUnavailableError) {
       console.error("[auth] MFA replay protection unavailable", {
         userId: session.user.id,
-        message: error.message,
+        ...mfaErrorMetadata(error.failure),
       });
       await recordOutcome("auth.mfa_verify_unavailable", "error");
       return respond({ error: "MFA replay protection is unavailable.",
@@ -174,7 +179,7 @@ export async function POST(request: Request) {
     }
     console.error("[auth] MFA factor handoff failed", {
       userId: session.user.id,
-      message: error instanceof Error ? error.message : String(error),
+      ...mfaErrorMetadata(error),
     });
     await recordOutcome("auth.mfa_verify_unavailable", "error");
     return respond({ error: "Could not create a secure session grant. Try again shortly.",

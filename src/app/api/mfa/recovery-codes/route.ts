@@ -7,6 +7,7 @@ import { getSessionVersionForUser } from "@/lib/auth/mfa-user-secret";
 import { issueMfaGrant } from "@/lib/auth/mfa-grants";
 import { withMfaAccountLock } from "@/lib/auth/mfa-account-lock";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
+import { mfaErrorMetadata } from "@/lib/auth/mfa-durable-fallback-signal";
 
 /** Rotate recovery codes only after a fresh authenticator challenge. */
 export async function POST(request: Request) {
@@ -95,7 +96,7 @@ export async function POST(request: Request) {
     console.error("[auth] MFA recovery-code rotation failed", {
       userId: session.user.id,
       requestId: correlation.requestId,
-      message: error instanceof Error ? error.message : String(error),
+      ...mfaErrorMetadata(error),
     });
     await recordOutcome("error");
     return respond({ error: "Recovery codes could not be rotated.", code: "grant_unavailable" }, {

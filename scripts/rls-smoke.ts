@@ -7,18 +7,70 @@
  * Run: npm run db:rls-smoke
  */
 import { createHash, randomUUID } from "node:crypto";
+import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import postgres from "postgres";
 import { APP_DB_ROLE } from "../src/lib/db/rls-contract";
+import { resetDbClient } from "../src/lib/db/client";
 import { reserveMfaVerificationAttempt } from "../src/lib/auth/mfa-attempt-limits";
 import {
   getPendingSecret,
   setPendingSecret,
   clearPendingSecret,
 } from "../src/lib/auth/mfa-enrollment-store";
-import { consumeMfaGrant, issueMfaGrant } from "../src/lib/auth/mfa-grants";
+import { consumeMfaGrant, getMfaGrant, issueMfaGrant } from "../src/lib/auth/mfa-grants";
 import { isEncryptedTotpSecret } from "../src/lib/auth/totp-secret-crypto";
+import { rotateMfaRecoveryCodes } from "../src/lib/auth/mfa-recovery-codes";
+
+type MfaWorkerRequest =
+  | { action: "read-pending"; userId: string; expectedSecret: string }
+  | { action: "consume-grant"; userId: string; nonce: string };
+
+function runMfaWorker(request: MfaWorkerRequest): string {
+  const result = spawnSync(
+    process.execPath,
+    [
+      "--import",
+      "./scripts/register-server-only.mjs",
+      "--import",
+      "tsx",
+      "scripts/mfa-durable-worker.ts",
+    ],
+    {
+      env: process.env,
+      input: JSON.stringify(request),
+      encoding: "utf8",
+      timeout: 30_000,
+      windowsHide: true,
+    },
+  );
+  if (result.status !== 0) {
+    throw new Error(
+      `MFA second-process smoke failed: ${result.stderr || result.error?.message || "worker exited unexpectedly"}`,
+    );
+  }
+  return result.stdout.trim();
+}
+
+async function expectMfaPermissionFailure(
+  operation: () => Promise<unknown>,
+  label: string,
+): Promise<void> {
+  try {
+    await operation();
+  } catch (error) {
+    let current: unknown = error;
+    for (let depth = 0; depth < 4; depth += 1) {
+      if (!current || typeof current !== "object") break;
+      const record = current as { code?: unknown; cause?: unknown };
+      if (record.code === "42501") return;
+      current = record.cause;
+    }
+    throw new Error(`${label} failed for a non-permission error`);
+  }
+  throw new Error(`${label} unexpectedly succeeded after its Postgres grant was revoked`);
+}
 
 /**
  * Exercise MFA app binders under live Postgres (not only raw `now()` SQL).
@@ -51,6 +103,22 @@ async function exerciseMfaAppBinders(
     await owner`delete from mfa_verification_attempts where user_id = ${PRESIDENT}`;
   }
 
+  await owner.unsafe("REVOKE INSERT ON mfa_verification_attempts FROM unionops_app");
+  try {
+    await expectMfaPermissionFailure(
+      () => reserveMfaVerificationAttempt(PRESIDENT),
+      "verification attempt write outage",
+    );
+  } finally {
+    await owner.unsafe("GRANT INSERT ON mfa_verification_attempts TO unionops_app");
+  }
+  const failedAttemptWrite = await owner<{ user_id: string }[]>`
+    select user_id from mfa_verification_attempts where user_id = ${PRESIDENT}
+  `;
+  if (failedAttemptWrite.length !== 0) {
+    throw new Error("MFA failure smoke: failed attempt write left durable state");
+  }
+
   const pendingSecret = "JBSWY3DPEHPK3PXP";
   await setPendingSecret(PRESIDENT, pendingSecret);
   const persistedPending = await owner<{ secret: string; expires_at: Date }[]>`
@@ -62,6 +130,15 @@ async function exerciseMfaAppBinders(
     persistedPending[0].expires_at.getTime() <= Date.now()
   ) {
     throw new Error("MFA app binder failed: encrypted pending enrollment was not durably persisted");
+  }
+  if (
+    runMfaWorker({
+      action: "read-pending",
+      userId: PRESIDENT,
+      expectedSecret: pendingSecret,
+    }) !== "pending-ok"
+  ) {
+    throw new Error("MFA app binder failed: a fresh process could not read pending enrollment");
   }
   const roundTrip = await getPendingSecret(PRESIDENT);
   if (roundTrip !== pendingSecret) {
@@ -93,9 +170,24 @@ async function exerciseMfaAppBinders(
     ) {
       throw new Error("MFA app binder failed: hashed session grant was not durably persisted");
     }
+    if (
+      runMfaWorker({ action: "consume-grant", userId: PRESIDENT, nonce }) !== "consumed" ||
+      (await consumeMfaGrant(PRESIDENT, nonce, Date.now(), 0))
+    ) {
+      throw new Error("MFA app binder failed: grant did not survive a process handoff as single-use");
+    }
+    const handedOffGrant = await owner<{ consumed_at: Date | null }[]>`
+      select consumed_at from mfa_session_grants where user_id = ${PRESIDENT}
+    `;
+    if (handedOffGrant.length !== 1 || !handedOffGrant[0].consumed_at) {
+      throw new Error("MFA app binder failed: second-process grant consumption was not durable");
+    }
+
+    await owner`delete from mfa_session_grants where user_id = ${PRESIDENT}`;
+    const raceNonce = await issueMfaGrant(PRESIDENT, Date.now(), 0);
     const consumeResults = await Promise.all([
-      consumeMfaGrant(PRESIDENT, nonce, Date.now(), 0),
-      consumeMfaGrant(PRESIDENT, nonce, Date.now(), 0),
+      consumeMfaGrant(PRESIDENT, raceNonce, Date.now(), 0),
+      consumeMfaGrant(PRESIDENT, raceNonce, Date.now(), 0),
     ]);
     if (consumeResults.filter(Boolean).length !== 1) {
       throw new Error("MFA app binder failed: concurrent grant consumption was not single-use");
@@ -105,6 +197,123 @@ async function exerciseMfaAppBinders(
     `;
     if (consumedGrant.length !== 1 || !consumedGrant[0].consumed_at) {
       throw new Error("MFA app binder failed: grant consumption was not durably persisted");
+    }
+
+    await owner`delete from mfa_pending_enrollments where user_id = ${PRESIDENT}`;
+    await owner.unsafe("REVOKE INSERT ON mfa_pending_enrollments FROM unionops_app");
+    try {
+      await expectMfaPermissionFailure(
+        () => setPendingSecret(PRESIDENT, pendingSecret),
+        "pending enrollment write outage",
+      );
+    } finally {
+      await owner.unsafe("GRANT INSERT ON mfa_pending_enrollments TO unionops_app");
+    }
+    const failedPendingWrite = await owner<{ user_id: string }[]>`
+      select user_id from mfa_pending_enrollments where user_id = ${PRESIDENT}
+    `;
+    if (failedPendingWrite.length !== 0 || (await getPendingSecret(PRESIDENT)) !== null) {
+      throw new Error("MFA failure smoke: failed pending write left a memory or database success");
+    }
+
+    await setPendingSecret(PRESIDENT, pendingSecret);
+    const pendingBeforeFailedClear = await owner<{ secret: string }[]>`
+      select secret from mfa_pending_enrollments where user_id = ${PRESIDENT}
+    `;
+    await owner.unsafe("REVOKE UPDATE ON mfa_pending_enrollments FROM unionops_app");
+    try {
+      await expectMfaPermissionFailure(
+        () => clearPendingSecret(PRESIDENT),
+        "pending enrollment clear outage",
+      );
+    } finally {
+      await owner.unsafe("GRANT UPDATE ON mfa_pending_enrollments TO unionops_app");
+    }
+    const pendingAfterFailedClear = await owner<{ secret: string }[]>`
+      select secret from mfa_pending_enrollments where user_id = ${PRESIDENT}
+    `;
+    if (
+      pendingBeforeFailedClear.length !== 1 ||
+      pendingAfterFailedClear.length !== 1 ||
+      pendingAfterFailedClear[0].secret !== pendingBeforeFailedClear[0].secret
+    ) {
+      throw new Error("MFA failure smoke: failed pending clear changed durable enrollment state");
+    }
+    await clearPendingSecret(PRESIDENT);
+
+    await owner`delete from mfa_session_grants where user_id = ${PRESIDENT}`;
+    await owner.unsafe("REVOKE INSERT ON mfa_session_grants FROM unionops_app");
+    try {
+      await expectMfaPermissionFailure(
+        () => issueMfaGrant(PRESIDENT, Date.now(), 0),
+        "session grant issue outage",
+      );
+    } finally {
+      await owner.unsafe("GRANT INSERT ON mfa_session_grants TO unionops_app");
+    }
+    const failedIssueRows = await owner<{ user_id: string }[]>`
+      select user_id from mfa_session_grants where user_id = ${PRESIDENT}
+    `;
+    if (failedIssueRows.length !== 0 || getMfaGrant(PRESIDENT)) {
+      throw new Error("MFA failure smoke: failed grant issue left durable or in-memory success");
+    }
+
+    const unconsumedNonce = await issueMfaGrant(PRESIDENT, Date.now(), 0);
+    await owner.unsafe("REVOKE UPDATE ON mfa_session_grants FROM unionops_app");
+    try {
+      await expectMfaPermissionFailure(
+        () => consumeMfaGrant(PRESIDENT, unconsumedNonce, Date.now(), 0),
+        "session grant consume outage",
+      );
+    } finally {
+      await owner.unsafe("GRANT UPDATE ON mfa_session_grants TO unionops_app");
+    }
+    const afterFailedConsume = await owner<{ token_hash: string; consumed_at: Date | null }[]>`
+      select token_hash, consumed_at from mfa_session_grants where user_id = ${PRESIDENT}
+    `;
+    const unconsumedHash = createHash("sha256").update(unconsumedNonce, "utf8").digest("hex");
+    if (
+      afterFailedConsume.length !== 1 ||
+      afterFailedConsume[0].token_hash !== unconsumedHash ||
+      afterFailedConsume[0].consumed_at !== null
+    ) {
+      throw new Error("MFA failure smoke: failed grant consume mutated durable grant state");
+    }
+
+    const recoveryStateBefore = await owner<{
+      session_version: number;
+      active_code_count: number;
+    }[]>`
+      select
+        u.session_version,
+        (select count(*)::int from mfa_recovery_codes c where c.user_id = u.id and c.used_at is null) as active_code_count
+      from users u where u.id = ${PRESIDENT}
+    `;
+    await owner.unsafe("REVOKE INSERT ON mfa_recovery_codes FROM unionops_app");
+    try {
+      await expectMfaPermissionFailure(
+        () => rotateMfaRecoveryCodes(PRESIDENT),
+        "recovery-code rotation outage",
+      );
+    } finally {
+      await owner.unsafe("GRANT INSERT ON mfa_recovery_codes TO unionops_app");
+    }
+    const recoveryStateAfter = await owner<{
+      session_version: number;
+      active_code_count: number;
+    }[]>`
+      select
+        u.session_version,
+        (select count(*)::int from mfa_recovery_codes c where c.user_id = u.id and c.used_at is null) as active_code_count
+      from users u where u.id = ${PRESIDENT}
+    `;
+    if (
+      recoveryStateBefore.length !== 1 ||
+      recoveryStateAfter.length !== 1 ||
+      recoveryStateAfter[0].session_version !== recoveryStateBefore[0].session_version ||
+      recoveryStateAfter[0].active_code_count !== recoveryStateBefore[0].active_code_count
+    ) {
+      throw new Error("MFA failure smoke: failed recovery rotation partially committed");
     }
   } finally {
     await owner`delete from mfa_session_grants where user_id = ${PRESIDENT}`;
@@ -495,6 +704,7 @@ async function main(): Promise<void> {
     await sql`delete from mfa_recovery_codes where id = ${recoveryCodeId}`;
     await sql.end({ timeout: 5 });
     await owner.end({ timeout: 5 });
+    resetDbClient();
   }
 }
 

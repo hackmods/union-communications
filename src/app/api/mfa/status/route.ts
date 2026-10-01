@@ -19,6 +19,7 @@ import { countUnusedMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
 import { getTotpSecretForUser } from "@/lib/auth/mfa-user-secret";
 import { actorHasActiveCircleAdminAuthority } from "@/lib/portal/mfa-authority";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
+import { mfaErrorMetadata } from "@/lib/auth/mfa-durable-fallback-signal";
 
 /** Client helper: MFA host policy + enrollment / verified state. */
 export async function GET() {
@@ -34,7 +35,7 @@ export async function GET() {
   } catch (error) {
     console.error("[auth] MFA status session read failed", {
       requestId: correlation.requestId,
-      message: error instanceof Error ? error.message : String(error),
+      ...mfaErrorMetadata(error),
     });
     return respond({
       error: "MFA status is temporarily unavailable.",
@@ -97,7 +98,7 @@ export async function GET() {
     console.error("[auth] MFA status unavailable", {
       userId: session.user.id,
       requestId: correlation.requestId,
-      message: error instanceof Error ? error.message : String(error),
+      ...mfaErrorMetadata(error),
     });
     return respond({
       error: "MFA status is temporarily unavailable.",

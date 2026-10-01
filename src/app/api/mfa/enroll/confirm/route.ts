@@ -15,6 +15,7 @@ import { resolveMfaMode } from "@/lib/auth/mfa-policy";
 import { looksLikeTotpCode } from "@/lib/auth/mfa-client-codes";
 import { matchTotpCounter } from "@/lib/auth/totp";
 import { withMfaAccountLock } from "@/lib/auth/mfa-account-lock";
+import { mfaErrorMetadata } from "@/lib/auth/mfa-durable-fallback-signal";
 import { reserveMfaVerificationAttempt } from "@/lib/auth/mfa-attempt-limits";
 
 /**
@@ -85,7 +86,7 @@ export async function POST(request: Request) {
       } catch (error) {
         console.error("[auth] MFA enrollment attempt reserve failed", {
           userId: session.user.id,
-          message: error instanceof Error ? error.message : String(error),
+          ...mfaErrorMetadata(error),
         });
         return { error: "attempt_store_unavailable" as const };
       }
@@ -123,7 +124,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("[auth] MFA enrollment persist failed", {
       userId: session.user.id,
-      message: error instanceof Error ? error.message : String(error),
+      ...mfaErrorMetadata(error),
     });
     return NextResponse.json(
       {

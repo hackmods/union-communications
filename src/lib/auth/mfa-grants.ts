@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { and, eq, gte, isNotNull, isNull, lte, ne, or } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
-import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
+import { mfaErrorMetadata, noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
 import { mustFailClosedOnMfaDurableStoreError } from "@/lib/auth/mfa-durable-store-policy";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { mfaSessionGrants } from "@/lib/db/schema/auth";
@@ -141,7 +141,7 @@ export async function issueMfaGrant(
       if (error instanceof MfaGrantPendingError) throw error;
       console.error("[auth] MFA grant Postgres write failed", {
         userId,
-        message: error instanceof Error ? error.message : String(error),
+        ...mfaErrorMetadata(error),
       });
       noteMfaDurableFallback("session_grant");
       if (mustFailClosedOnMfaDurableStoreError(env)) throw error;
@@ -209,7 +209,7 @@ export async function consumeMfaGrant(
     } catch (error) {
       console.error("[auth] MFA grant Postgres consume failed", {
         userId,
-        message: error instanceof Error ? error.message : String(error),
+        ...mfaErrorMetadata(error),
       });
       noteMfaDurableFallback("session_grant");
       if (mustFailClosedOnMfaDurableStoreError(env)) throw error;

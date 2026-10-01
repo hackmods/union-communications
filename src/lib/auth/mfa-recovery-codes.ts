@@ -1,7 +1,7 @@
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { and, eq, isNull, sql } from "drizzle-orm";
 import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
-import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
+import { mfaErrorMetadata, noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
 import { mustFailClosedOnMfaDurableStoreError } from "@/lib/auth/mfa-durable-store-policy";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { mfaRecoveryCodes } from "@/lib/db/schema/auth";
@@ -115,7 +115,7 @@ export async function rotateMfaRecoveryCodes(
         "[auth] MFA recovery codes Postgres rotate failed",
         {
           userId,
-          message: error instanceof Error ? error.message : String(error),
+          ...mfaErrorMetadata(error),
         },
       );
       noteMfaDurableFallback("recovery_codes");

@@ -6,6 +6,7 @@
 
 import type { JWT } from "next-auth/jwt";
 import { consumeMfaGrant } from "@/lib/auth/mfa-grants";
+import { mfaErrorMetadata } from "@/lib/auth/mfa-durable-fallback-signal";
 import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 import { listBargainingUnitsForLocal } from "@/lib/tenant/loader";
 import type { UserRole } from "@/types/tenant";
@@ -52,7 +53,7 @@ export async function applyTrustedSessionUpdate(
       // a verified MFA claim. The JWT callback remains available but fails closed.
       console.error("[auth] MFA grant consume failed", {
         userId: token.sub,
-        message: error instanceof Error ? error.message : String(error),
+        ...mfaErrorMetadata(error),
       });
     }
   }

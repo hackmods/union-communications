@@ -8,7 +8,7 @@
 
 import { eq } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
-import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
+import { mfaErrorMetadata, noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
 import { mustFailClosedOnMfaDurableStoreError } from "@/lib/auth/mfa-durable-store-policy";
 import {
   decryptTotpSecret,
@@ -88,7 +88,7 @@ export async function setPendingSecret(
     } catch (error) {
       console.error("[auth] MFA pending enrollment encrypt failed", {
         userId,
-        message: error instanceof Error ? error.message : String(error),
+        ...mfaErrorMetadata(error),
       });
       throw error;
     }
@@ -114,7 +114,7 @@ export async function setPendingSecret(
         "[auth] MFA pending enrollment Postgres write failed",
         {
           userId,
-          message: error instanceof Error ? error.message : String(error),
+          ...mfaErrorMetadata(error),
         },
       );
       noteMfaDurableFallback("pending_enrollment");
@@ -165,7 +165,7 @@ export async function getPendingSecret(
         "[auth] MFA pending enrollment Postgres read failed",
         {
           userId,
-          message: error instanceof Error ? error.message : String(error),
+          ...mfaErrorMetadata(error),
         },
       );
       noteMfaDurableFallback("pending_enrollment");

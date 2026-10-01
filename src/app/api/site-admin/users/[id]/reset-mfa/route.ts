@@ -5,6 +5,7 @@ import { users } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
+import { mfaErrorMetadata } from "@/lib/auth/mfa-durable-fallback-signal";
 import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 import { clearTotpEnrollmentForUser, getSessionVersionForUser } from "@/lib/auth/mfa-user-secret";
 import { issueMfaGrant } from "@/lib/auth/mfa-grants";
@@ -214,7 +215,7 @@ export async function POST(
     } catch (error) {
       console.error("[auth] MFA self-reset grant issue failed", {
         userId: target.id,
-        message: error instanceof Error ? error.message : String(error),
+        ...mfaErrorMetadata(error),
       });
     }
   }
