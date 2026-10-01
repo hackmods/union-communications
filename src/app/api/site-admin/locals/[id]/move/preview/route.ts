@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
-import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
 import { auditLog } from "@/lib/audit/store";
 import { isPostgresConfigured } from "@/lib/db/client";
@@ -17,7 +16,6 @@ const previewSchema = z
     localNumber: z.string().min(1).max(32).optional(),
     endOtherMembershipsInDestination: z.boolean().optional(),
     allowDemoMismatch: z.boolean().optional(),
-    mfaCode: z.string().max(32).optional(),
   })
   .strict();
 
@@ -26,7 +24,8 @@ type Params = { params: Promise<{ id: string }> };
 /**
  * POST /api/site-admin/locals/[id]/move/preview
  *
- * Fresh MFA required. Returns impact counts, hard blocks, and warnings.
+ * Site Admin session required. Returns impact counts, hard blocks, and
+ * warnings. Fresh MFA is required only on the commit route.
  */
 export async function POST(req: Request, { params }: Params) {
   const correlation = createAuditRequestContext();
@@ -90,35 +89,6 @@ export async function POST(req: Request, { params }: Params) {
       requestId: correlation.requestId,
       metadata,
     });
-
-  const challenge = await verifyFreshMfaStepUp({
-    userId: gate.session.user.id,
-    code: parsed.data.mfaCode,
-  });
-  if (!challenge.ok) {
-    try {
-      await recordOutcome(challenge.outcome, {
-        reason: `mfa_step_up_${challenge.code}`,
-      });
-    } catch {
-      return respond(
-        { error: "Audit service unavailable", code: "audit_unavailable" },
-        503,
-      );
-    }
-    const headers = new Headers();
-    if (challenge.retryAfterSeconds) {
-      headers.set("Retry-After", String(challenge.retryAfterSeconds));
-    }
-    return respond(
-      {
-        error: "Fresh MFA is required before previewing a local move.",
-        code: `mfa_step_up_${challenge.code}`,
-      },
-      challenge.status,
-      headers,
-    );
-  }
 
   try {
     try {

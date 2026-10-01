@@ -59,13 +59,6 @@ describe("POST /api/site-admin/locals/[id]/move/preview", () => {
     mocks.isPostgresConfigured.mockReturnValue(true);
     mocks.isOwnerDbConfigured.mockReturnValue(true);
     mocks.auditLog.mockResolvedValue({});
-    mocks.freshMfaStepUp.mockImplementation(({ code }: { code?: string }) =>
-      Promise.resolve(
-        code
-          ? { ok: true, required: true }
-          : { ok: false, status: 428, code: "required", outcome: "denied" },
-      ),
-    );
     mocks.previewLocalMove.mockResolvedValue({
       ok: true,
       data: {
@@ -97,24 +90,16 @@ describe("POST /api/site-admin/locals/[id]/move/preview", () => {
     });
   });
 
-  it("requires fresh MFA before preview", async () => {
+  it("returns preview without MFA", async () => {
     const response = await previewMove(
       request({ toUnionId: "union-b" }),
-      params(),
-    );
-    expect(response.status).toBe(428);
-    expect(mocks.previewLocalMove).not.toHaveBeenCalled();
-  });
-
-  it("returns preview after MFA", async () => {
-    const response = await previewMove(
-      request({ toUnionId: "union-b", mfaCode: "123456" }),
       params(),
     );
     expect(response.status).toBe(200);
     const body = await response.json();
     expect(body.ok).toBe(true);
     expect(body.preview.canMove).toBe(true);
+    expect(mocks.freshMfaStepUp).not.toHaveBeenCalled();
     expect(mocks.previewLocalMove).toHaveBeenCalledWith(
       expect.objectContaining({ localId: "local-1", toUnionId: "union-b" }),
     );
@@ -123,7 +108,7 @@ describe("POST /api/site-admin/locals/[id]/move/preview", () => {
   it("fails closed without owner DB", async () => {
     mocks.isOwnerDbConfigured.mockReturnValue(false);
     const response = await previewMove(
-      request({ toUnionId: "union-b", mfaCode: "123456" }),
+      request({ toUnionId: "union-b" }),
       params(),
     );
     expect(response.status).toBe(503);

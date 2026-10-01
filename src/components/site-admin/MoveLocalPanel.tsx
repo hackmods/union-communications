@@ -82,9 +82,6 @@ export function MoveLocalPanel({
   const [preview, setPreview] = useState<PreviewPayload | null>(null);
   const [busy, setBusy] = useState(false);
   const [mfaCode, setMfaCode] = useState("");
-  const [pendingAction, setPendingAction] = useState<"preview" | "commit" | null>(
-    null,
-  );
   const [stepUp, setStepUp] = useState(false);
   const [resultUnconfirmed, setResultUnconfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -230,7 +227,7 @@ export function MoveLocalPanel({
           : {}),
         endOtherMembershipsInDestination: endOtherMemberships,
         allowDemoMismatch,
-        ...(code ? { mfaCode: code } : {}),
+        ...(action === "commit" && code ? { mfaCode: code } : {}),
       };
       if (action === "commit") {
         body.confirmLocalNumber = confirmNumber.trim();
@@ -255,8 +252,7 @@ export function MoveLocalPanel({
       };
 
       if (!response.ok) {
-        if (data.code?.startsWith("mfa_step_up_")) {
-          setPendingAction(action);
+        if (action === "commit" && data.code?.startsWith("mfa_step_up_")) {
           setStepUp(true);
           setError(mapError(data.code, data.error ?? t("localMoveFailed")));
           if (data.code !== "mfa_step_up_required") setMfaCode("");
@@ -270,7 +266,6 @@ export function MoveLocalPanel({
       }
 
       setStepUp(false);
-      setPendingAction(null);
       setMfaCode("");
 
       if (action === "preview" && data.preview) {
@@ -372,12 +367,12 @@ export function MoveLocalPanel({
         </Callout>
       ) : null}
 
-      {stepUp && pendingAction ? (
+      {stepUp ? (
         <form
           className="flex w-full flex-col gap-2"
           onSubmit={(event) => {
             event.preventDefault();
-            void run(pendingAction, mfaCode);
+            void run("commit", mfaCode);
           }}
         >
           <Input
@@ -400,7 +395,6 @@ export function MoveLocalPanel({
               disabled={busy}
               onClick={() => {
                 setStepUp(false);
-                setPendingAction(null);
                 setMfaCode("");
               }}
             >

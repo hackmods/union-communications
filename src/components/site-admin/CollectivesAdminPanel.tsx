@@ -104,7 +104,6 @@ export function CollectivesAdminPanel({ rows, footer }: Props) {
                             ? t("collectiveDeleteBlocked")
                             : null
                         }
-                        stackActions
                       />
                     </div>
                   </li>

@@ -9586,7 +9586,7 @@
       "localMoveWarningCollectiveCleared": "Le lien de collectif actuel sera effacé sauf si vous choisissez un collectif de destination.",
       "localMoveWarningDemoAck": "Vous avez choisi d’autoriser un écart démo / non démo pour ce déplacement.",
       "localMoveHeading": "Déplacer la section {number}",
-      "localMoveMfaNote": "L’aperçu et la confirmation exigent chacun un code d’authentification frais.",
+      "localMoveMfaNote": "La confirmation exige un code d’authentification frais.",
       "localMoveErrorTitle": "Déplacement échoué",
       "localMoveOwnerDbBannerTitle": "Base de données propriétaire requise pour les déplacements",
       "localMovePostgresRequired": "Postgres doit être configuré avant de pouvoir déplacer des sections entre syndicats.",

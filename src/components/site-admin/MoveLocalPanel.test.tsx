@@ -32,7 +32,6 @@ function renderPanel(
         localNumber="7"
         currentUnionId="union-a"
         ownerDbReady
-        stackActions
         onCancel={vi.fn()}
         {...props}
       />
@@ -78,20 +77,13 @@ describe("MoveLocalPanel", () => {
     expect(select.textContent).not.toContain("Other Beta");
   });
 
-  it("shows titled MFA step-up and preview headline after MFA", async () => {
+  it("shows preview without MFA and step-up only on commit", async () => {
     vi.mocked(global.fetch)
       .mockResolvedValueOnce({
         ok: true,
         json: async () => ({
           unions: [{ id: "union-b", name: "Destination" }],
           collectives: [],
-        }),
-      } as Response)
-      .mockResolvedValueOnce({
-        ok: false,
-        json: async () => ({
-          error: "Fresh MFA required",
-          code: "mfa_step_up_required",
         }),
       } as Response)
       .mockResolvedValueOnce({
@@ -124,6 +116,13 @@ describe("MoveLocalPanel", () => {
             canMove: true,
           },
         }),
+      } as Response)
+      .mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({
+          error: "Fresh MFA required",
+          code: "mfa_step_up_required",
+        }),
       } as Response);
 
     renderPanel();
@@ -138,16 +137,6 @@ describe("MoveLocalPanel", () => {
     fireEvent.click(screen.getByRole("button", { name: /Preview move/i }));
 
     await waitFor(() =>
-      expect(screen.getByLabelText(/Your authenticator code/i)).toBeTruthy(),
-    );
-    expect(screen.getByText("Move failed")).toBeTruthy();
-
-    fireEvent.change(screen.getByLabelText(/Your authenticator code/i), {
-      target: { value: "123456" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: /^Confirm$/i }));
-
-    await waitFor(() =>
       expect(screen.getByTestId("local-move-preview")).toBeTruthy(),
     );
     expect(
@@ -156,8 +145,22 @@ describe("MoveLocalPanel", () => {
     expect(screen.getByText(/1 portal circles/i)).toBeTruthy();
     expect(screen.getByRole("button", { name: /Refresh preview/i })).toBeTruthy();
     expect(
+      screen.queryByLabelText(/Your authenticator code/i),
+    ).toBeNull();
+
+    fireEvent.click(
+      screen.getByLabelText(/I understand these warnings and want to move this local/i),
+    );
+    fireEvent.change(
       screen.getByLabelText(/Type the current local number to confirm/i),
-    ).toBeTruthy();
+      { target: { value: "7" } },
+    );
+    fireEvent.click(screen.getByRole("button", { name: /Move local/i }));
+
+    await waitFor(() =>
+      expect(screen.getByLabelText(/Your authenticator code/i)).toBeTruthy(),
+    );
+    expect(screen.getByText("Move failed")).toBeTruthy();
   });
 
   it("shows owner DB banner and disables preview when host is not ready", async () => {

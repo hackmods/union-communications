@@ -159,7 +159,6 @@ export function LocalsAdminPanel({
                       <div className="mt-3 border-t border-opseu-gray/10 pt-3">
                         <LocalLifecycleActions
                           {...lifecycleProps(row, collectiveName)}
-                          stackActions
                         />
                       </div>
                     </li>
@@ -231,7 +230,6 @@ export function LocalsAdminPanel({
                 currentUnionId={unionId}
                 archived={Boolean(movingRow.archivedAt)}
                 ownerDbReady={ownerDbReady}
-                stackActions
                 onCancel={() => setMovingLocalId(null)}
               />
             </div>

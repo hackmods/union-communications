@@ -9640,7 +9640,7 @@
       "localMoveWarningCollectiveCleared": "The current collective binding will be cleared unless you pick a destination collective.",
       "localMoveWarningDemoAck": "You chose to allow a demo / non-demo mismatch for this move.",
       "localMoveHeading": "Move local {number}",
-      "localMoveMfaNote": "Preview and commit each need a fresh authenticator code.",
+      "localMoveMfaNote": "Commit needs a fresh authenticator code.",
       "localMoveErrorTitle": "Move failed",
       "localMoveOwnerDbBannerTitle": "Owner database required for moves",
       "localMovePostgresRequired": "Postgres must be configured before locals can move across unions.",

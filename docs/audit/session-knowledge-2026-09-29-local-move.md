@@ -24,7 +24,7 @@ Canonical UI: Organization structure → Open structure → **Move** on a local 
 | Storage keys | Leave opaque; auth follows updated meta |
 | Audit history | Append-only — `site_admin.local.move` / `move_preview` |
 | Postgres + owner DB | Required (`MIGRATE_DATABASE_URL`); banner on org structure when missing |
-| Fresh MFA | Required for preview and commit |
+| Fresh MFA | Required for **commit** only (preview is Site Admin session + backend gates) |
 | Cascade errors | Fail closed (only missing-relation skips in slim DBs) |
 
 ## Polish (2026-09-30)
@@ -34,9 +34,15 @@ Canonical UI: Organization structure → Open structure → **Move** on a local 
 - Concurrent-change vs already-there codes; titled errors; refresh preview
 - Component RTL coverage + optional live smoke via `E2E_SITE_ADMIN_EMAIL`
 
+## Polish (2026-10-01)
+
+- Dropped fresh MFA from preview (TOTP replay made preview+commit two-code waits);
+  commit still requires step-up + typed confirm
+- Side-by-side action buttons (no forced `stackActions` on Move panel / mobile cards)
+
 ## APIs
 
-- `POST /api/site-admin/locals/[id]/move/preview` — MFA, impact + blocks + warnings
+- `POST /api/site-admin/locals/[id]/move/preview` — impact + blocks + warnings (no MFA)
 - `POST /api/site-admin/locals/[id]/move` — MFA, typed confirm, dual-phase audit, execute
 
 Engine: [`src/lib/site-admin/local-move.ts`](../../src/lib/site-admin/local-move.ts)  
