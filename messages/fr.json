@@ -10016,6 +10016,17 @@
       "continueToWork": "Continuer",
       "backToDashboard": "Retour au tableau de bord",
       "setupCta": "Configurer une appli d'authentification",
+      "statusUnavailable": {
+        "title": "Le statut AMF est temporairement indisponible",
+        "body": "Nous n’avons pas pu confirmer le statut de l’authenticator de ce compte. Votre accès n’a pas été modifié. Réessayez dans un instant ou communiquez la référence ci-dessous à la personne qui gère le Hub des dirigeants.",
+        "retry": "Réessayer la vérification",
+        "reference": "Référence : {requestId}"
+      },
+      "statusExpired": {
+        "title": "Votre connexion a expiré",
+        "body": "Reconnectez-vous avant de vérifier ou de modifier la configuration de l’authenticator.",
+        "cta": "Se reconnecter"
+      },
       "context": {
         "grievances": {
           "title": "Vérification de sécurité rapide",

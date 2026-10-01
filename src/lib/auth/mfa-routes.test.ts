@@ -139,6 +139,24 @@ describe("MFA API routes", () => {
       expect(sessionMfaOk(resetOfficer, process.env)).toBe(false);
     });
 
+    it("returns a stable unavailable response when enrollment status cannot be read", async () => {
+      process.env.AUTH_MFA_ENABLED = "true";
+      process.env.AUTH_MFA_MODE = "totp";
+      authMock.mockResolvedValue(session({ id: "status-unavailable-user" }));
+      const userSecretModule = await import("@/lib/auth/mfa-user-secret");
+      const secretRead = vi.spyOn(userSecretModule, "getTotpSecretForUser")
+        .mockRejectedValueOnce(new Error("simulated secret storage failure"));
+      const response = await mfaStatus();
+      secretRead.mockRestore();
+
+      expect(response.status).toBe(503);
+      expect(response.headers.get("X-Request-ID")).toMatch(/^[0-9a-f-]{36}$/i);
+      expect(await response.json()).toMatchObject({
+        code: "status_unavailable",
+        requestId: expect.any(String),
+      });
+    });
+
     it("does not require TOTP enrollment for a basic local member in hosted mode", async () => {
       (process.env as Record<string, string | undefined>).NODE_ENV = "production";
       process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";

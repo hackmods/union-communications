@@ -9734,6 +9734,17 @@
       "continueToWork": "Continue",
       "backToDashboard": "Back to dashboard",
       "setupCta": "Set up an authenticator app",
+      "statusUnavailable": {
+        "title": "MFA status is temporarily unavailable",
+        "body": "We could not confirm this account’s authenticator status. Your access has not been changed. Retry in a moment or share the reference below with the Officer Hub operator.",
+        "retry": "Retry status check",
+        "reference": "Reference: {requestId}"
+      },
+      "statusExpired": {
+        "title": "Your sign-in has expired",
+        "body": "Sign in again before checking or changing authenticator setup.",
+        "cta": "Sign in again"
+      },
       "context": {
         "grievances": {
           "title": "Quick security check",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
@@ -50,6 +50,8 @@ export function MfaPageClient() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [mfaStatus, setMfaStatus] = useState<MfaStatus | null>(null);
+  const [statusLoad, setStatusLoad] = useState<"loading" | "ready" | "unavailable" | "expired">("loading");
+  const [statusRequestId, setStatusRequestId] = useState<string | null>(null);
   const [newRecoveryCodes, setNewRecoveryCodes] = useState<string[]>([]);
   const [rotatingRecoveryCodes, setRotatingRecoveryCodes] = useState(false);
   const [rotateError, setRotateError] = useState<string | null>(null);
@@ -62,49 +64,96 @@ export function MfaPageClient() {
     }
   }, [status, router]);
 
+  const loadMfaStatus = useCallback(async () => {
+    setStatusLoad("loading");
+    setStatusRequestId(null);
+    try {
+      const response = await fetch("/api/mfa/status", { cache: "no-store" });
+      if (response.status === 401) {
+        setMfaStatus(null);
+        setStatusLoad("expired");
+        return;
+      }
+      const data = await response.json().catch(() => null) as
+        | (Partial<MfaStatus> & { requestId?: string })
+        | null;
+      if (
+        !response.ok ||
+        !data ||
+        typeof data.enabled !== "boolean" ||
+        typeof data.required !== "boolean" ||
+        typeof data.enrolled !== "boolean" ||
+        typeof data.needsEnrollment !== "boolean" ||
+        typeof data.mfaVerified !== "boolean" ||
+        typeof data.reenrollGrace !== "boolean" ||
+        !(data.mode === null || typeof data.mode === "string")
+      ) {
+        setMfaStatus(null);
+        setStatusRequestId(data?.requestId ?? response.headers.get("X-Request-ID"));
+        setStatusLoad("unavailable");
+        return;
+      }
+      setMfaStatus({
+        enabled: data.enabled,
+        required: data.required,
+        mode: data.mode ?? null,
+        enrolled: data.enrolled,
+        needsEnrollment: data.needsEnrollment,
+        mfaVerified: data.mfaVerified,
+        reenrollGrace: data.reenrollGrace,
+        recoveryCodesRemaining:
+          typeof data.recoveryCodesRemaining === "number"
+            ? data.recoveryCodesRemaining
+            : null,
+      });
+      setStatusLoad("ready");
+    } catch {
+      setMfaStatus(null);
+      setStatusLoad("unavailable");
+    }
+  }, []);
+
   useEffect(() => {
     if (status !== "authenticated") return;
-    let cancelled = false;
-    void fetch("/api/mfa/status")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: Partial<MfaStatus> | null) => {
-        if (cancelled || !data) {
-          if (!cancelled) setMfaStatus(null);
-          return;
-        }
-        setMfaStatus({
-          enabled: Boolean(data.enabled),
-          required: Boolean(data.required),
-          mode: data.mode ?? null,
-          enrolled: Boolean(data.enrolled),
-          needsEnrollment: Boolean(data.needsEnrollment),
-          mfaVerified: Boolean(data.mfaVerified),
-          reenrollGrace: Boolean(data.reenrollGrace),
-          recoveryCodesRemaining:
-            typeof data.recoveryCodesRemaining === "number"
-              ? data.recoveryCodesRemaining
-              : null,
-        });
-      })
-      .catch(() => {
-        if (!cancelled) setMfaStatus(null);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [status]);
+    void Promise.resolve().then(loadMfaStatus);
+  }, [status, loadMfaStatus]);
 
   const resume = () => {
     router.push(nextPath ?? "/app");
   };
 
-  if (status === "loading" || !session?.user || mfaStatus === null) {
+  if (status === "loading" || !session?.user || statusLoad === "loading") {
     return (
       <PageShell size="nestedAuth" className="py-4 md:py-6">
         <p className="text-gray-600" aria-live="polite">
           {t("sessionLoading")}
         </p>
       </PageShell>
+    );
+  }
+
+  if (statusLoad === "expired") {
+    return (
+      <MfaJourneyShell title={tJourney("statusExpired.title")}>
+        <p className="text-sm text-gray-700">{tJourney("statusExpired.body")}</p>
+        <Link href="/app/login" className="mt-3 inline-block font-medium text-opseu-blue underline">
+          {tJourney("statusExpired.cta")}
+        </Link>
+      </MfaJourneyShell>
+    );
+  }
+
+  if (statusLoad === "unavailable" || !mfaStatus) {
+    return (
+      <MfaJourneyShell title={tJourney("statusUnavailable.title")}>
+        <p className="text-sm text-gray-700">{tJourney("statusUnavailable.body")}</p>
+        {statusRequestId ? (
+          <p className="mt-2 text-xs text-gray-500">{tJourney("statusUnavailable.reference", { requestId: statusRequestId })}</p>
+        ) : null}
+        <Button type="button" className="mt-3 min-h-11" onClick={() => void loadMfaStatus()}>
+          {tJourney("statusUnavailable.retry")}
+        </Button>
+      </MfaJourneyShell>
     );
   }
 

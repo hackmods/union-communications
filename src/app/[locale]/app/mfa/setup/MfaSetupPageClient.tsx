@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
@@ -28,6 +28,8 @@ import {
 
 type EnrollState =
   | "loadingStatus"
+  | "statusUnavailable"
+  | "statusExpired"
   | "replaceGate"
   | "idle"
   | "loading"
@@ -54,6 +56,7 @@ export function MfaSetupPageClient() {
   const [code, setCode] = useState("");
   const [replaceCode, setReplaceCode] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [statusRequestId, setStatusRequestId] = useState<string | null>(null);
   const [confirmCanContinueToChallenge, setConfirmCanContinueToChallenge] =
     useState(false);
   const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
@@ -73,32 +76,47 @@ export function MfaSetupPageClient() {
     }
   }, [status, router]);
 
+  const loadSetupStatus = useCallback(async () => {
+    setState("loadingStatus");
+    setStatusRequestId(null);
+    try {
+      const response = await fetch("/api/mfa/status", { cache: "no-store" });
+      if (response.status === 401) {
+        setState("statusExpired");
+        return;
+      }
+      const data = await response.json().catch(() => null) as
+        | { enabled?: boolean; enrolled?: boolean; mode?: string | null; requestId?: string }
+        | null;
+      if (
+        !response.ok ||
+        !data ||
+        typeof data.enabled !== "boolean" ||
+        typeof data.enrolled !== "boolean" ||
+        !(data.mode === null || typeof data.mode === "string")
+      ) {
+        setStatusRequestId(data?.requestId ?? response.headers.get("X-Request-ID"));
+        setState("statusUnavailable");
+        return;
+      }
+      if (data.mode && data.mode !== "totp") {
+        router.replace(hubMfaChallengeHref(nextPath));
+        return;
+      }
+      if (data.enrolled && !replaceMode) {
+        router.replace(hubMfaChallengeHref(nextPath));
+        return;
+      }
+      setState(data.enrolled && replaceMode ? "replaceGate" : "idle");
+    } catch {
+      setState("statusUnavailable");
+    }
+  }, [nextPath, replaceMode, router]);
+
   useEffect(() => {
     if (status !== "authenticated") return;
-    let cancelled = false;
-    void fetch("/api/mfa/status")
-      .then((res) => (res.ok ? res.json() : null))
-      .then(
-        (data: { enrolled?: boolean; mode?: string | null } | null) => {
-          if (cancelled) return;
-          if (data?.mode && data.mode !== "totp") {
-            router.replace(hubMfaChallengeHref(nextPath));
-            return;
-          }
-          if (data?.enrolled && !replaceMode) {
-            router.replace(hubMfaChallengeHref(nextPath));
-            return;
-          }
-          setState(data?.enrolled && replaceMode ? "replaceGate" : "idle");
-        },
-      )
-      .catch(() => {
-        if (!cancelled) setState("idle");
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [status, replaceMode, nextPath, router]);
+    void Promise.resolve().then(loadSetupStatus);
+  }, [status, loadSetupStatus]);
 
   if (status === "loading" || !session?.user || state === "loadingStatus") {
     return (
@@ -107,6 +125,31 @@ export function MfaSetupPageClient() {
           {t("sessionLoading")}
         </p>
       </PageShell>
+    );
+  }
+
+  if (state === "statusExpired") {
+    return (
+      <MfaJourneyShell title={tJourney("statusExpired.title")}>
+        <p className="text-sm text-gray-700">{tJourney("statusExpired.body")}</p>
+        <Link href="/app/login" className="mt-3 inline-block font-medium text-opseu-blue underline">
+          {tJourney("statusExpired.cta")}
+        </Link>
+      </MfaJourneyShell>
+    );
+  }
+
+  if (state === "statusUnavailable") {
+    return (
+      <MfaJourneyShell title={tJourney("statusUnavailable.title")}>
+        <p className="text-sm text-gray-700">{tJourney("statusUnavailable.body")}</p>
+        {statusRequestId ? (
+          <p className="mt-2 text-xs text-gray-500">{tJourney("statusUnavailable.reference", { requestId: statusRequestId })}</p>
+        ) : null}
+        <Button type="button" className="mt-3 min-h-11" onClick={() => void loadSetupStatus()}>
+          {tJourney("statusUnavailable.retry")}
+        </Button>
+      </MfaJourneyShell>
     );
   }
 
@@ -161,9 +204,8 @@ export function MfaSetupPageClient() {
     }
   };
 
-  const handleConfirm = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const kind = classifySubmittedMfaCode(code);
+  const confirmWithCode = async (submittedCode: string) => {
+    const kind = classifySubmittedMfaCode(submittedCode);
     if (kind !== "totp") {
       setError(mapApiError(kind === "empty" ? "empty" : "invalid", t("mfaSetupError")));
       return;
@@ -177,7 +219,7 @@ export function MfaSetupPageClient() {
       const res = await fetch("/api/mfa/enroll/confirm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code: submittedCode }),
       });
 
       if (!res.ok) {
@@ -218,6 +260,11 @@ export function MfaSetupPageClient() {
       setState("ready");
       confirmLockRef.current = false;
     }
+  };
+
+  const handleConfirm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await confirmWithCode(code);
   };
 
   if (state === "done") {
@@ -366,14 +413,11 @@ export function MfaSetupPageClient() {
               onChange={setCode}
               disabled={state === "confirming"}
               autoFocus
-              onTotpComplete={() => {
-                if (state === "ready") {
-                  const form = document.getElementById(
-                    "mfa-setup-confirm-form",
-                  ) as HTMLFormElement | null;
-                  form?.requestSubmit();
-                }
-              }}
+            onTotpComplete={(totp) => {
+              if (state === "ready") {
+                void confirmWithCode(totp);
+              }
+            }}
             />
             {error ? (
               <div className="space-y-1" role="alert">
