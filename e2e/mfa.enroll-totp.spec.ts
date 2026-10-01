@@ -24,16 +24,20 @@ test.describe("MFA TOTP enrollment", () => {
 
     await page.getByRole("button", { name: /Generate setup code|Générer/i }).click();
     await page.getByText(/Can't scan the QR code|Impossible de scanner/i).click();
-    const secret = (await page.locator("p.font-mono").innerText()).trim();
-    expect(secret).toMatch(/^[A-Z2-7]+$/);
+    const secretField = page.locator("details p.font-mono");
+    await expect(secretField).toHaveText(/^[A-Z2-7]+$/);
+    const secret = (await secretField.innerText()).trim();
 
-    const code = generateTotp(secret);
+    // Generate against the app's HTTP clock. Local browser runners and a
+    // containerized app can have enough clock skew to exceed the TOTP window.
+    const clockResponse = await page.request.get("/api/health");
+    const serverDate = clockResponse.headers()["date"];
+    expect(serverDate, "app response should include its server clock").toBeTruthy();
+    const code = generateTotp(secret, Date.parse(serverDate!));
     const codeField = page.getByLabel(/6-digit code|code à 6 chiffres/i);
     await codeField.fill(code);
-    const confirm = page.getByRole("button", { name: /Confirm and enable|Confirmer et activer/i });
-    if (await confirm.isVisible().catch(() => false)) {
-      await confirm.click();
-    }
+    // Filling six digits must submit the exact completed value on its own.
+    // A manual Confirm click here would hide a broken auto-submit path.
     await expect(
       page.getByRole("heading", {
         level: 1,
