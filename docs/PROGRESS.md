@@ -1,3 +1,9 @@
+## 2026-09-30 — Hosted Free/Member/Paid dark launch (ADR-024)
+
+- Access class Free vs Full; Member and Paid share Full. Union inherit + local override + optional subsets.
+- CapRover `UNIONOPS_HOSTED_PLANS_ENABLED` (default off). Host readiness CapRover paste + Site Admin `/app/site-admin/hosted-plans`.
+- Migration `0093_hosted_plans`. Operator guide: [`HOSTED_PLANS.md`](guides/HOSTED_PLANS.md). No public pricing.
+
 ﻿## 2026-09-30 — Brand Lookbook uplift (smoke, nav, SEO, admin QA)
 
 - Phase 1: `@smoke` axe for `/brand-kit/showcase` + Site Admin compact lookbook; sticky lookbook nav with scroll-spy `aria-current`.

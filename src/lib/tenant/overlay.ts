@@ -4,6 +4,7 @@ import type {
   PortalSurfaceId,
   PresidentRoleToolId,
 } from "@/lib/president/module-catalog";
+import type { HostedPlanRecord } from "@/lib/tenant/hosted-plans";
 import type {
   BargainingUnit,
   BrandDefaults,
@@ -41,6 +42,9 @@ const brandThemePatches = new Map<
   string,
   BrandDefaults["brandTheme"] | null
 >();
+/** Hosted plan patches (ADR-024) — keyed by union id or local id. */
+const unionHostedPlanPatches = new Map<string, HostedPlanRecord>();
+const localHostedPlanPatches = new Map<string, HostedPlanRecord>();
 /** True after Postgres tenant rows were merged into this process overlay. */
 let hydratedFromDb = false;
 
@@ -262,6 +266,32 @@ export function setBrandThemePatch(
       seed.brandDefaults = next;
     }
   }
+}
+
+export function getUnionHostedPlanPatch(
+  unionId: string,
+): HostedPlanRecord | undefined {
+  return unionHostedPlanPatches.get(unionId);
+}
+
+export function setUnionHostedPlanPatch(
+  unionId: string,
+  plan: HostedPlanRecord,
+): void {
+  unionHostedPlanPatches.set(unionId, plan);
+}
+
+export function getLocalHostedPlanPatch(
+  localId: string,
+): HostedPlanRecord | undefined {
+  return localHostedPlanPatches.get(localId);
+}
+
+export function setLocalHostedPlanPatch(
+  localId: string,
+  plan: HostedPlanRecord,
+): void {
+  localHostedPlanPatches.set(localId, plan);
 }
 
 export function setPortalSurfacesPatch(
@@ -520,6 +550,7 @@ export function removeOverlayUnion(unionId: string): void {
   presidentRoleToolsPatches.delete(unionId);
   commsPresetPatches.delete(unionId);
   brandThemePatches.delete(unionId);
+  unionHostedPlanPatches.delete(unionId);
 }
 
 /** Update display name on an overlay seed (no-op when missing). */
@@ -549,5 +580,7 @@ export function resetTenantOverlayForTests(): void {
   presidentRoleToolsPatches.clear();
   commsPresetPatches.clear();
   brandThemePatches.clear();
+  unionHostedPlanPatches.clear();
+  localHostedPlanPatches.clear();
   hydratedFromDb = false;
 }

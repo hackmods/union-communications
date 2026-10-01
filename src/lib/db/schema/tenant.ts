@@ -76,6 +76,28 @@ export const unions = pgTable("unions", {
   outreachListsEnabled: boolean("outreach_lists_enabled")
     .notNull()
     .default(false),
+  /**
+   * Hosted plan defaults (ADR-024). Locals inherit when their own class is unset.
+   * CapRover UNIONOPS_HOSTED_PLANS_ENABLED must be true before caps enforce.
+   */
+  hostedAccessClass: text("hosted_access_class").notNull().default("unset"),
+  hostedCommercialClass: text("hosted_commercial_class")
+    .notNull()
+    .default("unset"),
+  hostedSeatSku: text("hosted_seat_sku"),
+  hostedSeatCap: integer("hosted_seat_cap"),
+  hostedModuleSubset: jsonb("hosted_module_subset").$type<string[]>(),
+  hostedPortalSurfaceSubset: jsonb(
+    "hosted_portal_surface_subset",
+  ).$type<string[]>(),
+  hostedDonationAcknowledged: boolean("hosted_donation_acknowledged")
+    .notNull()
+    .default(false),
+  hostedPlanNotes: text("hosted_plan_notes").notNull().default(""),
+  hostedPlanUpdatedAt: timestamp("hosted_plan_updated_at", {
+    withTimezone: true,
+  }),
+  hostedPlanUpdatedBy: text("hosted_plan_updated_by"),
 });
 
 export const divisions = pgTable("divisions", {
@@ -106,6 +128,25 @@ export const locals = pgTable(
     archivedAt: timestamp("archived_at", { withTimezone: true }),
     archivedById: text("archived_by_id"),
     isDemo: boolean("is_demo").notNull().default(false),
+    /** Hosted plan override (ADR-024); unset inherits union defaults. */
+    hostedAccessClass: text("hosted_access_class").notNull().default("unset"),
+    hostedCommercialClass: text("hosted_commercial_class")
+      .notNull()
+      .default("unset"),
+    hostedSeatSku: text("hosted_seat_sku"),
+    hostedSeatCap: integer("hosted_seat_cap"),
+    hostedModuleSubset: jsonb("hosted_module_subset").$type<string[]>(),
+    hostedPortalSurfaceSubset: jsonb(
+      "hosted_portal_surface_subset",
+    ).$type<string[]>(),
+    hostedDonationAcknowledged: boolean("hosted_donation_acknowledged")
+      .notNull()
+      .default(false),
+    hostedPlanNotes: text("hosted_plan_notes").notNull().default(""),
+    hostedPlanUpdatedAt: timestamp("hosted_plan_updated_at", {
+      withTimezone: true,
+    }),
+    hostedPlanUpdatedBy: text("hosted_plan_updated_by"),
   },
   (t) => [
     uniqueIndex("locals_union_number_active_uidx")

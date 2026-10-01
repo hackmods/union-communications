@@ -32,8 +32,11 @@ import {
   setBrandThemePatch,
   setDataModulePatch,
   setEnabledModulesPatch,
+  setUnionHostedPlanPatch,
+  setLocalHostedPlanPatch,
   getOverlaySeeds,
 } from "@/lib/tenant/overlay";
+import { hostedPlanFromRow } from "@/lib/tenant/hosted-plans";
 import type {
   BargainingUnit,
   BrandDefaults,
@@ -101,6 +104,14 @@ export type PersistedTenantSnapshot = {
   }>;
   locals: TenantLocal[];
   bargainingUnits: BargainingUnit[];
+  hostedUnionPlans?: Array<{
+    id: string;
+    plan: ReturnType<typeof hostedPlanFromRow>;
+  }>;
+  hostedLocalPlans?: Array<{
+    id: string;
+    plan: ReturnType<typeof hostedPlanFromRow>;
+  }>;
 };
 
 /** Merge a DB snapshot into the in-process overlay (idempotent). */
@@ -185,6 +196,13 @@ export function applyPersistedSnapshotToOverlay(
     if (STATIC_UNIT_IDS.has(unit.id)) continue;
     importOverlayCollection(unit);
   }
+
+  for (const row of snapshot.hostedUnionPlans ?? []) {
+    setUnionHostedPlanPatch(row.id, row.plan);
+  }
+  for (const row of snapshot.hostedLocalPlans ?? []) {
+    setLocalHostedPlanPatch(row.id, row.plan);
+  }
 }
 
 async function loadPersistedSnapshot(): Promise<PersistedTenantSnapshot> {
@@ -236,6 +254,16 @@ async function loadPersistedSnapshot(): Promise<PersistedTenantSnapshot> {
         code: row.code,
         name: row.name,
         ...(row.grievanceConfig ? { grievanceConfig: row.grievanceConfig } : {}),
+      })),
+    hostedUnionPlans: unionRows.map((row) => ({
+      id: row.id,
+      plan: hostedPlanFromRow(row),
+    })),
+    hostedLocalPlans: localRows
+      .filter((row) => activeUnionIds.has(row.unionId))
+      .map((row) => ({
+        id: row.id,
+        plan: hostedPlanFromRow(row),
       })),
   };
 }

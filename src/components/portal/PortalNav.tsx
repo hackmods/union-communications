@@ -120,7 +120,7 @@ export function PortalNav() {
     ? resolvePortalSurfacesForLocal(
         tenant.union.id,
         session.user.localId,
-        getPortalSurfacesForUnion(tenant.union.id),
+        getPortalSurfacesForUnion(tenant.union.id, session.user.localId),
       )
     : [...DEFAULT_PORTAL_SURFACES];
   const enabledModules = tenant?.union.enabledModules ?? [];

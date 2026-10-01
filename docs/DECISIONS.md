@@ -211,3 +211,20 @@
 - Union-wide compose/release is **union_admin** (and platform admin) only; fresh MFA on send and import. Site Admin exposes entitlements, inventory metadata, MFA-gated exact-address search, pause/resume, approval env display, and metadata-only audit export.
 
 **Consequences:** Migration `0088` adds outreach tables + RLS. Comms free lane unchanged. Production enablement requires legal approval, CapRover values, union entitlement, and live suppression/unsubscribe drills.
+
+## ADR-024: Hosted Free/Full plans (operator dark launch)
+**Status:** Accepted for engineering; public pricing deferred
+**Date:** 2026-09-30
+**Extends:** ADR-019 (Comms free; hosted Hub/Portal may recover hosting cost)
+
+**Context:** Operators need a way to opt CAAT locals into Free lite or Full hosted access, with Member (donation) vs Paid (seat SKU) as commercial labels only. Public volunteers must not see pricing or upgrade CTAs yet.
+
+**Decision:**
+- **Access class** `free` | `full` drives Hub/Portal caps. **Member and Paid share Full access.**
+- **Commercial class** `member` | `paid` is billing-only (donation note vs seat SKU). Never branch module gates on commercial class.
+- **Dual gate:** CapRover `UNIONOPS_HOSTED_PLANS_ENABLED` (default off / fail-open) **and** Site Admin assignment on union and/or local.
+- **Union defaults inherit** to locals; local may override (e.g. Free under Full). Optional module/portal subsets narrow Full.
+- No public `/pricing`, no Stripe in this ADR, no What's new billing notes. Operator guide: `docs/guides/HOSTED_PLANS.md`.
+
+**Consequences:** Migration `0093_hosted_plans`. Host readiness shows CapRover paste while dark. Flip the flag only after assigning plans.
+

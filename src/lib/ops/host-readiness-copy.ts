@@ -25,6 +25,7 @@ export const HOST_ACTION_TITLE_KEYS: Record<HostActionId, string> = {
   alertDeliveryEvidence: "hostPresenceAlertDelivery",
   publicLegalContacts: "hostPresencePublicLegalContacts",
   publicDocumentsReady: "hostPresencePublicDocuments",
+  hostedPlansDarkLaunch: "hostPresenceHostedPlans",
 };
 
 export const HOST_ACTION_CONSEQUENCE_KEYS: Record<HostActionId, string> = {
@@ -45,6 +46,7 @@ export const HOST_ACTION_CONSEQUENCE_KEYS: Record<HostActionId, string> = {
   alertDeliveryEvidence: "hostActionConsequenceAlertDelivery",
   publicLegalContacts: "hostActionConsequencePublicLegalContacts",
   publicDocumentsReady: "hostActionConsequencePublicDocuments",
+  hostedPlansDarkLaunch: "hostActionConsequenceHostedPlans",
 };
 
 export const HOST_GAP_KEYS: Record<HostEvidenceGapCode, string> = {

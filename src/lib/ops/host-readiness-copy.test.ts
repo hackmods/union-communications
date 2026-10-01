@@ -40,6 +40,7 @@ function stubHealth(): HealthStatus {
     mfaOperatorBypassConfigured: false,
     mfaDurableFallbackRecent: false,
     hostedCustomerMode: true,
+    hostedPlansEnabled: false,
     demoAuthEnabled: false,
     hostedControlEvidence: emptyHostedControlEvidence(),
     observability: {
