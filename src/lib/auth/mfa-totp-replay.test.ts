@@ -1,8 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { verifyMfaCode } from "@/lib/auth/mfa-policy";
-import { resetMfaTotpCountersForTests } from "@/lib/auth/mfa-totp-counters";
+import {
+  consumeTotpCounterForUser,
+  resetMfaTotpCountersForTests,
+} from "@/lib/auth/mfa-totp-counters";
 import { resetMfaVerificationAttemptsForTests } from "@/lib/auth/mfa-attempt-limits";
 import { generateTotp, matchTotpCounter } from "@/lib/auth/totp";
+
+vi.mock("@/lib/db/rls-context", () => ({
+  withRlsContext: vi.fn(async () => {
+    throw new Error("simulated Postgres outage");
+  }),
+}));
 
 const secret = "JBSWY3DPEHPK3PXP";
 const at = new Date("2026-09-27T16:00:00.000Z");
@@ -55,5 +64,15 @@ describe("TOTP replay protection", () => {
     ]);
 
     expect(results.filter((result) => result.ok)).toHaveLength(1);
+  });
+
+  it("does not accept a replay counter from process memory when Postgres fails", async () => {
+    await expect(
+      consumeTotpCounterForUser("user-outage", 123, {
+        AUTH_USERS_BACKEND: "postgres",
+        DATABASE_URL: "postgres://example.invalid/unionops",
+        UNIONOPS_HOSTED_CUSTOMER_MODE: "true",
+      } as unknown as NodeJS.ProcessEnv),
+    ).rejects.toThrow("simulated Postgres outage");
   });
 });

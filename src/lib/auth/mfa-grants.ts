@@ -2,6 +2,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { and, eq, isNull } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
 import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
+import { mustFailClosedOnMfaDurableStoreError } from "@/lib/auth/mfa-durable-store-policy";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { mfaSessionGrants } from "@/lib/db/schema/auth";
 import { withRlsContext } from "@/lib/db/rls-context";
@@ -86,13 +87,15 @@ export async function issueMfaGrant(
             },
           });
       });
+      memoryGrants.delete(userId);
       return nonce;
     } catch (error) {
-      console.error("[auth] MFA grant Postgres write failed; using memory fallback", {
+      console.error("[auth] MFA grant Postgres write failed", {
         userId,
         message: error instanceof Error ? error.message : String(error),
       });
       noteMfaDurableFallback("session_grant");
+      if (mustFailClosedOnMfaDurableStoreError(env)) throw error;
     }
   }
 
@@ -140,14 +143,16 @@ export async function consumeMfaGrant(
       ) {
         return true;
       }
-      // Miss on durable store: also accept an in-process grant from a prior
-      // non-hosted Postgres fallback so verify→session.update still completes.
+      // A successful durable lookup with no matching grant is authoritative.
+      // Never accept a stale in-process copy after a durable miss.
+      return false;
     } catch (error) {
-      console.error("[auth] MFA grant Postgres consume failed; trying memory fallback", {
+      console.error("[auth] MFA grant Postgres consume failed", {
         userId,
         message: error instanceof Error ? error.message : String(error),
       });
       noteMfaDurableFallback("session_grant");
+      if (mustFailClosedOnMfaDurableStoreError(env)) throw error;
     }
   }
 

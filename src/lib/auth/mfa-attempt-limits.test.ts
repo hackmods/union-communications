@@ -1,4 +1,10 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("@/lib/db/rls-context", () => ({
+  withRlsContext: vi.fn(async () => {
+    throw new Error("simulated Postgres outage");
+  }),
+}));
 import {
   MFA_ATTEMPT_LIMIT,
   MFA_ATTEMPT_WINDOW_MS,
@@ -49,21 +55,26 @@ describe("MFA verification attempt limit", () => {
     ).rejects.toThrow(/durable PostgreSQL storage/i);
   });
 
-  it("falls back to memory when Postgres attempt store throws (including hosted)", async () => {
-    const { reserveMfaVerificationAttempt: reserve } = await import(
-      "@/lib/auth/mfa-attempt-limits"
-    );
-    // Force the postgres path via env; withRlsContext no-ops without a real
-    // DATABASE_URL client when isPostgresConfigured is false — stub both.
+  it("fails closed when the selected Postgres attempt store throws", async () => {
     const env = {
       AUTH_USERS_BACKEND: "postgres",
       DATABASE_URL: "postgres://example.invalid/unionops",
       UNIONOPS_HOSTED_CUSTOMER_MODE: "true",
     };
-    // Without a live DB this still exercises the catch→memory path when the
-    // insert throws; if configuration short-circuits, memory path still allows.
-    const decision = await reserve("account-fallback", Date.now(), env);
-    expect(decision).toMatchObject({ allowed: true });
+    await expect(
+      reserveMfaVerificationAttempt("account-fallback", Date.now(), env),
+    ).rejects.toThrow("simulated Postgres outage");
+  });
+
+  it("fails closed on a selected Postgres backend outside hosted mode too", async () => {
+    const env = {
+      AUTH_USERS_BACKEND: "postgres",
+      DATABASE_URL: "postgres://example.invalid/unionops",
+      NODE_ENV: "development",
+    };
+    await expect(
+      reserveMfaVerificationAttempt("account-dev-postgres", Date.now(), env),
+    ).rejects.toThrow("simulated Postgres outage");
   });
 
   it("documents CapRover failure: Date#toString is not a Postgres timestamptz", () => {

@@ -1,4 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("@/lib/db/rls-context", () => ({
+  withRlsContext: vi.fn(async () => {
+    throw new Error("simulated Postgres outage");
+  }),
+}));
 import {
   PENDING_TTL_MS,
   clearPendingSecret,
@@ -53,6 +59,21 @@ describe("mfa-enrollment-store pending secrets", () => {
     );
     await expect(getPendingSecret("user-a")).rejects.toThrow(
       /durable PostgreSQL storage/i,
+    );
+  });
+
+  it("does not acknowledge a pending secret that failed to persist", async () => {
+    const env = {
+      AUTH_USERS_BACKEND: "postgres",
+      DATABASE_URL: "postgres://example.invalid/unionops",
+      UNIONOPS_HOSTED_CUSTOMER_MODE: "true",
+      AUTH_TOTP_ENCRYPTION_KEY: Buffer.alloc(32, 7).toString("base64"),
+    } as unknown as NodeJS.ProcessEnv;
+    await expect(
+      setPendingSecret("user-db-outage", "JBSWY3DPEHPK3PXP", Date.now(), env),
+    ).rejects.toThrow("simulated Postgres outage");
+    await expect(getPendingSecret("user-db-outage", Date.now(), env)).rejects.toThrow(
+      "simulated Postgres outage",
     );
   });
 });

@@ -1,6 +1,7 @@
 import { eq, lte, lt, or, sql } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
 import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
+import { mustFailClosedOnMfaDurableStoreError } from "@/lib/auth/mfa-durable-store-policy";
 import { toTimestamptzSqlParam } from "@/lib/auth/timestamptz-sql-param";
 import { getDb } from "@/lib/db/client";
 import { mfaVerificationAttempts } from "@/lib/db/schema/auth";
@@ -92,10 +93,9 @@ async function reserveInPostgres(
 }
 
 /**
- * Reserve one MFA verification attempt. Prefer durable Postgres so replicas
- * share the cap. If the durable write fails, fall back to process memory even
- * on hosted hosts — hard-failing here locks every sign-in behind a false
- * "storage unavailable" and is worse than a per-replica limit.
+ * Reserve one MFA verification attempt. Durable store failures remain service
+ * errors for hosted and production MFA: process memory cannot provide a shared
+ * account-wide limit across replicas. Development/demo can use memory.
  */
 export async function reserveMfaVerificationAttempt(
   userId: string,
@@ -112,12 +112,13 @@ export async function reserveMfaVerificationAttempt(
     try {
       return await reserveInPostgres(userId, now);
     } catch (error) {
-      console.error("[auth] MFA attempt-limit Postgres write failed; using memory fallback", {
+      console.error("[auth] MFA attempt-limit Postgres write failed", {
         userId,
         hosted,
         message: error instanceof Error ? error.message : String(error),
       });
       noteMfaDurableFallback("attempt_limit");
+      if (mustFailClosedOnMfaDurableStoreError(env)) throw error;
       return reserveInMemory(userId, now);
     }
   }

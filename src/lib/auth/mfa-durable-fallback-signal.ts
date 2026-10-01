@@ -1,6 +1,6 @@
 /**
- * Process-local signal when MFA durable Postgres paths fall back to memory.
- * Surfaced on /api/health as an advisory (no secrets).
+ * Process-local signal when MFA durable Postgres paths fail or cannot use
+ * memory failover. Surfaced on /api/health as an advisory (no secrets).
  */
 
 export type MfaDurableFallbackKind =

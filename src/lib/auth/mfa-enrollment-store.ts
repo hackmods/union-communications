@@ -9,6 +9,7 @@
 import { eq } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
 import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
+import { mustFailClosedOnMfaDurableStoreError } from "@/lib/auth/mfa-durable-store-policy";
 import {
   decryptTotpSecret,
   encryptTotpSecret,
@@ -79,8 +80,6 @@ export async function setPendingSecret(
 ): Promise<void> {
   assertPendingStoreAvailable(env);
   const entry: PendingEnrollment = { secret, expiresAt: now + PENDING_TTL_MS };
-  pending.set(userId, entry);
-  sharedPendingForTests?.set(userId, { ...entry });
 
   if (postgresPendingStoreEnabled(env)) {
     let stored: string;
@@ -111,19 +110,20 @@ export async function setPendingSecret(
           });
       });
     } catch (error) {
-      // Keep the in-process pending secret so Generate→Confirm on this
-      // replica still works. Hard-failing here blocks re-enrollment after
-      // reset and locks the operator out of their own Hub.
       console.error(
-        "[auth] MFA pending enrollment Postgres write failed; using memory fallback",
+        "[auth] MFA pending enrollment Postgres write failed",
         {
           userId,
           message: error instanceof Error ? error.message : String(error),
         },
       );
       noteMfaDurableFallback("pending_enrollment");
+      if (mustFailClosedOnMfaDurableStoreError(env)) throw error;
     }
   }
+
+  pending.set(userId, entry);
+  sharedPendingForTests?.set(userId, { ...entry });
 }
 
 export async function getPendingSecret(
@@ -158,14 +158,21 @@ export async function getPendingSecret(
       }
     } catch (error) {
       console.error(
-        "[auth] MFA pending enrollment Postgres read failed; trying memory fallback",
+        "[auth] MFA pending enrollment Postgres read failed",
         {
           userId,
           message: error instanceof Error ? error.message : String(error),
         },
       );
       noteMfaDurableFallback("pending_enrollment");
+      if (mustFailClosedOnMfaDurableStoreError(env)) throw error;
     }
+
+    // The durable lookup succeeded: an empty/expired row is authoritative.
+    // Do not resurrect an old process-local QR secret.
+    pending.delete(userId);
+    sharedPendingForTests?.delete(userId);
+    return null;
   }
 
   const local = liveSecret(pending.get(userId), now);

@@ -1,6 +1,7 @@
 import { eq, lt } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
 import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
+import { mustFailClosedOnMfaDurableStoreError } from "@/lib/auth/mfa-durable-store-policy";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { mfaTotpCounters } from "@/lib/db/schema/auth";
 import { withRlsContext } from "@/lib/db/rls-context";
@@ -49,11 +50,12 @@ export async function consumeTotpCounterForUser(
         return rows.length === 1;
       });
     } catch (error) {
-      console.error("[auth] TOTP replay counter Postgres write failed; using memory fallback", {
+      console.error("[auth] TOTP replay counter Postgres write failed", {
         userId,
         message: error instanceof Error ? error.message : String(error),
       });
       noteMfaDurableFallback("totp_counter");
+      if (mustFailClosedOnMfaDurableStoreError(env)) throw error;
     }
   }
 
@@ -88,13 +90,14 @@ export async function setTotpCounterForNewSecret(
       return;
     } catch (error) {
       console.error(
-        "[auth] TOTP counter seed Postgres write failed; using memory fallback",
+        "[auth] TOTP counter seed Postgres write failed",
         {
           userId,
           message: error instanceof Error ? error.message : String(error),
         },
       );
       noteMfaDurableFallback("totp_counter");
+      if (mustFailClosedOnMfaDurableStoreError(env)) throw error;
     }
   }
 

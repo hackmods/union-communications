@@ -1,4 +1,10 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("@/lib/db/rls-context", () => ({
+  withRlsContext: vi.fn(async () => {
+    throw new Error("simulated Postgres outage");
+  }),
+}));
 import {
   consumeMfaRecoveryCode,
   countUnusedMfaRecoveryCodes,
@@ -71,5 +77,19 @@ describe("MFA recovery codes", () => {
     await expect(rotateMfaRecoveryCodes("user-a", env)).rejects.toThrow(
       "durable Postgres storage",
     );
+  });
+
+  it("does not return codes that were only rotated in memory after Postgres fails", async () => {
+    const env = {
+      AUTH_USERS_BACKEND: "postgres",
+      DATABASE_URL: "postgres://example.invalid/unionops",
+      UNIONOPS_HOSTED_CUSTOMER_MODE: "true",
+    } as unknown as NodeJS.ProcessEnv;
+    await expect(rotateMfaRecoveryCodes("user-outage", env)).rejects.toThrow(
+      "simulated Postgres outage",
+    );
+    expect(await countUnusedMfaRecoveryCodes("user-outage", {
+      AUTH_USERS_BACKEND: "memory",
+    } as unknown as NodeJS.ProcessEnv)).toBe(0);
   });
 });
