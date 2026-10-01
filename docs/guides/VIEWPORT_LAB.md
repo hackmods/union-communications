@@ -47,7 +47,7 @@ Bootstrap query (all optional):
 - **Compare** — second pane; Pane B has its own preset chips
 - **Check overflow** — horizontal overflow px inside Pane A (also auto-runs after navigate/resize)
 - **Overflow badge** — dedicated readout (`data-testid="viewport-overflow-badge"`)
-- **Run axe** — axe-core on Pane A with suite / impact / incomplete / color-contrast controls; results panel supports Copy JSON / Download JSON
+- **Run axe** — axe-core on Pane A; dedicated **Axe** toolbar row with suite / impact / incomplete / color-contrast; results panel supports Show filter, Clear, Copy JSON / Download JSON; changing suite/path/viewport marks the report stale until you re-run
 - **Scale-to-fit** — when the device is larger than the lab window, the chrome scales down; the iframe’s *logical* size stays `w×h` so media queries stay honest
 
 ### Axe suite presets

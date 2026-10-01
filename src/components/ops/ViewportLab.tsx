@@ -224,6 +224,9 @@ export function ViewportLab() {
     includeIncomplete: boolean;
     colorContrast: boolean;
     axeVersion: string | null;
+    path: string;
+    width: number;
+    height: number;
   } | null>(null);
   const [axeError, setAxeError] = useState<string | null>(null);
   const [axeBusy, setAxeBusy] = useState(false);
@@ -235,6 +238,9 @@ export function ViewportLab() {
     DEFAULT_AXE_INCLUDE_INCOMPLETE,
   );
   const [axeCopyNote, setAxeCopyNote] = useState<string | null>(null);
+  const [axeKindFilter, setAxeKindFilter] = useState<"all" | "violation" | "incomplete">(
+    "all",
+  );
   const [stageSize, setStageSize] = useState({ w: 1200, h: 800 });
 
   const frameARef = useRef<HTMLIFrameElement>(null);
@@ -334,6 +340,14 @@ export function ViewportLab() {
     setPathHistory(pushPathHistory(next));
   }, []);
 
+  const clearAxeResults = useCallback(() => {
+    setAxeFindings(null);
+    setAxeReportMeta(null);
+    setAxeError(null);
+    setAxeCopyNote(null);
+    setAxeKindFilter("all");
+  }, []);
+
   const navigateFrame = useCallback(
     (raw: string) => {
       const sanitized = sanitizeViewportFramePath(raw);
@@ -349,8 +363,9 @@ export function ViewportLab() {
       rememberPath(next);
       setOverflowNote(null);
       setOverflowPx(null);
+      clearAxeResults();
     },
-    [rememberPath],
+    [rememberPath, clearAxeResults],
   );
 
   const flipOrientation = useCallback(() => {
@@ -368,8 +383,9 @@ export function ViewportLab() {
         path: swapLocaleInPath(prev.path, next),
       }));
       rememberPath(swapped);
+      clearAxeResults();
     },
-    [path, rememberPath],
+    [path, rememberPath, clearAxeResults],
   );
 
   const syncPathFromFrame = useCallback(() => {
@@ -398,6 +414,7 @@ export function ViewportLab() {
       setAxeBusy(true);
       setAxeError(null);
       setAxeCopyNote(null);
+      setAxeKindFilter("all");
       const input: AxeRunOptionsInput = {
         suite: options?.suite ?? axeSuite,
         impact: options?.impact ?? axeImpact,
@@ -419,18 +436,50 @@ export function ViewportLab() {
         includeIncomplete: result.includeIncomplete,
         colorContrast: result.colorContrast,
         axeVersion: result.axeVersion,
+        path,
+        width,
+        height,
       });
       return result;
     },
-    [axeSuite, axeImpact, includeIncomplete, includeContrast],
+    [
+      axeSuite,
+      axeImpact,
+      includeIncomplete,
+      includeContrast,
+      path,
+      width,
+      height,
+    ],
   );
+
+  const axeResultsStale = Boolean(
+    axeReportMeta &&
+      (axeReportMeta.suite !== axeSuite ||
+        axeReportMeta.impact !== axeImpact ||
+        axeReportMeta.includeIncomplete !== includeIncomplete ||
+        axeReportMeta.colorContrast !== includeContrast ||
+        axeReportMeta.path !== path ||
+        axeReportMeta.width !== width ||
+        axeReportMeta.height !== height),
+  );
+
+  const visibleAxeFindings =
+    axeFindings == null
+      ? null
+      : axeKindFilter === "all"
+        ? axeFindings
+        : axeFindings.filter((f) => f.kind === axeKindFilter);
 
   const buildAxeReportPayload = useCallback(() => {
     if (!axeFindings || !axeReportMeta) return null;
     return {
       timestamp: new Date().toISOString(),
-      path,
-      viewport: { width, height },
+      path: axeReportMeta.path,
+      viewport: {
+        width: axeReportMeta.width,
+        height: axeReportMeta.height,
+      },
       suite: axeReportMeta.suite,
       impact: axeReportMeta.impact,
       includeIncomplete: axeReportMeta.includeIncomplete,
@@ -439,7 +488,7 @@ export function ViewportLab() {
       summary: summarizeAxeFindings(axeFindings),
       findings: axeFindings,
     };
-  }, [axeFindings, axeReportMeta, path, width, height]);
+  }, [axeFindings, axeReportMeta]);
 
   const copyAxeJson = useCallback(async () => {
     const payload = buildAxeReportPayload();
@@ -609,6 +658,26 @@ export function ViewportLab() {
           >
             Check overflow
           </button>
+          <span
+            data-testid="viewport-overflow-badge"
+            className={`inline-flex min-h-11 items-center rounded-md px-3 py-2 text-xs font-medium tabular-nums ${
+              overflowPx == null
+                ? "bg-zinc-800 text-zinc-400"
+                : overflowPx === 0
+                  ? "bg-emerald-900/60 text-emerald-300"
+                  : "bg-amber-900/60 text-amber-200"
+            }`}
+          >
+            {overflowPx == null
+              ? "Overflow: —"
+              : `Overflow: ${overflowPx}px`}
+          </span>
+        </div>
+
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <span className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">
+            Axe
+          </span>
           <label className="flex min-h-11 items-center gap-2 text-xs text-zinc-400">
             Suite
             <select
@@ -645,18 +714,19 @@ export function ViewportLab() {
             data-testid="viewport-run-axe"
             disabled={axeBusy}
             onClick={() => void runAxe()}
-            className="min-h-11 rounded-md bg-zinc-800 px-3 py-2 text-sm hover:bg-zinc-700 disabled:opacity-50"
+            className="min-h-11 rounded-md bg-sky-700 px-3 py-2 text-sm font-medium hover:bg-sky-600 disabled:opacity-50"
           >
             {axeBusy ? "Running axe…" : "Run axe"}
           </button>
           <label className="flex min-h-11 items-center gap-2 text-xs text-zinc-400">
             <input
               type="checkbox"
+              data-testid="viewport-axe-contrast"
               checked={includeContrast}
               onChange={(e) => setIncludeContrast(e.target.checked)}
               className="size-4"
             />
-            axe color-contrast
+            color-contrast
           </label>
           <label className="flex min-h-11 items-center gap-2 text-xs text-zinc-400">
             <input
@@ -668,20 +738,6 @@ export function ViewportLab() {
             />
             include incomplete
           </label>
-          <span
-            data-testid="viewport-overflow-badge"
-            className={`inline-flex min-h-11 items-center rounded-md px-3 py-2 text-xs font-medium tabular-nums ${
-              overflowPx == null
-                ? "bg-zinc-800 text-zinc-400"
-                : overflowPx === 0
-                  ? "bg-emerald-900/60 text-emerald-300"
-                  : "bg-amber-900/60 text-amber-200"
-            }`}
-          >
-            {overflowPx == null
-              ? "Overflow: —"
-              : `Overflow: ${overflowPx}px`}
-          </span>
         </div>
 
         <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -797,12 +853,34 @@ export function ViewportLab() {
         </p>
       </header>
 
-      {(axeFindings || axeError) && (
+      {(axeFindings || axeError || axeBusy) && (
         <div
           data-testid="viewport-lab-axe-results"
+          role="region"
+          aria-label="Axe results"
+          aria-live="polite"
           className="max-h-64 shrink-0 overflow-auto border-b border-zinc-800 bg-zinc-900 px-3 py-2 text-xs"
         >
-          {axeError && <p className="text-red-400">Axe error: {axeError}</p>}
+          {axeBusy && (
+            <p className="mb-2 text-sky-300">
+              Running axe on Pane A… Results update when the scan finishes.
+            </p>
+          )}
+          {axeError && (
+            <p className="text-red-400">
+              Axe error: {axeError}. Wait for the framed page to finish loading,
+              then Run axe again. Hub and Portal cannot be scanned here.
+            </p>
+          )}
+          {axeResultsStale && axeFindings && !axeBusy && (
+            <p
+              data-testid="viewport-axe-stale"
+              className="mb-2 text-amber-300"
+            >
+              Suite, path, or viewport changed since this report. Run axe again
+              for a fresh scan.
+            </p>
+          )}
           {axeFindings && (
             <div className="mb-2 flex flex-wrap items-center gap-2">
               {(() => {
@@ -815,6 +893,9 @@ export function ViewportLab() {
                     {axeReportMeta?.axeVersion
                       ? ` · axe ${axeReportMeta.axeVersion}`
                       : ""}
+                    {axeReportMeta
+                      ? ` · ${axeReportMeta.path} · ${axeReportMeta.width}×${axeReportMeta.height}`
+                      : ""}
                     {" · "}
                     {summary.violations} violation
                     {summary.violations === 1 ? "" : "s"}
@@ -826,11 +907,31 @@ export function ViewportLab() {
                   </p>
                 );
               })()}
+              <label className="flex min-h-11 items-center gap-2 text-zinc-400">
+                Show
+                <select
+                  data-testid="viewport-axe-kind-filter"
+                  value={axeKindFilter}
+                  onChange={(e) =>
+                    setAxeKindFilter(
+                      e.target.value === "violation" ||
+                        e.target.value === "incomplete"
+                        ? e.target.value
+                        : "all",
+                    )
+                  }
+                  className="min-h-11 rounded-md border border-zinc-700 bg-zinc-950 px-2 text-sm text-zinc-100"
+                >
+                  <option value="all">All findings</option>
+                  <option value="violation">Violations only</option>
+                  <option value="incomplete">Incomplete only</option>
+                </select>
+              </label>
               <button
                 type="button"
                 data-testid="viewport-axe-copy-json"
                 onClick={() => void copyAxeJson()}
-                className="rounded-md bg-zinc-800 px-2 py-1 text-zinc-200 hover:bg-zinc-700"
+                className="min-h-11 rounded-md bg-zinc-800 px-3 py-2 text-zinc-200 hover:bg-zinc-700"
               >
                 Copy JSON
               </button>
@@ -838,23 +939,43 @@ export function ViewportLab() {
                 type="button"
                 data-testid="viewport-axe-download-json"
                 onClick={downloadAxeJson}
-                className="rounded-md bg-zinc-800 px-2 py-1 text-zinc-200 hover:bg-zinc-700"
+                className="min-h-11 rounded-md bg-zinc-800 px-3 py-2 text-zinc-200 hover:bg-zinc-700"
               >
                 Download JSON
+              </button>
+              <button
+                type="button"
+                data-testid="viewport-axe-clear"
+                onClick={clearAxeResults}
+                className="min-h-11 rounded-md bg-zinc-800 px-3 py-2 text-zinc-200 hover:bg-zinc-700"
+              >
+                Clear
               </button>
               {axeCopyNote && (
                 <span className="text-zinc-500">{axeCopyNote}</span>
               )}
             </div>
           )}
-          {axeFindings && axeFindings.length === 0 && (
+          {axeFindings && axeFindings.length === 0 && !axeBusy && (
             <p className="text-emerald-400">
-              No axe findings for this suite and impact filter.
+              No axe findings for this suite and impact filter. Incomplete was
+              {axeReportMeta?.includeIncomplete ? " included" : " excluded"}.
+              This is not a WCAG conformance claim.
             </p>
           )}
-          {axeFindings && axeFindings.length > 0 && (
+          {visibleAxeFindings &&
+            visibleAxeFindings.length === 0 &&
+            axeFindings &&
+            axeFindings.length > 0 &&
+            !axeBusy && (
+              <p className="text-zinc-400">
+                No findings match the current Show filter. Switch to All
+                findings or Run axe again.
+              </p>
+            )}
+          {visibleAxeFindings && visibleAxeFindings.length > 0 && (
             <ul className="space-y-2 text-amber-200">
-              {axeFindings.map((f, index) => {
+              {visibleAxeFindings.map((f, index) => {
                 const wcagTags = f.tags.filter(
                   (t) =>
                     t.startsWith("wcag") ||
