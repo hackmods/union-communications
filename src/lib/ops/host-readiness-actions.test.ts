@@ -56,6 +56,7 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     mfaOperatorBypassConfigured: false,
     mfaDurableFallbackRecent: false,
     hostedCustomerMode: true,
+    hostedPlansEnabled: false,
     demoAuthEnabled: false,
     hostedControlEvidence: emptyHostedControlEvidence({
       attachmentStorageGaps: ["approved_flag", "review_stale", "storage_config"],

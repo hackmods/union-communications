@@ -162,11 +162,13 @@ describe("hosted-plans catalog", () => {
   });
 
   it("reads CapRover env flag", () => {
-    expect(isHostedPlansEnabled({} as NodeJS.ProcessEnv)).toBe(false);
+    expect(isHostedPlansEnabled({} as unknown as NodeJS.ProcessEnv)).toBe(
+      false,
+    );
     expect(
       isHostedPlansEnabled({
         UNIONOPS_HOSTED_PLANS_ENABLED: "true",
-      } as NodeJS.ProcessEnv),
+      } as unknown as NodeJS.ProcessEnv),
     ).toBe(true);
   });
 });

@@ -129,12 +129,18 @@ export async function PATCH(request: Request) {
     action: "site_admin.hosted_plans.update",
     resourceType: body.scope,
     resourceId: body.id,
-    details: {
+    metadata: {
       scope: body.scope,
-      accessClass: body.accessClass,
-      commercialClass: body.commercialClass,
-      seatSku: body.seatSku,
-      enforcementEnabled: isHostedPlansEnabled(),
+      ...(body.accessClass !== undefined
+        ? { accessClass: body.accessClass }
+        : {}),
+      ...(body.commercialClass !== undefined
+        ? { commercialClass: body.commercialClass }
+        : {}),
+      ...(body.seatSku !== undefined
+        ? { seatSku: body.seatSku ?? "" }
+        : {}),
+      enforcementEnabled: String(isHostedPlansEnabled()),
     },
   });
 
