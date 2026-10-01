@@ -2,10 +2,11 @@
  * Live RLS smoke (SEC-003) against the non-owner application role.
  *
  * Requires migrations through the current tail, seeded Local 777 demo membership,
- * and DATABASE_URL=postgres://unionops_app:... (not the table owner).
+ * DATABASE_URL=postgres://unionops_app:... (not the table owner), and an independent
+ * MIGRATE_DATABASE_URL owner connection for direct MFA persistence assertions.
  * Run: npm run db:rls-smoke
  */
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import postgres from "postgres";
@@ -17,35 +18,91 @@ import {
   clearPendingSecret,
 } from "../src/lib/auth/mfa-enrollment-store";
 import { consumeMfaGrant, issueMfaGrant } from "../src/lib/auth/mfa-grants";
+import { isEncryptedTotpSecret } from "../src/lib/auth/totp-secret-crypto";
 
 /**
  * Exercise MFA app binders under live Postgres (not only raw `now()` SQL).
  * Catches Date#toString binds and missing GRANTs that unit/memory paths miss.
  */
-async function exerciseMfaAppBinders(): Promise<void> {
+async function exerciseMfaAppBinders(
+  owner: ReturnType<typeof postgres>,
+): Promise<void> {
   process.env.AUTH_USERS_BACKEND = "postgres";
   if (!process.env.AUTH_TOTP_ENCRYPTION_KEY?.trim()) {
     // Deterministic 32-byte key for smoke only (not a production secret).
     process.env.AUTH_TOTP_ENCRYPTION_KEY = Buffer.alloc(32, 7).toString("base64");
   }
 
-  const attempt = await reserveMfaVerificationAttempt(PRESIDENT);
-  if (!attempt.allowed) {
-    throw new Error("MFA app binder failed: reserveMfaVerificationAttempt denied president");
+  await owner`delete from mfa_verification_attempts where user_id = ${PRESIDENT}`;
+  try {
+    const attempt = await reserveMfaVerificationAttempt(PRESIDENT);
+    if (!attempt.allowed) {
+      throw new Error("MFA app binder failed: reserveMfaVerificationAttempt denied president");
+    }
+    const persistedAttempt = await owner<{ attempt_count: number }[]>`
+      select attempt_count from mfa_verification_attempts where user_id = ${PRESIDENT}
+    `;
+    if (persistedAttempt.length !== 1 || Number(persistedAttempt[0].attempt_count) !== 1) {
+      throw new Error("MFA app binder failed: verification attempt was not durably persisted");
+    }
+  } finally {
+    await owner`delete from mfa_verification_attempts where user_id = ${PRESIDENT}`;
   }
 
   const pendingSecret = "JBSWY3DPEHPK3PXP";
   await setPendingSecret(PRESIDENT, pendingSecret);
+  const persistedPending = await owner<{ secret: string; expires_at: Date }[]>`
+    select secret, expires_at from mfa_pending_enrollments where user_id = ${PRESIDENT}
+  `;
+  if (
+    persistedPending.length !== 1 ||
+    !isEncryptedTotpSecret(persistedPending[0].secret) ||
+    persistedPending[0].expires_at.getTime() <= Date.now()
+  ) {
+    throw new Error("MFA app binder failed: encrypted pending enrollment was not durably persisted");
+  }
   const roundTrip = await getPendingSecret(PRESIDENT);
   if (roundTrip !== pendingSecret) {
     throw new Error("MFA app binder failed: pending enrollment round-trip mismatch");
   }
   await clearPendingSecret(PRESIDENT);
+  const clearedPending = await owner<{ secret: string; expires_at: Date }[]>`
+    select secret, expires_at from mfa_pending_enrollments where user_id = ${PRESIDENT}
+  `;
+  if (
+    clearedPending.length !== 1 ||
+    clearedPending[0].secret === persistedPending[0].secret ||
+    clearedPending[0].expires_at.getTime() !== 0
+  ) {
+    throw new Error("MFA app binder failed: pending enrollment clear was not durably persisted");
+  }
 
+  await owner`delete from mfa_session_grants where user_id = ${PRESIDENT}`;
   const nonce = await issueMfaGrant(PRESIDENT, Date.now(), 0);
-  const consumed = await consumeMfaGrant(PRESIDENT, nonce, Date.now(), 0);
-  if (!consumed) {
-    throw new Error("MFA app binder failed: issue/consume grant round-trip");
+  try {
+    const persistedGrant = await owner<{ token_hash: string; consumed_at: Date | null }[]>`
+      select token_hash, consumed_at from mfa_session_grants where user_id = ${PRESIDENT}
+    `;
+    const expectedHash = createHash("sha256").update(nonce, "utf8").digest("hex");
+    if (
+      persistedGrant.length !== 1 ||
+      persistedGrant[0].token_hash !== expectedHash ||
+      persistedGrant[0].consumed_at !== null
+    ) {
+      throw new Error("MFA app binder failed: hashed session grant was not durably persisted");
+    }
+    const consumed = await consumeMfaGrant(PRESIDENT, nonce, Date.now(), 0);
+    if (!consumed) {
+      throw new Error("MFA app binder failed: issue/consume grant round-trip");
+    }
+    const consumedGrant = await owner<{ consumed_at: Date | null }[]>`
+      select consumed_at from mfa_session_grants where user_id = ${PRESIDENT}
+    `;
+    if (consumedGrant.length !== 1 || !consumedGrant[0].consumed_at) {
+      throw new Error("MFA app binder failed: grant consumption was not durably persisted");
+    }
+  } finally {
+    await owner`delete from mfa_session_grants where user_id = ${PRESIDENT}`;
   }
 }
 
@@ -87,8 +144,11 @@ async function main(): Promise<void> {
   assertOutreachMigrationArtifacts();
   const url = process.env.DATABASE_URL?.trim();
   if (!url) throw new Error("DATABASE_URL is required (use unionops_app credentials)");
+  const ownerUrl = process.env.MIGRATE_DATABASE_URL?.trim();
+  if (!ownerUrl) throw new Error("MIGRATE_DATABASE_URL is required for independent MFA persistence assertions");
 
   const sql = postgres(url, { max: 1 });
+  const owner = postgres(ownerUrl, { max: 1 });
   const fixtureId = `grev-rls-smoke-${randomUUID()}`;
   const committeeId = `com-rls-smoke-${randomUUID()}`;
   const committeeMembershipId = `cm-rls-smoke-${randomUUID()}`;
@@ -415,7 +475,7 @@ async function main(): Promise<void> {
     if (sameScope.length !== 1) throw new Error(`RLS failed: matching officer scope returned ${sameScope.length} rows`);
 
     // App-code MFA binders (attempt upsert ISO binds, pending/grant DML under RLS).
-    await exerciseMfaAppBinders();
+    await exerciseMfaAppBinders(owner);
 
     await sql`delete from committees where id = ${committeeId}`;
     await sql`delete from grievances where id = ${fixtureId}`;
@@ -429,6 +489,7 @@ async function main(): Promise<void> {
     await sql`delete from grievances where id = ${fixtureId}`;
     await sql`delete from mfa_recovery_codes where id = ${recoveryCodeId}`;
     await sql.end({ timeout: 5 });
+    await owner.end({ timeout: 5 });
   }
 }
 
