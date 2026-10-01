@@ -141,24 +141,28 @@ export function AccessRequestForm({ kind, locale }: Props) {
             <Checkbox
               label={t("hub")}
               checked={offerings.includes("officer_hub")}
-              onChange={(e) =>
+              onChange={(e) => {
+                // Capture before setState — React clears currentTarget after the
+                // handler, and Strict Mode re-invokes the updater afterward.
+                const checked = e.currentTarget.checked;
                 setOfferings((v) =>
-                  e.currentTarget.checked
+                  checked
                     ? [...new Set([...v, "officer_hub"])]
                     : v.filter((x) => x !== "officer_hub"),
-                )
-              }
+                );
+              }}
             />
             <Checkbox
               label={t("portal")}
               checked={offerings.includes("local_portal")}
-              onChange={(e) =>
+              onChange={(e) => {
+                const checked = e.currentTarget.checked;
                 setOfferings((v) =>
-                  e.currentTarget.checked
+                  checked
                     ? [...new Set([...v, "local_portal"])]
                     : v.filter((x) => x !== "local_portal"),
-                )
-              }
+                );
+              }}
             />
           </div>
         </fieldset>

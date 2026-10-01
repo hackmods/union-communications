@@ -26,6 +26,21 @@ describe("AccessRequestForm", () => {
     vi.unstubAllGlobals();
   });
 
+  it("toggles Local Portal without reading a cleared currentTarget", () => {
+    render(
+      <NextIntlClientProvider locale="en" messages={en}>
+        <AccessRequestForm kind="local_interest" locale="en" />
+      </NextIntlClientProvider>,
+    );
+
+    const portal = screen.getByLabelText("Local Portal");
+    expect(portal).not.toBeChecked();
+    fireEvent.click(portal);
+    expect(portal).toBeChecked();
+    fireEvent.click(portal);
+    expect(portal).not.toBeChecked();
+  });
+
   it("shows a offerings-specific error before calling the API", async () => {
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);

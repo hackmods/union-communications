@@ -125,3 +125,13 @@ If the work feels bleak, look at [`.cursor/easter-eggs/just-be-loved-snowmobile.
 ## Stewardship
 
 UnionOps is proprietary (see `LICENSE`), stewarded by Ryan Morris. Operator guides: `docs/guides/SETUP.md`, `docs/guides/DEPLOY.md`, `docs/guides/CAPROVER_POSTGRES.md` (CapRover + Postgres flip). Hosted security: `docs/guides/HOSTED_SECURITY.md`. **Live hardening runbook:** `docs/guides/COMPLIANCE_HARDENING_LIVE.md`. Privacy is two-tier: Comms on-device; hosted Officer Hub → instance operator is data controller. **Comms stay free.** Hosted Officer Hub / Local Portal may recover hosting costs. Never promise the whole platform is free forever — public copy is `/manifesto` (ADR-019). Future source-available track: `docs/guides/LICENSING.md`.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
