@@ -53,20 +53,46 @@ function Swatch({
   label,
   hex,
   note,
+  copyLabel,
+  copiedLabel,
 }: {
   label: string;
   hex: string;
   note?: string;
+  copyLabel: string;
+  copiedLabel: string;
 }) {
+  const [copied, setCopied] = useState(false);
+
+  const copyHex = async () => {
+    try {
+      await navigator.clipboard.writeText(hex);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      /* Clipboard may be blocked; hex stays visible to copy manually. */
+    }
+  };
+
   return (
     <div className="min-w-0">
-      <div
-        className="h-16 w-full rounded-lg border border-slate-200"
-        style={{ backgroundColor: hex }}
-        aria-hidden="true"
-      />
+      <button
+        type="button"
+        onClick={() => void copyHex()}
+        className="block w-full rounded-lg border border-slate-200 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+        aria-label={`${copyLabel}: ${label} ${hex}`}
+      >
+        <div
+          className="h-16 w-full rounded-t-[calc(0.5rem-1px)]"
+          style={{ backgroundColor: hex }}
+          aria-hidden="true"
+        />
+        <span className="sr-only">{copied ? copiedLabel : copyLabel}</span>
+      </button>
       <p className="mt-1.5 text-xs font-semibold text-opseu-dark">{label}</p>
-      <p className="font-mono text-xs text-slate-600">{hex}</p>
+      <p className="font-mono text-xs text-slate-600" aria-live="polite">
+        {copied ? copiedLabel : hex}
+      </p>
       {note ? <p className="mt-0.5 text-xs text-slate-500">{note}</p> : null}
     </div>
   );
@@ -97,6 +123,7 @@ export function BrandLookbook({
   idPrefix,
   showCommsStyleLink = false,
   chromeStrips = null,
+  showHeader = true,
 }: {
   brandKit: BrandKit;
   hydrated?: boolean;
@@ -106,6 +133,8 @@ export function BrandLookbook({
   showCommsStyleLink?: boolean;
   /** Optional Phase 4 chrome strip slot (full mode). */
   chromeStrips?: React.ReactNode;
+  /** When false, parent page owns the title (avoids stacked headings). */
+  showHeader?: boolean;
 }) {
   const t = useTranslations("brandKit.lookbook");
   const tFonts = useTranslations("brandKit.canvas.fonts");
@@ -175,33 +204,38 @@ export function BrandLookbook({
       )}
     >
       <div data-testid="brand-lookbook">
-        {mode === "full" ? (
-          <header className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              {t("eyebrow")}
-            </p>
-            <h2 className="mt-1 text-2xl font-bold text-opseu-dark sm:text-3xl">
-              {t("title")}
-            </h2>
-            <p className="mt-2 max-w-prose text-sm text-slate-600 sm:text-base">
-              {t("description")}
-            </p>
-          </header>
-        ) : (
-          <header className="min-w-0">
-            <h2 className="text-lg font-bold text-opseu-dark">
-              {t("compactTitle")}
-            </h2>
-            <p className="mt-1 text-sm text-slate-600">
-              {t("compactDescription")}
-            </p>
-          </header>
-        )}
+        {showHeader ? (
+          mode === "full" ? (
+            <header className="min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                {t("eyebrow")}
+              </p>
+              <h2 className="mt-1 text-2xl font-bold text-opseu-dark sm:text-3xl">
+                {t("title")}
+              </h2>
+              <p className="mt-2 max-w-prose text-sm text-slate-600 sm:text-base">
+                {t("description")}
+              </p>
+            </header>
+          ) : (
+            <header className="min-w-0">
+              <h2 className="text-lg font-bold text-opseu-dark">
+                {t("compactTitle")}
+              </h2>
+              <p className="mt-1 text-sm text-slate-600">
+                {t("compactDescription")}
+              </p>
+            </header>
+          )
+        ) : null}
 
         <nav
           aria-label={t("navLabel")}
           data-testid="brand-lookbook-nav"
-          className="sticky top-20 z-10 mt-4 -mx-1 flex flex-wrap gap-x-4 gap-y-2 border-b border-slate-200 bg-white/95 px-1 py-3 backdrop-blur supports-[backdrop-filter]:bg-white/80 motion-reduce:backdrop-blur-none"
+          className={cn(
+            "sticky top-20 z-10 flex flex-wrap gap-x-4 gap-y-2 border-b border-slate-200 bg-white/95 px-1 py-3 backdrop-blur supports-[backdrop-filter]:bg-white/80 motion-reduce:backdrop-blur-none",
+            showHeader ? "mt-4 -mx-1" : "mt-0 -mx-1",
+          )}
         >
           {sections.map((id) => (
             <a
@@ -233,14 +267,20 @@ export function BrandLookbook({
                 <Swatch
                   label={t("foundations.primary")}
                   hex={brandKit.primaryColor}
+                  copyLabel={t("foundations.copyHex")}
+                  copiedLabel={t("foundations.copiedHex")}
                 />
                 <Swatch
                   label={t("foundations.secondary")}
                   hex={brandKit.secondaryColor}
+                  copyLabel={t("foundations.copyHex")}
+                  copiedLabel={t("foundations.copiedHex")}
                 />
                 <Swatch
                   label={t("foundations.accent")}
                   hex={brandKit.accentColor}
+                  copyLabel={t("foundations.copyHex")}
+                  copiedLabel={t("foundations.copiedHex")}
                 />
               </div>
             </Specimen>
@@ -254,10 +294,14 @@ export function BrandLookbook({
                       ? t("foundations.interactiveNote")
                       : undefined
                   }
+                  copyLabel={t("foundations.copyHex")}
+                  copiedLabel={t("foundations.copiedHex")}
                 />
                 <Swatch
                   label={t("foundations.heading")}
                   hex={chrome.heading}
+                  copyLabel={t("foundations.copyHex")}
+                  copiedLabel={t("foundations.copiedHex")}
                 />
               </div>
               {chromeAdjusted ? (

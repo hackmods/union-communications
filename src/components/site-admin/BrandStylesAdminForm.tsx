@@ -845,6 +845,11 @@ export function BrandStylesAdminForm() {
                                     }`}
                                     aria-pressed={lookbookSourceByUnion[row.id] === "host"}
                                     disabled={!hostBrand}
+                                    title={
+                                      !hostBrand
+                                        ? t("brandStylesLookbookHostUnavailable")
+                                        : undefined
+                                    }
                                     onClick={() =>
                                       setLookbookSourceByUnion((prev) => ({
                                         ...prev,
@@ -874,8 +879,19 @@ export function BrandStylesAdminForm() {
                                 )}
                                 hydrated
                                 mode="compact"
+                                showHeader={false}
                                 idPrefix={`site-admin-${row.id}`}
                               />
+                              {!hostBrand ? (
+                                <p className="text-xs text-opseu-gray-dark">
+                                  {t("brandStylesLookbookHostUnavailable")}
+                                </p>
+                              ) : null}
+                              {lookbookSourceByUnion[row.id] === "host" && hostBrand ? (
+                                <p className="text-xs text-opseu-gray-dark">
+                                  {t("brandStylesLookbookHostFontsNote")}
+                                </p>
+                              ) : null}
                             </div>
                           ) : null}
                         </>

@@ -19,15 +19,17 @@ export function BrandLookbookChromeStrips() {
         aria-hidden="true"
         className="overflow-hidden rounded-lg border border-slate-200"
       >
-        <div className="flex items-center gap-4 bg-white px-3 py-2">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 bg-white px-3 py-2">
           <span className="text-sm font-bold text-opseu-dark">
             {t("hubWordmark")}
           </span>
           <span className="text-sm font-medium text-opseu-blue">
             {t("hubLinkHome")}
           </span>
-          <span className="text-sm text-slate-600">{t("hubLinkCases")}</span>
-          <span className="ml-auto rounded-md bg-opseu-blue px-2.5 py-1 text-xs font-semibold text-white">
+          <span className="hidden text-sm text-slate-600 sm:inline">
+            {t("hubLinkCases")}
+          </span>
+          <span className="rounded-md bg-opseu-blue px-2.5 py-1 text-xs font-semibold text-white sm:ml-auto">
             {t("hubCta")}
           </span>
         </div>
@@ -38,7 +40,7 @@ export function BrandLookbookChromeStrips() {
         aria-hidden="true"
         className="overflow-hidden rounded-lg border border-slate-200"
       >
-        <div className="flex items-center gap-4 bg-opseu-blue/5 px-3 py-2">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 bg-opseu-blue/5 px-3 py-2">
           <span className="text-sm font-bold text-opseu-dark">
             {t("portalWordmark")}
           </span>

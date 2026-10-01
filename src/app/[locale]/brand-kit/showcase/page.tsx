@@ -11,6 +11,7 @@ import { useBrandStore } from "@/store/brand-store";
 
 export default function BrandKitShowcasePage() {
   const t = useTranslations("brandKit.lookbook");
+  const tKit = useTranslations("brandKit");
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
 
@@ -32,14 +33,21 @@ export default function BrandKitShowcasePage() {
         </p>
       </header>
       <div className="mt-6">
-        <BrandLookbook
-          brandKit={brandKit}
-          hydrated={hydrated}
-          mode="full"
-          showCommsStyleLink
-          idPrefix="public-lookbook"
-          chromeStrips={<BrandLookbookChromeStrips />}
-        />
+        {!hydrated ? (
+          <p role="status" className="text-sm text-slate-600">
+            {tKit("completeness.loading")}
+          </p>
+        ) : (
+          <BrandLookbook
+            brandKit={brandKit}
+            hydrated={hydrated}
+            mode="full"
+            showCommsStyleLink
+            showHeader={false}
+            idPrefix="public-lookbook"
+            chromeStrips={<BrandLookbookChromeStrips />}
+          />
+        )}
       </div>
     </ComposedPageLayout>
   );

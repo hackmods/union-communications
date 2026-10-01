@@ -280,6 +280,7 @@ export function UnionBrandForm() {
           mode="full"
           idPrefix="union-brand-lookbook"
           showCommsStyleLink
+          showHeader={false}
           chromeStrips={<BrandLookbookChromeStrips />}
         />
       </section>

@@ -4671,7 +4671,9 @@
         "chromeCallout": "Les boutons et la navigation du Hub des dirigeants utilisent ce rempli interactif, pas toujours votre primaire brute. Les canevas Comms gardent la primaire du kit pour les exports.",
         "type": "Typographie",
         "typeHeadline": "Titre — {font}",
-        "typeBody": "Le corps utilise {font}. Changez les polices dans Style du kit ou dans l’éditeur de thème de votre syndicat."
+        "typeBody": "Le corps utilise {font}. Changez les polices dans Style du kit ou dans l’éditeur de thème de votre syndicat.",
+        "copyHex": "Copier la couleur",
+        "copiedHex": "Copié"
       },
       "actions": {
         "title": "Actions",
@@ -9604,6 +9606,8 @@
       "brandStylesLookbookSource": "Source du carnet",
       "brandStylesLookbookUnion": "Brouillon de ce syndicat",
       "brandStylesLookbookHost": "Défauts de la marque hôte",
+      "brandStylesLookbookHostUnavailable": "Les défauts de la marque hôte ne sont pas encore chargés. Ouvrez Marque hôte ou actualisez cette page, puis comparez de nouveau.",
+      "brandStylesLookbookHostFontsNote": "Les défauts de l’hôte fournissent seulement les couleurs. Les polices restent celles du brouillon de ce syndicat jusqu’à ce que les polices hôtes soient disponibles.",
       "brandStylesBaselineConfirmTitle": "Publier la ligne de base de marque ?",
       "brandStylesBaselineConfirmBody": "Confirmez que vous avez vérifié le carnet — couleurs chrome du Hub des dirigeants et échantillon Comms — avant de publier cette ligne de base aux steward·es.",
       "brandStylesBaselineConfirmPublish": "Publier la ligne de base",

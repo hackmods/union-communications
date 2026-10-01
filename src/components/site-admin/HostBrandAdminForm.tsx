@@ -346,6 +346,7 @@ export function HostBrandAdminForm() {
             })}
             hydrated
             mode="compact"
+            showHeader={false}
             idPrefix="host-brand-lookbook"
           />
         </div>

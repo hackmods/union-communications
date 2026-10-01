@@ -4671,7 +4671,9 @@
         "chromeCallout": "Officer Hub buttons and nav use this interactive fill, not always your raw primary. Comms canvases keep the Brand Kit primary for exports.",
         "type": "Type",
         "typeHeadline": "Headline — {font}",
-        "typeBody": "Body copy uses {font}. Change fonts in Brand Kit Style or your union theme editor."
+        "typeBody": "Body copy uses {font}. Change fonts in Brand Kit Style or your union theme editor.",
+        "copyHex": "Copy colour",
+        "copiedHex": "Copied"
       },
       "actions": {
         "title": "Actions",
@@ -9658,6 +9660,8 @@
       "brandStylesLookbookSource": "Lookbook source",
       "brandStylesLookbookUnion": "This union draft",
       "brandStylesLookbookHost": "Host defaults",
+      "brandStylesLookbookHostUnavailable": "Host brand defaults are not loaded yet. Open Host brand or refresh this page, then compare again.",
+      "brandStylesLookbookHostFontsNote": "Host defaults supply colours only. Typefaces stay on this union draft until host fonts ship.",
       "brandStylesBaselineConfirmTitle": "Publish brand baseline?",
       "brandStylesBaselineConfirmBody": "Confirm you reviewed the lookbook — Officer Hub chrome colours and the Comms sample — before publishing this baseline for stewards.",
       "brandStylesBaselineConfirmPublish": "Publish baseline",
