@@ -51,12 +51,27 @@ test.describe("Viewport Lab @smoke", () => {
     }
 
     const axe = await page.evaluate(async () =>
-      window.__unionopsViewportLab?.runAxe({ colorContrast: false }),
+      window.__unionopsViewportLab?.runAxe({
+        colorContrast: false,
+        suite: "wcag22aa",
+        impact: "all",
+        includeIncomplete: true,
+      }),
     );
     expect(axe?.ok).toBe(true);
     if (axe?.ok) {
       expect(Array.isArray(axe.violations)).toBe(true);
+      expect(Array.isArray(axe.findings)).toBe(true);
+      expect(Array.isArray(axe.incomplete)).toBe(true);
+      expect(axe.suite).toBe("wcag22aa");
+      expect(axe.impact).toBe("all");
     }
+
+    const caps = await page.evaluate(
+      () => window.__unionopsViewportLab?.capabilities,
+    );
+    expect(caps).toContain("axe");
+    expect(caps).toContain("axe-suite");
   });
 
   test("audit 390, Apply size test id, and auto overflow badge", async ({

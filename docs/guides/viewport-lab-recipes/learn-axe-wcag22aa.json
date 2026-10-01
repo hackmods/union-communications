@@ -1,0 +1,20 @@
+{
+  "$schema": "./recipe.schema.json",
+  "id": "learn-axe-wcag22aa",
+  "title": "WCAG 2.2 AA axe suite on Learn (docs only)",
+  "startUrl": "/viewport-lab/?w=1280&h=800&path=/en/learn/&locale=en",
+  "steps": [
+    { "action": "note", "text": "Suite WCAG 2.2 AA, Impact All, include incomplete on" },
+    {
+      "action": "runAxe",
+      "colorContrast": false,
+      "suite": "wcag22aa",
+      "impact": "all",
+      "includeIncomplete": true
+    },
+    {
+      "action": "note",
+      "text": "Report findings; incomplete needs human review. Not a conformance claim."
+    }
+  ]
+}

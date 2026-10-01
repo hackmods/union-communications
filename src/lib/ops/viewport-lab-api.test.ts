@@ -40,6 +40,7 @@ describe("viewport-presets", () => {
       "locale",
       "overflow",
       "axe",
+      "axe-suite",
       "compare",
     ]) {
       expect(VIEWPORT_LAB_CAPABILITIES_V2).toContain(cap);

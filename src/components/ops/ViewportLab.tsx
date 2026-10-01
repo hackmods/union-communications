@@ -10,7 +10,10 @@ import {
 } from "react";
 import {
   type AxeFinding,
+  type AxeImpactFilter,
+  type AxeRunOptionsInput,
   type AxeRunResult,
+  type AxeSuiteId,
   type OverflowResult,
   type ViewportLabLocale,
   buildViewportLabFrameSrc,
@@ -21,6 +24,17 @@ import {
   sanitizeViewportFramePath,
   swapLocaleInPath,
 } from "@/lib/ops/viewport-lab-api";
+import {
+  AXE_SUITE_PRESETS,
+  DEFAULT_AXE_IMPACT,
+  DEFAULT_AXE_INCLUDE_INCOMPLETE,
+  DEFAULT_AXE_SUITE,
+  buildAxeRunOptions,
+  normalizeAxeResults,
+  resolveAxeImpactFilter,
+  resolveAxeSuiteId,
+  summarizeAxeFindings,
+} from "@/lib/ops/viewport-lab-axe";
 import {
   VIEWPORT_AUDIT_SIZES,
   VIEWPORT_LAB_API_VERSION,
@@ -50,7 +64,7 @@ export type ViewportLabApi = {
   setLocale: (locale: ViewportLabLocale) => void;
   getFramePath: () => string | null;
   checkOverflow: () => OverflowResult;
-  runAxe: (options?: { colorContrast?: boolean }) => Promise<AxeRunResult>;
+  runAxe: (options?: AxeRunOptionsInput) => Promise<AxeRunResult>;
   setCompareMode: (enabled: boolean) => void;
   setViewportPane: (pane: "a" | "b", width: number, height?: number) => void;
 };
@@ -145,37 +159,37 @@ async function waitForFrameDocument(
  */
 async function runAxeInFrame(
   frame: HTMLIFrameElement | null,
-  includeContrast: boolean,
+  input: AxeRunOptionsInput,
 ): Promise<AxeRunResult> {
+  const suite = resolveAxeSuiteId(input.suite);
+  const impact = resolveAxeImpactFilter(input.impact);
+  const includeIncomplete =
+    input.includeIncomplete ?? DEFAULT_AXE_INCLUDE_INCOMPLETE;
+  const colorContrast = Boolean(input.colorContrast);
+
   try {
     if (!frame) return { ok: false, error: "frame_unavailable" };
     const doc = await waitForFrameDocument(frame);
     if (!doc?.defaultView) return { ok: false, error: "frame_unavailable" };
 
     const axeCore = await import("axe-core");
-    const options: {
-      resultTypes: ["violations"];
-      iframes: boolean;
-      rules?: { "color-contrast": { enabled: boolean } };
-    } = {
-      resultTypes: ["violations"],
-      iframes: true,
-    };
-    if (!includeContrast) {
-      options.rules = { "color-contrast": { enabled: false } };
-    }
+    const options = buildAxeRunOptions({
+      suite,
+      colorContrast,
+      includeIncomplete,
+    });
     const results = await axeCore.default.run(frame, options);
-    const serious = results.violations.filter(
-      (v) => v.impact === "serious" || v.impact === "critical",
-    );
+    const normalized = normalizeAxeResults(results, { impact });
     return {
       ok: true,
-      violations: serious.map((v) => ({
-        id: v.id,
-        impact: v.impact,
-        help: v.help,
-        nodes: v.nodes.length,
-      })),
+      findings: normalized.findings,
+      violations: normalized.violations,
+      incomplete: normalized.incomplete,
+      suite,
+      impact,
+      includeIncomplete,
+      colorContrast,
+      axeVersion: normalized.axeVersion ?? axeCore.default.version ?? null,
     };
   } catch (err) {
     return {
@@ -204,9 +218,23 @@ export function ViewportLab() {
   const [overflowNote, setOverflowNote] = useState<string | null>(null);
   const [overflowPx, setOverflowPx] = useState<number | null>(null);
   const [axeFindings, setAxeFindings] = useState<AxeFinding[] | null>(null);
+  const [axeReportMeta, setAxeReportMeta] = useState<{
+    suite: AxeSuiteId;
+    impact: AxeImpactFilter;
+    includeIncomplete: boolean;
+    colorContrast: boolean;
+    axeVersion: string | null;
+  } | null>(null);
   const [axeError, setAxeError] = useState<string | null>(null);
   const [axeBusy, setAxeBusy] = useState(false);
   const [includeContrast, setIncludeContrast] = useState(false);
+  const [axeSuite, setAxeSuite] = useState<AxeSuiteId>(DEFAULT_AXE_SUITE);
+  const [axeImpact, setAxeImpact] =
+    useState<AxeImpactFilter>(DEFAULT_AXE_IMPACT);
+  const [includeIncomplete, setIncludeIncomplete] = useState(
+    DEFAULT_AXE_INCLUDE_INCOMPLETE,
+  );
+  const [axeCopyNote, setAxeCopyNote] = useState<string | null>(null);
   const [stageSize, setStageSize] = useState({ w: 1200, h: 800 });
 
   const frameARef = useRef<HTMLIFrameElement>(null);
@@ -366,24 +394,78 @@ export function ViewportLab() {
   }, [scheduleOverflowCheck, syncPathFromFrame]);
 
   const runAxe = useCallback(
-    async (options?: { colorContrast?: boolean }): Promise<AxeRunResult> => {
+    async (options?: AxeRunOptionsInput): Promise<AxeRunResult> => {
       setAxeBusy(true);
       setAxeError(null);
-      const result = await runAxeInFrame(
-        frameARef.current,
-        options?.colorContrast ?? includeContrast,
-      );
+      setAxeCopyNote(null);
+      const input: AxeRunOptionsInput = {
+        suite: options?.suite ?? axeSuite,
+        impact: options?.impact ?? axeImpact,
+        includeIncomplete: options?.includeIncomplete ?? includeIncomplete,
+        colorContrast: options?.colorContrast ?? includeContrast,
+      };
+      const result = await runAxeInFrame(frameARef.current, input);
       setAxeBusy(false);
       if (!result.ok) {
         setAxeFindings(null);
+        setAxeReportMeta(null);
         setAxeError(result.error);
         return result;
       }
-      setAxeFindings(result.violations);
+      setAxeFindings(result.findings);
+      setAxeReportMeta({
+        suite: result.suite,
+        impact: result.impact,
+        includeIncomplete: result.includeIncomplete,
+        colorContrast: result.colorContrast,
+        axeVersion: result.axeVersion,
+      });
       return result;
     },
-    [includeContrast],
+    [axeSuite, axeImpact, includeIncomplete, includeContrast],
   );
+
+  const buildAxeReportPayload = useCallback(() => {
+    if (!axeFindings || !axeReportMeta) return null;
+    return {
+      timestamp: new Date().toISOString(),
+      path,
+      viewport: { width, height },
+      suite: axeReportMeta.suite,
+      impact: axeReportMeta.impact,
+      includeIncomplete: axeReportMeta.includeIncomplete,
+      colorContrast: axeReportMeta.colorContrast,
+      axeVersion: axeReportMeta.axeVersion,
+      summary: summarizeAxeFindings(axeFindings),
+      findings: axeFindings,
+    };
+  }, [axeFindings, axeReportMeta, path, width, height]);
+
+  const copyAxeJson = useCallback(async () => {
+    const payload = buildAxeReportPayload();
+    if (!payload) return;
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+      setAxeCopyNote("Copied JSON report.");
+    } catch {
+      setAxeCopyNote("Copy failed — use Download instead.");
+    }
+  }, [buildAxeReportPayload]);
+
+  const downloadAxeJson = useCallback(() => {
+    const payload = buildAxeReportPayload();
+    if (!payload) return;
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `viewport-lab-axe-${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setAxeCopyNote("Downloaded JSON report.");
+  }, [buildAxeReportPayload]);
 
   useEffect(() => {
     const api: ViewportLabApi = {
@@ -527,6 +609,37 @@ export function ViewportLab() {
           >
             Check overflow
           </button>
+          <label className="flex min-h-11 items-center gap-2 text-xs text-zinc-400">
+            Suite
+            <select
+              data-testid="viewport-axe-suite"
+              value={axeSuite}
+              onChange={(e) =>
+                setAxeSuite(resolveAxeSuiteId(e.target.value))
+              }
+              className="min-h-11 rounded-md border border-zinc-700 bg-zinc-950 px-2 text-sm text-zinc-100"
+            >
+              {AXE_SUITE_PRESETS.map((preset) => (
+                <option key={preset.id} value={preset.id}>
+                  {preset.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex min-h-11 items-center gap-2 text-xs text-zinc-400">
+            Impact
+            <select
+              data-testid="viewport-axe-impact"
+              value={axeImpact}
+              onChange={(e) =>
+                setAxeImpact(resolveAxeImpactFilter(e.target.value))
+              }
+              className="min-h-11 rounded-md border border-zinc-700 bg-zinc-950 px-2 text-sm text-zinc-100"
+            >
+              <option value="all">All</option>
+              <option value="serious">Serious+critical</option>
+            </select>
+          </label>
           <button
             type="button"
             data-testid="viewport-run-axe"
@@ -544,6 +657,16 @@ export function ViewportLab() {
               className="size-4"
             />
             axe color-contrast
+          </label>
+          <label className="flex min-h-11 items-center gap-2 text-xs text-zinc-400">
+            <input
+              type="checkbox"
+              data-testid="viewport-axe-incomplete"
+              checked={includeIncomplete}
+              onChange={(e) => setIncludeIncomplete(e.target.checked)}
+              className="size-4"
+            />
+            include incomplete
           </label>
           <span
             data-testid="viewport-overflow-badge"
@@ -677,22 +800,102 @@ export function ViewportLab() {
       {(axeFindings || axeError) && (
         <div
           data-testid="viewport-lab-axe-results"
-          className="max-h-40 shrink-0 overflow-auto border-b border-zinc-800 bg-zinc-900 px-3 py-2 text-xs"
+          className="max-h-64 shrink-0 overflow-auto border-b border-zinc-800 bg-zinc-900 px-3 py-2 text-xs"
         >
           {axeError && <p className="text-red-400">Axe error: {axeError}</p>}
+          {axeFindings && (
+            <div className="mb-2 flex flex-wrap items-center gap-2">
+              {(() => {
+                const summary = summarizeAxeFindings(axeFindings);
+                return (
+                  <p className="text-zinc-300">
+                    {axeReportMeta
+                      ? `${axeReportMeta.suite} · impact ${axeReportMeta.impact}`
+                      : "axe"}
+                    {axeReportMeta?.axeVersion
+                      ? ` · axe ${axeReportMeta.axeVersion}`
+                      : ""}
+                    {" · "}
+                    {summary.violations} violation
+                    {summary.violations === 1 ? "" : "s"}
+                    {", "}
+                    {summary.incomplete} incomplete
+                    {" · "}
+                    critical {summary.critical}, serious {summary.serious},
+                    moderate {summary.moderate}, minor {summary.minor}
+                  </p>
+                );
+              })()}
+              <button
+                type="button"
+                data-testid="viewport-axe-copy-json"
+                onClick={() => void copyAxeJson()}
+                className="rounded-md bg-zinc-800 px-2 py-1 text-zinc-200 hover:bg-zinc-700"
+              >
+                Copy JSON
+              </button>
+              <button
+                type="button"
+                data-testid="viewport-axe-download-json"
+                onClick={downloadAxeJson}
+                className="rounded-md bg-zinc-800 px-2 py-1 text-zinc-200 hover:bg-zinc-700"
+              >
+                Download JSON
+              </button>
+              {axeCopyNote && (
+                <span className="text-zinc-500">{axeCopyNote}</span>
+              )}
+            </div>
+          )}
           {axeFindings && axeFindings.length === 0 && (
             <p className="text-emerald-400">
-              No serious/critical axe violations.
+              No axe findings for this suite and impact filter.
             </p>
           )}
           {axeFindings && axeFindings.length > 0 && (
-            <ul className="space-y-1 text-amber-200">
-              {axeFindings.map((f) => (
-                <li key={f.id}>
-                  [{f.impact}] {f.id}: {f.help} ({f.nodes} node
-                  {f.nodes === 1 ? "" : "s"})
-                </li>
-              ))}
+            <ul className="space-y-2 text-amber-200">
+              {axeFindings.map((f, index) => {
+                const wcagTags = f.tags.filter(
+                  (t) =>
+                    t.startsWith("wcag") ||
+                    t === "best-practice" ||
+                    t === "experimental",
+                );
+                return (
+                  <li
+                    key={`${f.kind}-${f.id}-${index}`}
+                    className="border-b border-zinc-800/80 pb-2 last:border-0"
+                  >
+                    <div>
+                      [{f.kind}] [{f.impact ?? "n/a"}] {f.id}: {f.help} (
+                      {f.nodes} node{f.nodes === 1 ? "" : "s"})
+                    </div>
+                    {wcagTags.length > 0 && (
+                      <div className="text-zinc-500">
+                        tags: {wcagTags.join(", ")}
+                      </div>
+                    )}
+                    {f.targets[0] && (
+                      <div className="font-mono text-zinc-400">
+                        {f.targets[0]}
+                        {f.targets.length > 1
+                          ? ` (+${f.targets.length - 1} more)`
+                          : ""}
+                      </div>
+                    )}
+                    {f.helpUrl && (
+                      <a
+                        href={f.helpUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-sky-400 underline hover:text-sky-300"
+                      >
+                        Deque help
+                      </a>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>

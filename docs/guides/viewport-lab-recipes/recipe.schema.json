@@ -32,7 +32,20 @@
           "path": { "type": "string" },
           "text": { "type": "string" },
           "expectHorizontalPxMax": { "type": "number" },
-          "colorContrast": { "type": "boolean" }
+          "colorContrast": { "type": "boolean" },
+          "suite": {
+            "type": "string",
+            "enum": [
+              "wcag22aa",
+              "wcag21aa",
+              "wcag2aa",
+              "best-practice",
+              "experimental",
+              "all"
+            ]
+          },
+          "impact": { "type": "string", "enum": ["serious", "all"] },
+          "includeIncomplete": { "type": "boolean" }
         }
       }
     }

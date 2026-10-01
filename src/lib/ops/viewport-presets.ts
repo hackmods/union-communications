@@ -76,6 +76,7 @@ export const VIEWPORT_LAB_CAPABILITIES_V1 = [
 export const VIEWPORT_LAB_CAPABILITIES_V2 = [
   ...VIEWPORT_LAB_CAPABILITIES_V1,
   "axe",
+  "axe-suite",
   "compare",
 ] as const;
 

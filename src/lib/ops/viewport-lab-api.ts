@@ -132,13 +132,11 @@ export function measureDocumentOverflow(
   }
 }
 
-export type AxeFinding = {
-  id: string;
-  impact: string | null | undefined;
-  help: string;
-  nodes: number;
-};
-
-export type AxeRunResult =
-  | { ok: true; violations: AxeFinding[] }
-  | { ok: false; error: string };
+export type {
+  AxeFinding,
+  AxeFindingKind,
+  AxeImpactFilter,
+  AxeRunOptionsInput,
+  AxeRunResult,
+  AxeSuiteId,
+} from "./viewport-lab-axe";
