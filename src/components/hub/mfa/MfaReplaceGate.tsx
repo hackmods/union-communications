@@ -1,25 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
+import { looksLikeRecoveryCode, looksLikeTotpCode } from "@/lib/auth/mfa-client-codes";
 import { MfaCodeField } from "@/components/hub/mfa/MfaCodeField";
 
+type ReplacementProofKind = "totp" | "recovery";
+
 type MfaReplaceGateProps = {
-  code: string;
-  onCodeChange: (value: string) => void;
-  onConfirm: (submittedCode?: string) => void;
+  onConfirm: (submittedCode: string, kind: ReplacementProofKind) => void;
   loading?: boolean;
   error?: string | null;
   retrySecondsRemaining?: number;
   cancelHref?: string;
 };
 
-/** Warn + require current code before replacing the enrolled authenticator. */
+/** Require a fresh factor before requesting a replacement QR. */
 export function MfaReplaceGate({
-  code,
-  onCodeChange,
   onConfirm,
   loading,
   error,
@@ -28,29 +28,52 @@ export function MfaReplaceGate({
 }: MfaReplaceGateProps) {
   const t = useTranslations("hub.mfaJourney");
   const tHub = useTranslations("hub");
-  const ready = /^\d{6}$/.test(code);
+  const [kind, setKind] = useState<ReplacementProofKind>("totp");
+  const [code, setCode] = useState("");
+  const ready = kind === "totp" ? looksLikeTotpCode(code) : looksLikeRecoveryCode(code);
+  const choose = (nextKind: ReplacementProofKind) => {
+    setKind(nextKind);
+    setCode("");
+  };
+
   return (
     <div className="space-y-4">
       <Callout tone="warning">
         <p className="font-semibold text-amber-950">{t("replace.warningTitle")}</p>
         <p className="mt-1 text-amber-950/90">{t("replace.warningBody")}</p>
       </Callout>
+      <div className="space-y-2">
+        <p id="mfa-replace-factor-label" className="text-sm font-medium text-gray-800">
+          {t("replace.factorChoiceLabel")}
+        </p>
+        <div className="grid grid-cols-2 gap-2" role="group" aria-labelledby="mfa-replace-factor-label">
+          <Button type="button" variant={kind === "totp" ? "primary" : "outline"} aria-pressed={kind === "totp"} onClick={() => choose("totp")} className="min-h-11">
+            {t("replace.authenticatorChoice")}
+          </Button>
+          <Button type="button" variant={kind === "recovery" ? "primary" : "outline"} aria-pressed={kind === "recovery"} onClick={() => choose("recovery")} className="min-h-11">
+            {t("replace.recoveryChoice")}
+          </Button>
+        </div>
+      </div>
       <form
         className="space-y-3"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!loading && ready) onConfirm();
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!loading && ready) onConfirm(code, kind);
         }}
       >
         <MfaCodeField
-          label={t("replace.currentCodeLabel")}
+          label={kind === "totp" ? t("replace.currentCodeLabel") : t("replace.recoveryCodeLabel")}
+          hint={kind === "totp" ? t("replace.authenticatorHint") : t("replace.recoveryHint")}
           value={code}
-          onChange={onCodeChange}
+          onChange={setCode}
+          allowRecovery={kind === "recovery"}
+          autoComplete={kind === "totp" ? "one-time-code" : "off"}
           disabled={loading}
           autoFocus
           error={error}
           onTotpComplete={(submittedCode) => {
-            if (!loading) onConfirm(submittedCode);
+            if (kind === "totp" && !loading) onConfirm(submittedCode, "totp");
           }}
         />
         {retrySecondsRemaining > 0 ? (

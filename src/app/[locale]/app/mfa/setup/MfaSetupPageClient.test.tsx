@@ -1,5 +1,6 @@
 /** @vitest-environment jsdom */
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { useState } from "react";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 const { updateMock, routerMock, routeState } = vi.hoisted(() => ({
@@ -89,21 +90,26 @@ vi.mock("@/components/hub/mfa", async (importOriginal) => {
   ),
   MfaRecoveryCodesPanel: ({ codes }: { codes: string[] }) =>
     <div data-testid="recovery-codes">{codes.join(",")}</div>,
-  MfaReplaceGate: ({ code, onCodeChange, onConfirm }: {
-    code: string;
-    onCodeChange: (value: string) => void;
-    onConfirm: (value?: string) => void;
-  }) => (
-    <div>
-      <input aria-label="Current authenticator code" value={code}
-        onChange={(event) => {
-          const next = event.target.value;
-          onCodeChange(next);
-          if (/^\d{6}$/.test(next)) onConfirm(next);
-        }} />
-      <button type="button" onClick={() => onConfirm(code)}>confirm replacement</button>
-    </div>
-  ),
+  MfaReplaceGate: ({ onConfirm }: {
+    onConfirm: (value: string, kind: "totp" | "recovery") => void;
+  }) => {
+    const [kind, setKind] = useState<"totp" | "recovery">("totp");
+    const [value, setValue] = useState("");
+    return (
+      <div>
+        <button type="button" onClick={() => { setKind("totp"); setValue(""); }}>replace.authenticatorChoice</button>
+        <button type="button" onClick={() => { setKind("recovery"); setValue(""); }}>replace.recoveryChoice</button>
+        <input aria-label={kind === "totp" ? "replace.currentCodeLabel" : "replace.recoveryCodeLabel"}
+          value={value}
+          onChange={(event) => {
+            const next = event.target.value;
+            setValue(next);
+            if (kind === "totp" && /^\d{6}$/.test(next)) onConfirm(next, "totp");
+          }} />
+        <button type="button" onClick={() => onConfirm(value, kind)}>replace.continue</button>
+      </div>
+    );
+  },
   MfaSetupSteps: () => null,
   };
 });
@@ -221,12 +227,12 @@ describe("MfaSetupPageClient", () => {
     vi.stubGlobal("fetch", fetchMock);
 
     render(<MfaSetupPageClient />);
-    const firstField = await screen.findByLabelText("Current authenticator code");
+    const firstField = await screen.findByLabelText("replace.currentCodeLabel");
     fireEvent.change(firstField, { target: { value: "111111" } });
     await screen.findByLabelText("mfaSetupCodeLabel");
 
     fireEvent.click(screen.getByText("replace.generateAgain"));
-    const secondField = await screen.findByLabelText("Current authenticator code");
+    const secondField = await screen.findByLabelText("replace.currentCodeLabel");
     expect((secondField as HTMLInputElement).value).toBe("");
     fireEvent.change(secondField, { target: { value: "222222" } });
     await waitFor(() => expect(enrollBodies).toHaveLength(2));
@@ -234,6 +240,45 @@ describe("MfaSetupPageClient", () => {
     expect(enrollBodies).toEqual([
       JSON.stringify({ code: "111111" }),
       JSON.stringify({ code: "222222" }),
+    ]);
+  });
+
+  it("lets a saved recovery code start a replacement without auto-submitting its numeric prefix", async () => {
+    routeState.query = "mode=replace&next=%2Fapp%2Fexpenses";
+    const enrollBodies: string[] = [];
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      if (String(input).endsWith("/api/mfa/status")) {
+        return {
+          ok: true,
+          status: 200,
+          headers: new Headers(),
+          json: async () => ({ enabled: true, required: true, mode: "totp", enrolled: true }),
+        };
+      }
+      enrollBodies.push(String(init?.body));
+      return {
+        ok: true,
+        status: 200,
+        headers: new Headers(),
+        json: async () => ({
+          secret: "JBSWY3DPEHPK3PXP",
+          otpauthUri: "otpauth://totp/UnionOps?secret=JBSWY3DPEHPK3PXP",
+        }),
+      };
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<MfaSetupPageClient />);
+    fireEvent.click(await screen.findByText("replace.recoveryChoice"));
+    const recoveryField = await screen.findByLabelText("replace.recoveryCodeLabel");
+    fireEvent.change(recoveryField, { target: { value: "234567" } });
+    expect(enrollBodies).toHaveLength(0);
+    fireEvent.change(recoveryField, { target: { value: "ABCD-EFGH-JKLM-NPQR" } });
+    expect(enrollBodies).toHaveLength(0);
+    fireEvent.click(screen.getByText("replace.continue"));
+    await waitFor(() => expect(enrollBodies).toHaveLength(1));
+    expect(enrollBodies).toEqual([
+      JSON.stringify({ recoveryCode: "ABCD-EFGH-JKLM-NPQR" }),
     ]);
   });
 

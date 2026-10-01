@@ -292,6 +292,35 @@ describe("MFA API routes", () => {
       expect(body.replacing).toBe(true);
       expect(await getTotpSecretForUser("user-president-7")).toBe(existing);
     });
+
+    it("uses one recovery code to start replacement and leaves the old factor active", async () => {
+      process.env.AUTH_MFA_ENABLED = "true";
+      process.env.AUTH_MFA_MODE = "totp";
+      authMock.mockResolvedValue(session({ id: "recovery-replace-user" }));
+      const { generateTotpSecret } = await import("@/lib/auth/mfa-enrollment");
+      const { persistTotpSecretForUser } = await import("@/lib/auth/mfa-user-secret");
+      const oldSecret = generateTotpSecret();
+      const oldCode = generateTotp(oldSecret);
+      const oldCounter = matchTotpCounter(oldSecret, oldCode);
+      if (oldCounter === null) throw new Error("Generated test TOTP did not match");
+      await persistTotpSecretForUser("recovery-replace-user", oldSecret, oldCounter);
+      const [recoveryCode] = await rotateMfaRecoveryCodes("recovery-replace-user");
+
+      const replacement = await enrollMfa(jsonRequest({ recoveryCode }));
+      expect(replacement.status).toBe(200);
+      const body = await replacement.json() as { secret: string; replacing: boolean };
+      expect(body).toMatchObject({ replacing: true });
+      expect(body.secret).not.toBe(oldSecret);
+      expect(await getPendingSecret("recovery-replace-user")).toBe(body.secret);
+      expect(await getTotpSecretForUser("recovery-replace-user")).toBe(oldSecret);
+      expect(await countUnusedMfaRecoveryCodes("recovery-replace-user")).toBe(9);
+
+      const replay = await enrollMfa(jsonRequest({ recoveryCode }));
+      expect(replay.status).toBe(400);
+      expect(await replay.json()).toMatchObject({ code: "invalid" });
+      expect(await getPendingSecret("recovery-replace-user")).toBe(body.secret);
+      expect(await getTotpSecretForUser("recovery-replace-user")).toBe(oldSecret);
+    });
   });
 
   describe("POST /api/mfa/enroll/confirm", () => {

@@ -10082,8 +10082,14 @@
       },
       "replace": {
         "warningTitle": "Cela remplace votre authenticator actuel",
-        "warningBody": "Scanner un nouveau code QR écrase le secret de ce compte. Les codes de votre ancienne appli cesseront de fonctionner. Gardez un code de récupération à portée de main avant de continuer.",
+        "warningBody": "Votre authenticator actuel reste actif jusqu’à la confirmation du nouveau. Commencer avec un code de récupération le consomme tout de suite. Si vous quittez avant la confirmation, il vous faudra un autre code.",
+        "factorChoiceLabel": "Choisir la preuve de remplacement",
+        "authenticatorChoice": "Appli d’authentification",
+        "recoveryChoice": "Code de récupération enregistré",
         "currentCodeLabel": "Code de vérification actuel",
+        "authenticatorHint": "Entrez le code actuel à six chiffres de votre appli d’authentification.",
+        "recoveryCodeLabel": "Code de récupération enregistré",
+        "recoveryHint": "Entrez un code de récupération inutilisé. Il sera consommé dès la demande d’un nouveau code QR.",
         "continue": "Continuer vers le nouveau code QR",
         "generateAgain": "Utiliser un nouveau code actuel pour générer un autre code QR",
         "cancel": "Annuler — garder l’authenticator actuel"
@@ -10171,7 +10177,7 @@
         "manage": {
           "lostPhone": {
             "title": "J’ai perdu mon téléphone",
-            "body": "Utilisez un code de récupération si vous en avez encore. Si vous ne pouvez pas vérifier, contactez la personne qui gère ce Hub des dirigeants — elle pourra peut-être aider à réinitialiser l’accès authenticator."
+            "body": "Si vous pouvez encore ouvrir une session avec un code de récupération enregistré, ouvrez Remplacer l’authenticator et choisissez Code de récupération pour configurer une nouvelle appli. Ce code est consommé au début de la configuration. L’ancienne appli reste active jusqu’à la confirmation de la nouvelle. Si vous n’avez plus de facteur utilisable, contactez la personne qui gère ce Hub des dirigeants pour récupérer votre compte."
           },
           "recoveryManage": {
             "title": "Que sont les codes de récupération ?",
@@ -10214,6 +10220,7 @@
         "not_enrolled": "Ce compte n’a pas encore d’authenticator. Configurez-en un, puis réessayez.",
         "limited": "Trop d’essais. Attendez quelques minutes, puis entrez un nouveau code de votre appli.",
         "no_pending": "Aucune configuration QR n’est en attente. Elle a peut-être expiré ou déjà été confirmée. Essayez le code de votre authenticator. Générez un nouveau code QR seulement si la configuration n’a pas abouti.",
+        "enrollment_state_changed": "L’état de votre authenticator a changé pendant que cette page était ouverte. Actualisez la page et réessayez.",
         "nextCodeHint": "Si une autre page demande un code, utilisez le prochain numéro affiché par votre appli — pas celui que vous venez d’entrer.",
         "challengeCta": "Entrer un nouveau code de vérification"
       },

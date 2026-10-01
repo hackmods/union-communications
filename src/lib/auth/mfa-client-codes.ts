@@ -17,6 +17,7 @@ export const MFA_CLIENT_CODES = [
   "not_enrolled",
   "limited",
   "no_pending",
+  "enrollment_state_changed",
 ] as const;
 
 export type MfaClientCode = (typeof MFA_CLIENT_CODES)[number];

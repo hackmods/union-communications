@@ -9800,8 +9800,14 @@
       },
       "replace": {
         "warningTitle": "This replaces your current authenticator",
-        "warningBody": "Scanning a new QR code overwrites the secret on this account. Codes from your old authenticator app will stop working. Keep a recovery code handy before you continue.",
+        "warningBody": "Your current authenticator stays active until you confirm the new one. Starting with a recovery code uses it immediately; if you leave setup before confirming, you will need another code.",
+        "factorChoiceLabel": "Choose a replacement proof",
+        "authenticatorChoice": "Authenticator app",
+        "recoveryChoice": "Saved recovery code",
         "currentCodeLabel": "Current verification code",
+        "authenticatorHint": "Enter the current six-digit code from your authenticator app.",
+        "recoveryCodeLabel": "Saved recovery code",
+        "recoveryHint": "Enter one unused recovery code. It is spent when you request a new QR code.",
         "continue": "Continue to new QR code",
         "generateAgain": "Use a new current code to generate another QR code",
         "cancel": "Cancel — keep current authenticator"
@@ -9889,7 +9895,7 @@
         "manage": {
           "lostPhone": {
             "title": "I lost my phone",
-            "body": "Use a recovery code if you still have one. If you cannot verify, contact whoever runs this Officer Hub — they may need to help reset authenticator access."
+            "body": "If you can still sign in with a saved recovery code, open Replace authenticator and choose Recovery code to set up a new app. That code is spent when setup starts; the old app stays active until you confirm the new one. If you have no usable factor, contact whoever runs this Officer Hub for account recovery."
           },
           "recoveryManage": {
             "title": "What are recovery codes?",
@@ -9932,6 +9938,7 @@
         "not_enrolled": "This account does not have an authenticator yet. Set one up, then try again.",
         "limited": "Too many tries. Wait a few minutes, then enter a new code from your app.",
         "no_pending": "No QR setup is waiting. It may have expired or already been confirmed. Try your authenticator code; generate a new QR code only if setup did not finish.",
+        "enrollment_state_changed": "Your authenticator status changed while this page was open. Refresh the page and try again.",
         "nextCodeHint": "If another page asks for a code, use the next number your app shows — not the one you just entered.",
         "challengeCta": "Enter a new verification code"
       },

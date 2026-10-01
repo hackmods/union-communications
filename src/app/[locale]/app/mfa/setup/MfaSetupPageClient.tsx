@@ -63,7 +63,6 @@ export function MfaSetupPageClient() {
   const [pendingExpiresAt, setPendingExpiresAt] = useState<number | null>(null);
   const [clockNow, setClockNow] = useState(() => Date.now());
   const [code, setCode] = useState("");
-  const [replaceCode, setReplaceCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [statusRequestId, setStatusRequestId] = useState<string | null>(null);
   const retryCountdown = useMfaRetryCountdown();
@@ -175,9 +174,15 @@ export function MfaSetupPageClient() {
     );
   }
 
-  const startEnroll = async (currentCode?: string) => {
-    const replacing = Boolean(currentCode) || replaceMode;
-    if (replacing && !looksLikeTotpCode(currentCode ?? "")) {
+  const startEnroll = async (
+    submittedProof?: string,
+    proofKind: "totp" | "recovery" = "totp",
+  ) => {
+    const replacing = Boolean(submittedProof) || replaceMode;
+    const validProof = proofKind === "totp"
+      ? looksLikeTotpCode(submittedProof ?? "")
+      : classifySubmittedMfaCode(submittedProof ?? "") === "recovery";
+    if (replacing && !validProof) {
       setError(mapApiError("empty", t("mfaSetupError")));
       return;
     }
@@ -194,7 +199,11 @@ export function MfaSetupPageClient() {
       const res = await fetch("/api/mfa/enroll", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(currentCode ? { code: currentCode } : {}),
+        body: JSON.stringify(submittedProof
+          ? proofKind === "recovery"
+            ? { recoveryCode: submittedProof }
+            : { code: submittedProof }
+          : {}),
       });
       if (!res.ok) {
         const body = (await res.json().catch(() => ({}))) as {
@@ -306,7 +315,6 @@ export function MfaSetupPageClient() {
     setError(null);
     setCode("");
     if (replaceMode) {
-      setReplaceCode("");
       setState("replaceGate");
     } else {
       void startEnroll();
@@ -361,13 +369,11 @@ export function MfaSetupPageClient() {
     >
       {state === "replaceGate" ? (
         <MfaReplaceGate
-          code={replaceCode}
-          onCodeChange={setReplaceCode}
           loading={replaceSubmitting || retryCountdown.waiting}
           error={error}
           retrySecondsRemaining={retryCountdown.secondsRemaining}
           cancelHref={hubMfaChallengeHref(nextPath)}
-          onConfirm={(submittedCode) => void startEnroll(submittedCode ?? replaceCode)}
+          onConfirm={(submittedProof, proofKind) => void startEnroll(submittedProof, proofKind)}
         />
       ) : null}
 
@@ -510,7 +516,6 @@ export function MfaSetupPageClient() {
               disabled={state === "confirming" || retryCountdown.waiting}
               onClick={() => {
                 if (replaceMode) {
-                  setReplaceCode("");
                   setError(null);
                   setState("replaceGate");
                 } else {
