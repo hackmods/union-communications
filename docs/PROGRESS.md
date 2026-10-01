@@ -1,10 +1,28 @@
-﻿## 2026-10-01 — Keep MFA recovery codes visible during session refresh
+## 2026-10-01 — Keep MFA recovery codes visible during session refresh
 
 - Enrollment confirmation now retains the recovery-code screen across Auth.js loading/authenticated transitions. Refresh no longer rechecks enrollment and redirects away before codes are saved.
 - Continue waits for session verification to settle while recovery codes remain available to copy/download. Pending verification is announced instead of showing a premature failure warning.
 - The browser test opens the manual-key disclosure explicitly and asserts the final confirmation request/response, with no manual rescue click. The earlier clock-skew hypothesis was disproved by matched clocks and a successful confirmation using the visible key.
 - Regression and release evidence: [`mfa-review-2026-09-30.md`](audit/mfa-review-2026-09-30.md), F5 and Phase 5B. Hosted acceptance remains open.
 - What's new: `mfa-save-recovery-codes` (EN/FR, Hub).
+## 2026-09-30 — Hosted Free/Member/Paid dark launch (ADR-024)
+
+- Access class Free vs Full; Member and Paid share Full. Union inherit + local override + optional subsets.
+- CapRover `UNIONOPS_HOSTED_PLANS_ENABLED` (default off). Host readiness CapRover paste + Site Admin `/app/site-admin/hosted-plans`.
+- Migration `0093_hosted_plans`. Operator guide: [`HOSTED_PLANS.md`](guides/HOSTED_PLANS.md). No public pricing.
+
+## 2026-09-30 — Brand Lookbook uplift (smoke, nav, SEO, admin QA)
+
+- Phase 1: `@smoke` axe for `/brand-kit/showcase` + Site Admin compact lookbook; sticky lookbook nav with scroll-spy `aria-current`.
+- Phase 2: SEO/sitemap for showcase; `UnionBrandForm` migrated to shared `ui/*`.
+- Phase 3: Host vs union lookbook compare on brand-styles; Dialog confirm before baseline publish.
+- Phase 4: Decorative Hub/Portal chrome strips on full lookbook.
+
+## 2026-09-30 — Brand Lookbook (Atlas-inspired)
+
+- Shared `BrandLookbook` + `BrandLookbookScope` paints real Hub `ui/*` and `BrandKitPreview` from Brand Kit / draft themes without writing steward localStorage.
+- Public `/brand-kit/showcase` linked from Brand Kit nav, sticky preview, and Match hint. What's new: `brand-lookbook`.
+- Union admin `/app/union-brand` and Site Admin brand-styles / host-brand embed the same gallery (full vs compact) for pre-save QA of chrome vs canvas colours.
 
 ## 2026-09-30 — TOTP encryption, restore drill, authenticator icon
 

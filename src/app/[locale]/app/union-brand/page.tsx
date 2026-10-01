@@ -14,7 +14,7 @@ export default async function UnionBrandPage({ params }: { params: Promise<{ loc
   const t = await getTranslations({ locale, namespace: "hub.unionAdmin" });
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-8 lg:py-12">
+    <main className="mx-auto max-w-5xl px-4 py-8 lg:py-12">
       <Link href="/app" className="text-sm font-medium text-opseu-blue underline underline-offset-2">← {t("backToHub")}</Link>
       <h1 className="mt-3 text-2xl font-bold text-opseu-dark lg:text-3xl">{t("brandTitle")}</h1>
       <p className="mt-2 text-sm text-gray-600">{t("brandIntro")}</p>

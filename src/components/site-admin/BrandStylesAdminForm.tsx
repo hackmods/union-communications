@@ -5,6 +5,9 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
+import { Dialog } from "@/components/ui/Dialog";
+import { BrandLookbook } from "@/components/brand/BrandLookbook";
+import { brandKitFromTheme } from "@/lib/brand/lookbook-kit";
 import { canvasFontFamily, type CanvasFontId } from "@/lib/comms/canvas-fonts";
 import { getUnionPreset } from "@/lib/constants/unionPresets";
 import type { UnionBrandTheme } from "@/lib/brand/union-brand-theme";
@@ -33,6 +36,14 @@ type Draft = {
 };
 
 type Fonts = { headline: string[]; body: string[] };
+
+type HostBrandColours = {
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+};
+
+type LookbookSource = "union" | "host";
 
 const HEX = /^#[0-9A-Fa-f]{6}$/;
 
@@ -152,6 +163,13 @@ export function BrandStylesAdminForm() {
   >({});
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [hostBrand, setHostBrand] = useState<HostBrandColours | null>(null);
+  const [lookbookSourceByUnion, setLookbookSourceByUnion] = useState<
+    Record<string, LookbookSource>
+  >({});
+  const [baselineConfirmUnionId, setBaselineConfirmUnionId] = useState<
+    string | null
+  >(null);
 
   const applyPayload = (data: {
     unions: UnionRow[];
@@ -189,6 +207,21 @@ export function BrandStylesAdminForm() {
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
+      });
+    void fetch("/api/site-admin/host-brand")
+      .then(async (res) => {
+        if (!res.ok) return;
+        const data = (await res.json()) as { brand: HostBrandColours };
+        if (!cancelled && data.brand) {
+          setHostBrand({
+            primaryColor: data.brand.primaryColor,
+            secondaryColor: data.brand.secondaryColor,
+            accentColor: data.brand.accentColor,
+          });
+        }
+      })
+      .catch(() => {
+        /* Host compare is best-effort; union draft still works. */
       });
     return () => {
       cancelled = true;
@@ -775,6 +808,92 @@ export function BrandStylesAdminForm() {
                               {t("brandStylesInvalidHex")}
                             </p>
                           ) : null}
+                          {valid ? (
+                            <div className="mt-4 space-y-3">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <p className="text-xs font-semibold text-opseu-dark">
+                                  {t("brandStylesLookbook")}
+                                </p>
+                                <div
+                                  className="inline-flex rounded-md border border-opseu-gray/25 p-0.5"
+                                  role="group"
+                                  aria-label={t("brandStylesLookbookSource")}
+                                >
+                                  <button
+                                    type="button"
+                                    className={`rounded px-2 py-1 text-xs font-medium ${
+                                      (lookbookSourceByUnion[row.id] ?? "union") === "union"
+                                        ? "bg-opseu-blue text-white"
+                                        : "text-opseu-dark"
+                                    }`}
+                                    aria-pressed={(lookbookSourceByUnion[row.id] ?? "union") === "union"}
+                                    onClick={() =>
+                                      setLookbookSourceByUnion((prev) => ({
+                                        ...prev,
+                                        [row.id]: "union",
+                                      }))
+                                    }
+                                  >
+                                    {t("brandStylesLookbookUnion")}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className={`rounded px-2 py-1 text-xs font-medium ${
+                                      lookbookSourceByUnion[row.id] === "host"
+                                        ? "bg-opseu-blue text-white"
+                                        : "text-opseu-dark"
+                                    }`}
+                                    aria-pressed={lookbookSourceByUnion[row.id] === "host"}
+                                    disabled={!hostBrand}
+                                    title={
+                                      !hostBrand
+                                        ? t("brandStylesLookbookHostUnavailable")
+                                        : undefined
+                                    }
+                                    onClick={() =>
+                                      setLookbookSourceByUnion((prev) => ({
+                                        ...prev,
+                                        [row.id]: "host",
+                                      }))
+                                    }
+                                  >
+                                    {t("brandStylesLookbookHost")}
+                                  </button>
+                                </div>
+                              </div>
+                              <BrandLookbook
+                                brandKit={brandKitFromTheme(
+                                  lookbookSourceByUnion[row.id] === "host" && hostBrand
+                                    ? {
+                                        primaryColor: hostBrand.primaryColor.toUpperCase(),
+                                        secondaryColor: hostBrand.secondaryColor.toUpperCase(),
+                                        accentColor: hostBrand.accentColor.toUpperCase(),
+                                      }
+                                    : {
+                                        primaryColor: draft.primaryColor.toUpperCase(),
+                                        secondaryColor: draft.secondaryColor.toUpperCase(),
+                                        accentColor: draft.accentColor.toUpperCase(),
+                                        headlineFontId: draft.headlineFontId as CanvasFontId,
+                                        bodyFontId: draft.bodyFontId as CanvasFontId,
+                                      },
+                                )}
+                                hydrated
+                                mode="compact"
+                                showHeader={false}
+                                idPrefix={`site-admin-${row.id}`}
+                              />
+                              {!hostBrand ? (
+                                <p className="text-xs text-opseu-gray-dark">
+                                  {t("brandStylesLookbookHostUnavailable")}
+                                </p>
+                              ) : null}
+                              {lookbookSourceByUnion[row.id] === "host" && hostBrand ? (
+                                <p className="text-xs text-opseu-gray-dark">
+                                  {t("brandStylesLookbookHostFontsNote")}
+                                </p>
+                              ) : null}
+                            </div>
+                          ) : null}
                         </>
                       ) : null}
                     </div>
@@ -867,7 +986,7 @@ export function BrandStylesAdminForm() {
                                 !valid ||
                                 savingId === row.id
                               }
-                              onClick={() => void publishBaseline(row.id, true)}
+                              onClick={() => setBaselineConfirmUnionId(row.id)}
                             >
                               {baselineBusyId === row.id
                                 ? t("brandStylesBaselineBusy")
@@ -895,6 +1014,43 @@ export function BrandStylesAdminForm() {
           })}
         </ul>
       )}
+
+      <Dialog
+        open={Boolean(baselineConfirmUnionId)}
+        onClose={() => setBaselineConfirmUnionId(null)}
+        title={t("brandStylesBaselineConfirmTitle")}
+        closeLabel={t("brandStylesBaselineConfirmCancel")}
+        footer={
+          <>
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              onClick={() => setBaselineConfirmUnionId(null)}
+            >
+              {t("brandStylesBaselineConfirmCancel")}
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              disabled={
+                !baselineConfirmUnionId ||
+                baselineBusyId === baselineConfirmUnionId
+              }
+              onClick={() => {
+                const id = baselineConfirmUnionId;
+                setBaselineConfirmUnionId(null);
+                if (id) void publishBaseline(id, true);
+              }}
+            >
+              {t("brandStylesBaselineConfirmPublish")}
+            </Button>
+          </>
+        }
+      >
+        <p>{t("brandStylesBaselineConfirmBody")}</p>
+      </Dialog>
+
     </div>
   );
 }

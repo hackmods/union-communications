@@ -1,63 +1,15 @@
 import type { HostAction } from "@/lib/ops/host-readiness-actions";
+import {
+  HOST_ACTION_CONSEQUENCE_KEYS,
+  HOST_ACTION_TITLE_KEYS,
+  HOST_GAP_KEYS,
+} from "@/lib/ops/host-readiness-copy";
 import { CapRoverConfigCopyButton } from "@/components/site-admin/CapRoverConfigCopyButton";
 
 type Translate = (
   key: string,
   values?: Record<string, string | number | Date>,
 ) => string;
-
-const ACTION_TITLE_KEYS = {
-  postgresConfigured: "hostPresencePostgres",
-  migrateVerified: "hostPresenceMigrate",
-  tenantsSeeded: "hostPresenceTenantsSeeded",
-  emailEnabled: "hostPresenceEmail",
-  accessRequestNotify: "hostPresenceAccessRequestNotify",
-  cronConfigured: "hostPresenceCron",
-  mfaEnabled: "hostPresenceMfa",
-  totpEncryptionConfigured: "hostPresenceTotpEncryption",
-  mfaOperatorBypassOff: "hostPresenceMfaOperatorBypass",
-  mfaDurableStoreHealthy: "hostPresenceMfaDurableStore",
-  demoAuthOff: "hostPresenceDemoAuth",
-  attachmentStorageApproved: "hostPresenceAttachmentStorage",
-  strictUploadScan: "hostPresenceStrictScan",
-  backupRestoreEvidence: "hostPresenceBackupRestore",
-  alertDeliveryEvidence: "hostPresenceAlertDelivery",
-  publicLegalContacts: "hostPresencePublicLegalContacts",
-  publicDocumentsReady: "hostPresencePublicDocuments",
-} as const;
-
-const ACTION_CONSEQUENCE_KEYS = {
-  postgresConfigured: "hostActionConsequencePostgres",
-  migrateVerified: "hostActionConsequenceMigrate",
-  tenantsSeeded: "hostActionConsequenceTenantsSeeded",
-  emailEnabled: "hostActionConsequenceEmail",
-  accessRequestNotify: "hostActionConsequenceAccessRequestNotify",
-  cronConfigured: "hostActionConsequenceCron",
-  mfaEnabled: "hostActionConsequenceMfa",
-  totpEncryptionConfigured: "hostActionConsequenceTotpEncryption",
-  mfaOperatorBypassOff: "hostActionConsequenceMfaOperatorBypass",
-  mfaDurableStoreHealthy: "hostActionConsequenceMfaDurableStore",
-  demoAuthOff: "hostActionConsequenceDemoAuth",
-  attachmentStorageApproved: "hostActionConsequenceAttachmentStorage",
-  strictUploadScan: "hostActionConsequenceStrictScan",
-  backupRestoreEvidence: "hostActionConsequenceBackupRestore",
-  alertDeliveryEvidence: "hostActionConsequenceAlertDelivery",
-  publicLegalContacts: "hostActionConsequencePublicLegalContacts",
-  publicDocumentsReady: "hostActionConsequencePublicDocuments",
-} as const;
-
-const GAP_KEYS = {
-  approved_flag: "hostGapApprovedFlag",
-  configured_flag: "hostGapConfiguredFlag",
-  review_date_or_owner: "hostGapReviewDateOrOwner",
-  review_stale: "hostGapReviewStale",
-  storage_config: "hostGapStorageConfig",
-  scanner_url: "hostGapScannerUrl",
-  scanner_mode: "hostGapScannerMode",
-  scanner_skip_allowed: "hostGapScannerSkipAllowed",
-  contacts_incomplete: "hostGapContactsIncomplete",
-  contacts_monitoring: "hostGapContactsMonitoring",
-} as const;
 
 export function HostActionCard({
   action,
@@ -78,16 +30,16 @@ export function HostActionCard({
   return (
     <article className={`rounded-lg border p-4 shadow-sm ${border}`}>
       <h3 className="text-sm font-semibold text-opseu-dark">
-        {t(ACTION_TITLE_KEYS[action.id])}
+        {t(HOST_ACTION_TITLE_KEYS[action.id])}
       </h3>
       <p className="mt-1 text-sm text-opseu-gray-dark">
-        {t(ACTION_CONSEQUENCE_KEYS[action.id])}
+        {t(HOST_ACTION_CONSEQUENCE_KEYS[action.id])}
       </p>
 
       {action.gapCodes.length > 0 ? (
         <ul className="mt-2 list-disc space-y-0.5 pl-5 text-xs text-opseu-gray-dark">
           {action.gapCodes.map((code) => (
-            <li key={code}>{t(GAP_KEYS[code])}</li>
+            <li key={code}>{t(HOST_GAP_KEYS[code])}</li>
           ))}
         </ul>
       ) : null}

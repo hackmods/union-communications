@@ -21,24 +21,28 @@ export type HostEnvKeyHint = {
   formatHint: string;
 };
 
-export type HostActionId =
-  | "postgresConfigured"
-  | "migrateVerified"
-  | "tenantsSeeded"
-  | "emailEnabled"
-  | "accessRequestNotify"
-  | "cronConfigured"
-  | "mfaEnabled"
-  | "totpEncryptionConfigured"
-  | "mfaOperatorBypassOff"
-  | "mfaDurableStoreHealthy"
-  | "demoAuthOff"
-  | "attachmentStorageApproved"
-  | "strictUploadScan"
-  | "backupRestoreEvidence"
-  | "alertDeliveryEvidence"
-  | "publicLegalContacts"
-  | "publicDocumentsReady";
+export const HOST_ACTION_IDS = [
+  "postgresConfigured",
+  "migrateVerified",
+  "tenantsSeeded",
+  "emailEnabled",
+  "accessRequestNotify",
+  "cronConfigured",
+  "mfaEnabled",
+  "totpEncryptionConfigured",
+  "mfaOperatorBypassOff",
+  "mfaDurableStoreHealthy",
+  "demoAuthOff",
+  "attachmentStorageApproved",
+  "strictUploadScan",
+  "backupRestoreEvidence",
+  "alertDeliveryEvidence",
+  "publicLegalContacts",
+  "publicDocumentsReady",
+  "hostedPlansDarkLaunch",
+] as const;
+
+export type HostActionId = (typeof HOST_ACTION_IDS)[number];
 
 export type HostAction = {
   id: HostActionId;
@@ -519,6 +523,26 @@ export function buildHostActions(health: HealthStatus): HostAction[] {
       ],
       gapCodes: [],
       caproverBlock: lines([["PUBLIC_DOCUMENTS_REQUIRE_READY", "true"]]),
+    },
+    {
+      id: "hostedPlansDarkLaunch",
+      severity: "advisory",
+      // Dark (false) is the correct default — card stays visible with CapRover copy.
+      ok: health.hostedPlansEnabled,
+      group: "opsSignal",
+      envKeys: [
+        {
+          name: "UNIONOPS_HOSTED_PLANS_ENABLED",
+          role: "required",
+          formatHint: "false",
+        },
+      ],
+      gapCodes: [],
+      caproverBlock: [
+        "# Hosted Free/Full caps — leave false until Site Admin assigns plans",
+        "UNIONOPS_HOSTED_PLANS_ENABLED=false",
+        "# UNIONOPS_HOSTED_PLANS_ENABLED=true",
+      ].join("\n"),
     },
   ];
 

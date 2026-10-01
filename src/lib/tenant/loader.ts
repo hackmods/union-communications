@@ -8,7 +8,14 @@ import {
   getUnitPatches,
   getCommsPresetPatch,
   getBrandThemePatch,
+  getUnionHostedPlanPatch,
+  getLocalHostedPlanPatch,
 } from "@/lib/tenant/overlay";
+import {
+  UNSET_HOSTED_PLAN,
+  isHostedPlansEnabled,
+  resolveEffectiveHubModules,
+} from "@/lib/tenant/hosted-plans";
 import type {
   BargainingUnit,
   BrandDefaults,
@@ -187,8 +194,26 @@ export function getTenantContext(
     locals[0] ??
     seed.local;
   const divisions = normalizeDivisions(seed);
+
+  let enabledModules = seed.union.enabledModules;
+  if (isHostedPlansEnabled()) {
+    const unionPlan = getUnionHostedPlanPatch(unionId) ?? UNSET_HOSTED_PLAN;
+    // Only apply a local override when the caller named a localId.
+    // Do not use the fallback locals[0] plan for union-wide lookups.
+    const localPlan =
+      localId && local?.id
+        ? (getLocalHostedPlanPatch(local.id) ?? UNSET_HOSTED_PLAN)
+        : UNSET_HOSTED_PLAN;
+    enabledModules = resolveEffectiveHubModules({
+      unionModules: seed.union.enabledModules,
+      unionPlan,
+      localPlan,
+      enforcementEnabled: true,
+    });
+  }
+
   return {
-    union: seed.union,
+    union: { ...seed.union, enabledModules },
     division: local
       ? divisions.find((row) => row.id === local.divisionId)
       : divisions[0],

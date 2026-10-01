@@ -24,6 +24,7 @@ import { isMfaOperatorBypassConfigured } from "@/lib/auth/mfa-operator-bypass";
 import { mfaDurableFallbackRecently } from "@/lib/auth/mfa-durable-fallback-signal";
 import { isTotpEncryptionConfigured } from "@/lib/auth/totp-secret-crypto";
 import { readHostedControlEvidence, type HostedControlEvidence } from "@/lib/ops/host-control-evidence";
+import { isHostedPlansEnabled } from "@/lib/tenant/hosted-plans";
 
 /** Non-secret runtime summary for `/api/health` (operators + smoke). */
 export type HealthStatus = {
@@ -55,6 +56,8 @@ export type HealthStatus = {
    */
   mfaDurableFallbackRecent: boolean;
   hostedCustomerMode: boolean;
+  /** CapRover UNIONOPS_HOSTED_PLANS_ENABLED — Free/Full caps dark when false. */
+  hostedPlansEnabled: boolean;
   demoAuthEnabled: boolean;
   /** Operator error sinks (Sentry / JSONL) — no secrets. */
   observability: ObservabilityHealth;
@@ -161,6 +164,7 @@ export async function buildHealthStatus(): Promise<HealthStatus> {
     mfaOperatorBypassConfigured: isMfaOperatorBypassConfigured(),
     mfaDurableFallbackRecent: mfaDurableFallbackRecently(),
     hostedCustomerMode: isHostedCustomerMode(),
+    hostedPlansEnabled: isHostedPlansEnabled(),
     demoAuthEnabled: isDemoAuthEnabled(),
     observability: buildObservabilityHealth(),
     hostedControlEvidence: readHostedControlEvidence(),

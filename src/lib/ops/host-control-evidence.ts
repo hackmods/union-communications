@@ -12,17 +12,20 @@ import { readPublicLegalContacts } from "@/lib/legal/public-contacts";
 export const HOST_OPERATIONAL_EVIDENCE_MAX_AGE_DAYS = 90;
 
 /** Non-secret reason codes for CapRover action cards (never emails/paths). */
-export type HostEvidenceGapCode =
-  | "approved_flag"
-  | "configured_flag"
-  | "review_date_or_owner"
-  | "review_stale"
-  | "storage_config"
-  | "scanner_url"
-  | "scanner_mode"
-  | "scanner_skip_allowed"
-  | "contacts_incomplete"
-  | "contacts_monitoring";
+export const HOST_EVIDENCE_GAP_CODES = [
+  "approved_flag",
+  "configured_flag",
+  "review_date_or_owner",
+  "review_stale",
+  "storage_config",
+  "scanner_url",
+  "scanner_mode",
+  "scanner_skip_allowed",
+  "contacts_incomplete",
+  "contacts_monitoring",
+] as const;
+
+export type HostEvidenceGapCode = (typeof HOST_EVIDENCE_GAP_CODES)[number];
 
 export type HostedControlEvidence = {
   attachmentStorageApproved: boolean;

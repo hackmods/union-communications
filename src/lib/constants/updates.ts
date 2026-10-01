@@ -24,11 +24,18 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+  {
     id: "mfa-save-recovery-codes",
     date: "2026-10-01",
     kind: "improved",
     audience: "hub",
     href: "/app/mfa/setup",
+  },
+  {
+    id: "brand-lookbook",
+    date: "2026-09-30",
+    kind: "added",
+    href: "/brand-kit/showcase",
   },
   {
     id: "mfa-authenticator-icon",

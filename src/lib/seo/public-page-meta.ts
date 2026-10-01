@@ -83,6 +83,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Set your colours, logo, local number, and key links once, then reuse them across boards, print, social graphics, and the website template.",
     },
+    "/brand-kit/showcase": {
+      title: "Brand lookbook",
+      description:
+        "See Officer Hub buttons, forms, alerts, and a Comms sample painted with the Brand Kit colours and fonts saved in this browser before you print or export.",
+    },
     "/examples": {
       title: "Social Examples",
       description:
@@ -431,6 +436,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Trousse de marque de votre section",
       description:
         "Réglez une seule fois vos couleurs, logo, numéro de section et liens clés, puis réutilisez-les sur tableaux, impressions, graphiques sociaux et le modèle de site.",
+    },
+    "/brand-kit/showcase": {
+      title: "Carnet de marque",
+      description:
+        "Voyez boutons, formulaires et alertes du Hub des dirigeants peints avec le kit de marque de ce navigateur avant d’imprimer ou d’exporter.",
     },
     "/examples": {
       title: "Exemples sociaux",

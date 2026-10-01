@@ -1,0 +1,18 @@
+---
+description: Host readiness CapRover action board — keep catalog, evidence gaps, and EN/FR in sync
+globs: src/lib/ops/host-*.ts,src/app/**/site-admin/host/**,src/components/site-admin/HostAction*.tsx,src/components/site-admin/CapRover*.tsx,docker/.env.production.example,scripts/verify-host-readiness*
+alwaysApply: false
+---
+
+# Host readiness (CapRover action board)
+
+**Canonical instructions live in [`AGENTS.md`](../../AGENTS.md) (section Host readiness / CapRover gates) and [`.cursorrules`](../../.cursorrules).** Claude Code and Codex load those; this file is Cursor convenience only — do not invent a second policy here.
+
+When adding or changing a hosted CapRover gate:
+
+1. Evidence / gap codes → [`src/lib/ops/host-control-evidence.ts`](../../src/lib/ops/host-control-evidence.ts)
+2. Action catalog + CapRover placeholders → [`src/lib/ops/host-readiness-actions.ts`](../../src/lib/ops/host-readiness-actions.ts)
+3. Title / consequence / gap i18n maps → [`src/lib/ops/host-readiness-copy.ts`](../../src/lib/ops/host-readiness-copy.ts) + `messages/en.json` / `messages/fr.json` under `hub.platformOperator`
+4. Run `npm run test:unit -- src/lib/ops/host-readiness-copy.test.ts src/lib/comms/public-copy-style.test.ts`
+
+Never show live secret values on `/app/site-admin/host`. No packet-tracker UI; deeper narrative: [`docs/guides/HOSTED_SECURITY.md`](../../docs/guides/HOSTED_SECURITY.md).

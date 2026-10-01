@@ -4,6 +4,8 @@ import { useEffect, useId, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
+import { BrandLookbook } from "@/components/brand/BrandLookbook";
+import { brandKitFromTheme } from "@/lib/brand/lookbook-kit";
 
 type HostBrand = {
   primaryColor: string;
@@ -330,6 +332,25 @@ export function HostBrandAdminForm() {
           </select>
         </div>
       </div>
+
+      {brand && coloursValid ? (
+        <div className="mt-4">
+          <p className="mb-2 text-xs font-semibold text-opseu-dark">
+            {t("hostBrandLookbook")}
+          </p>
+          <BrandLookbook
+            brandKit={brandKitFromTheme({
+              primaryColor: brand.primaryColor.toUpperCase(),
+              secondaryColor: brand.secondaryColor.toUpperCase(),
+              accentColor: brand.accentColor.toUpperCase(),
+            })}
+            hydrated
+            mode="compact"
+            showHeader={false}
+            idPrefix="host-brand-lookbook"
+          />
+        </div>
+      ) : null}
 
       <div className="mt-4 flex flex-wrap gap-2">
         <Button

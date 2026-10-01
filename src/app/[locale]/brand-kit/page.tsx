@@ -189,6 +189,9 @@ export default function BrandKitPage() {
         <a href="#brand-display" className={sectionLinkClass}>
           {t("sections.display")}
         </a>
+        <Link href="/brand-kit/showcase" className={sectionLinkClass}>
+          {t("sections.lookbook")}
+        </Link>
       </nav>
 
       <div className="mt-5 grid min-w-0 items-start gap-5 xl:grid-cols-[minmax(0,1.8fr)_minmax(20rem,1fr)]">
@@ -364,6 +367,12 @@ export default function BrandKitPage() {
             <PublicHubPanel title={t("previewTitle")} description={t("previewDescription")}>
               <BrandKitPreview brandKit={brandKit} hydrated={hydrated} />
               <p className="text-xs text-slate-600">{t("previewNote")}</p>
+              <div className="mt-3 space-y-1">
+                <ButtonLink href="/brand-kit/showcase" variant="outline" size="sm">
+                  {t("lookbook.pageCta")}
+                </ButtonLink>
+                <p className="text-xs text-slate-600">{t("lookbook.pageCtaHint")}</p>
+              </div>
             </PublicHubPanel>
           </div>
         </aside>
