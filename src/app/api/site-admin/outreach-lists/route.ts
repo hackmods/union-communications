@@ -63,63 +63,76 @@ export async function GET() {
       lists: [],
     });
   }
-  return withRlsContext(authorization.access.rlsContext, async () => {
-    const unionRows = await getDb()
-      .select({
-        id: unions.id,
-        name: unions.name,
-        slug: unions.slug,
-        outreachListsEnabled: unions.outreachListsEnabled,
-      })
-      .from(unions)
-      .where(isNull(unions.archivedAt))
-      .orderBy(unions.name);
-    const lists = await getDb()
-      .select({
-        id: outreachLists.id,
-        unionId: outreachLists.unionId,
-        name: outreachLists.name,
-        slug: outreachLists.slug,
-        status: outreachLists.status,
-        createdAt: outreachLists.createdAt,
-      })
-      .from(outreachLists)
-      .orderBy(desc(outreachLists.createdAt))
-      .limit(200);
-    const listStats = await getDb().execute(sql`
-      SELECT list_id,
-        count(*) FILTER (WHERE status = 'confirmed')::int AS confirmed,
-        count(*) FILTER (WHERE status = 'pending_confirmation')::int AS pending,
-        count(*) FILTER (WHERE status = 'suppressed')::int AS suppressed
-      FROM outreach_subscribers
-      GROUP BY list_id`);
-    return outreachAdminJson({
-      durable: true,
-      host,
-      config: {
-        enabled: config.enabled,
-        reason: config.reason,
-        noticeVersion: OUTREACH_LIST_NOTICE_VERSION,
-        approvalReferencePresent: Boolean(config.approvalReference),
-      },
-      unions: unionRows.map((u) => ({
-        id: u.id,
-        name: u.name,
-        slug: u.slug,
-        outreachListsEnabled: u.outreachListsEnabled === true,
-      })),
-      lists: lists.map((list) => {
-        const stats = listStats.find((row) => row.list_id === list.id);
-        return {
-          ...list,
-          createdAt: list.createdAt.toISOString(),
-          confirmed: Number(stats?.confirmed ?? 0),
-          pending: Number(stats?.pending ?? 0),
-          suppressed: Number(stats?.suppressed ?? 0),
-        };
-      }),
+  try {
+    return await withRlsContext(authorization.access.rlsContext, async () => {
+      const unionRows = await getDb()
+        .select({
+          id: unions.id,
+          name: unions.name,
+          slug: unions.slug,
+          outreachListsEnabled: unions.outreachListsEnabled,
+        })
+        .from(unions)
+        .where(isNull(unions.archivedAt))
+        .orderBy(unions.name);
+      const lists = await getDb()
+        .select({
+          id: outreachLists.id,
+          unionId: outreachLists.unionId,
+          name: outreachLists.name,
+          slug: outreachLists.slug,
+          status: outreachLists.status,
+          createdAt: outreachLists.createdAt,
+        })
+        .from(outreachLists)
+        .orderBy(desc(outreachLists.createdAt))
+        .limit(200);
+      const listStats = await getDb().execute(sql`
+        SELECT list_id,
+          count(*) FILTER (WHERE status = 'confirmed')::int AS confirmed,
+          count(*) FILTER (WHERE status = 'pending_confirmation')::int AS pending,
+          count(*) FILTER (WHERE status = 'suppressed')::int AS suppressed
+        FROM outreach_subscribers
+        GROUP BY list_id`);
+      const statsRows = Array.from(listStats) as Array<{
+        list_id: string;
+        confirmed: number;
+        pending: number;
+        suppressed: number;
+      }>;
+      return outreachAdminJson({
+        durable: true,
+        host,
+        config: {
+          enabled: config.enabled,
+          reason: config.reason,
+          noticeVersion: OUTREACH_LIST_NOTICE_VERSION,
+          approvalReferencePresent: Boolean(config.approvalReference),
+        },
+        unions: unionRows.map((u) => ({
+          id: u.id,
+          name: u.name,
+          slug: u.slug,
+          outreachListsEnabled: u.outreachListsEnabled === true,
+        })),
+        lists: lists.map((list) => {
+          const stats = statsRows.find((row) => row.list_id === list.id);
+          return {
+            ...list,
+            createdAt: list.createdAt.toISOString(),
+            confirmed: Number(stats?.confirmed ?? 0),
+            pending: Number(stats?.pending ?? 0),
+            suppressed: Number(stats?.suppressed ?? 0),
+          };
+        }),
+      });
     });
-  });
+  } catch {
+    return outreachAdminJson(
+      { error: "Could not load outreach list operations." },
+      { status: 503 },
+    );
+  }
 }
 
 export async function PATCH(request: Request) {
@@ -135,9 +148,13 @@ export async function PATCH(request: Request) {
   if (!parsed.success) {
     return outreachAdminJson({ error: "Invalid body" }, { status: 400 });
   }
-  if (!hostAllowsOutreach()) {
-    return outreachAdminJson({ error: "Host flag is off" }, { status: 409 });
+  if (!isPostgresConfigured()) {
+    return outreachAdminJson(
+      { error: "Durable database required for email entitlements." },
+      { status: 503 },
+    );
   }
+  // Dual gate: entitlement may be prepared before CapRover host flag / notice approval.
   const ok = await setUnionEmailEntitlements(parsed.data.unionId, {
     outreachListsEnabled: parsed.data.outreachListsEnabled,
   });
@@ -152,13 +169,10 @@ export async function PATCH(request: Request) {
     metadata: {
       requestId,
       outreachListsEnabled: String(parsed.data.outreachListsEnabled),
+      hostOutreachLists: String(getEnterpriseEmailHostFlags().outreach_lists),
     },
   });
   return outreachAdminJson({ ok: true }, { headers: responseHeaders() });
-}
-
-function hostAllowsOutreach(): boolean {
-  return getEnterpriseEmailHostFlags().outreach_lists;
 }
 
 export async function POST(request: Request) {

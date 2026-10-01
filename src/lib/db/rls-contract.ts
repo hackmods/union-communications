@@ -373,6 +373,14 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
   { table: "marketing_dispatch_control", policy: "marketing_dispatch_job", migration: "0077_product_news_consent.sql" },
   { table: "member_broadcast_consents", policy: "member_broadcast_consents_tenant", migration: "0079_member_broadcast.sql" },
   { table: "member_broadcast_campaigns", policy: "member_broadcast_campaigns_tenant", migration: "0079_member_broadcast.sql" },
+  // ADR-023 outreach lists — tenant scope plus Site Admin customization_root bypass (0094).
+  { table: "outreach_lists", policy: "outreach_lists_tenant", migration: "0094_outreach_lists_admin_rls.sql" },
+  { table: "outreach_subscribers", policy: "outreach_subscribers_tenant", migration: "0094_outreach_lists_admin_rls.sql" },
+  { table: "outreach_consent_events", policy: "outreach_consent_events_tenant", migration: "0094_outreach_lists_admin_rls.sql" },
+  { table: "outreach_suppressions", policy: "outreach_suppressions_tenant", migration: "0094_outreach_lists_admin_rls.sql" },
+  { table: "outreach_campaigns", policy: "outreach_campaigns_tenant", migration: "0094_outreach_lists_admin_rls.sql" },
+  { table: "outreach_deliveries", policy: "outreach_deliveries_tenant", migration: "0094_outreach_lists_admin_rls.sql" },
+  { table: "outreach_action_tokens", policy: "outreach_action_tokens_tenant", migration: "0094_outreach_lists_admin_rls.sql" },
 
   ...(["grievance_events", "grievance_notes", "grievance_outcomes", "grievance_participants"] as const).map((table) => ({
     table,

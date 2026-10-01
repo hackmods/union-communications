@@ -3887,6 +3887,56 @@
           "notNull": false
         },
         {
+          "name": "hosted_access_class",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "hosted_commercial_class",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "hosted_donation_acknowledged",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "hosted_module_subset",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "hosted_plan_notes",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "hosted_plan_updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "hosted_plan_updated_by",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "hosted_portal_surface_subset",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "hosted_seat_cap",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "hosted_seat_sku",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "id",
           "dataType": "text",
           "notNull": true
@@ -9147,6 +9197,56 @@
           "notNull": true
         },
         {
+          "name": "hosted_access_class",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "hosted_commercial_class",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "hosted_donation_acknowledged",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "hosted_module_subset",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "hosted_plan_notes",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "hosted_plan_updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "hosted_plan_updated_by",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "hosted_portal_surface_subset",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "hosted_seat_cap",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "hosted_seat_sku",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "id",
           "dataType": "text",
           "notNull": true
@@ -9981,6 +10081,41 @@
       "schema": "public",
       "table": "officer_roster",
       "name": "officer_roster_member_scope"
+    },
+    {
+      "schema": "public",
+      "table": "outreach_action_tokens",
+      "name": "outreach_action_tokens_tenant"
+    },
+    {
+      "schema": "public",
+      "table": "outreach_campaigns",
+      "name": "outreach_campaigns_tenant"
+    },
+    {
+      "schema": "public",
+      "table": "outreach_consent_events",
+      "name": "outreach_consent_events_tenant"
+    },
+    {
+      "schema": "public",
+      "table": "outreach_deliveries",
+      "name": "outreach_deliveries_tenant"
+    },
+    {
+      "schema": "public",
+      "table": "outreach_lists",
+      "name": "outreach_lists_tenant"
+    },
+    {
+      "schema": "public",
+      "table": "outreach_subscribers",
+      "name": "outreach_subscribers_tenant"
+    },
+    {
+      "schema": "public",
+      "table": "outreach_suppressions",
+      "name": "outreach_suppressions_tenant"
     },
     {
       "schema": "public",

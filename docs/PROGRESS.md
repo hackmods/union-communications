@@ -5,6 +5,12 @@
 - The browser test opens the manual-key disclosure explicitly and asserts the final confirmation request/response, with no manual rescue click. The earlier clock-skew hypothesis was disproved by matched clocks and a successful confirmation using the visible key.
 - Regression and release evidence: [`mfa-review-2026-09-30.md`](audit/mfa-review-2026-09-30.md), F5 and Phase 5B. Hosted acceptance remains open.
 - What's new: `mfa-save-recovery-codes` (EN/FR, Hub).
+
+## 2026-10-01 — Site Admin outreach lists RLS + ops panel
+
+- Root cause: outreach RLS from `0088` required `union_id = app.current_union_id` even when `platform_admin` was set, so Site Admin inventory always returned empty; entitlement PATCH also refused when the CapRover host flag was off.
+- Migration `0094_outreach_lists_admin_rls`: MFA-verified platform admins use `customization_root(NULL, true)` for cross-union reads (same pattern as product news). Admin authorize now passes `userId`.
+- Entitlement toggles may be prepared before the host flag; dual gate still blocks sends. Panel adds union selector, pause/resume, audit export, and clearer empty/error states.
 ## 2026-09-30 — Hosted Free/Member/Paid dark launch (ADR-024)
 
 - Access class Free vs Full; Member and Paid share Full. Union inherit + local override + optional subsets.

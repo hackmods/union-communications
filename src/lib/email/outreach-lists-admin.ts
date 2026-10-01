@@ -9,6 +9,7 @@ export type OutreachAdminAccess =
       access: {
         actorId: string;
         rlsContext: {
+          userId: string;
           platformAdmin: true;
           mfaVerified: true;
         };
@@ -33,7 +34,11 @@ export async function authorizeOutreachListsAdmin(): Promise<OutreachAdminAccess
     ok: true,
     access: {
       actorId: gate.session.user.id,
-      rlsContext: { platformAdmin: true, mfaVerified: true },
+      rlsContext: {
+        userId: gate.session.user.id,
+        platformAdmin: true,
+        mfaVerified: true,
+      },
     },
   };
 }

@@ -346,6 +346,16 @@ function assertOutreachMigrationArtifacts(): void {
       throw new Error(`Outreach migration missing ${needle}`);
     }
   }
+  const adminRlsPath = join(
+    process.cwd(),
+    "src/lib/db/migrations/0094_outreach_lists_admin_rls.sql",
+  );
+  const adminRls = readFileSync(adminRlsPath, "utf8");
+  if (!adminRls.includes("public.customization_root(NULL, true)")) {
+    throw new Error(
+      "Outreach admin RLS migration missing customization_root Site Admin bypass",
+    );
+  }
 }
 
 const UNION = "union-b7p";

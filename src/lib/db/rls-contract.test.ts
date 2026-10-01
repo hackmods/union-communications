@@ -71,6 +71,11 @@ describe("RLS policy contract (no live DB)", () => {
         expect(sql).toContain("public.customization_root(");
         continue;
       }
+      if (row.migration === "0094_outreach_lists_admin_rls.sql") {
+        expect(sql).toContain("app.current_union_id");
+        expect(sql).toContain("public.customization_root(");
+        continue;
+      }
       // Circle memberships are explicit cross-local relationships. Preferences
       // stay union-bound and actor-bound, while the membership itself decides
       // the Circle; requiring the currently selected local would break invited
