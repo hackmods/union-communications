@@ -30,6 +30,7 @@ type MfaStatus = {
   enrolled: boolean;
   needsEnrollment: boolean;
   mfaVerified: boolean;
+  reenrollGrace: boolean;
   recoveryCodesRemaining: number | null;
 };
 
@@ -78,6 +79,7 @@ export function MfaPageClient() {
           enrolled: Boolean(data.enrolled),
           needsEnrollment: Boolean(data.needsEnrollment),
           mfaVerified: Boolean(data.mfaVerified),
+          reenrollGrace: Boolean(data.reenrollGrace),
           recoveryCodesRemaining:
             typeof data.recoveryCodesRemaining === "number"
               ? data.recoveryCodesRemaining
@@ -114,6 +116,22 @@ export function MfaPageClient() {
           nextPath={nextPath}
           onContinue={resume}
         />
+      </MfaJourneyShell>
+    );
+  }
+
+  if (mfaStatus.reenrollGrace) {
+    return (
+      <MfaJourneyShell
+        title={tJourney("reenrollGrace.title")}
+        subtitle={tJourney("reenrollGrace.body")}
+      >
+        <Link
+          href={hubMfaSetupHref(nextPath)}
+          className="inline-flex min-h-11 items-center justify-center rounded-md bg-opseu-blue px-4 py-2 font-semibold text-white hover:bg-opseu-blue/90"
+        >
+          {tJourney("reenrollGrace.cta")}
+        </Link>
       </MfaJourneyShell>
     );
   }

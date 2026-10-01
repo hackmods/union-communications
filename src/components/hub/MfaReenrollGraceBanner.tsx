@@ -1,15 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { hubMfaSetupHref } from "@/lib/auth/mfa-return-path";
+import { hubMfaSetupHref, safeMfaReturnPath } from "@/lib/auth/mfa-return-path";
 import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 
 /**
  * Shown while durable re-enroll grace is active after MFA reset.
  */
 export function MfaReenrollGraceBanner() {
+  const pathname = usePathname();
   const t = useTranslations("hub");
   const { authenticated } = useHubAuthenticated();
   const [graceUntil, setGraceUntil] = useState<string | null>(null);
@@ -38,6 +40,9 @@ export function MfaReenrollGraceBanner() {
   }, [authenticated]);
 
   if (!authenticated || !graceUntil) return null;
+  const nextPath = safeMfaReturnPath(
+    (pathname ?? "/app").replace(/^\/[a-z]{2}(?=\/)/, ""),
+  );
 
   return (
     <div
@@ -47,7 +52,7 @@ export function MfaReenrollGraceBanner() {
       <div className="mx-auto flex max-w-[100rem] flex-col gap-1 px-4 py-2.5 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 xl:px-8">
         <p>{t("mfaReenrollGraceBanner")}</p>
         <Link
-          href={hubMfaSetupHref("/app")}
+          href={hubMfaSetupHref(nextPath)}
           className="font-semibold text-opseu-blue underline underline-offset-2"
         >
           {t("mfaReenrollGraceCta")}

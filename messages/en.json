@@ -8362,7 +8362,7 @@
     "welcome": "Welcome, {name}",
     "signOut": "Sign out",
     "signIn": "Sign in",
-    "mfaReenrollGraceBanner": "Your authenticator was reset. Set up a new app before this grace period ends so you stay signed in to Officer Hub.",
+    "mfaReenrollGraceBanner": "Your authenticator was reset. Set up a new app during this recovery period to regain access to Officer Hub.",
     "mfaReenrollGraceCta": "Set up authenticator",
     "profileLink": "Profile",
     "profileTitle": "Your profile",
@@ -9775,6 +9775,11 @@
       "notRequired": {
         "title": "Verification is not required for your account",
         "body": "Your role can use Officer Hub without an authenticator on this host."
+      },
+      "reenrollGrace": {
+        "title": "Set up your authenticator again",
+        "body": "Your previous authenticator was reset. Set up a new app during this recovery period to regain access to protected Hub work.",
+        "cta": "Set up a new authenticator"
       },
       "manage": {
         "title": "Authenticator app is protecting this account",

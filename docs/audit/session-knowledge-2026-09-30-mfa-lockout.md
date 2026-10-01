@@ -12,7 +12,7 @@ Site Admin reset cleared TOTP → Hub hard-gated to setup → enroll/verify hit 
 
 ## Fixes shipped in this cleanup
 
-- Migration `0092` + `users.mfa_reenroll_grace_until` (24h Hub access after reset; banner; clears on enroll).
+- Migration `0092` + `users.mfa_reenroll_grace_until` (24h re-enrollment window after reset; banner; clears on enroll). The grace window permits the Hub shell and recovery/setup journey, while protected module pages remain gated until a new authenticator is enrolled and the session is verified. `/app/mfa?next=...` must send an officer with active reset grace to setup while retaining the intended destination.
 - Memory fallback + `noteMfaDurableFallback` on attempt/pending/grant/counter/recovery; health `mfaDurableFallbackRecent`; readiness advisory `mfaDurableStoreHealthy`.
 - Verify: match → grant → consume (no burn on grant failure; burn grant on replay/recovery miss).
 - Boot contract `tablePrivileges` for MFA tables; rls-smoke exercises app code; `toTimestamptzSqlParam` + unit guards.

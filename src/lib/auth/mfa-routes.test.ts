@@ -23,6 +23,8 @@ import { auditLog, resetAuditLog } from "@/lib/audit/store";
 import { resetMemoryAuditLogForTests } from "@/lib/audit/memory-adapter";
 import { resetMfaTotpCountersForTests } from "@/lib/auth/mfa-totp-counters";
 import { getTotpSecretForUser } from "@/lib/auth/mfa-user-secret";
+import { armMfaReenrollGrace } from "@/lib/auth/mfa-reenroll-grace";
+import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { generateTotp, matchTotpCounter } from "@/lib/auth/totp";
 import { portalAdapterForMemoryTests } from "@/lib/portal/adapter";
 
@@ -110,6 +112,31 @@ describe("MFA API routes", () => {
         reenrollGrace: false,
         reenrollGraceUntil: null,
       });
+    });
+
+    it("reports reset grace as a re-enrollment path without authorizing protected pages", async () => {
+      (process.env as Record<string, string | undefined>).NODE_ENV = "production";
+      process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
+      process.env.AUTH_MFA_MODE = "totp";
+      const resetOfficer = session({
+        id: "user-reenroll-grace",
+        mfaVerified: false,
+        mfaRequired: true,
+      });
+      authMock.mockResolvedValue(resetOfficer);
+      await armMfaReenrollGrace(
+        resetOfficer.user.id,
+        Date.now() + 60_000,
+      );
+
+      const status = await mfaStatus();
+      expect(await status.json()).toMatchObject({
+        enabled: true,
+        required: false,
+        needsEnrollment: false,
+        reenrollGrace: true,
+      });
+      expect(sessionMfaOk(resetOfficer, process.env)).toBe(false);
     });
 
     it("does not require TOTP enrollment for a basic local member in hosted mode", async () => {
