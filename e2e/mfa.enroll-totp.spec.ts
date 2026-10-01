@@ -16,6 +16,7 @@ test.describe("MFA TOTP enrollment", () => {
   );
 
   test(`account enrolls with one authenticator code (${typedEnter ? "typed plus Enter" : "filled"})`, async ({ page }) => {
+    test.setTimeout(60_000);
     await hubLogin(page, process.env.MFA_E2E_EMAIL ?? "solo@unionops.test");
     if (requireMfa) {
       const status = await page.request.get("/api/mfa/status/");
@@ -96,6 +97,7 @@ test.describe("MFA TOTP enrollment", () => {
       }),
     ).toBeVisible({ timeout: 20_000 });
     await expect(page.getByRole("list")).toBeVisible();
+    const recoveryCode = (await page.getByRole("list").getByRole("listitem").first().innerText()).trim();
     await page.getByLabel(/I have saved these codes|J.ai enregistré ces codes/i).check();
     await page.getByRole("button", { name: /Continue|Continuer/i }).click();
     await expect(page).toHaveURL(/\/en\/app\/?(?:\?.*)?$/, { timeout: 20_000 });
@@ -106,6 +108,35 @@ test.describe("MFA TOTP enrollment", () => {
       expect((await page.request.get("/api/tasks/")).status()).toBe(200);
       await page.goto("/en/app/tasks");
       await expect(page).toHaveURL(/\/en\/app\/tasks\/?$/);
+
+      // A new password session must prove MFA again. Recovery credentials are
+      // read only into this test's memory and never included in diagnostics.
+      await page.context().clearCookies();
+      await hubLogin(page, process.env.MFA_E2E_EMAIL!);
+      expect((await page.request.get("/api/tasks/")).status()).toBe(403);
+      await page.goto("/en/app/mfa?next=%2Fapp%2Ftasks");
+      await page.getByRole("button", { name: "Recovery code", exact: true }).click();
+      await page.getByLabel("One-time recovery code", { exact: true }).fill(recoveryCode);
+      await page.getByRole("button", { name: /Verify|Vérifier/i }).click();
+      await expect(page).toHaveURL(/\/en\/app\/tasks\/?$/, { timeout: 20_000 });
+      expect((await page.request.get("/api/tasks/")).status()).toBe(200);
+      const recoveredStatus = await page.request.get("/api/mfa/status/");
+      expect(await recoveredStatus.json()).toMatchObject({ mfaVerified: true, recoveryCodesRemaining: 9 });
+
+      await page.context().clearCookies();
+      await hubLogin(page, process.env.MFA_E2E_EMAIL!);
+      await page.goto("/en/app/mfa?next=%2Fapp%2Ftasks");
+      await page.getByRole("button", { name: "Recovery code", exact: true }).click();
+      await page.getByLabel("One-time recovery code", { exact: true }).fill(recoveryCode);
+      const reuseResult = page.waitForResponse((response) =>
+        response.url().includes("/api/mfa/verify") && response.status() === 400,
+      );
+      await page.getByRole("button", { name: /Verify|Vérifier/i }).click();
+      expect((await (await reuseResult).json()).code).toBe("invalid");
+      await expect(page.getByRole("alert").filter({ hasText: "That code does not match" })).toBeVisible();
+      expect((await page.request.get("/api/tasks/")).status()).toBe(403);
+      const deniedStatus = await page.request.get("/api/mfa/status/");
+      expect(await deniedStatus.json()).toMatchObject({ mfaVerified: false, recoveryCodesRemaining: 9 });
     }
   });
 });

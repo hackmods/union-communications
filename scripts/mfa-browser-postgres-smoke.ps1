@@ -70,10 +70,10 @@ try {
   if (-not $ready) { throw 'App readiness timed out; inspect deployment configuration' }
   npx playwright test e2e/mfa.enroll-totp.spec.ts --project=chromium --reporter=line
   Assert-Exit 'Postgres-backed MFA browser journey'
-  $proof = docker compose -p $project -f $compose exec -T db psql -U unionops -d unionops -tAc "SELECT (u.totp_secret LIKE 'uov1.%'), (g.consumed_at IS NOT NULL), (SELECT count(*) FROM mfa_recovery_codes r WHERE r.user_id=u.id AND r.used_at IS NULL), (SELECT NOT rolsuper AND NOT rolbypassrls FROM pg_roles WHERE rolname='unionops_app') FROM users u JOIN mfa_session_grants g ON g.user_id=u.id WHERE u.id='user-steward-7';"
+  $proof = docker compose -p $project -f $compose exec -T db psql -U unionops -d unionops -tAc "SELECT (u.totp_secret LIKE 'uov1.%'), (g.consumed_at IS NOT NULL), (SELECT count(*) FROM mfa_recovery_codes r WHERE r.user_id=u.id AND r.used_at IS NULL), (SELECT count(*) FROM mfa_recovery_codes r WHERE r.user_id=u.id AND r.used_at IS NOT NULL), (SELECT NOT rolsuper AND NOT rolbypassrls FROM pg_roles WHERE rolname='unionops_app') FROM users u JOIN mfa_session_grants g ON g.user_id=u.id WHERE u.id='user-steward-7';"
   Assert-Exit 'Independent durable state assertion'
-  if ($proof.Trim() -ne 't|t|10|t') { throw 'Encrypted enrollment, consumed grant, ten recovery codes, or limited role proof failed' }
-  Write-Output 'PASS: encrypted enrollment, consumed grant, ten durable recovery codes, and limited runtime role.'
+  if ($proof.Trim() -ne 't|t|9|1|t') { throw 'Encrypted enrollment, consumed grant, nine unused/one used recovery codes, or limited role proof failed' }
+  Write-Output 'PASS: encrypted enrollment, consumed grant, nine unused/one used durable recovery codes, and limited runtime role.'
 } finally {
   docker stop $webName *> $null
   docker compose -p $project -f $compose down -v *> $null
