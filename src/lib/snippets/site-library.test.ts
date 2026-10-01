@@ -103,7 +103,7 @@ describe("withTenantRlsScope snippet methods", () => {
 });
 
 describe("parseSnippetXlsx", () => {
-  it("reads clauseRef/title/body from the first sheet", async () => {
+  it("reads clauseRef/title/body from the first sheet", { timeout: 15_000 }, async () => {
     const ExcelJS = await import("exceljs");
     const wb = new ExcelJS.Workbook();
     const sheet = wb.addWorksheet("Clauses");

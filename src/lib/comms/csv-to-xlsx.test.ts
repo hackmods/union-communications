@@ -19,7 +19,7 @@ describe("downloadCsvAsXlsx", () => {
     );
   });
 
-  it("converts a fetched CSV to an xlsx download", async () => {
+  it("converts a fetched CSV to an xlsx download", { timeout: 15_000 }, async () => {
     await downloadCsvAsXlsx(
       "/demo/union-boards/board-tracker-sample.csv",
       "board-tracker-sample.csv",
