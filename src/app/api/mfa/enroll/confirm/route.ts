@@ -15,6 +15,7 @@ import { resolveMfaMode } from "@/lib/auth/mfa-policy";
 import { looksLikeTotpCode } from "@/lib/auth/mfa-client-codes";
 import { matchTotpCounter } from "@/lib/auth/totp";
 import { withMfaAccountLock } from "@/lib/auth/mfa-account-lock";
+import { reserveMfaVerificationAttempt } from "@/lib/auth/mfa-attempt-limits";
 
 /**
  * Confirms TOTP enrollment: the user must prove they scanned the QR by
@@ -65,7 +66,7 @@ export async function POST(request: Request) {
   }
   let confirmed:
     | { recoveryCodes: string[]; mfaGrant: string }
-    | { error: "no_pending" | "invalid" };
+    | { error: "no_pending" | "invalid" | "limited" | "attempt_store_unavailable"; retryAfterSeconds?: number };
   try {
     confirmed = await withMfaAccountLock(session.user.id, async () => {
       // Hold the pending-row lock until all confirmation writes commit. This
@@ -77,6 +78,23 @@ export async function POST(request: Request) {
         { forUpdate: true },
       );
       if (!pendingSecret) return { error: "no_pending" as const };
+
+      let attempt: Awaited<ReturnType<typeof reserveMfaVerificationAttempt>>;
+      try {
+        attempt = await reserveMfaVerificationAttempt(session.user.id);
+      } catch (error) {
+        console.error("[auth] MFA enrollment attempt reserve failed", {
+          userId: session.user.id,
+          message: error instanceof Error ? error.message : String(error),
+        });
+        return { error: "attempt_store_unavailable" as const };
+      }
+      if (!attempt.allowed) {
+        return {
+          error: "limited" as const,
+          retryAfterSeconds: attempt.retryAfterSeconds,
+        };
+      }
 
       const acceptedCounter = matchTotpCounter(pendingSecret, code);
       if (acceptedCounter === null) return { error: "invalid" as const };
@@ -117,6 +135,21 @@ export async function POST(request: Request) {
     );
   }
   if ("error" in confirmed) {
+    if (confirmed.error === "limited") {
+      return NextResponse.json({
+        error: "Too many verification attempts. Try again after the limit resets.",
+        code: "limited",
+      }, { status: 429, headers: {
+        "Retry-After": String(confirmed.retryAfterSeconds ?? 900),
+        "Cache-Control": "private, no-store",
+      } });
+    }
+    if (confirmed.error === "attempt_store_unavailable") {
+      return NextResponse.json({
+        error: "MFA verification safeguards are unavailable.",
+        code: "attempt_store_unavailable",
+      }, { status: 503, headers: { "Cache-Control": "private, no-store" } });
+    }
     if (confirmed.error === "no_pending") {
       return NextResponse.json({
         error: "No pending enrollment. It may already be confirmed; sign in with your authenticator, or generate a new QR code if setup did not finish.",

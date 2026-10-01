@@ -64,12 +64,18 @@ export function MfaPageClient() {
     }
   }, [status, router]);
 
-  const loadMfaStatus = useCallback(async () => {
-    setStatusLoad("loading");
-    setStatusRequestId(null);
+  const loadMfaStatus = useCallback(async (options: {
+    silent?: boolean;
+    preserveOnFailure?: boolean;
+  } = {}) => {
+    if (!options.silent) {
+      setStatusLoad("loading");
+      setStatusRequestId(null);
+    }
     try {
       const response = await fetch("/api/mfa/status", { cache: "no-store" });
       if (response.status === 401) {
+        if (options.preserveOnFailure) return;
         setMfaStatus(null);
         setStatusLoad("expired");
         return;
@@ -88,6 +94,7 @@ export function MfaPageClient() {
         typeof data.reenrollGrace !== "boolean" ||
         !(data.mode === null || typeof data.mode === "string")
       ) {
+        if (options.preserveOnFailure) return;
         setMfaStatus(null);
         setStatusRequestId(data?.requestId ?? response.headers.get("X-Request-ID"));
         setStatusLoad("unavailable");
@@ -108,6 +115,7 @@ export function MfaPageClient() {
       });
       setStatusLoad("ready");
     } catch {
+      if (options.preserveOnFailure) return;
       setMfaStatus(null);
       setStatusLoad("unavailable");
     }
@@ -115,7 +123,7 @@ export function MfaPageClient() {
 
   useEffect(() => {
     if (status !== "authenticated") return;
-    void Promise.resolve().then(loadMfaStatus);
+    void Promise.resolve().then(() => loadMfaStatus());
   }, [status, loadMfaStatus]);
 
   const resume = () => {
@@ -197,7 +205,7 @@ export function MfaPageClient() {
     );
   }
 
-  if (mfaStatus.mfaVerified || session.user.mfaVerified) {
+  if (mfaStatus.mfaVerified) {
     const handleRotate = async (rotationCode: string) => {
       setRotatingRecoveryCodes(true);
       setRotateError(null);
@@ -209,8 +217,9 @@ export function MfaPageClient() {
         });
         const body = (await response.json().catch(() => ({}))) as {
           recoveryCodes?: string[];
+          mfaGrant?: string;
         };
-        if (!response.ok || !body.recoveryCodes?.length) {
+        if (!response.ok || !body.recoveryCodes?.length || !body.mfaGrant) {
           setRotateError(t("mfaError"));
           return;
         }
@@ -220,9 +229,21 @@ export function MfaPageClient() {
             ? {
                 ...prev,
                 recoveryCodesRemaining: body.recoveryCodes!.length,
+                mfaVerified: false,
               }
             : prev,
         );
+        try {
+          const nextSession = await update({ mfaGrant: body.mfaGrant });
+          if (!nextSession?.user?.mfaVerified) {
+            setRotateError(tErrors("session_not_verified"));
+            return;
+          }
+          setMfaStatus((prev) => prev ? { ...prev, mfaVerified: true } : prev);
+          await loadMfaStatus({ silent: true, preserveOnFailure: true });
+        } catch {
+          setRotateError(tErrors("session_not_verified"));
+        }
       } catch {
         setRotateError(t("mfaError"));
       } finally {

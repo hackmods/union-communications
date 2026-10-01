@@ -66,6 +66,7 @@ export function MfaSetupPageClient() {
   const [sessionVerified, setSessionVerified] = useState(false);
   /** Sync lock — auto-submit + Enter can race past React `confirming` state. */
   const confirmLockRef = useRef(false);
+  const startEnrollLockRef = useRef(false);
 
   const mapApiError = (code: unknown, fallback: string) =>
     officerMfaErrorMessage(code, (key) => tErrors(key), fallback);
@@ -159,6 +160,8 @@ export function MfaSetupPageClient() {
       setError(mapApiError("empty", t("mfaSetupError")));
       return;
     }
+    if (startEnrollLockRef.current) return;
+    startEnrollLockRef.current = true;
     if (replacing && state === "replaceGate") {
       setReplaceSubmitting(true);
     } else {
@@ -201,6 +204,7 @@ export function MfaSetupPageClient() {
       setState(replaceMode ? "replaceGate" : "idle");
     } finally {
       setReplaceSubmitting(false);
+      startEnrollLockRef.current = false;
     }
   };
 
@@ -320,7 +324,7 @@ export function MfaSetupPageClient() {
           loading={replaceSubmitting}
           error={error}
           cancelHref={hubMfaChallengeHref(nextPath)}
-          onConfirm={() => void startEnroll(replaceCode)}
+          onConfirm={(submittedCode) => void startEnroll(submittedCode ?? replaceCode)}
         />
       ) : null}
 
@@ -443,11 +447,18 @@ export function MfaSetupPageClient() {
               type="button"
               variant="outline"
               className="min-h-11 w-full"
-              onClick={() =>
-                void startEnroll(replaceMode ? replaceCode : undefined)
-              }
+              disabled={state === "confirming"}
+              onClick={() => {
+                if (replaceMode) {
+                  setReplaceCode("");
+                  setError(null);
+                  setState("replaceGate");
+                } else {
+                  void startEnroll();
+                }
+              }}
             >
-              {t("mfaSetupRegenerate")}
+              {replaceMode ? tJourney("replace.generateAgain") : t("mfaSetupRegenerate")}
             </Button>
           </form>
         </div>

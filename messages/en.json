@@ -9803,6 +9803,7 @@
         "warningBody": "Scanning a new QR code overwrites the secret on this account. Codes from your old authenticator app will stop working. Keep a recovery code handy before you continue.",
         "currentCodeLabel": "Current verification code",
         "continue": "Continue to new QR code",
+        "generateAgain": "Use a new current code to generate another QR code",
         "cancel": "Cancel — keep current authenticator"
       },
       "setupSteps": {

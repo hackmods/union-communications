@@ -14,11 +14,11 @@ import { POST as confirmEnroll } from "@/app/api/mfa/enroll/confirm/route";
 import { GET as mfaStatus } from "@/app/api/mfa/status/route";
 import { POST as verifyMfa } from "@/app/api/mfa/verify/route";
 import { POST as rotateRecoveryCodes } from "@/app/api/mfa/recovery-codes/route";
-import { resetMfaEnrollmentStoreForTests, resetMfaPendingProcessMemoryForTests, useSharedPendingEnrollmentStoreForTests, PENDING_TTL_MS, setPendingSecret } from "@/lib/auth/mfa-enrollment-store";
+import { getPendingSecret, resetMfaEnrollmentStoreForTests, resetMfaPendingProcessMemoryForTests, useSharedPendingEnrollmentStoreForTests, PENDING_TTL_MS, setPendingSecret } from "@/lib/auth/mfa-enrollment-store";
 import { applyTrustedSessionUpdate } from "@/lib/auth/session-update";
 import { countUnusedMfaRecoveryCodes, resetMfaRecoveryCodesForTests, rotateMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
 import { clearMfaGrants, getMfaGrant } from "@/lib/auth/mfa-grants";
-import { resetMfaVerificationAttemptsForTests } from "@/lib/auth/mfa-attempt-limits";
+import { reserveMfaVerificationAttempt, resetMfaVerificationAttemptsForTests } from "@/lib/auth/mfa-attempt-limits";
 import { auditLog, resetAuditLog } from "@/lib/audit/store";
 import { resetMemoryAuditLogForTests } from "@/lib/audit/memory-adapter";
 import { resetMfaTotpCountersForTests } from "@/lib/auth/mfa-totp-counters";
@@ -428,6 +428,25 @@ describe("MFA API routes", () => {
       });
     });
 
+    it("applies the shared account attempt limit before checking an enrollment code", async () => {
+      process.env.AUTH_MFA_ENABLED = "true";
+      process.env.AUTH_MFA_MODE = "totp";
+      const userId = "limited-enroll-confirm-user";
+      authMock.mockResolvedValue(session({ id: userId }));
+      const secret = "JBSWY3DPEHPK3PXP";
+      await setPendingSecret(userId, secret);
+      for (let attempt = 0; attempt < 10; attempt += 1) {
+        expect((await reserveMfaVerificationAttempt(userId)).allowed).toBe(true);
+      }
+
+      const limited = await confirmEnroll(jsonRequest({ code: generateTotp(secret) }));
+      expect(limited.status).toBe(429);
+      expect(limited.headers.get("Retry-After")).toBe("900");
+      expect(await limited.json()).toMatchObject({ code: "limited" });
+      expect(await getPendingSecret(userId)).toBe(secret);
+      expect(await getTotpSecretForUser(userId)).toBeNull();
+    });
+
     it("fails closed in hosted mode without durable enrollment storage", async () => {
       (process.env as Record<string, string | undefined>).NODE_ENV = "production";
       process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
@@ -636,7 +655,15 @@ describe("MFA API routes", () => {
         jsonRequest({ code: generateTotp(secret, verifiedAt) }),
       );
       expect(rotated.status).toBe(200);
-      expect((await rotated.json() as { recoveryCodes?: string[] }).recoveryCodes).toHaveLength(10);
+      const body = await rotated.json() as { recoveryCodes?: string[]; mfaGrant?: string };
+      expect(body.recoveryCodes).toHaveLength(10);
+      expect(body.mfaGrant).toMatch(/^[A-Za-z0-9_-]{43}$/);
+      const refreshed = await applyTrustedSessionUpdate({
+        sub: "recovery-user",
+        sessionVersion: 0,
+        roles: ["local_president"],
+      } as never, { mfaGrant: body.mfaGrant });
+      expect(refreshed.mfaVerified).toBe(true);
     });
   });
 });

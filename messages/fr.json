@@ -10085,6 +10085,7 @@
         "warningBody": "Scanner un nouveau code QR écrase le secret de ce compte. Les codes de votre ancienne appli cesseront de fonctionner. Gardez un code de récupération à portée de main avant de continuer.",
         "currentCodeLabel": "Code de vérification actuel",
         "continue": "Continuer vers le nouveau code QR",
+        "generateAgain": "Utiliser un nouveau code actuel pour générer un autre code QR",
         "cancel": "Annuler — garder l’authenticator actuel"
       },
       "setupSteps": {

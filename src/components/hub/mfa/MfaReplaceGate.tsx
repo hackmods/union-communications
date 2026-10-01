@@ -9,7 +9,7 @@ import { MfaCodeField } from "@/components/hub/mfa/MfaCodeField";
 type MfaReplaceGateProps = {
   code: string;
   onCodeChange: (value: string) => void;
-  onConfirm: () => void;
+  onConfirm: (submittedCode?: string) => void;
   loading?: boolean;
   error?: string | null;
   cancelHref?: string;
@@ -46,8 +46,8 @@ export function MfaReplaceGate({
           onChange={onCodeChange}
           disabled={loading}
           autoFocus
-          onTotpComplete={() => {
-            if (!loading) onConfirm();
+          onTotpComplete={(submittedCode) => {
+            if (!loading) onConfirm(submittedCode);
           }}
         />
         {error ? (
