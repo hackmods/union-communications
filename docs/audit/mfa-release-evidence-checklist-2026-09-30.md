@@ -14,7 +14,7 @@ Use this checklist before describing the repaired MFA flow as restored on a host
 - [x] Attempted the MFA enrollment browser spec against an isolated port. Default Turbopack stopped with an `invalid node_modules symlink outside filesystem root` panic. Webpack dev started, but the login route returned 500 because `src/lib/comms/canvas-fonts.ts` imports `node:fs/promises` through the Brand Kit seed path; Playwright therefore could not reach MFA. This is a local app/toolchain blocker, not an MFA pass.
 - [ ] Manual keyboard, mobile, zoom, and EN/FR language review.
 
-Local release-evidence prerequisites are unavailable in this checkout: neither database URL is configured, and Docker Desktop denies access to its Linux engine pipe. Continue with the operator-owned hosted checks below rather than treating a mock store as Postgres evidence.
+Local release-evidence prerequisites are unavailable in this checkout: neither database URL is configured, no `psql`, `pg_isready`, or local Postgres service is present, and Docker Desktop denies access to its Linux engine pipe. Continue with the operator-owned hosted checks below rather than treating a mock store as Postgres evidence.
 
 ## Operator-owned hosted proof
 
