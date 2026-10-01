@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { OutreachListsAdminPanel } from "@/components/site-admin/OutreachListsAdminPanel";
 
@@ -16,13 +17,21 @@ export default async function SiteAdminOutreachListsPage({
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) redirect(`/${locale}/app`);
+  if (!gate.ok) {
+    redirect(gate.status === 403 ? `/${locale}/app` : `/${locale}/app/login`);
+  }
   const t = await getTranslations({ locale, namespace: "outreachListsAdmin" });
   return (
-    <main className="mx-auto max-w-4xl px-4 py-8">
-      <header className="mb-6">
-        <h1 className="text-2xl font-bold text-opseu-dark">{t("title")}</h1>
-        <p className="mt-1 text-sm text-opseu-gray-dark">{t("intro")}</p>
+    <main className="mx-auto max-w-4xl px-4 py-8 lg:py-12">
+      <Link
+        href="/app/site-admin"
+        className="text-sm font-medium text-opseu-blue underline"
+      >
+        ← {t("back")}
+      </Link>
+      <header className="mt-4 mb-6">
+        <h1 className="text-2xl font-bold text-opseu-dark lg:text-3xl">{t("title")}</h1>
+        <p className="mt-2 text-sm text-opseu-gray-dark">{t("intro")}</p>
       </header>
       <OutreachListsAdminPanel />
     </main>
