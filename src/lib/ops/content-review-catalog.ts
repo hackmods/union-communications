@@ -63,6 +63,7 @@ const SITE_SHELL_PATHS: readonly {
   { href: "/platform", navKey: "platform" },
   { href: "/join", labelKey: "join" },
   { href: "/request-access", labelKey: "requestAccess" },
+  { href: "/brand-kit/showcase", navKey: "brandKit" },
 ];
 
 const LIBRARY_PATHS: readonly { href: string; navKey: string }[] = [

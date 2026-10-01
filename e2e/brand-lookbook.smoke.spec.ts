@@ -56,7 +56,11 @@ test.describe("Brand Lookbook on Site Admin @smoke", () => {
       }
     }
 
-    await expect(page.getByTestId("brand-lookbook")).toBeVisible({
+    // Brand styles also renders the host-brand lookbook; scope to the open union panel.
+    const unionLookbook = page
+      .locator('[id^="brand-style-panel-"]')
+      .getByTestId("brand-lookbook");
+    await expect(unionLookbook).toBeVisible({
       timeout: 15_000,
     });
     await expectNoSeriousA11yViolations(page);
