@@ -32,15 +32,24 @@ function readyEnvironment(): Record<string, string> {
   };
 }
 
+const READY_EVIDENCE = {
+  attachmentStorageApproved: true,
+  attachmentStorageGaps: [] as const,
+  strictUploadScan: true,
+  strictUploadScanGaps: [] as const,
+  backupRestoreEvidence: true,
+  backupRestoreGaps: [] as const,
+  alertDeliveryEvidence: true,
+  alertDeliveryGaps: [] as const,
+  publicLegalContacts: true,
+  publicLegalContactsGaps: [] as const,
+};
+
 describe("readHostedControlEvidence", () => {
   it("accepts explicit storage and current operator evidence", () => {
-    expect(readHostedControlEvidence(readyEnvironment(), TODAY)).toEqual({
-      attachmentStorageApproved: true,
-      strictUploadScan: true,
-      backupRestoreEvidence: true,
-      alertDeliveryEvidence: true,
-      publicLegalContacts: true,
-    });
+    expect(readHostedControlEvidence(readyEnvironment(), TODAY)).toEqual(
+      READY_EVIDENCE,
+    );
   });
 
   it("rejects storage defaults, skip-on-error, and stale or invalid evidence", () => {
@@ -52,11 +61,27 @@ describe("readHostedControlEvidence", () => {
 
     expect(readHostedControlEvidence(env, TODAY)).toEqual({
       attachmentStorageApproved: false,
+      attachmentStorageGaps: ["storage_config"],
       strictUploadScan: false,
+      strictUploadScanGaps: ["scanner_skip_allowed"],
       backupRestoreEvidence: false,
+      backupRestoreGaps: ["review_stale"],
       alertDeliveryEvidence: false,
+      alertDeliveryGaps: ["review_date_or_owner"],
       publicLegalContacts: true,
+      publicLegalContactsGaps: [],
     });
+  });
+
+  it("surfaces missing date and approved-flag gaps separately", () => {
+    const env = readyEnvironment();
+    delete env.UNIONOPS_ATTACHMENT_STORAGE_APPROVED;
+    delete env.UNIONOPS_ATTACHMENT_STORAGE_REVIEWED_AT;
+
+    expect(readHostedControlEvidence(env, TODAY).attachmentStorageGaps).toEqual([
+      "approved_flag",
+      "review_date_or_owner",
+    ]);
   });
 
   it("requires an explicit S3 region and server-side encryption", () => {
@@ -76,9 +101,9 @@ describe("readHostedControlEvidence", () => {
     );
 
     env.ATTACHMENT_S3_SSE = "none";
-    expect(readHostedControlEvidence(env, TODAY).attachmentStorageApproved).toBe(
-      false,
-    );
+    const incomplete = readHostedControlEvidence(env, TODAY);
+    expect(incomplete.attachmentStorageApproved).toBe(false);
+    expect(incomplete.attachmentStorageGaps).toContain("storage_config");
 
     env.ATTACHMENT_S3_SSE = "aws:kms";
     env.ATTACHMENT_S3_KMS_KEY_ID = "arn:aws:kms:ca-central-1:123:key/abc";
@@ -90,13 +115,28 @@ describe("readHostedControlEvidence", () => {
   it("requires complete public contacts and a recent monitored-address review", () => {
     const env = readyEnvironment();
     delete env.UNIONOPS_PRIVACY_EMAIL;
-    expect(readHostedControlEvidence(env, TODAY).publicLegalContacts).toBe(false);
+    const incomplete = readHostedControlEvidence(env, TODAY);
+    expect(incomplete.publicLegalContacts).toBe(false);
+    expect(incomplete.publicLegalContactsGaps).toContain("contacts_incomplete");
 
     env.UNIONOPS_PRIVACY_EMAIL = "privacy@example.ca";
     env.UNIONOPS_PUBLIC_CONTACTS_MONITORED_AT = "2026-01-01";
-    expect(readHostedControlEvidence(env, TODAY).publicLegalContacts).toBe(false);
+    const stale = readHostedControlEvidence(env, TODAY);
+    expect(stale.publicLegalContacts).toBe(false);
+    expect(stale.publicLegalContactsGaps).toContain("review_stale");
 
     env.UNIONOPS_PUBLIC_CONTACTS_MONITORED_AT = "2026-09-01";
     expect(readHostedControlEvidence(env, TODAY).publicLegalContacts).toBe(true);
+  });
+
+  it("flags scanner URL and mode when strict scan is incomplete", () => {
+    const env = readyEnvironment();
+    delete env.ATTACHMENT_SCANNER_URL;
+    env.ATTACHMENT_SCAN_MODE = "warn";
+
+    expect(readHostedControlEvidence(env, TODAY).strictUploadScanGaps).toEqual([
+      "scanner_url",
+      "scanner_mode",
+    ]);
   });
 });

@@ -78,10 +78,19 @@ describe("buildHealthStatus", () => {
     expect(status.hostedCustomerMode).toBe(false);
     expect(status.hostedControlEvidence).toEqual({
       attachmentStorageApproved: false,
+      attachmentStorageGaps: [
+        "approved_flag",
+        "review_date_or_owner",
+        "storage_config",
+      ],
       strictUploadScan: false,
+      strictUploadScanGaps: ["scanner_url", "scanner_mode", "review_date_or_owner"],
       backupRestoreEvidence: false,
+      backupRestoreGaps: ["configured_flag", "review_date_or_owner"],
       alertDeliveryEvidence: false,
+      alertDeliveryGaps: ["configured_flag", "review_date_or_owner"],
       publicLegalContacts: false,
+      publicLegalContactsGaps: ["contacts_incomplete", "contacts_monitoring"],
     });
     expect(typeof status.demoAuthEnabled).toBe("boolean");
     expect(status.tenantRegistry).toEqual({ unionCount: null, seeded: null });

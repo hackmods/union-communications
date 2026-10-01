@@ -6,6 +6,7 @@ import {
 } from "@/lib/ops/deploy-notify";
 import { GET as deployNotifyGet, POST as deployNotifyPost } from "@/app/api/cron/deploy-notify/route";
 import type { HealthStatus } from "@/lib/ops/health-status";
+import { emptyHostedControlEvidence } from "@/lib/ops/host-control-evidence";
 import { memoryDatabaseBootAttestation } from "@/lib/ops/database-boot";
 
 function sampleHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
@@ -58,13 +59,7 @@ function sampleHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     mfaDurableFallbackRecent: false,
     hostedCustomerMode: false,
     demoAuthEnabled: false,
-    hostedControlEvidence: {
-      attachmentStorageApproved: false,
-      strictUploadScan: false,
-      backupRestoreEvidence: false,
-      alertDeliveryEvidence: false,
-      publicLegalContacts: false,
-    },
+    hostedControlEvidence: emptyHostedControlEvidence(),
     observability: {
       backend: "noop",
       storeEnabled: false,

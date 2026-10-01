@@ -4,7 +4,12 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { buildHealthStatus } from "@/lib/ops/health-status";
-import { buildHostReadiness } from "@/lib/ops/host-readiness";
+import {
+  buildHostReadiness,
+  formatBackendFlipCaproverBlock,
+} from "@/lib/ops/host-readiness";
+import { CapRoverConfigCopyButton } from "@/components/site-admin/CapRoverConfigCopyButton";
+import { HostActionCard } from "@/components/site-admin/HostActionCard";
 import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +36,18 @@ export default async function HostReadinessPage({
   });
   const readiness = buildHostReadiness(await buildHealthStatus());
 
+  const nextActions = readiness.missingBlockingActions.filter(
+    (action) => action.group !== "attestation",
+  );
+  const attestationActions = readiness.missingAttestationActions;
+  const advisoryActions = readiness.missingAdvisoryActions.filter(
+    (action) => action.group !== "attestation",
+  );
+  const backendBlock =
+    readiness.missingBackendFlips.length > 0
+      ? formatBackendFlipCaproverBlock(readiness.missingBackendFlips)
+      : "";
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 lg:py-12">
       <p className="text-sm">
@@ -46,6 +63,9 @@ export default async function HostReadinessPage({
           {t("hostTitle")}
         </h1>
         <p className="mt-1 text-sm text-opseu-gray-dark">{t("hostBody")}</p>
+        <p className="mt-2 text-sm text-opseu-gray-dark">
+          {t("hostSecurityGuide")}
+        </p>
         <p
           className={cn(
             "mt-3 inline-flex rounded px-2 py-1 text-xs font-bold uppercase tracking-wide",
@@ -153,89 +173,69 @@ export default async function HostReadinessPage({
               </li>
             ))}
           </ul>
+          <pre className="mt-3 overflow-x-auto rounded border border-opseu-gray/15 bg-white p-2 font-mono text-[11px] leading-relaxed text-opseu-dark whitespace-pre-wrap">
+            {backendBlock}
+          </pre>
+          <CapRoverConfigCopyButton className="mt-2" text={backendBlock} />
         </section>
       ) : null}
 
-      {readiness.missingBlockingPresence.length > 0 ? (
-        <section className="mb-8 rounded-lg border border-opseu-orange/30 bg-opseu-orange/5 p-4">
+      {nextActions.length > 0 ? (
+        <section className="mb-8">
           <h2 className="text-base font-semibold text-opseu-dark">
-            {t("hostMissingPresenceHeading")}
+            {t("hostDoThisNextHeading")}
           </h2>
           <p className="mt-1 text-sm text-opseu-gray-dark">
-            {t("hostMissingPresenceLead")}
+            {t("hostDoThisNextLead")}
           </p>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm">
-            {readiness.missingBlockingPresence.map((row) => (
-              <li key={row.id}>
-                {t(
-                  (
-                    {
-                      postgresConfigured: "hostPresencePostgres",
-                      migrateVerified: "hostPresenceMigrate",
-                      tenantsSeeded: "hostPresenceTenantsSeeded",
-                      emailEnabled: "hostPresenceEmail",
-                      accessRequestNotify: "hostPresenceAccessRequestNotify",
-                      cronConfigured: "hostPresenceCron",
-                      mfaEnabled: "hostPresenceMfa",
-                      totpEncryptionConfigured: "hostPresenceTotpEncryption",
-                      mfaOperatorBypassOff: "hostPresenceMfaOperatorBypass",
-                      mfaDurableStoreHealthy: "hostPresenceMfaDurableStore",
-                      demoAuthOff: "hostPresenceDemoAuth",
-                      attachmentStorageApproved: "hostPresenceAttachmentStorage",
-                      strictUploadScan: "hostPresenceStrictScan",
-                      backupRestoreEvidence: "hostPresenceBackupRestore",
-                      alertDeliveryEvidence: "hostPresenceAlertDelivery",
-                      publicLegalContacts: "hostPresencePublicLegalContacts",
-                      publicDocumentsReady: "hostPresencePublicDocuments",
-                    } as const
-                  )[row.id],
-                )}{" "}
-                <code className="text-xs">({row.hintKey})</code>
-              </li>
+          <div className="mt-3 grid gap-3">
+            {nextActions.map((action) => (
+              <HostActionCard key={action.id} action={action} t={t} tone="blocking" />
             ))}
-          </ul>
+          </div>
         </section>
       ) : null}
 
-      {readiness.missingAdvisoryPresence.length > 0 ? (
-        <section className="mb-8 rounded-lg border border-opseu-gray/20 bg-white p-4 shadow-sm">
+      {attestationActions.length > 0 ? (
+        <section className="mb-8">
           <h2 className="text-base font-semibold text-opseu-dark">
-            {t("hostMissingAdvisoryHeading")}
+            {t("hostAttestationsHeading")}
           </h2>
+          <p className="mt-1 text-sm text-opseu-gray-dark">
+            {t("hostAttestationsLead")}
+          </p>
+          <div className="mt-3 grid gap-3">
+            {attestationActions.map((action) => (
+              <HostActionCard
+                key={action.id}
+                action={action}
+                t={t}
+                tone="attestation"
+              />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {advisoryActions.length > 0 ? (
+        <details className="mb-8 rounded-lg border border-opseu-gray/20 bg-white p-4 shadow-sm">
+          <summary className="cursor-pointer text-base font-semibold text-opseu-dark">
+            {t("hostMissingAdvisoryHeading")}
+          </summary>
           <p className="mt-1 text-sm text-opseu-gray-dark">
             {t("hostMissingAdvisoryLead")}
           </p>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm">
-            {readiness.missingAdvisoryPresence.map((row) => (
-              <li key={row.id}>
-                {t(
-                  (
-                    {
-                      postgresConfigured: "hostPresencePostgres",
-                      migrateVerified: "hostPresenceMigrate",
-                      tenantsSeeded: "hostPresenceTenantsSeeded",
-                      emailEnabled: "hostPresenceEmail",
-                      accessRequestNotify: "hostPresenceAccessRequestNotify",
-                      cronConfigured: "hostPresenceCron",
-                      mfaEnabled: "hostPresenceMfa",
-                      totpEncryptionConfigured: "hostPresenceTotpEncryption",
-                      mfaOperatorBypassOff: "hostPresenceMfaOperatorBypass",
-                      mfaDurableStoreHealthy: "hostPresenceMfaDurableStore",
-                      demoAuthOff: "hostPresenceDemoAuth",
-                      attachmentStorageApproved: "hostPresenceAttachmentStorage",
-                      strictUploadScan: "hostPresenceStrictScan",
-                      backupRestoreEvidence: "hostPresenceBackupRestore",
-                      alertDeliveryEvidence: "hostPresenceAlertDelivery",
-                      publicLegalContacts: "hostPresencePublicLegalContacts",
-                      publicDocumentsReady: "hostPresencePublicDocuments",
-                    } as const
-                  )[row.id],
-                )}{" "}
-                <code className="text-xs">({row.hintKey})</code>
-              </li>
+          <div className="mt-3 grid gap-3">
+            {advisoryActions.map((action) => (
+              <HostActionCard
+                key={action.id}
+                action={action}
+                t={t}
+                tone="advisory"
+              />
             ))}
-          </ul>
-        </section>
+          </div>
+        </details>
       ) : null}
 
       <section className="mb-8 rounded-lg border border-opseu-gray/15 bg-white p-4 shadow-sm">

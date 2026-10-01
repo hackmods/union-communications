@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { HealthStatus } from "@/lib/ops/health-status";
+import { emptyHostedControlEvidence, readyHostedControlEvidence } from "@/lib/ops/host-control-evidence";
 import { buildHostReadiness } from "@/lib/ops/host-readiness";
 import { listMemoryCaseDataBackendKeys } from "@/lib/db/backend";
 import { memoryDatabaseBootAttestation } from "@/lib/ops/database-boot";
@@ -58,13 +59,7 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     mfaDurableFallbackRecent: false,
     hostedCustomerMode: false,
     demoAuthEnabled: true,
-    hostedControlEvidence: {
-      attachmentStorageApproved: false,
-      strictUploadScan: false,
-      backupRestoreEvidence: false,
-      alertDeliveryEvidence: false,
-      publicLegalContacts: false,
-    },
+    hostedControlEvidence: emptyHostedControlEvidence(),
     observability: {
       backend: "noop",
       storeEnabled: false,
@@ -302,29 +297,22 @@ describe("buildHostReadiness", () => {
       ...health,
       mfaMode: "totp",
       totpEncryptionConfigured: true,
-      hostedControlEvidence: {
-        attachmentStorageApproved: true,
-        strictUploadScan: true,
-        backupRestoreEvidence: true,
-        alertDeliveryEvidence: true,
-        publicLegalContacts: true,
-      },
+      hostedControlEvidence: readyHostedControlEvidence(),
     });
     expect(ready.ready).toBe(true);
     expect(ready.missingBlockingPresence).toEqual([]);
+    expect(
+      ready.actions.find((a) => a.id === "attachmentStorageApproved")?.envKeys.map(
+        (k) => k.name,
+      ),
+    ).toContain("UNIONOPS_ATTACHMENT_STORAGE_APPROVED");
 
     const withBypass = buildHostReadiness({
       ...health,
       mfaMode: "totp",
       totpEncryptionConfigured: true,
       mfaOperatorBypassConfigured: true,
-      hostedControlEvidence: {
-        attachmentStorageApproved: true,
-        strictUploadScan: true,
-        backupRestoreEvidence: true,
-        alertDeliveryEvidence: true,
-        publicLegalContacts: true,
-      },
+      hostedControlEvidence: readyHostedControlEvidence(),
     });
     expect(withBypass.ready).toBe(true);
     expect(withBypass.missingAdvisoryPresence.map((row) => row.id)).toContain(
@@ -336,13 +324,7 @@ describe("buildHostReadiness", () => {
       mfaMode: "totp",
       totpEncryptionConfigured: true,
       mfaDurableFallbackRecent: true,
-      hostedControlEvidence: {
-        attachmentStorageApproved: true,
-        strictUploadScan: true,
-        backupRestoreEvidence: true,
-        alertDeliveryEvidence: true,
-        publicLegalContacts: true,
-      },
+      hostedControlEvidence: readyHostedControlEvidence(),
     });
     expect(withFallback.ready).toBe(true);
     expect(withFallback.missingAdvisoryPresence.map((row) => row.id)).toContain(

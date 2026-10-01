@@ -9,6 +9,14 @@ import {
   type DbBackendEnvKey,
 } from "@/lib/db/backend";
 import type { HealthStatus } from "@/lib/ops/health-status";
+import {
+  buildHostActions,
+  type HostAction,
+  type HostActionId,
+} from "@/lib/ops/host-readiness-actions";
+
+export type { HostAction, HostActionId } from "@/lib/ops/host-readiness-actions";
+export { formatBackendFlipCaproverBlock } from "@/lib/ops/host-readiness-actions";
 
 /** Production target per backend flag (aligned with docker/.env.production.example). */
 export type BackendRecommendation = {
@@ -64,24 +72,8 @@ export type BackendReadinessRow = {
   intentionalMemory: boolean;
 };
 
-export type PresenceCheckId =
-  | "postgresConfigured"
-  | "migrateVerified"
-  | "tenantsSeeded"
-  | "emailEnabled"
-  | "accessRequestNotify"
-  | "cronConfigured"
-  | "mfaEnabled"
-  | "totpEncryptionConfigured"
-  | "mfaOperatorBypassOff"
-  | "mfaDurableStoreHealthy"
-  | "demoAuthOff"
-  | "attachmentStorageApproved"
-  | "strictUploadScan"
-  | "backupRestoreEvidence"
-  | "alertDeliveryEvidence"
-  | "publicLegalContacts"
-  | "publicDocumentsReady";
+/** @deprecated Prefer {@link HostActionId} — kept for email/CI compatibility. */
+export type PresenceCheckId = HostActionId;
 
 export type PresenceCheck = {
   id: PresenceCheckId;
@@ -116,6 +108,13 @@ export type HostReadiness = {
   backends: BackendReadinessRow[];
   /** Backends that should be postgres (or intentional memory) but are wrong. */
   missingBackendFlips: BackendReadinessRow[];
+  /** CapRover action board (source of truth for the Host readiness page). */
+  actions: HostAction[];
+  missingActions: HostAction[];
+  missingBlockingActions: HostAction[];
+  missingAdvisoryActions: HostAction[];
+  /** Attestation actions that need a fresh 90-day review. */
+  missingAttestationActions: HostAction[];
   presence: PresenceCheck[];
   missingPresence: PresenceCheck[];
   /** Missing presence that should fail deploy / Host “needs work” severity. */
@@ -149,134 +148,37 @@ function backendRows(
   });
 }
 
-function presenceChecks(health: HealthStatus): PresenceCheck[] {
-  const migrateVerified =
-    health.postgresConfigured &&
-    health.databaseDeployment.mode === "postgres" &&
-    health.databaseDeployment.verified;
+function hintKeyForAction(action: HostAction): string {
+  if (action.commandHint) return action.commandHint;
+  if (action.envKeys.length === 0) return action.id;
+  return action.envKeys.map((key) => key.name).join(", ");
+}
 
-  const tenantsSeeded =
-    !health.postgresConfigured || health.tenantRegistry.seeded !== false;
-
-  return [
-    {
-      id: "postgresConfigured",
-      ok: health.postgresConfigured,
-      hintKey: "DATABASE_URL",
-      advisory: false,
-    },
-    {
-      id: "migrateVerified",
-      ok: migrateVerified,
-      hintKey: "MIGRATE_DATABASE_URL",
-      advisory: false,
-    },
-    {
-      id: "tenantsSeeded",
-      ok: tenantsSeeded,
-      hintKey: "npm run db:seed",
-      advisory: false,
-    },
-    {
-      id: "emailEnabled",
-      ok: health.emailEnabled,
-      hintKey: "EMAIL_ENABLED",
-      advisory: true,
-    },
-    {
-      id: "accessRequestNotify",
-      // Only matters when email can send; otherwise surface EMAIL_ENABLED first.
-      ok:
-        !health.emailEnabled ||
-        Boolean(health.accessRequestNotifyConfigured),
-      hintKey: "ACCESS_REQUEST_NOTIFY_EMAIL",
-      advisory: true,
-    },
-    {
-      id: "cronConfigured",
-      ok: health.cronConfigured,
-      hintKey: "CRON_SECRET",
-      advisory: true,
-    },
-    {
-      id: "mfaEnabled",
-      ok: health.mfaEnabled && (!health.hostedCustomerMode || health.mfaMode === "totp"),
-      hintKey: health.hostedCustomerMode
-        ? "UNIONOPS_HOSTED_CUSTOMER_MODE=true, AUTH_MFA_MODE=totp, NODE_ENV=production"
-        : "AUTH_MFA_ENABLED",
-      advisory: !health.hostedCustomerMode,
-    },
-    {
-      id: "totpEncryptionConfigured",
-      ok: !health.hostedCustomerMode || health.totpEncryptionConfigured,
-      hintKey: "AUTH_TOTP_ENCRYPTION_KEY",
-      advisory: !health.hostedCustomerMode,
-    },
-    {
-      id: "mfaOperatorBypassOff",
-      // Recovery allowlist is intentional when set; surface as advisory so ops
-      // clear AUTH_MFA_OPERATOR_BYPASS_EMAILS after re-enrollment.
-      ok: !health.mfaOperatorBypassConfigured,
-      hintKey: "AUTH_MFA_OPERATOR_BYPASS_EMAILS",
-      advisory: true,
-    },
-    {
-      id: "mfaDurableStoreHealthy",
-      // Memory fallback keeps Hub usable; advisory flags CapRover grant/bind gaps.
-      ok: !health.mfaDurableFallbackRecent,
-      hintKey: "mfaDurableFallbackRecent",
-      advisory: true,
-    },
-    {
-      id: "demoAuthOff",
-      ok: !health.demoAuthEnabled,
-      hintKey: "AUTH_ALLOW_DEMO_USERS",
-      advisory: false,
-    },
-    {
-      id: "attachmentStorageApproved",
-      ok: health.hostedControlEvidence.attachmentStorageApproved,
-      hintKey: "UNIONOPS_ATTACHMENT_STORAGE_APPROVED, UNIONOPS_ATTACHMENT_STORAGE_REVIEWED_AT, UNIONOPS_ATTACHMENT_STORAGE_REVIEWED_BY",
-      advisory: !health.hostedCustomerMode,
-    },
-    {
-      id: "strictUploadScan",
-      ok: health.hostedControlEvidence.strictUploadScan,
-      hintKey: "ATTACHMENT_SCANNER_URL, ATTACHMENT_SCAN_MODE=strict, UNIONOPS_ATTACHMENT_SCAN_TESTED_AT/TESTED_BY",
-      advisory: !health.hostedCustomerMode,
-    },
-    {
-      id: "backupRestoreEvidence",
-      ok: health.hostedControlEvidence.backupRestoreEvidence,
-      hintKey: "UNIONOPS_BACKUP_CONFIGURED, UNIONOPS_BACKUP_RESTORE_TESTED_AT, UNIONOPS_BACKUP_OWNER",
-      advisory: !health.hostedCustomerMode,
-    },
-    {
-      id: "alertDeliveryEvidence",
-      ok: health.hostedControlEvidence.alertDeliveryEvidence,
-      hintKey: "UNIONOPS_ALERTS_CONFIGURED, UNIONOPS_ALERT_DELIVERY_TESTED_AT, UNIONOPS_ALERT_OWNER",
-      advisory: !health.hostedCustomerMode,
-    },
-    {
-      id: "publicLegalContacts",
-      ok: health.hostedControlEvidence.publicLegalContacts,
-      hintKey: "UNIONOPS_LEGAL_ENTITY_NAME, UNIONOPS_PRIVACY_OFFICER_NAME, UNIONOPS_PRIVACY_EMAIL, UNIONOPS_PRIVACY_MAILING_ADDRESS, UNIONOPS_SECURITY_EMAIL, UNIONOPS_ACCESSIBILITY_EMAIL, UNIONOPS_PUBLIC_CONTACTS_MONITORED_AT/BY",
-      advisory: !health.hostedCustomerMode,
-    },
-    {
-      id: "publicDocumentsReady",
-      ok: health.publicDocuments?.ready ?? true,
-      hintKey: "PUBLIC_DOCUMENTS_REQUIRE_READY",
-      advisory: false,
-    },
-  ];
+function presenceFromActions(actions: HostAction[]): PresenceCheck[] {
+  return actions.map((action) => ({
+    id: action.id,
+    ok: action.ok,
+    hintKey: hintKeyForAction(action),
+    advisory: action.severity === "advisory",
+  }));
 }
 
 /** Build the CapRover / durable-host checklist from live health (no secrets). */
 export function buildHostReadiness(health: HealthStatus): HostReadiness {
   const backends = backendRows(health.backends);
   const missingBackendFlips = backends.filter((row) => !row.ok);
-  const presence = presenceChecks(health);
+  const actions = buildHostActions(health);
+  const missingActions = actions.filter((row) => !row.ok);
+  const missingBlockingActions = missingActions.filter(
+    (row) => row.severity === "blocking",
+  );
+  const missingAdvisoryActions = missingActions.filter(
+    (row) => row.severity === "advisory",
+  );
+  const missingAttestationActions = missingActions.filter(
+    (row) => row.group === "attestation",
+  );
+  const presence = presenceFromActions(actions);
   const missingPresence = presence.filter((row) => !row.ok);
   const missingBlockingPresence = missingPresence.filter((row) => !row.advisory);
   const missingAdvisoryPresence = missingPresence.filter((row) => row.advisory);
@@ -312,6 +214,11 @@ export function buildHostReadiness(health: HealthStatus): HostReadiness {
     },
     backends,
     missingBackendFlips,
+    actions,
+    missingActions,
+    missingBlockingActions,
+    missingAdvisoryActions,
+    missingAttestationActions,
     presence,
     missingPresence,
     missingBlockingPresence,

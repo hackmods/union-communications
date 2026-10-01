@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { GET } from "@/app/api/health/route";
 import { buildHealthStatus, type HealthStatus } from "@/lib/ops/health-status";
+import { readyHostedControlEvidence } from "@/lib/ops/host-control-evidence";
 
 vi.mock("@/lib/ops/health-status", () => ({
   buildHealthStatus: vi.fn(),
@@ -17,14 +18,8 @@ afterEach(() => {
 function sampleStatus(): HealthStatus {
   return {
     status: "ok",
-    hostedControlEvidence: {
-      attachmentStorageApproved: true,
-      strictUploadScan: true,
-      backupRestoreEvidence: true,
-      alertDeliveryEvidence: true,
-      publicLegalContacts: true,
-    },
-    } as unknown as HealthStatus;
+    hostedControlEvidence: readyHostedControlEvidence(),
+  } as unknown as HealthStatus;
 }
 
 describe("GET /api/health operational evidence", () => {
@@ -57,12 +52,9 @@ describe("GET /api/health operational evidence", () => {
         headers: { authorization: `Bearer ${secret}` },
       }),
     );
-    expect(await authorized.json()).toHaveProperty("hostedControlEvidence", {
-      attachmentStorageApproved: true,
-      strictUploadScan: true,
-      backupRestoreEvidence: true,
-      alertDeliveryEvidence: true,
-      publicLegalContacts: true,
-    });
+    expect(await authorized.json()).toHaveProperty(
+      "hostedControlEvidence",
+      readyHostedControlEvidence(),
+    );
   });
 });
