@@ -14,6 +14,7 @@ import { rotateMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
 import { resolveMfaMode } from "@/lib/auth/mfa-policy";
 import { looksLikeTotpCode } from "@/lib/auth/mfa-client-codes";
 import { matchTotpCounter } from "@/lib/auth/totp";
+import { withMfaAccountLock } from "@/lib/auth/mfa-account-lock";
 
 /**
  * Confirms TOTP enrollment: the user must prove they scanned the QR by
@@ -49,33 +50,6 @@ export async function POST(request: Request) {
     );
   }
 
-  let pendingSecret: string | null;
-  try {
-    pendingSecret = await getPendingSecret(session.user.id);
-  } catch (error) {
-    console.error("[auth] MFA pending enrollment read failed", {
-      userId: session.user.id,
-      message: error instanceof Error ? error.message : String(error),
-    });
-    return NextResponse.json(
-      {
-        error:
-          "Authenticator setup could not read the QR secret. Ask whoever runs this Officer Hub to check pending enrollment storage.",
-        code: "enrollment_store_unavailable",
-      },
-      { status: 503, headers: { "Cache-Control": "private, no-store" } },
-    );
-  }
-  if (!pendingSecret) {
-    return NextResponse.json(
-      {
-        error: "No pending enrollment. Generate a new QR code and try again.",
-        code: "no_pending",
-      },
-      { status: 400 },
-    );
-  }
-
   const code = (body.code ?? "").trim();
   if (!code) {
     return NextResponse.json(
@@ -89,20 +63,45 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-  const acceptedCounter = matchTotpCounter(pendingSecret, code);
-  if (acceptedCounter === null) {
-    return NextResponse.json(
-      { error: "Invalid code", code: "invalid" },
-      { status: 400 },
-    );
-  }
-
-  let recoveryCodes: string[];
+  let confirmed:
+    | { recoveryCodes: string[]; mfaGrant: string }
+    | { error: "no_pending" | "invalid" };
   try {
-    // Persist secret first; recovery rotate may memory-fallback and still succeed.
-    await persistTotpSecretForUser(session.user.id, pendingSecret, acceptedCounter);
-    recoveryCodes = await rotateMfaRecoveryCodes(session.user.id);
-    await clearPendingSecret(session.user.id);
+    confirmed = await withMfaAccountLock(session.user.id, async () => {
+      // Hold the pending-row lock until all confirmation writes commit. This
+      // makes a duplicate confirm observe the consumed placeholder.
+      const pendingSecret = await getPendingSecret(
+        session.user.id,
+        Date.now(),
+        process.env,
+        { forUpdate: true },
+      );
+      if (!pendingSecret) return { error: "no_pending" as const };
+
+      const acceptedCounter = matchTotpCounter(pendingSecret, code);
+      if (acceptedCounter === null) return { error: "invalid" as const };
+
+      await persistTotpSecretForUser(session.user.id, pendingSecret, acceptedCounter);
+      // Enrollment already bumps the version; rotate hashes in the same
+      // transaction without invalidating the version a second time.
+      const recoveryCodes = await rotateMfaRecoveryCodes(
+        session.user.id,
+        process.env,
+        { bumpSessionVersion: false },
+      );
+      await clearPendingSecret(session.user.id);
+      const sessionVersion = await getSessionVersionForUser(session.user.id);
+      const mfaGrant = await issueMfaGrant(session.user.id, Date.now(), sessionVersion);
+      await auditLog.log({
+        userId: session.user.id,
+        action: "auth.mfa_enroll",
+        resourceType: "session",
+        resourceId: session.user.id,
+        unionId: session.user.unionId,
+        localId: session.user.localId,
+      });
+      return { recoveryCodes, mfaGrant };
+    });
   } catch (error) {
     console.error("[auth] MFA enrollment persist failed", {
       userId: session.user.id,
@@ -117,31 +116,23 @@ export async function POST(request: Request) {
       { status: 503, headers: { "Cache-Control": "private, no-store" } },
     );
   }
-
-  let mfaGrant: string | undefined;
-  try {
-    const sessionVersion = await getSessionVersionForUser(session.user.id);
-    mfaGrant = await issueMfaGrant(session.user.id, Date.now(), sessionVersion);
-  } catch (error) {
-    console.error("[auth] MFA enrollment grant issue failed", {
-      userId: session.user.id,
-      message: error instanceof Error ? error.message : String(error),
-    });
+  if ("error" in confirmed) {
+    if (confirmed.error === "no_pending") {
+      return NextResponse.json({
+        error: "No pending enrollment. It may already be confirmed; sign in with your authenticator, or generate a new QR code if setup did not finish.",
+        code: "no_pending",
+      }, { status: 409, headers: { "Cache-Control": "private, no-store" } });
+    }
+    return NextResponse.json(
+      { error: "Invalid code", code: "invalid" },
+      { status: 400 },
+    );
   }
-
-  await auditLog.log({
-    userId: session.user.id,
-    action: "auth.mfa_enroll",
-    resourceType: "session",
-    resourceId: session.user.id,
-    unionId: session.user.unionId,
-    localId: session.user.localId,
-  });
 
   return NextResponse.json({
     success: true,
-    recoveryCodes,
-    mfaGrantIssued: Boolean(mfaGrant),
-    ...(mfaGrant ? { mfaGrant } : {}),
+    recoveryCodes: confirmed.recoveryCodes,
+    mfaGrantIssued: true,
+    mfaGrant: confirmed.mfaGrant,
   });
 }

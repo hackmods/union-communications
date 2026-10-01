@@ -67,6 +67,7 @@ function rotateInMemory(userId: string, hashes: string[], now: Date): void {
 export async function rotateMfaRecoveryCodes(
   userId: string,
   env: NodeJS.ProcessEnv = process.env,
+  options: { bumpSessionVersion?: boolean } = {},
 ): Promise<string[]> {
   assertStoreAvailable(env);
   const codes = generateRecoveryCodes();
@@ -101,10 +102,12 @@ export async function rotateMfaRecoveryCodes(
             createdAt: now,
           })),
         );
-        await tx
-          .update(users)
-          .set({ sessionVersion: sql`${users.sessionVersion} + 1` })
-          .where(eq(users.id, userId));
+        if (options.bumpSessionVersion !== false) {
+          await tx
+            .update(users)
+            .set({ sessionVersion: sql`${users.sessionVersion} + 1` })
+            .where(eq(users.id, userId));
+        }
       });
       return codes;
     } catch (error) {

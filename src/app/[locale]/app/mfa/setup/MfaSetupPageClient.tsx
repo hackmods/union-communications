@@ -54,6 +54,8 @@ export function MfaSetupPageClient() {
   const [code, setCode] = useState("");
   const [replaceCode, setReplaceCode] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [confirmCanContinueToChallenge, setConfirmCanContinueToChallenge] =
+    useState(false);
   const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
   const [manualOpen, setManualOpen] = useState(false);
   const [secretCopied, setSecretCopied] = useState(false);
@@ -120,6 +122,7 @@ export function MfaSetupPageClient() {
       setState("loading");
     }
     setError(null);
+    setConfirmCanContinueToChallenge(false);
     try {
       const res = await fetch("/api/mfa/enroll", {
         method: "POST",
@@ -132,6 +135,7 @@ export function MfaSetupPageClient() {
           code?: string;
           requiresCurrentCode?: boolean;
         };
+        setConfirmCanContinueToChallenge(false);
         setError(mapApiError(body.code, t("mfaSetupError")));
         setState(body.requiresCurrentCode || replaceMode ? "replaceGate" : "idle");
         return;
@@ -181,6 +185,7 @@ export function MfaSetupPageClient() {
           error?: string;
           code?: string;
         };
+        setConfirmCanContinueToChallenge(body.code === "no_pending");
         setError(mapApiError(body.code, t("mfaSetupError")));
         setState("ready");
         confirmLockRef.current = false;
@@ -192,14 +197,21 @@ export function MfaSetupPageClient() {
         mfaGrant?: string;
         mfaGrantIssued?: boolean;
       };
-      let verified = false;
-      if (body.mfaGrant) {
-        const nextSession = await update({ mfaGrant: body.mfaGrant });
-        verified = Boolean(nextSession?.user?.mfaVerified);
-      }
-      setSessionVerified(verified);
+      // Confirmation commits and the plaintext codes are one-time. Keep them
+      // visible even if Auth.js cannot consume the browser grant afterwards.
       setRecoveryCodes(body.recoveryCodes ?? []);
       setState("done");
+      let verified = false;
+      if (body.mfaGrant) {
+        try {
+          const nextSession = await update({ mfaGrant: body.mfaGrant });
+          verified = Boolean(nextSession?.user?.mfaVerified);
+        } catch {
+          // Enrollment is committed and codes are on screen. The user can
+          // complete verification from the challenge without regenerating QR.
+        }
+      }
+      setSessionVerified(verified);
       // Keep lock held so a late Enter/auto-submit cannot POST the same code again.
     } catch {
       setError(t("mfaSetupError"));
@@ -364,9 +376,17 @@ export function MfaSetupPageClient() {
               }}
             />
             {error ? (
-              <p className="text-sm text-red-600" role="alert">
-                {error}
-              </p>
+              <div className="space-y-1" role="alert">
+                <p className="text-sm text-red-600">{error}</p>
+                {confirmCanContinueToChallenge ? (
+                  <Link
+                    href={hubMfaChallengeHref(nextPath)}
+                    className="inline-block text-sm font-medium text-opseu-blue underline underline-offset-2"
+                  >
+                    {tErrors("challengeCta")}
+                  </Link>
+                ) : null}
+              </div>
             ) : null}
             <Button
               type="submit"

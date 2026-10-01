@@ -9907,7 +9907,7 @@
         "session_not_verified": "Your authenticator is saved, but this browser still needs a new code from your app. Open the identity page and enter the next number — not the one you just used.",
         "not_enrolled": "This account does not have an authenticator yet. Set one up, then try again.",
         "limited": "Too many tries. Wait a few minutes, then enter a new code from your app.",
-        "no_pending": "Setup timed out or the QR code is no longer active. Generate a new QR code and try again.",
+        "no_pending": "No QR setup is waiting. It may have expired or already been confirmed. Try your authenticator code; generate a new QR code only if setup did not finish.",
         "nextCodeHint": "If another page asks for a code, use the next number your app shows — not the one you just entered.",
         "challengeCta": "Enter a new verification code"
       },

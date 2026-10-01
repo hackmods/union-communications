@@ -16,8 +16,8 @@ import { POST as verifyMfa } from "@/app/api/mfa/verify/route";
 import { POST as rotateRecoveryCodes } from "@/app/api/mfa/recovery-codes/route";
 import { resetMfaEnrollmentStoreForTests, resetMfaPendingProcessMemoryForTests, useSharedPendingEnrollmentStoreForTests, PENDING_TTL_MS, setPendingSecret } from "@/lib/auth/mfa-enrollment-store";
 import { applyTrustedSessionUpdate } from "@/lib/auth/session-update";
-import { resetMfaRecoveryCodesForTests, rotateMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
-import { clearMfaGrants } from "@/lib/auth/mfa-grants";
+import { countUnusedMfaRecoveryCodes, resetMfaRecoveryCodesForTests, rotateMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
+import { clearMfaGrants, getMfaGrant } from "@/lib/auth/mfa-grants";
 import { resetMfaVerificationAttemptsForTests } from "@/lib/auth/mfa-attempt-limits";
 import { auditLog, resetAuditLog } from "@/lib/audit/store";
 import { resetMemoryAuditLogForTests } from "@/lib/audit/memory-adapter";
@@ -296,7 +296,7 @@ describe("MFA API routes", () => {
       });
 
       const noPending = await confirmEnroll(jsonRequest({ code: "123456" }));
-      expect(noPending.status).toBe(400);
+      expect(noPending.status).toBe(409);
       expect(await noPending.json()).toMatchObject({
         error: expect.stringContaining("No pending enrollment"),
         code: "no_pending",
@@ -354,6 +354,32 @@ describe("MFA API routes", () => {
       expect(await replay.json()).toMatchObject({ code: "replayed" });
     });
 
+    it("serializes duplicate confirmation and rotates recovery codes only once", async () => {
+      process.env.AUTH_MFA_ENABLED = "true";
+      process.env.AUTH_MFA_MODE = "totp";
+      const userId = "duplicate-confirm-user";
+      authMock.mockResolvedValue(session({ id: userId }));
+
+      const enrolled = await enrollMfa(jsonRequest({}));
+      const { secret } = await enrolled.json() as { secret: string };
+      const code = generateTotp(secret);
+      const [first, duplicate] = await Promise.all([
+        confirmEnroll(jsonRequest({ code })),
+        confirmEnroll(jsonRequest({ code })),
+      ]);
+      expect([first.status, duplicate.status].sort()).toEqual([200, 409]);
+      const bodies = await Promise.all([first.json(), duplicate.json()]);
+      expect(bodies.find((body) => (body as { success?: boolean }).success)).toMatchObject({
+        success: true,
+        recoveryCodes: expect.any(Array),
+      });
+      expect(bodies.find((body) => (body as { code?: string }).code === "no_pending")).toMatchObject({
+        code: "no_pending",
+      });
+      expect(await countUnusedMfaRecoveryCodes(userId)).toBe(10);
+      expect(getMfaGrant(userId)).toBeDefined();
+    });
+
     it("confirms after the process pending cache is cleared (replica split)", async () => {
       process.env.AUTH_MFA_ENABLED = "true";
       process.env.AUTH_MFA_MODE = "totp";
@@ -378,7 +404,7 @@ describe("MFA API routes", () => {
         Date.now() - PENDING_TTL_MS - 1,
       );
       const expired = await confirmEnroll(jsonRequest({ code: "123456" }));
-      expect(expired.status).toBe(400);
+      expect(expired.status).toBe(409);
       expect(await expired.json()).toMatchObject({
         error: expect.stringContaining("No pending enrollment"),
       });

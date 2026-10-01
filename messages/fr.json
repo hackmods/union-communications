@@ -10189,7 +10189,7 @@
         "session_not_verified": "Votre authenticator est enregistré, mais ce navigateur a encore besoin d’un nouveau code de votre appli. Ouvrez la page d’identité et entrez le prochain numéro — pas celui que vous venez d’utiliser.",
         "not_enrolled": "Ce compte n’a pas encore d’authenticator. Configurez-en un, puis réessayez.",
         "limited": "Trop d’essais. Attendez quelques minutes, puis entrez un nouveau code de votre appli.",
-        "no_pending": "La configuration a expiré ou le code QR n’est plus actif. Générez un nouveau code QR, puis réessayez.",
+        "no_pending": "Aucune configuration QR n’est en attente. Elle a peut-être expiré ou déjà été confirmée. Essayez le code de votre authenticator; générez un nouveau code QR seulement si la configuration n’a pas abouti.",
         "nextCodeHint": "Si une autre page demande un code, utilisez le prochain numéro affiché par votre appli — pas celui que vous venez d’entrer.",
         "challengeCta": "Entrer un nouveau code de vérification"
       },

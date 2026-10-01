@@ -130,21 +130,24 @@ export async function getPendingSecret(
   userId: string,
   now = Date.now(),
   env: NodeJS.ProcessEnv = process.env,
+  options: { forUpdate?: boolean } = {},
 ): Promise<string | null> {
   assertPendingStoreAvailable(env);
 
   if (postgresPendingStoreEnabled(env)) {
     try {
-      const [row] = await withRlsContext({ userId }, async () =>
-        getDb()
+      const [row] = await withRlsContext({ userId }, async () => {
+        const query = getDb()
           .select({
             secret: mfaPendingEnrollments.secret,
             expiresAt: mfaPendingEnrollments.expiresAt,
           })
           .from(mfaPendingEnrollments)
-          .where(eq(mfaPendingEnrollments.userId, userId))
-          .limit(1),
-      );
+          .where(eq(mfaPendingEnrollments.userId, userId));
+        return options.forUpdate
+          ? query.for("update").limit(1)
+          : query.limit(1);
+      });
       if (
         row &&
         row.secret &&
