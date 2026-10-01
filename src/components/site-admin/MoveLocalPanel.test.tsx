@@ -134,11 +134,17 @@ describe("MoveLocalPanel", () => {
     fireEvent.change(screen.getByRole("combobox", { name: "Destination union" }), {
       target: { value: "union-b" },
     });
+    expect(
+      screen.queryByText(/Commit needs a fresh authenticator code/i),
+    ).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: /Preview move/i }));
 
     await waitFor(() =>
       expect(screen.getByTestId("local-move-preview")).toBeTruthy(),
     );
+    expect(
+      screen.getByText(/Commit needs a fresh authenticator code/i),
+    ).toBeTruthy();
     expect(
       screen.getByText(/Local 7: Source → Destination/i),
     ).toBeTruthy();

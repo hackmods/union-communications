@@ -86,6 +86,9 @@ export function MoveLocalPanel({
   const [resultUnconfirmed, setResultUnconfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [busyAction, setBusyAction] = useState<"preview" | "commit" | null>(
+    null,
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -216,6 +219,7 @@ export function MoveLocalPanel({
 
   async function run(action: "preview" | "commit", code?: string) {
     setBusy(true);
+    setBusyAction(action);
     setError(null);
     setSuccess(null);
     try {
@@ -290,8 +294,16 @@ export function MoveLocalPanel({
       setError(t("localActionResultUnconfirmed"));
     } finally {
       setBusy(false);
+      setBusyAction(null);
     }
   }
+
+  const busyLabel =
+    busyAction === "commit"
+      ? t("localMoveCommitting")
+      : busyAction === "preview"
+        ? t("localMovePreviewing")
+        : t("localMoveWorking");
 
   if (success && preview) {
     return (
@@ -328,12 +340,15 @@ export function MoveLocalPanel({
     >
       <h3
         id="local-move-heading"
-        className="text-sm font-semibold text-opseu-dark"
+        tabIndex={-1}
+        className="text-sm font-semibold text-opseu-dark outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
       >
         {t("localMoveHeading", { number: localNumber })}
       </h3>
       <p className={helpClass}>{t("localMoveHelp")}</p>
-      <p className={helpClass}>{t("localMoveMfaNote")}</p>
+      {stepUp || preview?.canMove ? (
+        <p className={helpClass}>{t("localMoveMfaNote")}</p>
+      ) : null}
 
       {!ownerDbReady ? (
         <Callout tone="warning" role="status" className="w-full p-3 text-sm">
@@ -405,7 +420,7 @@ export function MoveLocalPanel({
               className={actionBtnClass}
               disabled={busy || !mfaCode.trim()}
             >
-              {busy ? t("localArchiveSaving") : t("localActionConfirm")}
+              {busy ? busyLabel : t("localActionConfirm")}
             </Button>
           </div>
         </form>
@@ -660,7 +675,7 @@ export function MoveLocalPanel({
                 disabled={busy || resultUnconfirmed || !toUnionId || !ownerDbReady}
                 onClick={() => void run("preview")}
               >
-                {busy ? t("localArchiveSaving") : t("localMoveRefreshPreview")}
+                {busy ? busyLabel : t("localMoveRefreshPreview")}
               </Button>
             ) : null}
             {preview?.canMove ? (
@@ -675,7 +690,7 @@ export function MoveLocalPanel({
                   (preview.warnings.length > 0 && !acknowledgeWarnings)
                 }
               >
-                {busy ? t("localArchiveSaving") : t("localMoveCommit")}
+                {busy ? busyLabel : t("localMoveCommit")}
               </Button>
             ) : (
               <Button
@@ -689,7 +704,7 @@ export function MoveLocalPanel({
                   unionsLoadState !== "ready"
                 }
               >
-                {busy ? t("localArchiveSaving") : t("localMovePreview")}
+                {busy ? busyLabel : t("localMovePreview")}
               </Button>
             )}
           </div>

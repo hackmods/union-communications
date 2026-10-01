@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { LocalLifecycleActions } from "@/components/site-admin/LocalLifecycleActions";
 import { MoveLocalPanel } from "@/components/site-admin/MoveLocalPanel";
@@ -47,6 +47,7 @@ export function LocalsAdminPanel({
   const t = useTranslations("hub.platformOperator");
   const [filter, setFilter] = useState<StatusFilter>("all");
   const [movingLocalId, setMovingLocalId] = useState<string | null>(null);
+  const movePanelRef = useRef<HTMLDivElement | null>(null);
 
   const archivedCount = rows.filter((row) => row.archivedAt).length;
   const activeCount = rows.length - archivedCount;
@@ -54,6 +55,15 @@ export function LocalsAdminPanel({
   const movingRow = movingLocalId
     ? (rows.find((row) => row.id === movingLocalId) ?? null)
     : null;
+
+  useEffect(() => {
+    if (!movingLocalId) return;
+    const panel = movePanelRef.current;
+    if (!panel) return;
+    panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    const heading = panel.querySelector<HTMLElement>("#local-move-heading");
+    heading?.focus({ preventScroll: true });
+  }, [movingLocalId]);
 
   const visible = useMemo(() => {
     return rows.filter((row) => {
@@ -120,10 +130,16 @@ export function LocalsAdminPanel({
                   const collectiveName = row.divisionId
                     ? (collectiveNameById.get(row.divisionId) ?? null)
                     : null;
+                  const isMoving = movingLocalId === row.id;
                   return (
                     <li
                       key={row.id}
-                      className="rounded-md border border-opseu-gray/15 bg-white p-3"
+                      className={
+                        isMoving
+                          ? "rounded-md border border-opseu-blue/40 bg-opseu-blue/5 p-3 ring-2 ring-opseu-blue/30"
+                          : "rounded-md border border-opseu-gray/15 bg-white p-3"
+                      }
+                      aria-current={isMoving ? "true" : undefined}
                     >
                       <div className="flex flex-wrap items-baseline justify-between gap-2">
                         <p className="font-mono text-sm font-semibold text-opseu-dark">
@@ -135,6 +151,11 @@ export function LocalsAdminPanel({
                             : t("unionsStatusActive")}
                         </p>
                       </div>
+                      {isMoving ? (
+                        <p className="mt-1 text-xs font-medium text-opseu-blue">
+                          {t("localMoveRowActive")}
+                        </p>
+                      ) : null}
                       <dl className="mt-2 space-y-1 text-sm text-opseu-gray-dark">
                         <div>
                           <dt className="inline font-medium text-opseu-dark">
@@ -183,10 +204,22 @@ export function LocalsAdminPanel({
                       const collectiveName = row.divisionId
                         ? (collectiveNameById.get(row.divisionId) ?? null)
                         : null;
+                      const isMoving = movingLocalId === row.id;
                       return (
-                        <tr key={row.id}>
+                        <tr
+                          key={row.id}
+                          className={
+                            isMoving ? "bg-opseu-blue/5" : undefined
+                          }
+                          aria-current={isMoving ? "true" : undefined}
+                        >
                           <td className="px-3 py-2 font-mono text-xs text-opseu-dark">
                             {row.localNumber}
+                            {isMoving ? (
+                              <span className="mt-1 block text-[0.65rem] font-sans font-medium normal-case tracking-normal text-opseu-blue">
+                                {t("localMoveRowActive")}
+                              </span>
+                            ) : null}
                           </td>
                           <td className="px-3 py-2 text-opseu-gray-dark">
                             {row.subText || "—"}
@@ -223,8 +256,12 @@ export function LocalsAdminPanel({
           )}
 
           {movingRow ? (
-            <div className="mt-4 rounded-md border border-opseu-gray/15 bg-white p-4">
+            <div
+              ref={movePanelRef}
+              className="mt-4 rounded-md border border-opseu-gray/15 bg-white p-4"
+            >
               <MoveLocalPanel
+                key={movingRow.id}
                 localId={movingRow.id}
                 localNumber={movingRow.localNumber}
                 currentUnionId={unionId}
