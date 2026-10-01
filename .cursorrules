@@ -51,6 +51,19 @@ This file is a flat, tool-agnostic mirror of the most load-bearing rules already
 - **Public SEO:** [`.cursor/rules/seo.mdc`](.cursor/rules/seo.mdc) — `AUTH_URL` = browser-facing HTTPS host (never CapRover FQDN); sitemap/canonicals via `buildPageMetadata` + `PUBLIC_PATHS`; keep `alternateLinks: false`; long-cache only static `/assets/*` trees.
 - **CapRover / Docker migrate:** slim `/app/db-migrate` via `docker/migrate-package.json` only — no cross-stage `node_modules` COPY (BuildKit `unknown parent image ID`). Prefer GHCR pull deploy. Rule: [`.cursor/rules/caprover-docker.mdc`](.cursor/rules/caprover-docker.mdc); lessons: [`docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md`](docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md).
 
+## Host readiness / CapRover gates (universal — Claude, Codex, Cursor)
+
+Site Admin `/app/site-admin/host` is the CapRover action board. Secrets never appear as live values (placeholders only). Do not build packet-tracker UI; deeper narrative: [`docs/guides/HOSTED_SECURITY.md`](docs/guides/HOSTED_SECURITY.md).
+
+**Update chain when adding a hosted env gate:**
+
+1. Evidence / gap codes → `src/lib/ops/host-control-evidence.ts` (`HOST_EVIDENCE_GAP_CODES`)
+2. Action catalog + CapRover templates → `src/lib/ops/host-readiness-actions.ts` (`HOST_ACTION_IDS`)
+3. Title / consequence / gap maps → `src/lib/ops/host-readiness-copy.ts` + `hub.platformOperator` in `messages/en.json` and `messages/fr.json`
+4. Guard: `npm run test:unit -- src/lib/ops/host-readiness-copy.test.ts src/lib/comms/public-copy-style.test.ts`
+
+Canonical detail: `AGENTS.md` §7ac. Cursor-only mirror: `.cursor/rules/host-readiness.mdc`.
+
 ## Verifying files before citing or acting on them
 
 - **Do not trust a single search tool's file listing.** During the 2026-07-22 audit, the `Glob` tool returned multiple phantom paths that do not exist on disk (a fabricated `docs/modules/LOCAL_PORTAL.md`, `.cursor/rules/local-portal.mdc`, and a fabricated "Portal/Circles" feature under `src/components/portal/`). Before citing a file path in a plan, PR description, or documentation update — or before editing a file you haven't directly read in this session — confirm it exists via `git ls-files` or a direct filesystem check.

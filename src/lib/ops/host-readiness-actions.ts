@@ -21,24 +21,27 @@ export type HostEnvKeyHint = {
   formatHint: string;
 };
 
-export type HostActionId =
-  | "postgresConfigured"
-  | "migrateVerified"
-  | "tenantsSeeded"
-  | "emailEnabled"
-  | "accessRequestNotify"
-  | "cronConfigured"
-  | "mfaEnabled"
-  | "totpEncryptionConfigured"
-  | "mfaOperatorBypassOff"
-  | "mfaDurableStoreHealthy"
-  | "demoAuthOff"
-  | "attachmentStorageApproved"
-  | "strictUploadScan"
-  | "backupRestoreEvidence"
-  | "alertDeliveryEvidence"
-  | "publicLegalContacts"
-  | "publicDocumentsReady";
+export const HOST_ACTION_IDS = [
+  "postgresConfigured",
+  "migrateVerified",
+  "tenantsSeeded",
+  "emailEnabled",
+  "accessRequestNotify",
+  "cronConfigured",
+  "mfaEnabled",
+  "totpEncryptionConfigured",
+  "mfaOperatorBypassOff",
+  "mfaDurableStoreHealthy",
+  "demoAuthOff",
+  "attachmentStorageApproved",
+  "strictUploadScan",
+  "backupRestoreEvidence",
+  "alertDeliveryEvidence",
+  "publicLegalContacts",
+  "publicDocumentsReady",
+] as const;
+
+export type HostActionId = (typeof HOST_ACTION_IDS)[number];
 
 export type HostAction = {
   id: HostActionId;
