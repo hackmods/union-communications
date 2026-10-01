@@ -4752,7 +4752,18 @@
       "matchLookbook": "Aperçu du carnet du Hub des dirigeants",
       "matchLookbookHint": "Voir comment Apparier peindra les commandes du Hub des dirigeants avant de l’appliquer.",
       "showcaseTitle": "Carnet de marque",
-      "showcaseDescription": "Une galerie en direct des commandes du Hub des dirigeants et d’un échantillon Comms avec le kit de marque enregistré dans ce navigateur."
+      "showcaseDescription": "Une galerie en direct des commandes du Hub des dirigeants et d’un échantillon Comms avec le kit de marque enregistré dans ce navigateur.",
+      "chromeStrips": {
+        "title": "Chrome Hub et Portail",
+        "intro": "Bandes décoratives peintes par les mêmes jetons chrome — pas la navigation réelle.",
+        "hubWordmark": "Hub des dirigeants",
+        "hubLinkHome": "Accueil",
+        "hubLinkCases": "Dossiers",
+        "hubCta": "Nouveau",
+        "portalWordmark": "Portail local",
+        "portalLinkTogether": "Ensemble",
+        "portalLinkCircles": "Cercles"
+      }
     }
   },
   "graphicMaker": {
@@ -9589,7 +9600,14 @@
       "localMoveConflictMembers": "{count} membres conserveraient des affiliations en conflit sauf si vous les terminez.",
       "localMoveWarningArchived": "Cette section est archivée. Elle restera archivée après le déplacement sauf si vous la restaurez dans le syndicat de destination.",
       "brandStylesLookbook": "Carnet de ce thème",
-      "hostBrandLookbook": "Carnet de la marque hôte"
+      "hostBrandLookbook": "Carnet de la marque hôte",
+      "brandStylesLookbookSource": "Source du carnet",
+      "brandStylesLookbookUnion": "Brouillon de ce syndicat",
+      "brandStylesLookbookHost": "Défauts de la marque hôte",
+      "brandStylesBaselineConfirmTitle": "Publier la ligne de base de marque ?",
+      "brandStylesBaselineConfirmBody": "Confirmez que vous avez vérifié le carnet — couleurs chrome du Hub des dirigeants et échantillon Comms — avant de publier cette ligne de base aux steward·es.",
+      "brandStylesBaselineConfirmPublish": "Publier la ligne de base",
+      "brandStylesBaselineConfirmCancel": "Annuler"
     },
     "signingIn": "Connexion...",
     "writeNoUnion": "Aucun syndicat n’est assigné à ce compte — demandez à un opérateur de plateforme d’en assigner un avant d’enregistrer.",

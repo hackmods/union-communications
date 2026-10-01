@@ -4752,7 +4752,18 @@
       "matchLookbook": "Preview Officer Hub lookbook",
       "matchLookbookHint": "See how Match will paint Officer Hub controls before you apply it.",
       "showcaseTitle": "Brand lookbook",
-      "showcaseDescription": "A live gallery of Officer Hub controls and a Comms sample using the Brand Kit saved in this browser."
+      "showcaseDescription": "A live gallery of Officer Hub controls and a Comms sample using the Brand Kit saved in this browser.",
+      "chromeStrips": {
+        "title": "Officer Hub and Portal chrome",
+        "intro": "Decorative strips painted by the same chrome tokens — not live navigation.",
+        "hubWordmark": "Officer Hub",
+        "hubLinkHome": "Home",
+        "hubLinkCases": "Cases",
+        "hubCta": "New",
+        "portalWordmark": "Local Portal",
+        "portalLinkTogether": "Together",
+        "portalLinkCircles": "Circles"
+      }
     }
   },
   "assets": {
@@ -9643,7 +9654,14 @@
       "localMoveConflictMembers": "{count} members would keep conflicting memberships unless you end them.",
       "localMoveWarningArchived": "This local is archived. It will stay archived after the move unless you restore it in the destination union.",
       "brandStylesLookbook": "Lookbook for this theme",
-      "hostBrandLookbook": "Host brand lookbook"
+      "hostBrandLookbook": "Host brand lookbook",
+      "brandStylesLookbookSource": "Lookbook source",
+      "brandStylesLookbookUnion": "This union draft",
+      "brandStylesLookbookHost": "Host defaults",
+      "brandStylesBaselineConfirmTitle": "Publish brand baseline?",
+      "brandStylesBaselineConfirmBody": "Confirm you reviewed the lookbook — Officer Hub chrome colours and the Comms sample — before publishing this baseline for stewards.",
+      "brandStylesBaselineConfirmPublish": "Publish baseline",
+      "brandStylesBaselineConfirmCancel": "Cancel"
     },
     "signingIn": "Signing in...",
     "writeNoUnion": "No union is assigned to this account — ask a platform operator to assign one before saving.",

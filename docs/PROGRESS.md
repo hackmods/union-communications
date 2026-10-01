@@ -1,4 +1,11 @@
-﻿## 2026-09-30 — Brand Lookbook (Atlas-inspired)
+﻿## 2026-09-30 — Brand Lookbook uplift (smoke, nav, SEO, admin QA)
+
+- Phase 1: `@smoke` axe for `/brand-kit/showcase` + Site Admin compact lookbook; sticky lookbook nav with scroll-spy `aria-current`.
+- Phase 2: SEO/sitemap for showcase; `UnionBrandForm` migrated to shared `ui/*`.
+- Phase 3: Host vs union lookbook compare on brand-styles; Dialog confirm before baseline publish.
+- Phase 4: Decorative Hub/Portal chrome strips on full lookbook.
+
+## 2026-09-30 — Brand Lookbook (Atlas-inspired)
 
 - Shared `BrandLookbook` + `BrandLookbookScope` paints real Hub `ui/*` and `BrandKitPreview` from Brand Kit / draft themes without writing steward localStorage.
 - Public `/brand-kit/showcase` linked from Brand Kit nav, sticky preview, and Match hint. What's new: `brand-lookbook`.

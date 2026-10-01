@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { BrandLookbook } from "@/components/brand/BrandLookbook";
+import { BrandLookbookChromeStrips } from "@/components/brand/BrandLookbookChromeStrips";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { TOOL_COMPOSITION } from "@/lib/constants/page-composition";
@@ -37,6 +38,7 @@ export default function BrandKitShowcasePage() {
           mode="full"
           showCommsStyleLink
           idPrefix="public-lookbook"
+          chromeStrips={<BrandLookbookChromeStrips />}
         />
       </div>
     </ComposedPageLayout>

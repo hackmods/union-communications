@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useTranslations } from "next-intl";
 import { BrandKitPreview } from "@/components/brand/BrandKitPreview";
 import { BrandLookbookScope } from "@/components/brand/BrandLookbookScope";
@@ -17,9 +17,7 @@ import { Radio, RadioGroup } from "@/components/ui/Radio";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Select } from "@/components/ui/Select";
 import { Skeleton } from "@/components/ui/Skeleton";
-import {
-  chromeDiffersFromPrimary,
-} from "@/lib/brand/lookbook-kit";
+import { chromeDiffersFromPrimary } from "@/lib/brand/lookbook-kit";
 import { resolveBrandChromeTokens } from "@/lib/brand/chrome-tokens";
 import {
   canvasFontFamily,
@@ -98,23 +96,58 @@ export function BrandLookbook({
   className,
   idPrefix,
   showCommsStyleLink = false,
+  chromeStrips = null,
 }: {
   brandKit: BrandKit;
   hydrated?: boolean;
   mode?: BrandLookbookMode;
   className?: string;
-  /** Prefix section anchors when multiple lookbooks share a page. */
   idPrefix?: string;
   showCommsStyleLink?: boolean;
+  /** Optional Phase 4 chrome strip slot (full mode). */
+  chromeStrips?: React.ReactNode;
 }) {
   const t = useTranslations("brandKit.lookbook");
   const tFonts = useTranslations("brandKit.canvas.fonts");
   const reactId = useId();
   const prefix = idPrefix ?? `lb-${reactId.replace(/:/g, "")}`;
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [activeSection, setActiveSection] =
+    useState<LookbookSection>("foundations");
 
   const sections: readonly LookbookSection[] =
     mode === "compact" ? COMPACT_SECTIONS : FULL_SECTIONS;
+
+  useEffect(() => {
+    const nodes = sections
+      .map((id) => document.getElementById(`${prefix}-${id}`))
+      .filter((node): node is HTMLElement => Boolean(node));
+    if (nodes.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        const top = visible[0];
+        if (!top?.target.id) return;
+        const id = top.target.id.replace(
+          `${prefix}-`,
+          "",
+        ) as LookbookSection;
+        if ((sections as readonly string[]).includes(id)) {
+          setActiveSection(id);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "-20% 0px -55% 0px",
+        threshold: [0.1, 0.25, 0.5],
+      },
+    );
+    for (const node of nodes) observer.observe(node);
+    return () => observer.disconnect();
+  }, [prefix, sections]);
 
   const chrome = resolveBrandChromeTokens(
     brandKit.primaryColor,
@@ -156,20 +189,27 @@ export function BrandLookbook({
           </header>
         ) : (
           <header className="min-w-0">
-            <h2 className="text-lg font-bold text-opseu-dark">{t("compactTitle")}</h2>
-            <p className="mt-1 text-sm text-slate-600">{t("compactDescription")}</p>
+            <h2 className="text-lg font-bold text-opseu-dark">
+              {t("compactTitle")}
+            </h2>
+            <p className="mt-1 text-sm text-slate-600">
+              {t("compactDescription")}
+            </p>
           </header>
         )}
 
         <nav
           aria-label={t("navLabel")}
-          className="mt-4 flex flex-wrap gap-x-4 gap-y-2 border-b border-slate-200 pb-3"
+          data-testid="brand-lookbook-nav"
+          className="sticky top-20 z-10 mt-4 -mx-1 flex flex-wrap gap-x-4 gap-y-2 border-b border-slate-200 bg-white/95 px-1 py-3 backdrop-blur supports-[backdrop-filter]:bg-white/80 motion-reduce:backdrop-blur-none"
         >
           {sections.map((id) => (
             <a
               key={id}
               href={`#${prefix}-${id}`}
               className={navClass}
+              data-active={activeSection === id ? "true" : undefined}
+              aria-current={activeSection === id ? "true" : undefined}
             >
               {t(`nav.${id}`)}
             </a>
@@ -179,7 +219,7 @@ export function BrandLookbook({
         <div className="mt-8 space-y-12">
           <section
             id={`${prefix}-foundations`}
-            className="scroll-mt-28 space-y-6"
+            className="scroll-mt-36 space-y-6"
             aria-labelledby={`${prefix}-foundations-heading`}
           >
             <SectionHeading
@@ -187,6 +227,7 @@ export function BrandLookbook({
               title={t("foundations.title")}
               intro={t("foundations.intro")}
             />
+            {mode === "full" && chromeStrips ? chromeStrips : null}
             <Specimen title={t("foundations.brandRamp")}>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 <Swatch
@@ -245,7 +286,7 @@ export function BrandLookbook({
 
           <section
             id={`${prefix}-actions`}
-            className="scroll-mt-28 space-y-6"
+            className="scroll-mt-36 space-y-6"
             aria-labelledby={`${prefix}-actions-heading`}
           >
             <SectionHeading
@@ -301,7 +342,7 @@ export function BrandLookbook({
             <>
               <section
                 id={`${prefix}-forms`}
-                className="scroll-mt-28 space-y-6"
+                className="scroll-mt-36 space-y-6"
                 aria-labelledby={`${prefix}-forms-heading`}
               >
                 <SectionHeading
@@ -324,7 +365,7 @@ export function BrandLookbook({
 
               <section
                 id={`${prefix}-selection`}
-                className="scroll-mt-28 space-y-6"
+                className="scroll-mt-36 space-y-6"
                 aria-labelledby={`${prefix}-selection-heading`}
               >
                 <SectionHeading
@@ -360,7 +401,7 @@ export function BrandLookbook({
 
           <section
             id={`${prefix}-feedback`}
-            className="scroll-mt-28 space-y-6"
+            className="scroll-mt-36 space-y-6"
             aria-labelledby={`${prefix}-feedback-heading`}
           >
             <SectionHeading
@@ -396,7 +437,7 @@ export function BrandLookbook({
           {mode === "full" ? (
             <section
               id={`${prefix}-surfaces`}
-              className="scroll-mt-28 space-y-6"
+              className="scroll-mt-36 space-y-6"
               aria-labelledby={`${prefix}-surfaces-heading`}
             >
               <SectionHeading
@@ -440,7 +481,7 @@ export function BrandLookbook({
 
           <section
             id={`${prefix}-comms`}
-            className="scroll-mt-28 space-y-6"
+            className="scroll-mt-36 space-y-6"
             aria-labelledby={`${prefix}-comms-heading`}
           >
             <SectionHeading
@@ -450,7 +491,11 @@ export function BrandLookbook({
             />
             <BrandKitPreview brandKit={brandKit} hydrated={hydrated} />
             {showCommsStyleLink ? (
-              <ButtonLink href="/brand-kit#brand-style" variant="outline" size="sm">
+              <ButtonLink
+                href="/brand-kit#brand-style"
+                variant="outline"
+                size="sm"
+              >
                 {t("comms.styleLink")}
               </ButtonLink>
             ) : null}
@@ -459,7 +504,7 @@ export function BrandLookbook({
           {mode === "full" ? (
             <section
               id={`${prefix}-overlays`}
-              className="scroll-mt-28 space-y-6"
+              className="scroll-mt-36 space-y-6"
               aria-labelledby={`${prefix}-overlays-heading`}
             >
               <SectionHeading
