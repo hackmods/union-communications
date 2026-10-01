@@ -9664,7 +9664,7 @@
       "brandStylesBaselineConfirmCancel": "Cancel",
       "hostedPlansCardTitle": "Hosted plans",
       "hostedPlansCardBody": "Assign Free or Full (Member/Paid) per union or local. CapRover flag stays off until you enforce caps.",
-      "hostPresenceHostedPlans": "Hosted plan caps are still dark (not enforcing)",
+      "hostPresenceHostedPlans": "Hosted plan caps are not applying yet (dark launch)",
       "hostActionConsequenceHostedPlans": "Leave UNIONOPS_HOSTED_PLANS_ENABLED=false until Site Admin assigns Free/Full locals. No public pricing. Flip true only when ready to enforce."
     },
     "signingIn": "Signing in...",
@@ -17326,7 +17326,7 @@
     "error": "Could not load or save hosted plans. Check durable Postgres and try again.",
     "saved": "Plan saved.",
     "hostFlagTitle": "CapRover enforcement flag",
-    "hostFlagOff": "{key} is false — caps are dark (legacy behaviour).",
+    "hostFlagOff": "{key} is false — caps are not applying yet (legacy behaviour).",
     "hostFlagOn": "{key} is true — Free/Full caps are enforcing on assigned tenants.",
     "needDurable": "Durable Postgres is required before you can assign plans.",
     "assignTitle": "Assign plan",
@@ -17351,6 +17351,20 @@
     "donationLabel": "Donation acknowledged (operator note)",
     "notesLabel": "Operator notes",
     "saveUnion": "Save union default",
-    "saveLocal": "Save local override"
+    "saveLocal": "Save local override",
+    "errorNext": "Postgres may be down, or your session expired. Retry, or open Host readiness if CapRover still needs a durable database.",
+    "retry": "Retry",
+    "openHostReadiness": "Open Host readiness",
+    "needDurableNext": "Set DATABASE_URL on CapRover, migrate, and seed unions before assigning plans.",
+    "noUnions": "No active unions in lasting storage yet. Plans need a union (and usually a local) to attach to.",
+    "noUnionsNext": "Open Organization to create or restore a union",
+    "effectiveTitle": "Effective access (saved values)",
+    "effectiveAccess": "Access: {access}. Commercial: {commercial}.",
+    "effectiveInheritHint": "Local override wins when set; otherwise this local inherits the union default.",
+    "effectiveUnionHint": "Saving the union default applies to locals that still have unset access.",
+    "seatCapSoft": "Soft seat guide for this SKU: under {cap} Hub seats (not hard-enforced yet).",
+    "seatCapCustom": "Custom SKU — record the agreed seat count in operator notes.",
+    "savedNextOff": "Assignment is stored, but CapRover still has enforcement off — caps will not apply until you flip the flag and redeploy.",
+    "savedNextOn": "Caps are enforcing for this host. Open Hub or Portal as that local to confirm Free/Full chrome."
   }
 }

@@ -9610,7 +9610,7 @@
       "brandStylesBaselineConfirmCancel": "Annuler",
       "hostedPlansCardTitle": "Forfaits hébergés",
       "hostedPlansCardBody": "Attribuer Gratuit ou Complet (Membre/Payant) par syndicat ou section locale. Le drapeau CapRover reste éteint jusqu'à l'application des plafonds.",
-      "hostPresenceHostedPlans": "Les plafonds de forfait hébergé sont encore obscurs (non appliqués)",
+      "hostPresenceHostedPlans": "Les plafonds de forfait hébergé ne s'appliquent pas encore (lancement obscur)",
       "hostActionConsequenceHostedPlans": "Laissez UNIONOPS_HOSTED_PLANS_ENABLED=false jusqu'à ce que l'admin du site attribue Gratuit/Complet. Pas de tarification publique. Passez à true seulement quand vous êtes prêt à appliquer."
     },
     "signingIn": "Connexion...",
@@ -17326,7 +17326,7 @@
     "error": "Impossible de charger ou d'enregistrer les forfaits. Vérifiez Postgres durable et réessayez.",
     "saved": "Forfait enregistré.",
     "hostFlagTitle": "Drapeau CapRover d'application",
-    "hostFlagOff": "{key} est false — les plafonds sont obscurs (comportement actuel).",
+    "hostFlagOff": "{key} est false — les plafonds ne s'appliquent pas encore (comportement actuel).",
     "hostFlagOn": "{key} est true — les plafonds Gratuit/Complet s'appliquent aux locataires assignés.",
     "needDurable": "Postgres durable est requis avant d'attribuer des forfaits.",
     "assignTitle": "Attribuer un forfait",
@@ -17351,6 +17351,20 @@
     "donationLabel": "Don reconnu (note opérateur)",
     "notesLabel": "Notes opérateur",
     "saveUnion": "Enregistrer le défaut syndical",
-    "saveLocal": "Enregistrer la surcharge locale"
+    "saveLocal": "Enregistrer la surcharge locale",
+    "errorNext": "Postgres est peut-être hors service, ou votre session a expiré. Réessayez, ou ouvrez la préparation de l'hôte si CapRover n'a pas encore de base durable.",
+    "retry": "Réessayer",
+    "openHostReadiness": "Ouvrir la préparation de l'hôte",
+    "needDurableNext": "Définissez DATABASE_URL dans CapRover, migrez, puis semez les syndicats avant d'attribuer des forfaits.",
+    "noUnions": "Aucun syndicat actif en stockage durable. Les forfaits exigent un syndicat (et souvent une section locale).",
+    "noUnionsNext": "Ouvrir Organisation pour créer ou restaurer un syndicat",
+    "effectiveTitle": "Accès effectif (valeurs enregistrées)",
+    "effectiveAccess": "Accès : {access}. Commercial : {commercial}.",
+    "effectiveInheritHint": "La surcharge locale l'emporte si elle est définie; sinon la section hérite du défaut syndical.",
+    "effectiveUnionHint": "Enregistrer le défaut syndical s'applique aux sections dont l'accès est encore non défini.",
+    "seatCapSoft": "Guide souple pour ce SKU : moins de {cap} sièges Hub (pas encore appliqué de force).",
+    "seatCapCustom": "SKU personnalisé — notez le nombre de sièges convenu dans les notes opérateur.",
+    "savedNextOff": "L'attribution est enregistrée, mais CapRover a encore l'application désactivée — les plafonds ne s'appliquent qu'après le drapeau et un redéploiement.",
+    "savedNextOn": "Les plafonds s'appliquent sur cet hôte. Ouvrez le Hub ou le Portail comme cette section pour confirmer Gratuit/Complet."
   }
 }
