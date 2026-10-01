@@ -159,6 +159,8 @@ Implement and commit the following in order. Keep this ledger current in each ph
 
 ### Phase execution rules
 
+**Latest Phase 5B checkpoint (2026-10-01):** The Postgres-backed officer browser journey now passes locally with hosted MFA policy and the limited runtime role: protected Tasks API/page denied before enrollment and allowed after verification, with encrypted enrollment, consumed grant, and ten recovery codes independently verified in SQL. `scripts/mfa-browser-postgres-smoke.ps1` reproduces this using a disposable project. Continue with replica/restart, recovery/reset/rotation, paste/autofill, and operator-owned deployment/accessibility/restore/rollback evidence. This local checkpoint does not close Phase 5B.
+
 - One phase per conventional commit. Keep the scope bounded to the phase; update this file's ledger and add a short session-knowledge note when behavior or operator procedure changes materially.
 - Before each phase, re-check `git status`, phase prerequisites, and the latest implementation. Preserve unrelated workspace changes. Do not stage `.codex/` or unrelated user files.
 - For every change, add or adapt a meaningful test that covers the failure contract. If the required runtime (dependencies, Postgres, deployed host) is absent, keep that evidence explicitly open rather than treating a mock or source inspection as proof.

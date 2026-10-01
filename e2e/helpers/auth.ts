@@ -8,8 +8,8 @@ export const DEMO_OFFICER = {
   mfaCode: "000000",
 } as const;
 
-/** Hub home, Portal home, or MFA — must not match `/app/login`. */
-const POST_LOGIN = /\/en\/(?:app(?:\/mfa)?|portal)\/?(?:\?.*)?$/;
+/** Hub home, Portal home, or MFA challenge/setup — never `/app/login`. */
+const POST_LOGIN = /\/en\/(?:app(?:\/mfa(?:\/setup)?)?|portal)\/?(?:\?.*)?$/;
 
 /**
  * Sign in as a demo officer. Completes MFA only when the host has

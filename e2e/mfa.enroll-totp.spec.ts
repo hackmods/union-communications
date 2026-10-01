@@ -3,6 +3,7 @@ import { hubLogin } from "./helpers/auth";
 import { generateTotp } from "../src/lib/auth/totp";
 
 const typedEnter = process.env.MFA_E2E_INPUT === "typed-enter";
+const requireMfa = process.env.MFA_E2E_REQUIRE_MFA === "true";
 
 /**
  * First-time TOTP enrollment when the host requires authenticator mode.
@@ -14,8 +15,16 @@ test.describe("MFA TOTP enrollment", () => {
     "Run against a host with AUTH_MFA_ENABLED=true and AUTH_MFA_MODE=totp",
   );
 
-  test(`solo steward enrolls with one authenticator code (${typedEnter ? "typed plus Enter" : "filled"})`, async ({ page }) => {
-    await hubLogin(page, "solo@unionops.test");
+  test(`account enrolls with one authenticator code (${typedEnter ? "typed plus Enter" : "filled"})`, async ({ page }) => {
+    await hubLogin(page, process.env.MFA_E2E_EMAIL ?? "solo@unionops.test");
+    if (requireMfa) {
+      const status = await page.request.get("/api/mfa/status/");
+      expect(status.status()).toBe(200);
+      expect(await status.json()).toMatchObject({ required: true, enrolled: false, mfaVerified: false });
+      expect((await page.request.get("/api/tasks/")).status()).toBe(403);
+      await page.goto("/en/app/tasks");
+      await expect(page).toHaveURL(/\/en\/app\/mfa(?:\/|\?|$)/);
+    }
     await page.goto("/en/app/mfa/setup");
     await expect(
       page.getByRole("heading", {
@@ -91,5 +100,12 @@ test.describe("MFA TOTP enrollment", () => {
     await page.getByRole("button", { name: /Continue|Continuer/i }).click();
     await expect(page).toHaveURL(/\/en\/app\/?(?:\?.*)?$/, { timeout: 20_000 });
     expect(confirmationRequests, "Enter must not duplicate enrollment confirmation").toBe(1);
+    if (requireMfa) {
+      const status = await page.request.get("/api/mfa/status/");
+      expect(await status.json()).toMatchObject({ required: true, enrolled: true, mfaVerified: true });
+      expect((await page.request.get("/api/tasks/")).status()).toBe(200);
+      await page.goto("/en/app/tasks");
+      await expect(page).toHaveURL(/\/en\/app\/tasks\/?$/);
+    }
   });
 });

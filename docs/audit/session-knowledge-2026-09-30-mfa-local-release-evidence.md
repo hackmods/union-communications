@@ -15,6 +15,15 @@ No database URL or PostgreSQL client was required from the host. Docker Compose 
 
 ## Limits and continuation
 
+### 2026-10-01 Postgres-backed officer browser evidence
+
+- Added `scripts/mfa-browser-postgres-smoke.ps1`. From the repository, run `pwsh -NoProfile -File scripts/mfa-browser-postgres-smoke.ps1 -Image union-communications:mfa-recovery-check` with Docker access. It requires an existing locally built image and installed Playwright/dependencies. It creates its own uniquely named Compose database/volume, random credentials and encryption key, and dynamic loopback ports; it never uses an existing operator database.
+- The fixture applies the verified migration contract through `0092_mfa_reenroll_grace`, seeds reference membership, disables platform-admin bootstrap, and changes one disposable officer's email to a non-roster identity. Demo login is disabled, auth/tasks/audit use Postgres, hosted MFA policy is enabled, and the app starts through its normal entrypoint with owner migrations separated from the `unionops_app` runtime URL.
+- Browser evidence passed in 6.0 seconds on image `sha256:7ed49675d1ab08d5259d24a9237b1a71d123908206007ee13525ca3317ef3af8`: status requires MFA while unenrolled; Tasks API returns 403 and page navigation redirects to MFA; typed TOTP plus Enter yields one successful confirmation; saved-code acknowledgment returns to Hub; status reports enrolled and verified; Tasks API returns 200 and the Tasks page remains accessible.
+- An independent owner query asserted encrypted `users.totp_secret`, a consumed durable session grant, ten unused recovery-code hashes, and a runtime role with neither superuser nor BYPASSRLS privileges. No factor or credential values were emitted. Both successful and failed attempt projects were removed; Docker container and volume inventories confirm cleanup.
+- The first run exposed only a browser helper gap: `hubLogin` rejected `/app/mfa/setup` as a valid first-login destination. Its allowed destination list now includes setup while still excluding login.
+- TypeScript, changed-file ESLint, and diff checks passed. This is local single-replica production-image evidence. Deployed image/configuration, actual replica/restart, broader recovery/reset journeys, OS paste/autofill, EN/FR/accessibility, production-key restore, and rollback remain open. Do not repeat this enrollment check as a substitute for those gates.
+
 ### 2026-10-01 browser follow-up
 
 - Docker API access succeeds with elevated execution; the earlier sandbox permission denial did not establish that Docker was unavailable. The disposable container and runner clocks matched.
