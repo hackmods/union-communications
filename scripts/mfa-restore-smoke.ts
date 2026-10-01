@@ -28,14 +28,14 @@ import { isPostgresConfigured } from "../src/lib/db/client";
 const SMOKE_USER_ID = "user-mfa-restore-smoke";
 const SMOKE_EMAIL = "mfa-restore-smoke@unionops.test";
 const PLAIN_SECRET = "JBSWY3DPEHPK3PXP";
+const COMPOSE_PROJECT = process.env.MFA_RESTORE_COMPOSE_PROJECT?.trim();
 const COMPOSE = [
   "compose",
+  ...(COMPOSE_PROJECT ? ["-p", COMPOSE_PROJECT] : []),
   "-f",
   "docker/docker-compose.yml",
-  "exec",
-  "-T",
-  "db",
 ] as const;
+const COMPOSE_EXEC = [...COMPOSE, "exec", "-T", "db"] as const;
 
 function requireDatabaseUrl(): string {
   const url = process.env.DATABASE_URL?.trim();
@@ -104,7 +104,7 @@ function dumpAndRestore(sourceUrl: string, restoreName: string, dumpFile: string
 
   const dockerDump = run(
     "docker",
-    [...COMPOSE, "pg_dump", "-U", "unionops", "-Fc", "unionops"],
+    [...COMPOSE_EXEC, "pg_dump", "-U", "unionops", "-Fc", "unionops"],
     { encoding: "buffer" },
   );
   if (!dockerDump.ok || !Buffer.isBuffer(dockerDump.stdout) || dockerDump.stdout.length === 0) {
@@ -114,9 +114,7 @@ function dumpAndRestore(sourceUrl: string, restoreName: string, dumpFile: string
   }
   writeFileSync(dumpFile, dockerDump.stdout);
   const copied = run("docker", [
-    "compose",
-    "-f",
-    "docker/docker-compose.yml",
+    ...COMPOSE,
     "cp",
     dumpFile,
     "db:/tmp/unionops-mfa-restore.dump",
@@ -125,7 +123,7 @@ function dumpAndRestore(sourceUrl: string, restoreName: string, dumpFile: string
     throw new Error(`docker compose cp dump failed: ${copied.stderr}`);
   }
   const dockerRestore = run("docker", [
-    ...COMPOSE,
+    ...COMPOSE_EXEC,
     "pg_restore",
     "-U",
     "unionops",
@@ -202,6 +200,44 @@ async function main(): Promise<void> {
         if (!verifyTotp(plain, generateTotp(PLAIN_SECRET))) {
           throw new Error("restored TOTP secret did not verify a live authenticator code");
         }
+
+        const originalCiphertext = ciphertext;
+        const wrongKeyEnv = {
+          ...process.env,
+          AUTH_TOTP_ENCRYPTION_KEY: randomBytes(32).toString("base64"),
+        };
+        try {
+          decryptTotpSecret(ciphertext, SMOKE_USER_ID, wrongKeyEnv);
+          throw new Error("wrong TOTP encryption key unexpectedly decrypted restored secret");
+        } catch (error) {
+          if (
+            error instanceof Error &&
+            error.message === "wrong TOTP encryption key unexpectedly decrypted restored secret"
+          ) {
+            throw error;
+          }
+        }
+        try {
+          decryptTotpSecret(ciphertext, SMOKE_USER_ID, {
+            ...process.env,
+            AUTH_TOTP_ENCRYPTION_KEY: undefined,
+            AUTH_TOTP_ENCRYPTION_KEY_PREVIOUS: undefined,
+          });
+          throw new Error("missing TOTP encryption key unexpectedly decrypted restored secret");
+        } catch (error) {
+          if (
+            error instanceof Error &&
+            error.message === "missing TOTP encryption key unexpectedly decrypted restored secret"
+          ) {
+            throw error;
+          }
+        }
+        const afterFailedDecryptions = await restored<{ totp_secret: string | null }[]>`
+          select totp_secret from users where id = ${SMOKE_USER_ID}
+        `;
+        if (afterFailedDecryptions[0]?.totp_secret !== originalCiphertext) {
+          throw new Error("failed key attempts changed the stored TOTP ciphertext");
+        }
       } finally {
         await restored.end();
       }
@@ -210,7 +246,7 @@ async function main(): Promise<void> {
     }
 
     console.log(
-      "[mfa-restore-smoke] ok — encrypted TOTP secret survived pg_dump/pg_restore and still verifies",
+      "[mfa-restore-smoke] ok — restored encrypted TOTP verified with preserved key; missing/wrong keys failed without mutation",
     );
   } finally {
     await source`delete from users where id = ${SMOKE_USER_ID}`;

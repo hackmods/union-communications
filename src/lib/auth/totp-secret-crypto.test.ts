@@ -62,6 +62,20 @@ describe("totp-secret-crypto", () => {
     expect(verifyTotp(restored, generateTotp(SECRET))).toBe(true);
   });
 
+  it("fails closed when a restored ciphertext is opened without its preserved key", () => {
+    const sealed = encryptTotpSecret(SECRET, "user-restore", {
+      AUTH_TOTP_ENCRYPTION_KEY: KEY,
+    });
+    expect(() =>
+      decryptTotpSecret(sealed, "user-restore", {
+        AUTH_TOTP_ENCRYPTION_KEY: OTHER,
+      }),
+    ).toThrow();
+    expect(() => decryptTotpSecret(sealed, "user-restore", {})).toThrow(
+      /AUTH_TOTP_ENCRYPTION_KEY/,
+    );
+  });
+
   it("stores plaintext when no key is set outside hosted/production postgres", () => {
     const env = { AUTH_USERS_BACKEND: "memory", NODE_ENV: "development" };
     expect(totpEncryptionRequired(env)).toBe(false);

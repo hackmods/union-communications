@@ -35,15 +35,17 @@ async function exerciseMfaAppBinders(
 
   await owner`delete from mfa_verification_attempts where user_id = ${PRESIDENT}`;
   try {
-    const attempt = await reserveMfaVerificationAttempt(PRESIDENT);
-    if (!attempt.allowed) {
-      throw new Error("MFA app binder failed: reserveMfaVerificationAttempt denied president");
+    const attempts = await Promise.all(
+      Array.from({ length: 5 }, () => reserveMfaVerificationAttempt(PRESIDENT)),
+    );
+    if (attempts.some((attempt) => !attempt.allowed)) {
+      throw new Error("MFA app binder failed: concurrent attempt reservation denied president");
     }
     const persistedAttempt = await owner<{ attempt_count: number }[]>`
       select attempt_count from mfa_verification_attempts where user_id = ${PRESIDENT}
     `;
-    if (persistedAttempt.length !== 1 || Number(persistedAttempt[0].attempt_count) !== 1) {
-      throw new Error("MFA app binder failed: verification attempt was not durably persisted");
+    if (persistedAttempt.length !== 1 || Number(persistedAttempt[0].attempt_count) !== 5) {
+      throw new Error("MFA app binder failed: concurrent attempts were lost or not durably persisted");
     }
   } finally {
     await owner`delete from mfa_verification_attempts where user_id = ${PRESIDENT}`;
@@ -91,9 +93,12 @@ async function exerciseMfaAppBinders(
     ) {
       throw new Error("MFA app binder failed: hashed session grant was not durably persisted");
     }
-    const consumed = await consumeMfaGrant(PRESIDENT, nonce, Date.now(), 0);
-    if (!consumed) {
-      throw new Error("MFA app binder failed: issue/consume grant round-trip");
+    const consumeResults = await Promise.all([
+      consumeMfaGrant(PRESIDENT, nonce, Date.now(), 0),
+      consumeMfaGrant(PRESIDENT, nonce, Date.now(), 0),
+    ]);
+    if (consumeResults.filter(Boolean).length !== 1) {
+      throw new Error("MFA app binder failed: concurrent grant consumption was not single-use");
     }
     const consumedGrant = await owner<{ consumed_at: Date | null }[]>`
       select consumed_at from mfa_session_grants where user_id = ${PRESIDENT}

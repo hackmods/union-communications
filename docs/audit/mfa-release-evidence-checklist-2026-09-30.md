@@ -14,9 +14,11 @@ Use this checklist before describing the repaired MFA flow as restored on a host
 - [x] Attempted the MFA enrollment browser spec against an isolated port. Default Turbopack stopped with an `invalid node_modules symlink outside filesystem root` panic. Webpack dev started, but the login route returned 500 because `src/lib/comms/canvas-fonts.ts` imports `node:fs/promises` through the Brand Kit seed path; Playwright therefore could not reach MFA. This is a local app/toolchain blocker, not an MFA pass.
 - [x] Built the current production image and ran `scripts/docker-migrate-smoke.sh` against its unique disposable Compose project. Fresh deploy and historical journal-hole repair verified through `0092_mfa_reenroll_grace`; concurrent no-op deploys serialized; removing a required column caused startup to fail closed. The script cleaned up its container and volume.
 - [x] Started a separate unique disposable Postgres project, applied migrations, seeded its demo fixtures, and ran `npm run db:rls-smoke` using the limited `unionops_app` role plus an independent owner observer. The smoke passed account-scoped MFA RLS and directly verified persisted encrypted pending enrollment, an attempt counter, a hashed grant, and its consumed state. The role check confirmed no `BYPASSRLS`. See [`session-knowledge-2026-09-30-mfa-local-release-evidence.md`](session-knowledge-2026-09-30-mfa-local-release-evidence.md).
+- [x] The live MFA binder smoke raced five attempt reservations and two uses of one grant. Postgres retained the full attempt count and exactly one grant consumer succeeded. This is single-process concurrency coverage, not multi-replica proof.
+- [x] Ran `npm run db:mfa-restore-smoke` against a disposable migrated database with an explicit throwaway key. The encrypted TOTP survived `pg_dump`/`pg_restore` and verified; missing/wrong-key decryptions failed and the stored ciphertext stayed unchanged. This does not verify the hosted backup's preserved key or actual recovery procedure.
 - [ ] Manual keyboard, mobile, zoom, and EN/FR language review.
 
-Local disposable Postgres evidence is now available. The RLS smoke uses an independent owner connection to assert durable attempt/grant state, so memory fallback cannot make those binder checks pass. This does not attest hosted image identity/configuration, multi-replica behavior, concurrency/fault injection, encryption-key restore, or browser journeys. Continue with the hosted checks below.
+Local disposable Postgres evidence is now available. The RLS smoke uses an independent owner connection to assert durable attempt/grant state, so memory fallback cannot make those binder checks pass. It also exercises concurrent operations in one process. This does not attest hosted image identity/configuration, cross-replica behavior, production-key recovery, hosted concurrency/fault injection, or browser journeys. Continue with the hosted checks below.
 
 ## Operator-owned hosted proof
 
@@ -50,9 +52,11 @@ Run in a production-like, disposable environment with a dedicated fixture accoun
 | Deployed image digest + source commit | Pending | — |
 | Local disposable DB tail + shape + role/RLS | Passed: `0092_mfa_reenroll_grace`; `unionops_app` has no `BYPASSRLS`; independent owner queries verified MFA persistence. See session note. | 2026-09-30 / Codex |
 | Hosted DB tail + shape + role/RLS | Pending | — |
+| Local concurrency smoke | Passed: five parallel attempt reservations persisted; two parallel consumers of one hashed grant yielded exactly one success. | 2026-09-30 / Codex |
 | Replica and restart sequence | Pending | — |
-| Concurrency and fault injection | Pending | — |
-| Encryption-key restore drill | Pending | — |
+| Hosted concurrency and fault injection | Pending | — |
+| Local throwaway-key encryption restore | Passed: ciphertext restored and verified; missing/wrong-key paths failed without mutation. | 2026-09-30 / Codex |
+| Hosted encryption-key restore drill | Pending | — |
 | MFA browser + EN/FR/accessibility review | Pending | — |
 | Rollback image / restore reference | Pending | — |
 
