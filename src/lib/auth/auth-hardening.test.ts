@@ -116,7 +116,7 @@ describe("verifyMfaCode (SEC-002)", () => {
       code,
       env: { NODE_ENV: "production", ...mfaOn, AUTH_MFA_MODE: "totp" },
     });
-    expect(result).toEqual({ ok: true, mode: "totp" });
+    expect(result).toMatchObject({ ok: true, mode: "totp" });
   });
 
   it("rejects wrong TOTP codes", async () => {

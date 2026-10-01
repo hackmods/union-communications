@@ -135,6 +135,7 @@ describe("POST /api/site-admin/users/[id]/reset-mfa", () => {
     expect(body).toEqual({
       ok: true,
       requestId: response.headers.get("X-Request-ID"),
+      reenrollGrace: true,
     });
     expect(mocks.clearTotpEnrollmentForUser).toHaveBeenCalledWith(target.id);
     expect(JSON.stringify(body)).not.toContain("SECRETBASE32");

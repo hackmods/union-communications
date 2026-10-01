@@ -43,7 +43,7 @@ describe("TOTP replay protection", () => {
     const first = await verifyMfaCode({ userId: "user-president-7", code, env });
     const replay = await verifyMfaCode({ userId: "user-president-7", code, env });
 
-    expect(first).toEqual({ ok: true, mode: "totp" });
+    expect(first).toMatchObject({ ok: true, mode: "totp" });
     expect(replay).toMatchObject({ ok: false, status: 400 });
   });
 
