@@ -3,18 +3,28 @@
 import Image from "next/image";
 import { useSyncExternalStore } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import hubEn from "../../../public/product-previews/hub-en.png";
-import hubFr from "../../../public/product-previews/hub-fr.png";
-import hubEnPhone from "../../../public/product-previews/hub-en-phone.png";
-import hubFrPhone from "../../../public/product-previews/hub-fr-phone.png";
-import portalEn from "../../../public/product-previews/portal-en.png";
-import portalFr from "../../../public/product-previews/portal-fr.png";
-import portalEnPhone from "../../../public/product-previews/portal-en-phone.png";
-import portalFrPhone from "../../../public/product-previews/portal-fr-phone.png";
 
 const captures = {
-  hub: { en: [hubEn, hubEnPhone], fr: [hubFr, hubFrPhone] },
-  portal: { en: [portalEn, portalEnPhone], fr: [portalFr, portalFrPhone] },
+  hub: {
+    en: {
+      desktop: { src: "/product-previews/hub-en.png", width: 852, height: 280 },
+      phone: { src: "/product-previews/hub-en-phone.png", width: 448, height: 422 },
+    },
+    fr: {
+      desktop: { src: "/product-previews/hub-fr.png", width: 852, height: 303 },
+      phone: { src: "/product-previews/hub-fr-phone.png", width: 448, height: 422 },
+    },
+  },
+  portal: {
+    en: {
+      desktop: { src: "/product-previews/portal-en.png", width: 852, height: 223 },
+      phone: { src: "/product-previews/portal-en-phone.png", width: 448, height: 323 },
+    },
+    fr: {
+      desktop: { src: "/product-previews/portal-fr.png", width: 852, height: 223 },
+      phone: { src: "/product-previews/portal-fr-phone.png", width: 448, height: 324 },
+    },
+  },
 } as const;
 
 function usePhonePreview(): boolean {
@@ -34,7 +44,7 @@ export function HostedProductPreview({ audience }: { audience: "hub" | "portal" 
   const locale = useLocale() === "fr" ? "fr" : "en";
   const t = useTranslations("home.hostedPreview");
   const phonePreview = usePhonePreview();
-  const [desktop, phone] = captures[audience][locale];
+  const { desktop, phone } = captures[audience][locale];
   const fullSize = phonePreview ? phone : desktop;
 
   return (
@@ -42,8 +52,10 @@ export function HostedProductPreview({ audience }: { audience: "hub" | "portal" 
       <picture>
         <source media="(max-width: 639px)" srcSet={phone.src} width={phone.width} height={phone.height} />
         <Image
-          src={desktop}
+          src={desktop.src}
           alt={t(`${audience}Alt`)}
+          width={desktop.width}
+          height={desktop.height}
           sizes="(max-width: 639px) 100vw, (max-width: 1023px) 100vw, 36rem"
           className="h-auto w-full border border-slate-200"
         />
