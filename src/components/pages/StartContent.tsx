@@ -23,6 +23,10 @@ import {
   type StartPathId,
   type StartPathProgress,
 } from "@/lib/comms/start-paths";
+import {
+  PUBLIC_CARD_TITLE_CLASS,
+  PUBLIC_PAGE_TITLE_CLASS,
+} from "@/lib/constants/public-type";
 
 export function StartContent({ initialPath }: { initialPath?: string }) {
   const t = useTranslations("publicCatalog");
@@ -157,13 +161,13 @@ export function StartContent({ initialPath }: { initialPath?: string }) {
   };
 
   return (
-    <PageShell className="py-8 md:py-12">
+    <PageShell className="py-10 md:py-14">
       <header className="max-w-3xl">
         <Eyebrow>{t("startEyebrow")}</Eyebrow>
-        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-opseu-dark sm:text-4xl">
+        <h1 className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>
           {t("startTitle")}
         </h1>
-        <p className="mt-4 max-w-prose text-base leading-relaxed text-slate-700 sm:text-lg">
+        <p className="mt-4 max-w-prose text-base leading-relaxed text-slate-700 sm:text-lg sm:leading-[1.7]">
           {t("startIntro")}
         </p>
       </header>
@@ -210,7 +214,7 @@ export function StartContent({ initialPath }: { initialPath?: string }) {
                   </span>
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-opseu-dark">{path.title}</h2>
+                  <h2 className={`${PUBLIC_CARD_TITLE_CLASS} group-hover/card:text-opseu-blue`}>{path.title}</h2>
                   <p className="mt-2 text-sm leading-relaxed text-slate-700">{path.body}</p>
                 </div>
                 <div className="mt-auto pt-2">

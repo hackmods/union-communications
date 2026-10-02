@@ -54,7 +54,7 @@ export function ButtonLink({
     <Link
       {...props}
       className={cn(
-        "inline-flex items-center justify-center font-semibold transition-colors duration-150 ease-out focus-visible:outline-none focus-visible:ring-2",
+        "inline-flex items-center justify-center font-semibold transition-[colors,transform,box-shadow] duration-150 ease-out active:scale-[0.98] motion-reduce:transition-colors motion-reduce:active:scale-100 focus-visible:outline-none focus-visible:ring-2",
         variantClass[variant],
         sizeClass[size],
         block && "w-full",
