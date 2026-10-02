@@ -3,14 +3,14 @@
 import Image from "next/image";
 import { useSyncExternalStore } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import hubEn from "@/../public/product-previews/hub-en.png";
-import hubFr from "@/../public/product-previews/hub-fr.png";
-import hubEnPhone from "@/../public/product-previews/hub-en-phone.png";
-import hubFrPhone from "@/../public/product-previews/hub-fr-phone.png";
-import portalEn from "@/../public/product-previews/portal-en.png";
-import portalFr from "@/../public/product-previews/portal-fr.png";
-import portalEnPhone from "@/../public/product-previews/portal-en-phone.png";
-import portalFrPhone from "@/../public/product-previews/portal-fr-phone.png";
+import hubEn from "../../../public/product-previews/hub-en.png";
+import hubFr from "../../../public/product-previews/hub-fr.png";
+import hubEnPhone from "../../../public/product-previews/hub-en-phone.png";
+import hubFrPhone from "../../../public/product-previews/hub-fr-phone.png";
+import portalEn from "../../../public/product-previews/portal-en.png";
+import portalFr from "../../../public/product-previews/portal-fr.png";
+import portalEnPhone from "../../../public/product-previews/portal-en-phone.png";
+import portalFrPhone from "../../../public/product-previews/portal-fr-phone.png";
 
 const captures = {
   hub: { en: [hubEn, hubEnPhone], fr: [hubFr, hubFrPhone] },
