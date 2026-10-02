@@ -1,10 +1,10 @@
 # Homepage strategy
 
-Status: source-grounded proposal; no homepage implementation claimed.
+Status: implementation in progress; initial narrative and direct links implemented.
 
-## Current gap
+## Starting gap
 
-`HomeContent` leads unconfigured visitors to Brand Kit. `HomeHeroPreview` rotates between three communications examples; it cannot reveal steward or operational depth. Brand Kit appears before the parallel destinations, and Hub/Portal share a short text band. The existing section sequence therefore places setup ahead of experienced value and gives a narrow first impression.
+Before implementation, `HomeContent` led unconfigured visitors to Brand Kit. `HomeHeroPreview` chose among three communications examples; Hub/Portal shared a short text band. That sequence put setup before immediate value. The current implementation replaces it with a direct tool action, outcome links and a separate Brand Kit advantage.
 
 ## Proposed narrative
 
@@ -31,4 +31,4 @@ These are narrative responsibilities, not six mandatory boxed sections. Avoid re
 | Officer work | `src/components/hub/HubDashboard.tsx`, `hub-dashboard-model.ts`, `hub-tool-catalog.ts` | Role, module, MFA and tenant context determine availability |
 | Member participation | `src/components/portal/CircleWorkspace.tsx`, `docs/modules/LOCAL_PORTAL.md` | Circle membership and member-safe projections; private casework excluded |
 
-Before final copy or screenshots, recheck each selected destination and state against the confirmed refactor baseline. This table is source evidence, not runtime verification.
+Direct Home destinations are linked to canonical routes in the shared tool catalog. This table is source evidence, not runtime verification. Operational Hub and Portal examples still need synthetic browser captures and permission-boundary review.

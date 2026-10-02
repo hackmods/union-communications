@@ -1,6 +1,6 @@
 # Remaining migration
 
-Status: pre-implementation scope, not a post-uplift residual list.
+Status: implementation in progress; this file remains the scope boundary until representative validation is recorded.
 
 ## Required in this pass
 

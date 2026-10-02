@@ -6,13 +6,13 @@ Status: direction selected for implementation; visual implementation and rendere
 
 Present UnionOps as a union operating toolkit: make something, prepare for a workplace issue, learn the craft, and coordinate authorized local work. The public site should demonstrate these jobs before asking someone to configure an identity or request hosted access.
 
-Use the confidence of a well-made union circular: strong headings, short purposeful text, ruled sections, clear dates and labels where meaningful, and restrained colour. Pair that with calm application controls and real product examples. Avoid imitation newspaper layouts, ornamental illustration, gradient scenery, floating stickers, fabricated dashboards and card grids without a grouping purpose.
+Use the confidence of clear union workplace communication: strong headings, short purposeful text, ruled sections, and restrained colour. Pair that with calm application controls and product examples. Avoid imitation newspaper layouts, ornamental illustration, gradient scenery, floating stickers, fabricated dashboards and card grids without a grouping purpose.
 
 Personality belongs in orientation. Catalogs help people choose. Editors foreground controls and results. Hosted workspaces foreground active scope, current work and valid actions. Keep the seven refactor archetypes; this is a visual pass, not a new product model.
 
 ## Principles that govern implementation
 
-- Demonstrate shipped functionality using actual renderers or screenshots of synthetic application states. Label examples. Never expose real cases or imply sample activity is customer activity.
+- Demonstrate shipped functionality using actual renderers or screenshots of synthetic application states. Label examples. Never expose real cases or imply sample activity is customer activity. Current Home carries forward the existing communications example renderer; operational Hub/Portal visuals remain to be added after browser access and member-safe capture are available.
 - Lead with work people recognize: make a notice, prepare a grievance, run a meeting, train a steward, build a local website.
 - Brand Kit connects applicable outputs through reusable identity. It is optional preparation for a visitor, never an invented prerequisite for public tools.
 - Officer Hub and Local Portal deserve substantial explanation, with a visible confidentiality boundary. Member participation is not unrestricted access to officer casework.

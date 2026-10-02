@@ -52,4 +52,11 @@ Finish each checkpoint before broadening scope. A significant unresolved preview
 
 Complete Home, shared system, Platform presentation and the nine-surface validation/fixes. Stop before repetitive migration of every guide, module or tool. Residual items must name the affected component, established pattern to adopt and verification needed. Missing hero breadth, bilingual responsiveness, working-screen regressions or inaccessible controls cannot be deferred as migration cleanup.
 
-The next action after authorization to resume visual work is checkpoint 1, alongside resolving browser access for the necessary visual comparisons. No further architecture planning phase is required.
+## Progress log
+
+- **Checkpoint 1, code complete; visual acceptance pending:** task-first Home hierarchy, brand-aware example selector, flat shared workspace panels, quieter catalog results, and consistent Platform sections are implemented. Typecheck and production build pass. Full unit suite: 3,239 passed, 2 skipped and 1 todo. ESLint is skipped by the TypeScript 7 compatibility guard.
+- **Checkpoint 2, implementation in progress:** Home copy, direct canonical task links, local identity story, hosted audience boundaries, privacy distinction and hero preview choice are in the working tree. The current communications sample does not show steward or hosted interface states. Real Hub/Portal preview evidence and responsive visual acceptance remain open.
+- **Checkpoint 3, pending:** inspect and adopt the system across the nine representative routes in current runtime states.
+- **Checkpoint 4, pending:** browser review, full appropriate checks, final docs and migration boundary.
+
+The previous next action is underway. Continue checkpoint 1 while supported browser access for visual comparisons is resolved; no more architecture planning is needed.

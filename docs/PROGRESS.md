@@ -1,9 +1,16 @@
+## 2026-10-01 — Implement UnionOps homepage visual direction (in progress)
+
+- Replaced the setup-first Home composition with task-first tool discovery, six verified job links, a stable selectable communications preview, optional Brand Kit reuse, separate Officer Hub/Local Portal narratives and distinct local/hosted privacy copy.
+- Carried the system into Platform and shared public workspace/catalog patterns. Corrected Platform claims so hosted Hub access and local Brand Kit identity remain separate.
+- Updated English and French Home/Platform copy and affected smoke journeys. Removed random example selection and nonessential page-entry motion.
+- Typecheck and production build passed; the full unit suite passed 3,239 tests (2 skipped, 1 todo across 538 files). ESLint remains skipped by the TypeScript 7 compatibility guard. Browser visual/smoke review remains outstanding under the browser URL policy; see [`docs/ui-uplift/05_IMPLEMENTATION_STATUS.md`](ui-uplift/05_IMPLEMENTATION_STATUS.md).
+
 ## 2026-10-01 — Recover UI uplift foundations
 
 - Recovered the missing product-refactor audit from the original worktree, preserving its historical pilot status. `docs/product-refactor/13_UPLIFT_BASELINE.md` records exactly what was integrated onto current main.
 - Integrated contextual navigation, shared sticky measurements, keyboard editor tabs, dialog focus containment, associated form hints/errors and valid grievance action links. Corrected integration defects and added focused regression coverage.
-- Typecheck, production build and 17 foundation tests pass. The repository lint command skips ESLint under TypeScript 7; browser revalidation is blocked by the browser tool URL policy. Full smoke and responsive acceptance remain outstanding.
-- Added seven UI direction/handoff documents and an EN/FR keyboard-tabs update. The homepage redesign is not implemented. Ryan requested a pause after this baseline checkpoint to control compute use.
+- Typecheck, production build and 17 foundation tests passed at the foundation checkpoint. The repository lint command skips ESLint under TypeScript 7; browser revalidation is blocked by the browser tool URL policy. Full smoke and responsive acceptance remain outstanding.
+- Added seven UI direction/handoff documents and an EN/FR keyboard-tabs update. Home visual work began after Ryan resumed the goal.
 
 ## 2026-10-01 — Keep MFA recovery codes visible during session refresh
 

@@ -1,51 +1,49 @@
 # Implementation status
 
-Updated 2026-10-01. **Baseline recovered; visual implementation paused at Ryan's request to control compute use.** Typecheck, production build and 17 focused foundation tests pass. ESLint is skipped by the repository's TypeScript 7 guard. Browser revalidation remains unavailable under the browser tool URL policy. See [recovered baseline](../product-refactor/13_UPLIFT_BASELINE.md) for authoritative integration and validation details.
+Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1`. This visual pass is in progress. The source and contract recovery is documented in [13_UPLIFT_BASELINE](../product-refactor/13_UPLIFT_BASELINE.md); implementation order is in [07_IMPLEMENTATION_PLAN](07_IMPLEMENTATION_PLAN.md).
 
-## Baseline discrepancy
+## Delivered in this working checkpoint
 
-**Resolved by user direction:** Ryan authorized repairing the remote branch/code/setup needed to proceed. `feat/ui-uplift` now starts from `8be3584f`, contains the recovered audit and selected repaired foundations, and preserves the original worktree. The historical findings below explain the recovery; they are no longer a request to wait for a different baseline.
+- Home now leads with a task-oriented message, an immediate anchor into useful work, and a separate platform path. Brand Kit is an optional reusable advantage instead of a prerequisite CTA.
+- Home presents six direct tasks with canonical links to graphic creation, website templates, grievance preparation, return-to-work accommodation, meeting rules, and Officer Learning.
+- The existing notice/graphic/flyer preview is stable and visitor-selected. Setup-colour treatment still reads from local Brand Kit state. Page-entry motion was removed.
+- A ruled two-audience platform section explains private Officer Hub work and member Portal participation. Trust copy distinguishes on-device drafts from role/module-controlled hosted spaces and links Privacy/Security.
+- Platform now uses the same two-audience editorial hierarchy. Its copy separates hosted Hub access from public Brand Kit identity according to the brand bridge contract.
+- Create/Learn result entries use open ruled groups; search/filter behavior is retained. Shared `PublicHubPanel` surfaces use flat white and a quieter border for Brand Kit and other workspace consumers.
+- EN/FR Home and Platform copy, responsive/focus assertions, and the affected smoke expectations were updated. No API, authorization, persistence, tenancy or export-renderer change was made.
 
-- Current uplift checkout: `a5d3`, detached at `7f95b679`; `origin/main` was refreshed and matches this revision.
-- The requested `docs/product-refactor/` files are absent here and on that remote main.
-- A local copy exists in worktree `764b` at `1cd62917`, with uncommitted structural changes. Its `12_IMPLEMENTATION_LOG.md` describes partial pilots, pending migration and no runtime validation. Its sprint tracker does not establish completion.
-- The user has been asked to identify the completed branch, PR or worktree. Do not import another worktree's uncommitted changes or declare that its refactor is complete.
+## Verification so far
 
-## Evidence gathered
+- `npm run typecheck`: passed after homepage, catalog and Platform implementation.
+- Full `npm run test:unit`: 3,239 passed, 2 skipped and 1 todo across 538 files. The focused Home/copy/nav/accessibility group separately passed 53 tests.
+- `npm run lint`: exits successfully but skips ESLint because the configured typescript-eslint does not support TypeScript 7. It is not an ESLint pass.
+- `git diff --check`: passed before the latest documentation edit.
+- `npm run build`: passed on this visual diff, including type generation and route output. Next also prints existing auth-default and dynamic snippet-filesystem tracing warnings.
+- `npm run typecheck`: passed on the final canonical-link implementation.
+- Updated Home EN/FR smoke assertions are in `e2e/builders.smoke.spec.ts` and `e2e/public-discovery.smoke.spec.ts`; browser smoke was not run because the local URL is blocked by the browser tool policy.
+- The browser tool previously denied this local URL under its URL policy. No viewport screenshots of the new UI or keyboard walkthrough have been captured in this checkpoint.
 
-Read the available archetype, interaction, target model, component, preservation and handoff material. Inspected current Home/HomeHeroPreview, public catalog metadata/explorer, Platform, shared typography/buttons/panels, Hub dashboard and Portal specification. The current homepage's setup-first CTA and communications-only preview support the user's diagnosis.
+## Earlier rendered baseline (before this visual diff)
 
-The seven uplift documents record an actionable design proposal without treating it as shipped UI. Locked dependencies were installed with `npm ci`. A loopback-only Next development server was used for the initial browser inspection with synthetic demo accounts and public Hub advertising enabled locally. No production service was accessed.
+These observations describe the old interface and are not acceptance evidence for the new one.
 
-### Rendered baseline observations
-
-| Surface | Observed state | Design implication |
+| Surface | Earlier inspected state | Current follow-up |
 |---|---|---|
-| Home | EN at 1280px; FR at 375px | Setup leads, a communications-only example represents the product, and broad platform work is a small lower band. French hero copy and actions occupy most of the first screen before the example. |
-| Create | EN at 1280px; default catalog with 18 results | Search/filter/deliverable structure is useful. Repeated metadata and large equal cards deserve a density review. Intro still tells visitors to configure Brand Kit first. |
-| Learn | EN at 1280px; common-task choices and catalog | Preserve outcome-led entry choices and separate learning semantics. Avoid adding another navigation layer. |
-| Brand Kit | EN at 1280px; initial unconfigured/hydrating view with editor and live preview | Existing workspace composition is valuable. Readiness, identity controls and preview should remain adjacent; completed hydration and configured/storage-failure states still need review. |
-| Graphic Maker | EN at 1280px; default Member Spotlight controls and real preview | Preserve editing/output contracts. The title, purpose, setup prompt and presets consume substantial space above the working area. |
-| Steward worksheet | EN RTW/accommodation at 1280px; empty intake | Keep necessary medical-privacy guidance and structured inputs. Do not replace the worksheet with a decorative canvas. No member information was entered. |
-| Platform | EN at 1280px; two text-led product panels | Hub and Portal distinction exists but is mostly described. Real examples can communicate the difference more effectively. Copy still uses the old visible name “Utilities.” |
-| Officer Hub | EN at 1280px; synthetic Local 777 president | Task-first attention, check-ins, context and valid next actions already exist. Preserve them; no new dashboard is needed. Public and operational navigation are still visibly stacked in this older baseline. |
-| Local Portal | EN at 1280px; synthetic president's Together view | Hall, invited Circles, Actions, Calendar and Bulletin provide real demonstration material. This officer view does not prove member permission boundaries. |
+| Home | EN desktop and FR phone | New layout awaits rendered EN/FR review across viewport matrix. |
+| Create / Learn | EN catalog | Open result rows are implemented; filter, no-results, URL and phone states await rendered review. |
+| Brand Kit | Unconfigured/hydrating workspace | Shared panels are flatter; hydration, configured and failure states need review. |
+| Graphic Maker | Default Member Spotlight form/output | Shared editor contracts are preserved; French and phone editing/preview remain to verify. |
+| Steward worksheet | Empty RTW/accommodation intake | No domain form change; confirm reading order and medical-privacy guidance remain clear. |
+| Platform | Two text-led panels | Two audience sections and source-correct copy are implemented; review in browser. |
+| Officer Hub | Synthetic Local 777 president | Shared shell foundation is present; role/module/MFA states and compact layout remain to verify. |
+| Local Portal | Synthetic officer Together view | Officer view does not prove member permissions; a synthetic member-safe view is required. |
 
-Browser screenshots and DOM snapshots were inspected during the session. They establish the listed baseline observations only; no durable screenshot comparison artifact or completed responsive/accessibility test matrix is claimed. The temporary viewport override was reset and the inspection tab closed. The development process handle was no longer available on the subsequent continuation; recheck the listener before starting another server.
+## Remaining before completion
 
-The original discrepancy was revalidated after that review. The user's subsequent repair authorization resolves it. The historical eight-sprint plan is not a new requirement to implement all architecture proposals before doing the requested visual work.
+1. Visually review Home and Platform in EN/FR at 320, 375, 768, 1280 and 1536px, including zoom, reflow and keyboard behavior.
+2. Review all nine named representative surfaces, retaining screenshots or a concise evidence record and checking actual saved/error/empty states.
+3. Refine or replace marketing examples with verifiable real application states. The existing Home communications preview is a labeled sample renderer; it does not by itself demonstrate steward or hosted product depth.
+4. Run affected unit/smoke coverage, lint (reporting its skip accurately), typecheck and production build. No browser visual acceptance or accessibility conformance is claimed yet.
+5. Update `docs/PROGRESS.md`, direction/pattern/migration docs and the remaining migration list from actual review findings.
 
-## Required before completion
-
-1. Baseline checkpoint completed: `fd204bb1`, pushed to `origin/feat/ui-uplift`. Typecheck, production build and 51 focused tests passed; browser acceptance remains outstanding.
-2. Reconcile these initial runtime observations against that baseline and select real demo states.
-3. Implement shared visual foundations and homepage, with EN/FR copy.
-4. Verify the design across all nine requested representative surfaces.
-5. Run appropriate lint, type, unit/smoke, responsive and accessibility checks; fix regressions.
-6. Record evidence, update PROGRESS and What's new at the implementation milestone, and narrow remaining migration to low-value sibling adoption.
-
-No passing application test suite, translation-quality review, accessibility conformance, deployment, or user-comprehension result is claimed by these documents. Installation and page rendering are not substitutes for those checks.
-
-## Planning checkpoint
-
-Planning completed at Ryan's request after the baseline push. [Implementation plan](07_IMPLEMENTATION_PLAN.md) fixes the sequence, demo strategy, bounded scope and acceptance gates. Production visual changes remain pending; the previous request to pause visual implementation remains in effect.
+Browser revalidation remains blocked under the browser tool URL policy. It needs a supported URL permission/configuration before rendered evidence can be produced. This limitation does not erase the code work above, but it prevents visual acceptance of responsive and operational surfaces.

@@ -1,6 +1,6 @@
 # Component patterns
 
-Status: planned review against the existing components; no new universal framework.
+Status: existing components adopted and extended; no new universal framework.
 
 | Pattern | Existing owner | Uplift responsibility |
 |---|---|---|
@@ -11,6 +11,8 @@ Status: planned review against the existing components; no new universal framewo
 | Editor | `ToolEditorLayout` | Quiet framing, useful desktop pairing and mobile Edit/Preview; preserve mounted renderers |
 | Operational workspace | Hub/Portal domain components | Compact context, records, allowed actions and honest state feedback |
 | Configuration | Brand Kit, scoped administration | Group settings by consequence; keep autosave, Apply and explicit Save distinct |
+
+Current implementation: Home uses `SectionHeading`, `Eyebrow`, `ButtonLink`, PageShell and the existing `HomeHeroPreview`; direct work links are an editorial list. Platform uses two ruled audience sections rather than nested cards. Create/Learn results are open entries; filters retain their existing bounded control group. `PublicHubPanel` remains the common flat white workspace boundary.
 
 Product demonstrations are not a new interactive application embedded in Home. Prefer real renderers when safe and lightweight; otherwise capture real synthetic states and label them. Do not load authenticated case data into public marketing or replicate authorization logic in a preview component.
 

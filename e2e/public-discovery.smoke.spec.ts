@@ -52,17 +52,17 @@ test.describe("task-first public discovery @smoke", () => {
     });
   }
 
-  test("Home presents Brand Kit foundation with parallel destinations and Platform", async ({ page }) => {
+  test("Home presents practical work, a reusable Brand Kit, and the shared platform", async ({ page }) => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Brand Kit powers everything on your device" })).toBeVisible();
-    await expect(page.getByTestId("home-dest-create").getByRole("link", { name: "Create" }))
-      .toHaveAttribute("href", "/en/create/");
-    await expect(page.getByTestId("home-dest-utilities").getByRole("link", { name: "Worksheets" }))
-      .toHaveAttribute("href", "/en/utilities/");
-    await expect(page.getByTestId("home-dest-learn").getByRole("link", { name: "Learn" }))
+    await expect(page.getByRole("heading", { name: "Start with the job in front of you" })).toBeVisible();
+    await expect(page.getByTestId("home-work-graphics").getByRole("link", { name: "Open Graphic Maker" }))
+      .toHaveAttribute("href", "/en/create/graphic-maker/");
+    await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Open grievance worksheet" }))
+      .toHaveAttribute("href", "/en/utilities/complaint-vs-grievance/");
+    await expect(page.getByTestId("home-work-learning").getByRole("link", { name: "Explore Officer Learning" }))
       .toHaveAttribute("href", "/en/learn/");
-    await expect(page.getByTestId("home-platform").getByRole("link", { name: "Understand Officer Hub and Local Portal" }))
+    await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).first())
       .toHaveAttribute("href", "/en/platform/");
     await page.getByRole("link", { name: "Open guided setup" }).first().click();
     await expect(page).toHaveURL(/\/en\/start\//);
@@ -71,6 +71,16 @@ test.describe("task-first public discovery @smoke", () => {
     await expect(page.getByTestId("start-path-officer")).toBeVisible();
     await expect(page.getByTestId("start-path-comms").getByRole("link"))
       .toHaveAttribute("href", /\/en\/create\/brand-kit\/$/);
+  });
+
+  test("Home keeps the practical work path available in French", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/fr/");
+    await expect(page.getByRole("heading", { level: 1, name: "Des outils pour le travail de votre syndicat." })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Explorer les outils" }).first()).toHaveAttribute("href", "/fr/#home-work");
+    await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Ouvrir la feuille de préparation" }))
+      .toHaveAttribute("href", "/fr/utilities/complaint-vs-grievance/");
+    await expect(page.getByRole("heading", { name: "Des activités partagées, avec des limites claires" })).toBeVisible();
   });
 
   test("Learn search and filters work locally over the shared catalog", async ({ page }) => {

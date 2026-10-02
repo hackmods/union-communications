@@ -27,10 +27,10 @@
     }
   },
   "metadata": {
-    "title": "UnionOps | Conçu pour les syndicats",
-    "titleCommsOnly": "UnionOps | Conçu pour les sections locales",
-    "description": "Outils pratiques et axés sur la confidentialité pour l’adhésion, le travail des délégués et les communications syndicales. Les outils Comms restent gratuits sur votre appareil. Un Hub des dirigeants hébergé a un coût.",
-    "descriptionCommsOnly": "Outils pratiques et axés sur la confidentialité pour l’adhésion, le travail des délégués et les communications syndicales. Ils restent sur votre appareil : pas de pubs, personne ne récolte vos données."
+    "title": "UnionOps | Des outils pour le travail syndical",
+    "titleCommsOnly": "UnionOps | Outils pratiques pour les sections locales",
+    "description": "Des outils pour les communications syndicales, la préparation au travail, la formation des délégués et les activités locales avec permissions. Comms reste gratuit. L’hébergement du Hub peut entraîner des frais.",
+    "descriptionCommsOnly": "Des outils gratuits dans le navigateur pour les communications syndicales, la préparation au travail et la formation. La plupart des projets publics restent sur votre appareil."
   },
   "nav": {
     "home": "Accueil",
@@ -303,8 +303,64 @@
   },
   "home": {
     "title": "UnionOps : logiciel dédié aux syndicats et sections locales",
-    "headline": "Conçu pour les syndicats. Façonné par les retours des sections.",
+    "heroEyebrow": "Du travail syndical, prêt à faire",
+    "headline": "Des outils pour le travail de votre syndicat.",
     "subtitle": "Des outils pratiques et axés sur la confidentialité, conçus spécifiquement pour les dirigeants locaux, les délégués syndicaux et les comités de négociation.",
+    "heroBreadth": "Préparez les communications et les dossiers du milieu de travail, apprenez le métier et coordonnez les activités locales quand il faut travailler ensemble.",
+    "exploreToolsCta": "Explorer les outils",
+    "heroPrivacyLine": "La plupart des projets publics restent sur votre appareil. Certains outils permettent un transfert intentionnel vers le Hub des dirigeants.",
+    "previewLabel": "Un exemple réel de la trousse",
+    "previewChoicesLabel": "Choisir un exemple de communication",
+    "previewExampleNote": "Exemple de résultat. Vos couleurs et renseignements locaux s’affichent lorsque vous les ajoutez.",
+    "previewChoices": {
+      "boardNotice": "Avis en milieu de travail",
+      "graphicMaker": "Visuel pour les réseaux",
+      "flyerMaker": "Tract imprimé"
+    },
+    "workEyebrow": "Des tâches utiles, dès maintenant",
+    "workTitle": "Commencez par la tâche devant vous",
+    "workIntro": "UnionOps réunit des outils pratiques, la préparation des délégués et la formation. Choisissez une tâche pour accéder directement à un espace de travail.",
+    "moreWorkLabel": "Également disponible :",
+    "moreWork": {
+      "agreement": "référence à la convention collective",
+      "stewardLog": "notes du plancher",
+      "bylaws": "projets de statuts",
+      "proposals": "suivi des propositions"
+    },
+    "work": {
+      "graphics": { "title": "Créer un visuel ou un document imprimé", "body": "Préparez un avis, un visuel pour les réseaux ou un tract aux couleurs de votre section.", "link": "Ouvrir le Créateur de graphiques" },
+      "website": { "title": "Créer un site Web local", "body": "Remplissez et exportez un modèle de site Web simple pour votre section.", "link": "Ouvrir le modèle de site Web" },
+      "grievance": { "title": "Préparer un grief", "body": "Organisez le problème et les questions avant de décider des prochaines étapes.", "link": "Ouvrir la feuille de préparation" },
+      "accommodation": { "title": "Préparer un retour au travail", "body": "Préparez une discussion sur les mesures d’adaptation avec des repères structurés et des notes que vous contrôlez.", "link": "Ouvrir la feuille sur les mesures d’adaptation" },
+      "meetings": { "title": "Animer une réunion locale", "body": "Consultez des références pratiques et des repères sur les règles de procédure.", "link": "Ouvrir le guide de réunion" },
+      "learning": { "title": "Former une personne déléguée ou dirigeante", "body": "Consultez des guides, des outils de référence et des modules de formation des dirigeants.", "link": "Explorer la formation des dirigeants" }
+    },
+    "brandEyebrow": "Une base pour votre section",
+    "brandTitle": "Configurez votre identité une fois et réutilisez-la dans la trousse.",
+    "brandBody": "La Trousse de marque garde le nom, les couleurs, le logo et les liens de votre section à portée de main dans les outils compatibles. Chaque outil utilise les renseignements qu’il prend en charge. La configuration reste facultative.",
+    "brandCta": "Découvrir la Trousse de marque",
+    "platformEyebrow": "Quand la section travaille ensemble",
+    "platformTitle": "Des activités partagées, avec des limites claires",
+    "platformIntro": "La plateforme hébergée ajoute des espaces protégés par des permissions, destinés aux dirigeants et aux membres. Chaque espace a son public et son rôle.",
+    "hubAudience": "Activités privées des dirigeants et délégués",
+    "hubTitle": "Hub des dirigeants",
+    "hubBody": "Les dirigeants et délégués autorisés peuvent coordonner les activités locales, préparer des dossiers, gérer les réunions et assurer la continuité du travail.",
+    "hubBoundary": "Les dossiers et les notes du Hub restent dans l’espace réservé aux dirigeants. Ils ne sont pas automatiquement affichés dans le Portail local.",
+    "memberAudience": "Information et participation des membres",
+    "portalTitle": "Portail local",
+    "portalBody": "Les membres peuvent consulter les renseignements locaux et participer aux espaces qui leur sont ouverts, comme les cercles et les activités locales.",
+    "portalBoundary": "Les membres voient les renseignements et les espaces autorisés pour leur accès. Les dirigeants décident quoi partager.",
+    "platformDetailLink": "Voir le fonctionnement de la plateforme",
+    "trustEyebrow": "Confidentialité et contrôle local",
+    "trustTitle": "Choisissez où le travail doit se faire",
+    "trustIntro": "UnionOps propose des outils sur appareil et des espaces locaux hébergés. Le stockage et les règles d’accès diffèrent.",
+    "trust": {
+      "device": { "title": "Travail dans le navigateur", "body": "La plupart des projets publics restent sur votre appareil. Certains outils permettent de choisir une sauvegarde ou un transfert pris en charge vers le Hub des dirigeants." },
+      "hosted": { "title": "Activités locales avec permissions", "body": "Le Hub des dirigeants et le Portail local sont des services hébergés. Les rôles et modules activés déterminent l’accès, selon les pratiques de confidentialité et de sécurité publiées." },
+      "choice": { "title": "Un transfert intentionnel", "body": "Gardez le travail sur votre appareil ou choisissez un parcours hébergé offert pour collaborer. Consultez nos documents sur la confidentialité et la sécurité." }
+    },
+    "securityLink": "Pratiques de sécurité",
+    "nextEyebrow": "Une prochaine étape utile",
     "subtitleCommsOnly": "Des outils pratiques et axés sur la confidentialité, conçus spécifiquement pour les dirigeants locaux, les délégués syndicaux et les comités de négociation. Les brouillons restent dans votre navigateur.",
     "primaryCta": "Configurer la Trousse de marque",
     "openToolsCta": "Ouvrir Créer",
@@ -17069,8 +17125,10 @@
   "platformPage": {
     "eyebrow": "Plateforme UnionOps",
     "title": "Hub des dirigeants et Portail local",
-    "intro": "UnionOps, ce n’est pas seulement des outils sur appareil. Lorsque votre section est prête, la plateforme hébergée aide les dirigeants à mener le travail privé et les membres à participer ensemble  -  avec la même fondation Trousse de marque déjà configurée.",
-    "brandBridge": "Créer, Utilitaires et Apprendre restent disponibles dans le navigateur. La plateforme ajoute des espaces partagés et autorisés pour votre section.",
+    "intro": "UnionOps va au-delà des outils dans le navigateur. Lorsque votre section est prête, les espaces hébergés avec permissions aident les dirigeants à coordonner le travail privé et les membres à participer aux espaces qui leur sont ouverts.",
+    "brandBridge": "Les outils publics restent accessibles dans votre navigateur. Certains peuvent aussi enregistrer des éléments sélectionnés dans un Hub des dirigeants autorisé. L’accès au Hub et l’identité de la Trousse de marque sont gérés séparément.",
+    "hubAudience": "Travail privé pour les dirigeants et délégués autorisés",
+    "memberAudience": "Information et participation des membres",
     "hubTitle": "Hub des dirigeants",
     "hubBody": "L’environnement opérationnel privé pour les dirigeants, les délégués, les dossiers, l’administration et d’autres flux de travail locaux pris en charge.",
     "hubItemCasework": "Dossiers de grief et de bumping avec accès selon les rôles",

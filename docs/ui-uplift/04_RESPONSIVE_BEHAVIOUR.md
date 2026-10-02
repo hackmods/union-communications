@@ -1,6 +1,6 @@
 # Responsive behavior and review
 
-Status: acceptance plan. Initial EN desktop (1280px) and FR Home phone (375px) observations are recorded in [implementation status](05_IMPLEMENTATION_STATUS.md); the matrix below is not yet verified.
+Status: acceptance plan, not visually verified. The implementation has a stacked phone hero, wrapping CTA group, three-column preview selector and responsive outcome list. Initial observations are recorded in [implementation status](05_IMPLEMENTATION_STATUS.md); viewport and accessibility acceptance remains pending.
 
 | Surface | Phone | Tablet | Desktop |
 |---|---|---|---|
