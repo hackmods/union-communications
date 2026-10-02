@@ -66,6 +66,11 @@ test.describe("Home hero & builders smoke @smoke", () => {
       .toHaveAttribute("href", /\/learn\/$/);
     await expect(page.getByTestId("home-learning-preview").getByRole("link", { name: "Contract Enforcement" }))
       .toHaveAttribute("href", /\/learn\/officer\/contract-enforcement\/$/);
+    const stewardPreview = page.getByTestId("home-steward-preview");
+    await expect(stewardPreview.getByRole("heading", { name: "Return-to-work & accommodation intake" })).toBeVisible();
+    await expect(stewardPreview.getByText("What can or cannot the member safely do?")).toBeVisible();
+    await expect(stewardPreview.getByRole("link", { name: "Open accommodation worksheet" }))
+      .toHaveAttribute("href", /\/utilities\/rtw-accommodation\/$/);
     await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).first())
       .toHaveAttribute("href", /\/platform\/$/);
     await expect(page.getByRole("link", { name: "Open guided setup" }).first())

@@ -7,6 +7,7 @@ Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 - Home now leads with concrete outcomes (materials, workplace cases and local operations), an immediate anchor into useful work, and a separate platform path. Supporting copy names grievance preparation, agreement reference, accommodation planning, learning, and separate private/member spaces. Brand Kit is an optional reusable advantage instead of a prerequisite CTA.
 - Home presents six direct tasks with canonical links to graphic creation, website templates, grievance preparation, return-to-work accommodation, meeting rules, and Officer Learning.
 - Home now shows one actual localized Officer Learning module from the shipped catalog, including its real summary, self-test marker and lesson destination; no fake progress state is shown.
+- Home now previews the actual RTW worksheet title, functional-limit prompt and supported accommodation measures, linked to the real tool. The preview shows no case details and its prompt/options come from the existing bilingual tool catalog.
 - The notice/graphic/flyer preview is stable and visitor-selected, with local Brand Kit colours applied. Copy identifies it as a sample preview rather than a rendered application output. Page-entry motion was removed.
 - A ruled two-audience platform section explains private Officer Hub work and member Portal participation. Trust copy distinguishes on-device drafts from role/module-controlled hosted spaces and links Privacy/Security.
 - Platform now uses the same two-audience editorial hierarchy. Its copy separates hosted Hub access from public Brand Kit identity according to the brand bridge contract.
@@ -27,7 +28,8 @@ Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 - After the Officer Learning card interaction change: `theme.test.ts` passed (3 tests).
 - After rewriting the first-screen Home copy: TypeScript and the focused public-copy/metadata/readability suite passed (46 tests). Updated browser smoke expectations are present but not executed.
 - After adding the real learning example: TypeScript and the same 46 focused copy tests passed; the EN/FR canonical lesson-link assertions are added to smoke specs but not run.
-- `npm run build`: passed on the current tree after the real Officer Learning Home example; all 569 static pages generated. Next still logs the existing auth-default and dynamic filesystem tracing warnings.
+- After adding the RTW worksheet preview: `npm run typecheck` passed and the focused public-copy/metadata/readability suite passed (46 tests). EN/FR smoke assertions cover the real prompt and canonical tool route; browser smoke and rendered review remain pending.
+- `npm run build`: passed after the real Officer Learning Home example and again after the RTW steward preview; all 569 static pages generated. Next still logs the existing auth-default, Edge deprecation and dynamic filesystem tracing warnings.
 - Updated Home EN/FR smoke assertions are in `e2e/builders.smoke.spec.ts` and `e2e/public-discovery.smoke.spec.ts`. A 320/375/768/1280/1536 width/no-overflow matrix now covers EN/FR with axe at 320px; browser smoke was not run because the local URL is blocked by the browser tool policy.
 - The browser tool previously denied this local URL under its URL policy. No viewport screenshots of the new UI or keyboard walkthrough have been captured in this checkpoint.
 
@@ -50,7 +52,7 @@ These observations describe the old interface and are not acceptance evidence fo
 
 1. Visually review Home and Platform in EN/FR at 320, 375, 768, 1280 and 1536px, including zoom, reflow and keyboard behavior.
 2. Review all nine named representative surfaces, retaining screenshots or a concise evidence record and checking actual saved/error/empty states.
-3. Add a structured steward workflow and synthetic, member-safe hosted interface example. The Home communications preview is still a labeled sample renderer, not an exact application capture.
+3. Add a synthetic, member-safe hosted interface example. The Home communications preview is still a labeled sample renderer, not an exact application capture.
 4. Run affected unit/smoke coverage, lint (reporting its skip accurately), typecheck and production build. No browser visual acceptance or accessibility conformance is claimed yet.
 5. Update `docs/PROGRESS.md`, direction/pattern/migration docs and the remaining migration list from actual review findings.
 

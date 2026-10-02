@@ -1,6 +1,6 @@
 # Visual uplift implementation plan
 
-Planning complete: 2026-10-01. Base: `fd204bb1` on `feat/ui-uplift`, pushed to origin. This plan covers the original visual uplift; it does not declare that work implemented. Ryan requested planning now and previously paused visual implementation to manage compute.
+Plan established: 2026-10-01. Base: `fd204bb1` on `feat/ui-uplift`, pushed to origin. Implementation resumed by Ryan; progress and remaining evidence are tracked below and in `05_IMPLEMENTATION_STATUS.md`.
 
 ## Selected direction
 
@@ -61,6 +61,7 @@ Complete Home, shared system, Platform presentation and the nine-surface validat
 - **Learning adoption, 2026-10-01:** kept the Officer Learning theme but removed catalog-card lift/image zoom, added a keyboard focus ring and retained reduced-motion behavior. Hub dashboard source review found no shared visual change justified.
 - **First-screen clarity, 2026-10-01:** rewrote EN/FR hero language around materials, workplace cases and moving local work; supporting lines now name agreement reference, grievance preparation, accommodation planning, learning, and separate private/member spaces. The smoke assertion now checks concrete framing and truthful sample labeling.
 - **Real learning evidence, 2026-10-01:** Home now presents a localized module from the Officer Learning catalog with its actual summary, quiz marker and lesson route. Structured steward and hosted interface examples remain in scope.
+- **Steward-work evidence, 2026-10-01:** Home now presents the real return-to-work worksheet title, functional-limits prompt and supported measure options, with an immediate route to the working tool. The bilingual preview contains no case details. Typecheck and focused copy checks passed; rendered acceptance remains open.
 - **Checkpoint 2, implementation in progress:** Home copy, direct canonical task links, local identity story, hosted audience boundaries, privacy distinction, communication sample and real learning example are on the feature branch. A structured steward workflow, real Hub/Portal preview evidence and responsive visual acceptance remain open.
 - **Checkpoint 3, pending:** inspect and adopt the system across the nine representative routes in current runtime states.
 - **Checkpoint 4, pending:** browser review, full appropriate checks, final docs and migration boundary.

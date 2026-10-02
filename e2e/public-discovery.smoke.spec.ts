@@ -82,6 +82,11 @@ test.describe("task-first public discovery @smoke", () => {
       .toHaveAttribute("href", "/fr/utilities/complaint-vs-grievance/");
     await expect(page.getByTestId("home-learning-preview").getByRole("link", { name: "Application de la convention" }))
       .toHaveAttribute("href", "/fr/learn/officer/contract-enforcement/");
+    const stewardPreview = page.getByTestId("home-steward-preview");
+    await expect(stewardPreview.getByRole("heading", { name: "Prise en charge du retour au travail et des mesures d'adaptation" })).toBeVisible();
+    await expect(stewardPreview.getByText("Que peut ou ne peut pas faire le membre en toute sécurité?")).toBeVisible();
+    await expect(stewardPreview.getByRole("link", { name: "Ouvrir la feuille sur les mesures d’adaptation" }))
+      .toHaveAttribute("href", "/fr/utilities/rtw-accommodation/");
     await expect(page.getByRole("heading", { name: "Des activités partagées, avec des limites claires" })).toBeVisible();
   });
 

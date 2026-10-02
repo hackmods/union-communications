@@ -12,6 +12,7 @@
 - Encoded the Home EN/FR viewport acceptance matrix (320–1536px), horizontal-overflow checks, and 320px axe checks in the smoke suite; execution awaits supported browser access.
 - Distinguished the Home hero's in-page “Explore the tools” action from the final “Browse all tools” catalog link in EN/FR.
 - Typecheck and production build passed; the full unit suite passed 3,239 tests (2 skipped, 1 todo across 538 files). ESLint remains skipped by the TypeScript 7 compatibility guard. Browser visual/smoke review remains outstanding under the browser URL policy; see [`docs/ui-uplift/05_IMPLEMENTATION_STATUS.md`](ui-uplift/05_IMPLEMENTATION_STATUS.md).
+- Added a bilingual homepage preview of the real return-to-work worksheet, with actual functional-limits prompts and accommodation choices, no case data, and a direct tool link. Typecheck and 46 focused copy/metadata/readability tests pass; browser smoke assertions were updated but remain unexecuted.
 
 ## 2026-10-01 — Recover UI uplift foundations
 

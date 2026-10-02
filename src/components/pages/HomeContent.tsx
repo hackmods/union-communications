@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { OFFICER_LEARNING_MODULES } from "@/lib/officer-learning/modules";
+import { ACCOMMODATION_MEASURES } from "@/lib/steward-guides/rtw";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { HomeHeroPreview } from "@/components/pages/HomeHeroPreview";
@@ -18,6 +19,7 @@ import {
 export function HomeContent() {
   const t = useTranslations("home");
   const tLearning = useTranslations("officerLearning");
+  const tAccommodation = useTranslations("rtwAccommodation");
   const [preview, setPreview] = useState<HeroPreviewVariant>("graphicMaker");
   const featuredLearningModule = OFFICER_LEARNING_MODULES.find(
     (module) => module.slug === "contract-enforcement",
@@ -146,6 +148,47 @@ export function HomeContent() {
             <p className="mt-2 max-w-prose text-sm leading-relaxed text-slate-700">
               {tLearning("modules.contract-enforcement.summary")}
             </p>
+          </article>
+        </section>
+
+        <section className="mt-12 border-b border-slate-300 pb-8" aria-labelledby="home-steward-heading">
+          <SectionHeading
+            id="home-steward-heading"
+            eyebrow={t("stewardPreviewEyebrow")}
+            title={t("stewardPreviewTitle")}
+            intro={tAccommodation("subtitle")}
+          />
+          <article
+            className="mt-6 max-w-4xl border-l-2 border-opseu-blue pl-4 sm:pl-6"
+            data-testid="home-steward-preview"
+            aria-labelledby="home-steward-form-title"
+          >
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+              {t("stewardPreviewLabel")}
+            </p>
+            <h3 id="home-steward-form-title" className="mt-2 text-lg font-bold text-opseu-dark">
+              {tAccommodation("title")}
+            </h3>
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
+              <div className="border-t border-slate-300 pt-3">
+                <p className="text-sm font-semibold text-slate-800">{tAccommodation("fields.functionalLimitations")}</p>
+                <p className="mt-1 text-sm leading-relaxed text-slate-600">{tAccommodation("fields.functionalLimitationsHint")}</p>
+              </div>
+              <div className="border-t border-slate-300 pt-3">
+                <p className="text-sm font-semibold text-slate-800">{tAccommodation("fields.measures")}</p>
+                <ul className="mt-2 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-sm leading-relaxed text-slate-700">
+                  {ACCOMMODATION_MEASURES.map((measure) => (
+                    <li key={measure}>{tAccommodation(`measures.${measure}`)}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <Link
+              href="/utilities/rtw-accommodation"
+              className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-dark underline decoration-opseu-blue underline-offset-4 hover:text-opseu-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+            >
+              {t("work.accommodation.link")} <span className="ml-2" aria-hidden="true">→</span>
+            </Link>
           </article>
         </section>
 
