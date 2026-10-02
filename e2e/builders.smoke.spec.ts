@@ -64,6 +64,8 @@ test.describe("Home hero & builders smoke @smoke", () => {
       .toHaveAttribute("href", /\/utilities\/complaint-vs-grievance\/$/);
     await expect(page.getByTestId("home-work-learning").getByRole("link", { name: "Explore Officer Learning" }))
       .toHaveAttribute("href", /\/learn\/$/);
+    await expect(page.getByTestId("home-learning-preview").getByRole("link", { name: "Contract Enforcement" }))
+      .toHaveAttribute("href", /\/learn\/officer\/contract-enforcement\/$/);
     await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).first())
       .toHaveAttribute("href", /\/platform\/$/);
     await expect(page.getByRole("link", { name: "Open guided setup" }).first())

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { OFFICER_LEARNING_MODULES } from "@/lib/officer-learning/modules";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { HomeHeroPreview } from "@/components/pages/HomeHeroPreview";
@@ -16,7 +17,15 @@ import {
 
 export function HomeContent() {
   const t = useTranslations("home");
+  const tLearning = useTranslations("officerLearning");
   const [preview, setPreview] = useState<HeroPreviewVariant>("graphicMaker");
+  const featuredLearningModule = OFFICER_LEARNING_MODULES.find(
+    (module) => module.slug === "contract-enforcement",
+  );
+
+  if (!featuredLearningModule) {
+    throw new Error("The featured Officer Learning module is missing.");
+  }
 
   return (
     <>
@@ -95,6 +104,49 @@ export function HomeContent() {
               </span>
             ))}
           </p>
+        </section>
+
+        <section
+          className="mt-12 grid gap-6 border-y border-slate-300 py-7 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-12 lg:py-8"
+          aria-labelledby="home-learning-heading"
+        >
+          <div>
+            <Eyebrow>{t("learningEyebrow")}</Eyebrow>
+            <h2
+              id="home-learning-heading"
+              className="mt-2 text-2xl font-bold tracking-tight text-opseu-dark sm:text-3xl"
+            >
+              {t("learningTitle")}
+            </h2>
+            <p className="mt-3 max-w-prose text-sm leading-relaxed text-slate-700 sm:text-base">
+              {t("learningBody")}
+            </p>
+          </div>
+          <article
+            className="min-w-0 border-l-2 border-opseu-blue pl-4 sm:pl-6"
+            data-testid="home-learning-preview"
+            aria-labelledby="home-learning-module-title"
+          >
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-wide text-slate-600">
+              <span>{tLearning("moduleLabel", { number: featuredLearningModule.number })}</span>
+              <span aria-hidden="true">·</span>
+              <span>{tLearning("moduleQuizBadge")}</span>
+            </div>
+            <h3
+              id="home-learning-module-title"
+              className="mt-2 text-xl font-bold leading-snug text-opseu-dark"
+            >
+              <Link
+                href={`/learn/officer/${featuredLearningModule.slug}`}
+                className="underline decoration-opseu-blue decoration-2 underline-offset-4 hover:text-opseu-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+              >
+                {tLearning("modules.contract-enforcement.title")}
+              </Link>
+            </h3>
+            <p className="mt-2 max-w-prose text-sm leading-relaxed text-slate-700">
+              {tLearning("modules.contract-enforcement.summary")}
+            </p>
+          </article>
         </section>
 
         <section className="mt-14 grid gap-6 border-y-2 border-slate-300 py-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-12" aria-labelledby="home-brand-heading">

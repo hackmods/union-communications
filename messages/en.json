@@ -335,6 +335,9 @@
       "meetings": { "title": "Run a local meeting", "body": "Use practical meeting references and rules-of-order guidance.", "link": "Open meeting guide" },
       "learning": { "title": "Train a steward or officer", "body": "Work through practical guides, playbooks, and Officer Learning modules.", "link": "Explore Officer Learning" }
     },
+    "learningEyebrow": "Officer Learning",
+    "learningTitle": "Learn the work behind steward decisions.",
+    "learningBody": "Practical modules connect agreement enforcement, discipline, accommodation and local governance with knowledge checks and reference sheets.",
     "brandEyebrow": "One local foundation",
     "brandTitle": "Set up your identity once. Reuse it across the toolkit.",
     "brandBody": "Brand Kit keeps your local name, colours, logo, and links ready for the tools that use them. Create materials without entering the same details again. Each tool uses the fields it supports; Brand Kit remains an optional starting point.",

@@ -335,6 +335,9 @@
       "meetings": { "title": "Animer une réunion locale", "body": "Consultez des références pratiques et des repères sur les règles de procédure.", "link": "Ouvrir le guide de réunion" },
       "learning": { "title": "Former une personne déléguée ou dirigeante", "body": "Consultez des guides, des outils de référence et des modules de formation des dirigeants.", "link": "Explorer la formation des dirigeants" }
     },
+    "learningEyebrow": "Formation syndicale",
+    "learningTitle": "Apprenez le travail derrière les décisions des délégués.",
+    "learningBody": "Des modules pratiques relient l’application de la convention, la discipline, les accommodements et la gouvernance locale à des autoévaluations et des fiches de référence.",
     "brandEyebrow": "Une base pour votre section",
     "brandTitle": "Configurez votre identité une fois et réutilisez-la dans la trousse.",
     "brandBody": "La Trousse de marque garde le nom, les couleurs, le logo et les liens de votre section à portée de main dans les outils compatibles. Chaque outil utilise les renseignements qu’il prend en charge. La configuration reste facultative.",

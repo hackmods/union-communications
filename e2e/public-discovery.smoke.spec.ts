@@ -80,6 +80,8 @@ test.describe("task-first public discovery @smoke", () => {
     await expect(page.getByRole("link", { name: "Explorer les outils" }).first()).toHaveAttribute("href", "/fr/#home-work");
     await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Ouvrir la feuille de préparation" }))
       .toHaveAttribute("href", "/fr/utilities/complaint-vs-grievance/");
+    await expect(page.getByTestId("home-learning-preview").getByRole("link", { name: "Application de la convention" }))
+      .toHaveAttribute("href", "/fr/learn/officer/contract-enforcement/");
     await expect(page.getByRole("heading", { name: "Des activités partagées, avec des limites claires" })).toBeVisible();
   });
 

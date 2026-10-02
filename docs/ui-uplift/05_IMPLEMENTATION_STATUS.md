@@ -6,6 +6,7 @@ Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 
 - Home now leads with concrete outcomes (materials, workplace cases and local operations), an immediate anchor into useful work, and a separate platform path. Supporting copy names grievance preparation, agreement reference, accommodation planning, learning, and separate private/member spaces. Brand Kit is an optional reusable advantage instead of a prerequisite CTA.
 - Home presents six direct tasks with canonical links to graphic creation, website templates, grievance preparation, return-to-work accommodation, meeting rules, and Officer Learning.
+- Home now shows one actual localized Officer Learning module from the shipped catalog, including its real summary, self-test marker and lesson destination; no fake progress state is shown.
 - The notice/graphic/flyer preview is stable and visitor-selected, with local Brand Kit colours applied. Copy identifies it as a sample preview rather than a rendered application output. Page-entry motion was removed.
 - A ruled two-audience platform section explains private Officer Hub work and member Portal participation. Trust copy distinguishes on-device drafts from role/module-controlled hosted spaces and links Privacy/Security.
 - Platform now uses the same two-audience editorial hierarchy. Its copy separates hosted Hub access from public Brand Kit identity according to the brand bridge contract.
@@ -17,16 +18,16 @@ Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 
 ## Verification so far
 
-- `npm run typecheck`: passed after homepage, catalog and Platform implementation.
-- Full `npm run test:unit`: 3,239 passed, 2 skipped and 1 todo across 538 files. The focused Home/copy/nav/accessibility group separately passed 53 tests.
+- `npm run typecheck`: passed after the first-screen rewrite and real Officer Learning example.
+- Full `npm run test:unit`: 3,239 passed, 2 skipped and 1 todo across 538 files at the Home/catalog/Platform checkpoint, before the later shared visual refinements.
 - `npm run lint`: exits successfully but skips ESLint because the configured typescript-eslint does not support TypeScript 7. It is not an ESLint pass.
-- `git diff --check`: passed after the Portal operational-surface refinement.
+- `git diff --check`: passed after the Officer Learning example and documentation updates.
 - After clarifying the preview sample label in both locales: TypeScript and the 4 focused copy/metadata/readability test files passed (46 tests).
 - After flattening the shared editor form boundary: `ToolEditorLayout.test.tsx` passed (11 tests).
 - After the Officer Learning card interaction change: `theme.test.ts` passed (3 tests).
 - After rewriting the first-screen Home copy: TypeScript and the focused public-copy/metadata/readability suite passed (46 tests). Updated browser smoke expectations are present but not executed.
-- `npm run build`: passed on this visual diff, including type generation and route output. Next also prints existing auth-default and dynamic snippet-filesystem tracing warnings.
-- `npm run typecheck`: passed on the final canonical-link implementation.
+- After adding the real learning example: TypeScript and the same 46 focused copy tests passed; the EN/FR canonical lesson-link assertions are added to smoke specs but not run.
+- `npm run build`: passed on the current tree after the real Officer Learning Home example; all 569 static pages generated. Next still logs the existing auth-default and dynamic filesystem tracing warnings.
 - Updated Home EN/FR smoke assertions are in `e2e/builders.smoke.spec.ts` and `e2e/public-discovery.smoke.spec.ts`; browser smoke was not run because the local URL is blocked by the browser tool policy.
 - The browser tool previously denied this local URL under its URL policy. No viewport screenshots of the new UI or keyboard walkthrough have been captured in this checkpoint.
 
@@ -49,7 +50,7 @@ These observations describe the old interface and are not acceptance evidence fo
 
 1. Visually review Home and Platform in EN/FR at 320, 375, 768, 1280 and 1536px, including zoom, reflow and keyboard behavior.
 2. Review all nine named representative surfaces, retaining screenshots or a concise evidence record and checking actual saved/error/empty states.
-3. Refine or replace marketing examples with verifiable real application states. The existing Home communications preview is a labeled sample renderer; it does not by itself demonstrate steward or hosted product depth.
+3. Add a structured steward workflow and synthetic, member-safe hosted interface example. The Home communications preview is still a labeled sample renderer, not an exact application capture.
 4. Run affected unit/smoke coverage, lint (reporting its skip accurately), typecheck and production build. No browser visual acceptance or accessibility conformance is claimed yet.
 5. Update `docs/PROGRESS.md`, direction/pattern/migration docs and the remaining migration list from actual review findings.
 

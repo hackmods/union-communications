@@ -12,7 +12,7 @@ Personality belongs in orientation. Catalogs help people choose. Editors foregro
 
 ## Principles that govern implementation
 
-- Demonstrate shipped functionality using actual renderers or screenshots of synthetic application states. Label examples. Never expose real cases or imply sample activity is customer activity. Current Home carries forward the existing communications example renderer; operational Hub/Portal visuals remain to be added after browser access and member-safe capture are available.
+- Demonstrate shipped functionality using actual renderers or screenshots of synthetic application states. Label examples. Never expose real cases or imply sample activity is customer activity. Home now pairs a clearly labeled communications sample with a localized module from Officer Learning. A structured steward workflow and synthetic, member-safe Hub/Portal visuals remain to be added after source and rendered validation.
 - Lead with work people recognize: make a notice, prepare a grievance, run a meeting, train a steward, build a local website.
 - Brand Kit connects applicable outputs through reusable identity. It is optional preparation for a visitor, never an invented prerequisite for public tools.
 - Officer Hub and Local Portal deserve substantial explanation, with a visible confidentiality boundary. Member participation is not unrestricted access to officer casework.
