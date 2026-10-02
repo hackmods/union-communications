@@ -124,7 +124,7 @@ export function Header() {
         <div
           className={cn(
             "flex shrink-0 flex-wrap items-center justify-end gap-2 xl:w-auto",
-            // Full-width wrap is for public Menu + Accessibility + Language.
+            // Full-width wrap is for public Menu + Language + Accessibility.
             // On Hub/Portal the public hamburger is hidden — keep utilities compact.
             hidePublicHamburger ? "w-auto" : "w-full",
           )}
@@ -142,8 +142,8 @@ export function Header() {
             <PlatformOperatorNavDropdown />
             <AuthAccountControls layout="inline" showHubLink={false} showPortalLink={false} />
           </div>
-          <DisplaySettingsMenu />
           <LanguageToggle />
+          <DisplaySettingsMenu />
           {!hidePublicHamburger ? (
             <button
               ref={toggleRef}

@@ -8387,6 +8387,10 @@
         "title": "Carnet de marque",
         "body": "Ouvrez le carnet depuis le kit de marque pour voir boutons, formulaires et chrome du Hub des dirigeants peints avec vos couleurs avant d’imprimer ou d’exporter."
       },
+      "accessibility-compact-header": {
+        "title": "L’accessibilité côtoie la langue",
+        "body": "La taille du texte, le contraste et le mouvement s’ouvrent depuis un contrôle compact Aa à côté de Langue dans l’en-tête. Un tap suffit toujours pour les paramètres d’affichage, sans encombrer Trousse de marque, Créer ou Menu."
+      },
       "hub-primary-nav-core-links": {
         "title": "Créer, Feuilles de travail et Apprendre restent dans l’en-tête",
         "body": "Le Hub des dirigeants et la Trousse de marque ne cachent plus Créer, Feuilles de travail, Apprendre ou Plateforme dans le menu du haut. Ces liens essentiels restent à côté du Hub des dirigeants partout où vous travaillez."
@@ -8518,6 +8522,7 @@
       "title": "Paramètres d'affichage",
       "intro": "Personnalisez l'apparence et les animations du site. Vos choix sont enregistrés sur cet appareil.",
       "menuLabel": "Accessibilité",
+      "menuShort": "Aa",
       "fontSizeLabel": "Taille du texte",
       "fontSizeDescription": "Choisissez une taille de lecture confortable. Tout le texte s'ajuste proportionnellement.",
       "fontSize": {
