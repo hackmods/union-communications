@@ -1,8 +1,8 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useSessionChrome } from "@/components/auth/useSessionChrome";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { cn } from "@/lib/utils";
 
@@ -13,13 +13,13 @@ export function OfficerHubNavLink({
   layout?: "desktop" | "mobile";
   onNavigate?: () => void;
 }) {
-  const { data: session, status } = useSession();
+  const { authenticated } = useSessionChrome();
   const t = useTranslations("hub");
   const pathname = usePathname();
   // Keep Hub for platform operators too — they also get the Platform dropdown.
-  const available =
-    (status === "authenticated" && Boolean(session?.user)) ||
-    isOfficerHubPublic();
+  // Use session-chrome auth so JWT refresh does not drop the link when Hub
+  // is invite-only (public flag off).
+  const available = authenticated || isOfficerHubPublic();
 
   if (!available) return null;
 
