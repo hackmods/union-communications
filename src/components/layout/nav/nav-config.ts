@@ -149,18 +149,13 @@ export function shellContextForPath(pathname: string): ShellContext {
   return "public";
 }
 
-/** Public discovery stays broad; tasks and workspaces keep only useful escapes. */
-export function primaryNavForContext(context: ShellContext) {
-  if (context === "public") return PUBLIC_PRIMARY_NAV;
-  if (context === "public-task") {
-    return PUBLIC_PRIMARY_NAV.filter((item) =>
-      item.href === "/create/brand-kit" ||
-      item.href === "/create" ||
-      item.href === "/utilities",
-    );
-  }
-  // Keep the direct Brand Kit route available from authenticated workspaces.
-  return PUBLIC_PRIMARY_NAV.filter((item) => item.href === "/create/brand-kit");
+/**
+ * Primary destinations stay available in every shell.
+ * Hub/Portal and focused tool chrome used to strip Create / Worksheets /
+ * Learn / Platform — officers need those core links without hunting.
+ */
+export function primaryNavForContext(_context: ShellContext) {
+  return PUBLIC_PRIMARY_NAV;
 }
 
 export function isPublicPrimaryNavActive(

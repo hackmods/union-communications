@@ -8441,6 +8441,10 @@
         "title": "Brand lookbook",
         "body": "Open the lookbook from Brand Kit to see Officer Hub buttons, forms, and chrome painted with your colours before you print or export."
       },
+      "hub-primary-nav-core-links": {
+        "title": "Create, Worksheets, and Learn stay in the header",
+        "body": "Officer Hub and Brand Kit no longer hide Create, Worksheets, Learn, or Platform from the top menu. Those core links stay next to Officer Hub wherever you work."
+      },
       "hub-mobile-one-menu": {
         "title": "One menu on Officer Hub phones",
         "body": "On a phone, Officer Hub opens a single Tools menu for your local work plus Site links like Brand Kit and Create. The second Menu button is gone, and larger Accessibility text keeps the drawer under the Officer Hub bar."

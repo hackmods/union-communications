@@ -8387,6 +8387,10 @@
         "title": "Carnet de marque",
         "body": "Ouvrez le carnet depuis le kit de marque pour voir boutons, formulaires et chrome du Hub des dirigeants peints avec vos couleurs avant d’imprimer ou d’exporter."
       },
+      "hub-primary-nav-core-links": {
+        "title": "Créer, Feuilles de travail et Apprendre restent dans l’en-tête",
+        "body": "Le Hub des dirigeants et la Trousse de marque ne cachent plus Créer, Feuilles de travail, Apprendre ou Plateforme dans le menu du haut. Ces liens essentiels restent à côté du Hub des dirigeants partout où vous travaillez."
+      },
       "hub-mobile-one-menu": {
         "title": "Un seul menu sur le Hub des dirigeants au téléphone",
         "body": "Sur téléphone, le Hub des dirigeants ouvre un seul menu Outils pour le travail de votre section, plus les liens du Site comme Trousse de marque et Créer. Le second bouton Menu a disparu, et le texte Accessibilité plus grand garde le tiroir sous la barre du Hub des dirigeants."

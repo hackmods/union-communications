@@ -116,9 +116,7 @@ export function Header() {
         </Link>
 
         <nav className="hidden flex-nowrap items-center gap-0.5 xl:flex" aria-label={t("mainNav")}>
-          {shellContext === "public"
-            ? PUBLIC_PRIMARY_NAV.map(renderPrimaryLink)
-            : primaryNav.map(renderPrimaryLink)}
+          {primaryNav.map(renderPrimaryLink)}
           <OfficerHubNavLink />
           <LocalPortalNavLink />
         </nav>
