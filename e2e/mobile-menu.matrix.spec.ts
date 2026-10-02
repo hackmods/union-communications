@@ -90,6 +90,7 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
     test(`hub menu open/close/Escape at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.goto("/en/app/");
+      await expect(page.getByTestId("mobile-nav-toggle")).toHaveCount(0);
       const toggle = page.getByTestId("hub-nav-toggle");
       await expect(toggle).toBeVisible();
       await expect(toggle).toHaveAttribute("aria-expanded", "false");
@@ -98,6 +99,7 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
       await expect(toggle).toHaveAttribute("aria-expanded", "true");
       const drawer = page.getByTestId("hub-nav-drawer");
       await expect(drawer).toBeVisible();
+      await expect(page.getByTestId("mobile-site-section")).toBeVisible();
 
       await page.keyboard.press("Escape");
       await expect(toggle).toHaveAttribute("aria-expanded", "false");
@@ -149,6 +151,8 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
       const toggle = page.getByTestId("hub-nav-toggle");
       await expect(toggle).toBeVisible();
       await expect(toggle).toContainText("Tools");
+      // Public Menu stays off on Hub — one hamburger only.
+      await expect(page.getByTestId("mobile-nav-toggle")).toHaveCount(0);
       const toggleBox = await toggle.boundingBox();
       expect(toggleBox).toBeTruthy();
       if (toggleBox) {
@@ -163,6 +167,11 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
 
       const drawer = page.getByTestId("hub-nav-drawer");
       await expect(drawer).toBeVisible();
+      await expect(page.getByTestId("mobile-nav-drawer")).toHaveCount(0);
+      await expect(page.getByTestId("mobile-site-section")).toBeVisible();
+      await expect(
+        drawer.getByRole("link", { name: "Brand Kit", exact: true }),
+      ).toBeVisible();
       const drawerBox = await drawer.boundingBox();
       const toggleAfterOpen = await toggle.boundingBox();
       expect(drawerBox).toBeTruthy();

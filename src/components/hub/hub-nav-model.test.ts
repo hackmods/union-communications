@@ -100,7 +100,23 @@ describe("HubNav chrome contract", () => {
     expect(header).toContain("--site-header-height");
     expect(hubNav).toContain("--site-header-height");
     expect(hubNav).toContain("--hub-banner-stack-height");
+    expect(hubNav).toContain("--app-chrome-bottom");
     expect(bannerStack).toContain("--hub-banner-stack-height");
+  });
+
+  it("hides the public hamburger on Hub routes and shares MobileSheet", () => {
+    const header = readFileSync(
+      join(srcRoot, "components/layout/Header.tsx"),
+      "utf8",
+    );
+    const hubDrawer = readFileSync(
+      join(srcRoot, "components/hub/HubNavDrawer.tsx"),
+      "utf8",
+    );
+    expect(header).toContain('shellContext === "hub"');
+    expect(header).toContain("hidePublicHamburger");
+    expect(hubDrawer).toContain("MobileSheet");
+    expect(hubDrawer).toContain("MobileSiteSection");
   });
 
   it("does not put Send feedback on the hub bar (footer / Support still have it)", () => {

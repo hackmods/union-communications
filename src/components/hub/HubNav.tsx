@@ -61,13 +61,19 @@ export function HubNav() {
     const el = barRef.current;
     if (!el) return;
     const update = () => {
-      setDrawerTop(Math.ceil(el.getBoundingClientRect().bottom));
+      const bottom = Math.ceil(el.getBoundingClientRect().bottom);
+      setDrawerTop(bottom);
+      document.documentElement.style.setProperty(
+        "--app-chrome-bottom",
+        `${bottom}px`,
+      );
     };
     const stopMeasure = observeStickyHeight(el, "--hub-nav-height", update);
     window.addEventListener("scroll", update, true);
     return () => {
       stopMeasure();
       window.removeEventListener("scroll", update, true);
+      document.documentElement.style.removeProperty("--app-chrome-bottom");
     };
     // Re-bind when the drawer opens so the first open paint uses a fresh bottom.
   }, [drawerOpen, pathname]);

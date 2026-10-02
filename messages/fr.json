@@ -8387,6 +8387,10 @@
         "title": "Carnet de marque",
         "body": "Ouvrez le carnet depuis le kit de marque pour voir boutons, formulaires et chrome du Hub des dirigeants peints avec vos couleurs avant d’imprimer ou d’exporter."
       },
+      "hub-mobile-one-menu": {
+        "title": "Un seul menu sur le Hub des dirigeants au téléphone",
+        "body": "Sur téléphone, le Hub des dirigeants ouvre un seul menu Outils pour le travail de votre section, plus les liens du Site comme Trousse de marque et Créer. Le second bouton Menu a disparu, et le texte Accessibilité plus grand garde le tiroir sous la barre du Hub des dirigeants."
+      },
       "platform-admin-nav": {
         "title": "Admin de la plateforme au même endroit",
         "body": "Les opérateurs de plateforme ouvrent maintenant un seul lien Admin de la plateforme dans la barre du Hub des dirigeants. L’admin du site regroupe les outils hôte, avec recherche et libellés d’audit plus clairs."
@@ -10015,6 +10019,7 @@
     "openHubMenu": "Ouvrir le menu du hub",
     "closeHubMenu": "Fermer le menu du hub",
     "mobileNav": "Menu du hub",
+    "mobileSiteSection": "Site",
     "toolsGroupCasework": "Dossiers",
     "toolsGroupRecords": "Registres",
     "toolsGroupFunds": "Fonds",
@@ -12879,6 +12884,7 @@
     "openPortalMenu": "Ouvrir le menu du Portail",
     "closePortalMenu": "Fermer le menu du Portail",
     "mobileNav": "Menu du Portail",
+    "mobileSiteSection": "Site",
     "circlesMenu": "Cercles",
     "circlesEmpty": "Aucun Cercle pour l’instant. Ouvrez Ensemble pour en rejoindre ou en créer un.",
     "memoryBannerLabel": "Données de session",

@@ -29,12 +29,14 @@ export function Header() {
   const pathname = usePathname();
   const shellContext = shellContextForPath(pathname);
   const primaryNav = primaryNavForContext(shellContext);
+  const hidePublicHamburger =
+    shellContext === "hub" || shellContext === "portal";
   const [drawer, setDrawer] = useState<{ path: string } | null>(null);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const drawerId = useId();
   const [headerHeight, setHeaderHeight] = useState(0);
-  const drawerOpen = drawer?.path === pathname;
+  const drawerOpen = !hidePublicHamburger && drawer?.path === pathname;
   const brandKit = useBrandStore((state) => state.brandKit);
   const hydrated = useBrandStore((state) => state.hydrated);
   const siteChromeLogoVariant = resolveSiteChromeLogoVariant(brandKit);
@@ -121,7 +123,14 @@ export function Header() {
           <LocalPortalNavLink />
         </nav>
 
-        <div className="flex w-full shrink-0 flex-wrap items-center justify-end gap-2 xl:w-auto">
+        <div
+          className={cn(
+            "flex shrink-0 flex-wrap items-center justify-end gap-2 xl:w-auto",
+            // Full-width wrap is for public Menu + Accessibility + Language.
+            // On Hub/Portal the public hamburger is hidden — keep utilities compact.
+            hidePublicHamburger ? "w-auto" : "w-full",
+          )}
+        >
           {shellContext === "public" ? (
             <Link
               href="/search"
@@ -137,27 +146,29 @@ export function Header() {
           </div>
           <DisplaySettingsMenu />
           <LanguageToggle />
-          <button
-            ref={toggleRef}
-            type="button"
-            className="relative z-[80] inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-300 px-3 font-semibold text-opseu-dark transition-colors duration-150 ease-out hover:bg-opseu-blue/5 xl:hidden"
-            aria-expanded={drawerOpen}
-            aria-controls={drawerId}
-            aria-label={drawerOpen ? t("closeMenu") : t("openMenu")}
-            data-testid="mobile-nav-toggle"
-            onClick={toggleDrawer}
-          >
-            {drawerOpen ? (
-              <span aria-hidden="true" className="text-xl leading-none">×</span>
-            ) : (
-              <span aria-hidden="true" className="flex flex-col gap-1.5">
-                <span className="block h-0.5 w-5 bg-current" />
-                <span className="block h-0.5 w-5 bg-current" />
-                <span className="block h-0.5 w-5 bg-current" />
-              </span>
-            )}
-            <span>{t("menu")}</span>
-          </button>
+          {!hidePublicHamburger ? (
+            <button
+              ref={toggleRef}
+              type="button"
+              className="relative z-[80] inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-300 px-3 font-semibold text-opseu-dark transition-colors duration-150 ease-out hover:bg-opseu-blue/5 xl:hidden"
+              aria-expanded={drawerOpen}
+              aria-controls={drawerId}
+              aria-label={drawerOpen ? t("closeMenu") : t("openMenu")}
+              data-testid="mobile-nav-toggle"
+              onClick={toggleDrawer}
+            >
+              {drawerOpen ? (
+                <span aria-hidden="true" className="text-xl leading-none">×</span>
+              ) : (
+                <span aria-hidden="true" className="flex flex-col gap-1.5">
+                  <span className="block h-0.5 w-5 bg-current" />
+                  <span className="block h-0.5 w-5 bg-current" />
+                  <span className="block h-0.5 w-5 bg-current" />
+                </span>
+              )}
+              <span>{t("menu")}</span>
+            </button>
+          ) : null}
         </div>
       </div>
 

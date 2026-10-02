@@ -54,15 +54,28 @@ export function PortalNav() {
     const el = barRef.current;
     if (!el) return;
     const update = () => {
-      setDrawerTop(Math.ceil(el.getBoundingClientRect().bottom));
+      const bottom = Math.ceil(el.getBoundingClientRect().bottom);
+      setDrawerTop(bottom);
+      document.documentElement.style.setProperty(
+        "--app-chrome-bottom",
+        `${bottom}px`,
+      );
     };
     const stopMeasure = observeStickyHeight(el, "--portal-nav-height", update);
+    const siteHeader = document.querySelector("header");
+    const headerObserver =
+      siteHeader && typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(update)
+        : null;
+    if (siteHeader) headerObserver?.observe(siteHeader);
     window.addEventListener("scroll", update, true);
     return () => {
       stopMeasure();
+      headerObserver?.disconnect();
       window.removeEventListener("scroll", update, true);
+      document.documentElement.style.removeProperty("--app-chrome-bottom");
     };
-  }, [drawerOpen]);
+  }, [drawerOpen, pathname]);
 
   useEffect(() => {
     let cancelled = false;
@@ -150,7 +163,7 @@ export function PortalNav() {
       <div
         className={cn(
           PAGE_SHELL.chrome,
-          "flex items-center justify-between gap-3 py-2 text-sm",
+          "flex flex-wrap items-center justify-between gap-x-3 gap-y-2 py-2 text-sm",
         )}
       >
         <div className="flex min-w-0 items-center gap-2">

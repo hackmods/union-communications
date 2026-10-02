@@ -1,3 +1,9 @@
+## 2026-10-02 — Unified mobile nav sheet (Hub/Portal)
+
+- Hide the public Header hamburger on `/app` and `/portal` so phones show one Tools/Portal toggle, not two Menu buttons.
+- Shared `MobileSheet` + `lockBodyScroll` (html/body overflow, no `position:fixed`) for public, Hub, and Portal drawers; Hub/Portal publish `--app-chrome-bottom` and include a Site section (Brand Kit / Create / Learn / Platform / Search).
+- What’s new `hub-mobile-one-menu` (audience hub); matrix e2e asserts a single hamburger + Site section at maximum Accessibility text.
+
 ## 2026-10-02 — Complete the visual product-presentation uplift
 
 - Completed the Home story with a live Brand Kit reuse relationship and separate, authentic synthetic Officer Hub and member Portal excerpts for EN/FR desktop and phone layouts. Captures include provenance, accessible text and a clear confidentiality boundary.
