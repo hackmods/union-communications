@@ -1,8 +1,8 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useSessionChrome } from "@/components/auth/useSessionChrome";
 import {
   isPlatformOperator,
   PLATFORM_OPERATOR_NAV,
@@ -24,11 +24,10 @@ export function PlatformOperatorNavDropdown({
   variant = "public",
   triggerClassName,
 }: PlatformOperatorNavDropdownProps) {
-  const { data: session, status } = useSession();
+  const { session, authenticated } = useSessionChrome();
   const pathname = usePathname();
   const t = useTranslations("hub.platformOperator");
 
-  const authenticated = status === "authenticated" && Boolean(session?.user);
   const roles = (session?.user?.roles ?? []) as UserRole[];
   if (!authenticated || !isPlatformOperator(roles)) return null;
 
@@ -48,6 +47,7 @@ export function PlatformOperatorNavDropdown({
       href={item.href}
       onClick={onNavigate}
       aria-current={linkActive ? "page" : undefined}
+      data-testid="platform-operator-nav-link"
       className={cn(
         linkClass,
         (active || linkActive) && "bg-opseu-blue/10 font-semibold text-opseu-dark",
