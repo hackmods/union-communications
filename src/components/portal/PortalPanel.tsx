@@ -19,14 +19,14 @@ type PortalPanelProps = {
   actions?: ReactNode;
   children?: ReactNode;
   className?: string;
-  /** Skip header band; render only the gradient shell + body. */
+  /** Skip header band; render only the shared shell + body. */
   bare?: boolean;
   bodyClassName?: string;
 };
 
 /**
- * Shared Local Portal shell — matches Officer Hub Platform operator /
- * Officer tools panel language (soft brand gradient, eyebrow, lead).
+ * Shared Local Portal workspace boundary. Keep its chrome quiet so the
+ * member-facing task, record, or update inside remains the visual focus.
  */
 export function PortalPanel({
   eyebrow,
@@ -51,12 +51,12 @@ export function PortalPanel({
     <section
       aria-labelledby={titleId}
       className={cn(
-        "min-w-0 overflow-hidden rounded-xl border border-opseu-blue/20 bg-gradient-to-br from-opseu-blue/[0.07] via-white to-opseu-orange/[0.05] shadow-sm",
+        "min-w-0 overflow-hidden rounded-lg border border-slate-200 bg-white",
         className,
       )}
     >
       {hasHeader ? (
-        <div className="border-b border-opseu-blue/10 px-4 py-4 sm:px-5 sm:py-5">
+        <div className="border-b border-slate-200 px-4 py-4 sm:px-5 sm:py-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               {breadcrumb ? (

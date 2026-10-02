@@ -55,6 +55,7 @@ Complete Home, shared system, Platform presentation and the nine-surface validat
 ## Progress log
 
 - **Checkpoint 1, code complete; visual acceptance pending:** task-first Home hierarchy, brand-aware example selector, flat shared workspace panels, quieter catalog results, and consistent Platform sections are implemented. Typecheck and production build pass. Full unit suite: 3,239 passed, 2 skipped and 1 todo. ESLint is skipped by the TypeScript 7 compatibility guard.
+- **Shared-surface refinement, 2026-10-01:** flattened Local Portal's shared panel and loading shell and replaced the member station's lift/shadow hover with a color cue. This keeps the contained member work legible while reducing decorative movement. Source review only; rendered acceptance is still pending.
 - **Checkpoint 2, implementation in progress:** Home copy, direct canonical task links, local identity story, hosted audience boundaries, privacy distinction and hero preview choice are in the working tree. The current communications sample does not show steward or hosted interface states. Real Hub/Portal preview evidence and responsive visual acceptance remain open.
 - **Checkpoint 3, pending:** inspect and adopt the system across the nine representative routes in current runtime states.
 - **Checkpoint 4, pending:** browser review, full appropriate checks, final docs and migration boundary.

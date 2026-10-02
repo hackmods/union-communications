@@ -1,6 +1,6 @@
 # Remaining migration
 
-Status: implementation in progress; this file remains the scope boundary until representative validation is recorded.
+Status: implementation in progress; Home, Platform, public catalog and shared public/Portal surfaces have implementation checkpoints. This file remains the scope boundary until representative validation is recorded.
 
 ## Required in this pass
 
@@ -9,6 +9,8 @@ Status: implementation in progress; this file remains the scope boundary until r
 - Brand Kit's reusable identity advantage and substantial, accurate Hub/Portal distinction.
 - English/French responsive treatment, accessible controls and clear immediate-value CTAs.
 - Representative validation: Home, Create, Learn, Brand Kit, complex Builder, steward worksheet, Platform, Officer Hub and Local Portal.
+
+The Local Portal shared shell and loading state now use a flat white workspace boundary, and Circle station links use a non-lifting hover cue. This is a shared-pattern refinement only; permission rules, member-safe fields and route behavior are unchanged. Rendered desktop/phone confirmation is still required.
 
 ## Explicitly outside this visual pass
 

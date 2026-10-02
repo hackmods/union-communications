@@ -17,8 +17,8 @@ export function PortalPageLoading({
   return (
     <div role="status" aria-busy="true" className="space-y-6">
       <span className="sr-only">{t("loading")}</span>
-      <div className="overflow-hidden rounded-xl border border-opseu-blue/20 bg-gradient-to-br from-opseu-blue/[0.07] via-white to-opseu-orange/[0.05] shadow-sm">
-        <div className="space-y-3 border-b border-opseu-blue/10 px-4 py-4 sm:px-5 sm:py-5">
+      <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+        <div className="space-y-3 border-b border-slate-200 px-4 py-4 sm:px-5 sm:py-5">
           <Skeleton className="h-3 w-24" />
           <Skeleton className="h-8 w-48 max-w-full" />
           <Skeleton className="h-4 w-72 max-w-full" />

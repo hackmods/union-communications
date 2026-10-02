@@ -256,7 +256,7 @@ export function PortalStation() {
                 .join(" · ");
               return (
                 <li key={c.id} className="min-w-0">
-                  <div className="group relative flex h-full min-h-11 flex-col rounded-xl border border-slate-200/90 bg-white p-3.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-opseu-blue/40 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                  <div className="group relative flex h-full min-h-11 flex-col rounded-lg border border-slate-200 bg-white p-3.5 transition-colors duration-150 hover:border-opseu-blue/50 hover:bg-slate-50 motion-reduce:transition-none">
                     <div className="flex items-start justify-between gap-2">
                       <Link
                         href={`/portal/circles/${c.id}`}
