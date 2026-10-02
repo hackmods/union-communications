@@ -225,14 +225,14 @@ export function StartContent({ initialPath }: { initialPath?: string }) {
                     type="button"
                     onClick={() => choosePath(path.id as StartPathId)}
                     aria-pressed={selectedPath === path.id}
-                    className="mt-2 inline-flex min-h-10 items-center rounded-md px-2 text-sm font-semibold text-opseu-blue underline underline-offset-2 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+                    className="mt-2 inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-semibold text-opseu-blue underline underline-offset-2 transition-colors hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
                   >
                     {selectedPath === path.id ? t("journeyStepsTitle") : t("viewPathSteps")}
                   </button>
                   {path.id === "officer" && hubAvailable ? (
                     <Link
                       href="/app"
-                      className="mt-3 inline-flex min-h-10 items-center font-semibold text-opseu-blue underline underline-offset-2 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+                      className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-blue underline underline-offset-2 transition-colors hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
                     >
                       {t("startPaths.hubCta")}
                     </Link>
@@ -260,7 +260,7 @@ export function StartContent({ initialPath }: { initialPath?: string }) {
               <button
                 type="button"
                 onClick={clearProgress}
-                className="inline-flex min-h-10 w-fit items-center rounded-md px-2 text-sm font-semibold text-opseu-blue underline underline-offset-2 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+                className="inline-flex min-h-11 w-fit items-center rounded-lg px-2 text-sm font-semibold text-opseu-blue underline underline-offset-2 transition-colors hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
               >
                 {t("journeyClearProgress")}
               </button>

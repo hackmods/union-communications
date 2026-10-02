@@ -1,3 +1,7 @@
+## 2026-10-02 — Public marketing visual uplift flush-out
+
+Home destination accessible names include title+CTA; Brand Kit status waits for hydration; platform/guided CTAs full-width on phone; Callout radius aligned to cards; Start path step control touch target parity.
+
 ## 2026-10-02 — Public marketing visual uplift (CSS polish)
 
 Restrained Home + catalog + shared-primitive polish: refined `PUBLIC_*` type step-down + hero clamp, elevated destination/catalog tiles with whole-card hit targets, soft platform-band wash, Button/ButtonLink active scale + min-height parity, Header touch targets. CSS/Tailwind only (no Framer Motion / glass). Structure and branding preserved.
