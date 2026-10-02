@@ -9,7 +9,7 @@ Captured 2026-10-02 from this application's local synthetic seed, using real aut
 
 Desktop excerpts use a 900px viewport; phone excerpts use 480px. The screenshot crops only the named section. Only the Next development indicator is hidden during capture; product content, values, permissions and styles are not substituted. French interface labels are localized; saved synthetic Circle names and descriptions retain their seed language, as user-authored content would.
 
-`HostedProductPreview` supplies bilingual alternative text, an explicit synthetic-example caption and a full-size image link. Its picture source selects the phone composition below 640px. No authenticated application/store dependency is mounted on Home.
+`HostedProductPreview` supplies bilingual alternative text, an explicit synthetic-example caption and a full-size image link that opens the composition matching the current viewport (phone below 640px, desktop otherwise) in a new tab. Its picture source selects the phone composition below 640px. No authenticated application/store dependency is mounted on Home.
 
 Regenerate explicitly with the repo's Playwright configuration and a **local synthetic demo server**:
 

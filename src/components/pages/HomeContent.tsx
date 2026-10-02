@@ -215,7 +215,12 @@ export function HomeContent() {
               <p className="mt-2 max-w-prose text-sm leading-relaxed text-slate-700">{t("hubBody")}</p>
               <p className="mt-3 max-w-prose text-sm font-medium leading-relaxed text-slate-700">{t("hubBoundary")}</p>
               <HostedProductPreview audience="hub" />
-              <Link href="/platform" className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-dark underline decoration-opseu-blue underline-offset-4">{t("platformDetailLink")} →</Link>
+              <Link
+                href="/platform#platform-hub-heading"
+                className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-dark underline decoration-opseu-blue underline-offset-4 hover:text-opseu-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+              >
+                {t("platformDetailLink")} <span className="ml-2" aria-hidden="true">→</span>
+              </Link>
             </article>
             <article className="min-w-0 border-t-2 border-slate-400 pt-4">
               <p className="text-xs font-bold uppercase tracking-wide text-slate-600">{t("memberAudience")}</p>
@@ -223,7 +228,12 @@ export function HomeContent() {
               <p className="mt-2 max-w-prose text-sm leading-relaxed text-slate-700">{t("portalBody")}</p>
               <p className="mt-3 max-w-prose text-sm font-medium leading-relaxed text-slate-700">{t("portalBoundary")}</p>
               <HostedProductPreview audience="portal" />
-              <Link href="/platform" className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-dark underline decoration-opseu-blue underline-offset-4">{t("platformDetailLink")} →</Link>
+              <Link
+                href="/platform#platform-portal-heading"
+                className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-dark underline decoration-opseu-blue underline-offset-4 hover:text-opseu-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+              >
+                {t("platformDetailLink")} <span className="ml-2" aria-hidden="true">→</span>
+              </Link>
             </article>
           </div>
         </section>

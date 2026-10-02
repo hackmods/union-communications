@@ -98,8 +98,19 @@ test.describe("task-first public discovery @smoke", () => {
       .toHaveAttribute("href", "/en/utilities/complaint-vs-grievance/");
     await expect(page.getByTestId("home-work-learning").getByRole("link", { name: "Explore Officer Learning" }))
       .toHaveAttribute("href", "/en/learn/");
+    const brandReuse = page.getByTestId("home-brand-reuse");
+    await expect(brandReuse.getByRole("link", { name: "Make a graphic" }))
+      .toHaveAttribute("href", "/en/create/graphic-maker/");
+    await expect(brandReuse.getByRole("link", { name: "Write a letter" }))
+      .toHaveAttribute("href", "/en/create/letter-generator/");
+    await expect(brandReuse.getByRole("link", { name: "Build a local website" }))
+      .toHaveAttribute("href", "/en/create/website-template/");
+    await expect(page.getByTestId("home-hub-capture").getByRole("link", { name: "View full-size example" }))
+      .toHaveAttribute("target", "_blank");
     await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).first())
-      .toHaveAttribute("href", "/en/platform/");
+      .toHaveAttribute("href", "/en/platform/#platform-hub-heading");
+    await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).nth(1))
+      .toHaveAttribute("href", "/en/platform/#platform-portal-heading");
     await page.getByRole("link", { name: "Open guided setup" }).first().click();
     await expect(page).toHaveURL(/\/en\/start\//);
     await expect(page.getByTestId("start-path-comms")).toBeVisible();
