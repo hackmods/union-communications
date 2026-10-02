@@ -1,3 +1,7 @@
+## 2026-10-02 — Compact Accessibility header control
+
+- Header Accessibility is a compact `Aa` control (full name on aria-label/title) beside Language, before Menu — less chrome width at large text sizes while keeping one-tap display settings.
+
 ## 2026-10-02 — Unified mobile nav sheet (Hub/Portal)
 
 - Hide the public Header hamburger on `/app` and `/portal` so phones show one Tools/Portal toggle, not two Menu buttons.

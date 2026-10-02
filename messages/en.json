@@ -8441,6 +8441,10 @@
         "title": "Brand lookbook",
         "body": "Open the lookbook from Brand Kit to see Officer Hub buttons, forms, and chrome painted with your colours before you print or export."
       },
+      "accessibility-compact-header": {
+        "title": "Accessibility fits beside language",
+        "body": "Text size, contrast, and motion open from a compact Aa control next to Language in the header. One tap still reaches display settings without crowding Brand Kit, Create, or Menu."
+      },
       "hub-primary-nav-core-links": {
         "title": "Create, Worksheets, and Learn stay in the header",
         "body": "Officer Hub and Brand Kit no longer hide Create, Worksheets, Learn, or Platform from the top menu. Those core links stay next to Officer Hub wherever you work."
@@ -8572,6 +8576,7 @@
       "title": "Display settings",
       "intro": "Customize how the site looks and moves. Your choices are saved on this device.",
       "menuLabel": "Accessibility",
+      "menuShort": "Aa",
       "fontSizeLabel": "Text size",
       "fontSizeDescription": "Choose a comfortable reading size. All text scales proportionally.",
       "fontSize": {

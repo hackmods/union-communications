@@ -130,14 +130,16 @@ export function DisplaySettingsMenu() {
         aria-expanded={open}
         aria-haspopup="true"
         aria-controls={menuId}
+        aria-label={t("menuLabel")}
+        title={t("menuLabel")}
         data-testid="display-settings-toggle"
         className={cn(
-          "inline-flex min-h-11 max-w-[11rem] items-center truncate rounded-lg border border-gray-200 px-3 py-1.5 text-base font-medium transition-colors sm:max-w-none",
+          "inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gray-200 px-2 text-sm font-semibold tracking-tight text-opseu-dark transition-colors",
           "hover:bg-opseu-blue/10",
-          open && "bg-opseu-blue/10 text-opseu-dark",
+          open && "bg-opseu-blue/10",
         )}
       >
-        {t("menuLabel")}
+        <span aria-hidden="true">{t("menuShort")}</span>
       </button>
 
       {open && coords && typeof document !== "undefined"
