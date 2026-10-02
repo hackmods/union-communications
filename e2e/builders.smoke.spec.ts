@@ -72,7 +72,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(stewardPreview.getByRole("link", { name: "Open accommodation worksheet" }))
       .toHaveAttribute("href", /\/utilities\/rtw-accommodation\/$/);
     await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).first())
-      .toHaveAttribute("href", /\/platform\/$/);
+      .toHaveAttribute("href", /\/platform\/(?:#.*)?$/);
     await expect(page.getByRole("link", { name: "Open guided setup" }).first())
       .toHaveAttribute("href", /\/start\/$/);
     await expect(page.getByText(/most public drafts stay on your device/i).first()).toBeVisible();
