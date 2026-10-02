@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useSessionChrome } from "@/components/auth/useSessionChrome";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { canAccessPortal } from "@/lib/portal/access";
 import { getTenantContext } from "@/lib/tenant/loader";
@@ -29,13 +30,11 @@ export function AuthAccountControls({
   onNavigate,
   className,
 }: AuthAccountControlsProps) {
-  const { data: session, status } = useSession();
+  const { session, authenticated, coldLoading } = useSessionChrome();
   const t = useTranslations("hub");
   const pathname = usePathname();
   const [avatarFailed, setAvatarFailed] = useState(false);
 
-  const loading = status === "loading";
-  const authenticated = status === "authenticated" && Boolean(session?.user);
   const showHub = authenticated || isOfficerHubPublic();
   const roles = (session?.user?.roles ?? []) as UserRole[];
   const tenant = session?.user?.unionId
@@ -52,11 +51,12 @@ export function AuthAccountControls({
   const hubCurrent = pathname.startsWith("/app");
   const profileActive = pathname.startsWith("/app/profile");
 
-  // While session resolves, keep reserved account chrome so hard navigations
-  // do not look logged-out. Only omit the cluster when we know the user is out
-  // and Hub/Portal links are not shown here.
+  // While session resolves on cold start, keep reserved account chrome so hard
+  // navigations do not look logged-out. JWT refresh keeps session.user — do
+  // not blank Profile/Sign out. Only omit the cluster when we know the user
+  // is out and Hub/Portal links are not shown here.
   if (
-    !loading &&
+    !coldLoading &&
     (!showHub || !showHubLink) &&
     !showPortal &&
     !authenticated
@@ -109,7 +109,7 @@ export function AuthAccountControls({
   ) : null;
 
   const accountSkeleton =
-    loading && !authenticated ? (
+    coldLoading ? (
       <div
         className={cn(
           layout === "inline"
