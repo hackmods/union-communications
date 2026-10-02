@@ -235,10 +235,19 @@ test.describe("task-first public discovery @smoke", () => {
   test("Brand Kit stays a direct destination at desktop and tablet widths @mobile", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/en/");
-    const desktopNav = page.locator("header").getByRole("navigation", { name: "Site navigation" });
-    await expect(desktopNav.getByRole("link", { name: "Brand Kit", exact: true })).toBeVisible();
+    const englishNav = page.locator("header").getByRole("navigation", { name: "Site navigation" });
+    await expect(englishNav.getByRole("link", { name: "Brand Kit", exact: true })).toBeVisible();
+    await page.goto("/fr/");
+    await assertNoHorizontalOverflow(page);
+    const desktopNav = page.locator("header").getByRole("navigation", { name: "Navigation du site" });
+    await expect(desktopNav.getByRole("link", { name: "Trousse de marque", exact: true })).toBeVisible();
+    const navRows = await desktopNav.getByRole("link").evaluateAll((links) =>
+      links.map((link) => Math.round(link.getBoundingClientRect().top)),
+    );
+    expect(new Set(navRows).size).toBe(1);
 
     await page.setViewportSize({ width: 1024, height: 900 });
+    await page.goto("/en/");
     await expect(page.getByTestId("mobile-nav-toggle")).toContainText("Menu");
     await page.getByTestId("mobile-nav-toggle").click();
     const drawer = page.getByTestId("mobile-nav-drawer");

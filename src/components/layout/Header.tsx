@@ -42,7 +42,7 @@ export function Header() {
   const isActive = (base: string) => pathname === base || pathname.startsWith(`${base}/`);
   const linkClass = (active: boolean) =>
     cn(
-      "inline-flex min-h-10 items-center rounded-md px-2.5 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-opseu-blue/5 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+      "inline-flex min-h-10 items-center whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-opseu-blue/5 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40 xl:px-1.5",
       active && "bg-opseu-blue/10 font-semibold text-opseu-dark",
     );
   const renderPrimaryLink = (item: (typeof PUBLIC_PRIMARY_NAV)[number]) => {
@@ -109,7 +109,7 @@ export function Header() {
           <span className="truncate">{th("platformName")}</span>
         </Link>
 
-        <nav className="hidden flex-wrap items-center gap-1 xl:flex" aria-label={t("mainNav")}>
+        <nav className="hidden flex-nowrap items-center gap-0.5 xl:flex" aria-label={t("mainNav")}>
           {shellContext === "public"
             ? PUBLIC_PRIMARY_NAV.map(renderPrimaryLink)
             : primaryNav.map(renderPrimaryLink)}

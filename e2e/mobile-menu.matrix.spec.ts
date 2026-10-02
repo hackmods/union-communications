@@ -4,7 +4,7 @@ import { assertNoHorizontalOverflow } from "./helpers/layout";
 
 /**
  * Mobile menu layout-state matrix from the 2026-09-25 mobile nav audit
- * (prompt 13). Public hamburger is below 1280px; hub hamburger below 1536px.
+ * (prompt 13). Public hamburger is below 1280px; Hub hamburger below 1536px.
  * Large-text cases cover Accessibility one-tap access (2026-09-26).
  */
 const PUBLIC_WIDTHS = [360, 390, 768] as const;
