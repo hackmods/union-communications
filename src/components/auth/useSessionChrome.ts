@@ -13,6 +13,8 @@ export function useSessionChrome() {
   const { data: session, status, update } = useSession();
   const authenticated =
     Boolean(session?.user) && status !== "unauthenticated";
-  const coldLoading = status === "loading" && !session?.user;
+  // Auth.js types `loading` without `user`; use session presence so JWT
+  // refresh (status loading, prior session kept) is not treated as cold start.
+  const coldLoading = status === "loading" && !session;
   return { session, status, update, authenticated, coldLoading };
 }

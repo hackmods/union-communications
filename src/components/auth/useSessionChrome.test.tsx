@@ -50,7 +50,7 @@ describe("useSessionChrome", () => {
     expect(probe).toHaveAttribute("data-cold-loading", "false");
   });
 
-  it("treats loading without user as cold start", () => {
+  it("treats loading without a session as cold start", () => {
     sessionState.status = "loading";
     sessionState.data = null;
 
