@@ -6,11 +6,11 @@ Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 
 - Home now leads with a task-oriented message, an immediate anchor into useful work, and a separate platform path. Brand Kit is an optional reusable advantage instead of a prerequisite CTA.
 - Home presents six direct tasks with canonical links to graphic creation, website templates, grievance preparation, return-to-work accommodation, meeting rules, and Officer Learning.
-- The existing notice/graphic/flyer preview is stable and visitor-selected. Setup-colour treatment still reads from local Brand Kit state. Page-entry motion was removed.
+- The notice/graphic/flyer preview is stable and visitor-selected, with local Brand Kit colours applied. Copy identifies it as a sample preview rather than a rendered application output. Page-entry motion was removed.
 - A ruled two-audience platform section explains private Officer Hub work and member Portal participation. Trust copy distinguishes on-device drafts from role/module-controlled hosted spaces and links Privacy/Security.
 - Platform now uses the same two-audience editorial hierarchy. Its copy separates hosted Hub access from public Brand Kit identity according to the brand bridge contract.
 - Create/Learn result entries use open ruled groups; search/filter behavior is retained. Shared `PublicHubPanel` surfaces use flat white and a quieter border for Brand Kit and other workspace consumers.
-- Local Portal's shared panel and loading shell now use a quiet white operational surface; member station links keep their hit area and use a restrained color-only hover state.
+- Local Portal's shared panel and loading shell now use a quiet white operational surface; station, dispatch and fronts entries keep their hit areas and use restrained color-only hover states.
 - EN/FR Home and Platform copy, responsive/focus assertions, and the affected smoke expectations were updated. No API, authorization, persistence, tenancy or export-renderer change was made.
 
 ## Verification so far
@@ -19,6 +19,7 @@ Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 - Full `npm run test:unit`: 3,239 passed, 2 skipped and 1 todo across 538 files. The focused Home/copy/nav/accessibility group separately passed 53 tests.
 - `npm run lint`: exits successfully but skips ESLint because the configured typescript-eslint does not support TypeScript 7. It is not an ESLint pass.
 - `git diff --check`: passed after the Portal operational-surface refinement.
+- After clarifying the preview sample label in both locales: TypeScript and the 4 focused copy/metadata/readability test files passed (46 tests).
 - `npm run build`: passed on this visual diff, including type generation and route output. Next also prints existing auth-default and dynamic snippet-filesystem tracing warnings.
 - `npm run typecheck`: passed on the final canonical-link implementation.
 - Updated Home EN/FR smoke assertions are in `e2e/builders.smoke.spec.ts` and `e2e/public-discovery.smoke.spec.ts`; browser smoke was not run because the local URL is blocked by the browser tool policy.

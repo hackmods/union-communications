@@ -10,7 +10,7 @@ Status: implementation in progress; Home, Platform, public catalog and shared pu
 - English/French responsive treatment, accessible controls and clear immediate-value CTAs.
 - Representative validation: Home, Create, Learn, Brand Kit, complex Builder, steward worksheet, Platform, Officer Hub and Local Portal.
 
-The Local Portal shared shell and loading state now use a flat white workspace boundary, and Circle station links use a non-lifting hover cue. This is a shared-pattern refinement only; permission rules, member-safe fields and route behavior are unchanged. Rendered desktop/phone confirmation is still required.
+The Local Portal shared shell and loading state now use a flat white workspace boundary. Station, Dispatch and Fronts entries use color-only hover cues. This is a shared-pattern refinement only; permission rules, member-safe fields and route behavior are unchanged. The Home preview is accurately labelled as a sample and applies only the visitor's browser-local Brand Kit colors. Rendered desktop/phone confirmation is still required.
 
 ## Explicitly outside this visual pass
 

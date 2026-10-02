@@ -99,7 +99,7 @@ export function PortalFronts() {
             const width = Math.max(8, ((end - start) / span) * 100);
             return (
               <li key={c.id}>
-                <div className="group rounded-xl border border-slate-200/90 bg-white p-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-opseu-blue/40 hover:shadow-md motion-reduce:hover:translate-y-0">
+                <div className="group rounded-lg border border-slate-200 bg-white p-3.5 transition-colors duration-150 hover:border-opseu-blue/50 hover:bg-slate-50 motion-reduce:transition-none">
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
                     <Link
                       href={`/portal/circles/${c.id}`}
@@ -107,7 +107,7 @@ export function PortalFronts() {
                     >
                       {c.name}
                       <span
-                        className="text-sm font-medium text-opseu-blue transition-transform group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0"
+                        className="text-sm font-medium text-opseu-blue"
                         aria-hidden
                       >
                         →
