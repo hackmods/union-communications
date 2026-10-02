@@ -96,12 +96,14 @@ export function Header() {
           href="/"
           className="flex min-w-0 items-center gap-2 font-bold text-opseu-blue"
           onClick={drawerOpen ? closeDrawerAfterNav : undefined}
+          aria-label={th("platformName")}
         >
           {hydrated ? (
             <BrandLogo
               size="sm"
               variantOverride={siteChromeLogoVariant}
               className="h-9 w-auto max-w-[10rem] shrink-0 object-contain sm:h-10"
+              alt=""
             />
           ) : (
             <span
@@ -109,7 +111,9 @@ export function Header() {
               className="inline-block h-9 w-9 shrink-0 rounded-[22%] bg-slate-100 sm:h-10 sm:w-10"
             />
           )}
-          <span className="truncate">{th("platformName")}</span>
+          <span className="truncate" aria-hidden>
+            {th("platformName")}
+          </span>
         </Link>
 
         <nav className="hidden flex-wrap items-center gap-1 xl:flex" aria-label={t("mainNav")}>

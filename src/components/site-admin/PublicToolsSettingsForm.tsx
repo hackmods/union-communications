@@ -4,32 +4,10 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
-import { GATEABLE_PUBLIC_TOOL_SLUGS } from "@/lib/public-tools/visibility";
-
-const NAV_KEY_BY_SLUG: Record<string, string> = {
-  "flyer-maker": "flyerMaker",
-  "graphic-maker": "graphicMaker",
-  "logo-builder": "logoBuilder",
-  "quote-card": "quoteCard",
-  resizer: "resizer",
-  "alt-text": "altText",
-  "board-notice": "boardNotice",
-  "board-banner": "boardBanner",
-  "solidarity-poster": "solidarityPoster",
-  "qr-board": "qrBoard",
-  "qr-card": "qrCard",
-  "action-card": "actionCard",
-  "meeting-background": "meetingBackground",
-  "website-template": "websiteTemplate",
-  "document-generator": "documentGenerator",
-  "org-chart": "orgChart",
-  "rtw-accommodation": "rtwAccommodation",
-  "pre-disciplinary-log": "preDisciplinaryLog",
-  "complaint-vs-grievance": "complaintVsGrievance",
-  "bylaw-builder": "bylawBuilder",
-  "proposal-tracker": "proposalTracker",
-  "rules-of-order": "rulesOfOrder",
-};
+import {
+  GATEABLE_PUBLIC_TOOL_SLUGS,
+  PUBLIC_TOOL_NAV_KEY_BY_SLUG,
+} from "@/lib/public-tools/visibility";
 
 type Scope = "platform" | "union" | "local";
 
@@ -212,8 +190,12 @@ export function PublicToolsSettingsForm() {
               >
                 <div>
                   <p className="font-medium text-opseu-dark">
-                    {NAV_KEY_BY_SLUG[slug]
-                      ? nav(NAV_KEY_BY_SLUG[slug] as Parameters<typeof nav>[0])
+                    {PUBLIC_TOOL_NAV_KEY_BY_SLUG[slug]
+                      ? nav(
+                          PUBLIC_TOOL_NAV_KEY_BY_SLUG[
+                            slug
+                          ] as Parameters<typeof nav>[0],
+                        )
                       : slug}
                   </p>
                   <p className="text-xs text-gray-500">/tools/{slug}</p>

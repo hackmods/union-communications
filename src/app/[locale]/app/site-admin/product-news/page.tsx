@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { redirectUnlessSiteAdmin, requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { ProductNewsAdminPanel } from "@/components/site-admin/ProductNewsAdminPanel";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +13,7 @@ export default async function ProductNewsAdminPage({ params }: { params: Promise
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) redirect(gate.status === 403 ? `/${locale}/app` : `/${locale}/app/login`);
+  redirectUnlessSiteAdmin(locale, gate, "/app/site-admin/product-news");
   const t = await getTranslations({ locale, namespace: "productNewsAdmin" });
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 lg:py-12">

@@ -182,7 +182,7 @@ export function BrandLogo({
       style={style}
       ink={ink ?? undefined}
       onDark={onDark && !backgroundColor}
-      title={alt || "UnionOps"}
+      title={alt === "" ? "" : alt || "UnionOps"}
     />
   );
 

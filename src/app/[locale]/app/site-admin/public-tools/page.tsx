@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
-import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { redirectUnlessSiteAdmin, requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { PublicToolsSettingsForm } from "@/components/site-admin/PublicToolsSettingsForm";
 import { Link } from "@/i18n/navigation";
 
@@ -19,10 +19,7 @@ export default async function SiteAdminPublicToolsPage({
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) {
-    if (gate.status === 403) redirect(`/${locale}/app`);
-    redirect(`/${locale}/app/login`);
-  }
+  redirectUnlessSiteAdmin(locale, gate, "/app/site-admin/public-tools");
 
   const t = await getTranslations("hub.platformOperator");
 

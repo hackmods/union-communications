@@ -1,11 +1,11 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { desc, eq, isNull } from "drizzle-orm";
+import { and, desc, eq, ilike, isNull, or } from "drizzle-orm";
 import { Link } from "@/i18n/navigation";
 import { getDb } from "@/lib/db/client";
 import { locals, users } from "@/lib/db/schema/tenant";
-import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { redirectUnlessSiteAdmin, requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
 import { formatRoleList } from "@/lib/auth/role-labels";
 import { isDemoPurgeEnabled } from "@/lib/features/demo-purge";
@@ -16,8 +16,10 @@ const PAGE_SIZE = 100;
 
 export default async function SiteAdminUsersPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ q?: string }>;
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -25,11 +27,10 @@ export default async function SiteAdminUsersPage({
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) {
-    if (gate.status === 403) redirect(`/${locale}/app`);
-    redirect(`/${locale}/app/login`);
-  }
+  redirectUnlessSiteAdmin(locale, gate, "/app/site-admin/users");
   const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
+  const { q: rawQ } = await searchParams;
+  const q = (rawQ ?? "").trim();
   const tRoles = await getTranslations({ locale, namespace: "hub.roleLabels" });
   const demoPurgeOn = isDemoPurgeEnabled();
 
@@ -48,6 +49,10 @@ export default async function SiteAdminUsersPage({
 
   try {
     const db = getDb();
+    const searchClause = q
+      ? or(ilike(users.email, `%${q.slice(0, 80)}%`), ilike(users.name, `%${q.slice(0, 80)}%`))
+      : undefined;
+
     const fetched = await db
       .select({
         id: users.id,
@@ -61,7 +66,11 @@ export default async function SiteAdminUsersPage({
         createdAt: users.createdAt,
       })
       .from(users)
-      .where(isNull(users.archivedAt))
+      .where(
+        searchClause
+          ? and(isNull(users.archivedAt), searchClause)
+          : isNull(users.archivedAt),
+      )
       .orderBy(desc(users.createdAt))
       .limit(PAGE_SIZE);
 
@@ -143,6 +152,28 @@ export default async function SiteAdminUsersPage({
           </p>
         ) : null}
       </header>
+
+      <form method="GET" className="mb-4 flex flex-wrap items-center gap-2">
+        <input
+          type="search"
+          name="q"
+          defaultValue={q}
+          placeholder={t("usersSearchPlaceholder")}
+          className="min-w-[12rem] flex-1 rounded-md border border-opseu-gray/30 bg-white px-3 py-2 text-sm shadow-sm focus:border-opseu-blue focus:outline-none focus:ring-2 focus:ring-opseu-blue/30"
+        />
+        <button
+          type="submit"
+          className="rounded-md bg-opseu-blue px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-opseu-blue/90 focus:outline-none focus:ring-2 focus:ring-opseu-blue/50"
+        >
+          {t("usersSearch")}
+        </button>
+      </form>
+
+      {q && rows.length === 0 ? (
+        <p className="mb-4 text-sm text-opseu-gray-dark">
+          {t("usersSearchNoMatches", { q })}
+        </p>
+      ) : null}
 
       <div className="overflow-x-auto rounded-md border border-opseu-gray/15 bg-white">
         <table className="min-w-full divide-y divide-opseu-gray/15 text-sm">

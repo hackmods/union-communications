@@ -41,8 +41,7 @@ export async function generateMetadata({
 
   return {
     title: {
-      default: title,
-      template: `%s | UnionOps`,
+      absolute: title,
     },
     description,
   };

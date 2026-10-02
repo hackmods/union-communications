@@ -3,7 +3,9 @@ import {
   resolvePublicToolEnabled,
   slugFromToolHref,
   GATEABLE_PUBLIC_TOOL_SLUGS,
+  PUBLIC_TOOL_NAV_KEY_BY_SLUG,
 } from "./visibility";
+import en from "../../../messages/en.json";
 
 describe("resolvePublicToolEnabled", () => {
   it("defaults to enabled", () => {
@@ -42,6 +44,18 @@ describe("resolvePublicToolEnabled", () => {
     expect(GATEABLE_PUBLIC_TOOL_SLUGS).toContain("bylaw-builder");
     expect(GATEABLE_PUBLIC_TOOL_SLUGS).toContain("proposal-tracker");
     expect(GATEABLE_PUBLIC_TOOL_SLUGS).not.toContain("pulse-poll");
+  });
+
+  it("maps every gateable slug to an existing nav label key", () => {
+    const nav = en.nav as Record<string, unknown>;
+    for (const slug of GATEABLE_PUBLIC_TOOL_SLUGS) {
+      const key = PUBLIC_TOOL_NAV_KEY_BY_SLUG[slug];
+      expect(key, `missing NAV map for ${slug}`).toBeTruthy();
+      expect(
+        typeof nav[key!] === "string" && (nav[key!] as string).length > 0,
+        `nav.${key} missing for ${slug}`,
+      ).toBe(true);
+    }
   });
 });
 

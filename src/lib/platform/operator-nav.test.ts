@@ -2,18 +2,23 @@ import { describe, expect, it } from "vitest";
 import {
   isPlatformOperator,
   platformOperatorNavActive,
+  PLATFORM_OPERATOR_DASHBOARD_SHORTCUTS,
   PLATFORM_OPERATOR_NAV,
 } from "./operator-nav";
 
 describe("platform operator nav", () => {
-  it("lists stable operator destinations", () => {
+  it("lists a single chrome link to site admin", () => {
     expect(PLATFORM_OPERATOR_NAV.map((item) => item.href)).toEqual([
       "/app/site-admin",
-      "/app/invites",
-      "/app/onboarding",
-      "/app/feedback",
-      "/app/audit",
     ]);
+    expect(PLATFORM_OPERATOR_DASHBOARD_SHORTCUTS.map((item) => item.href)).toEqual(
+      [
+        "/app/invites",
+        "/app/onboarding",
+        "/app/feedback",
+        "/app/audit",
+      ],
+    );
   });
 
   it("gates on platform_admin only", () => {
@@ -23,6 +28,7 @@ describe("platform operator nav", () => {
   });
 
   it("detects active operator routes", () => {
+    expect(platformOperatorNavActive("/app/site-admin/host")).toBe(true);
     expect(platformOperatorNavActive("/app/invites")).toBe(true);
     expect(platformOperatorNavActive("/app/feedback")).toBe(true);
     expect(platformOperatorNavActive("/app/grievances")).toBe(false);

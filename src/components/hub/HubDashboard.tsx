@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -26,13 +27,18 @@ import { hubMfaChallengeHref } from "@/lib/auth/mfa-return-path";
 import type { HubModule, UserRole } from "@/types/tenant";
 
 export function HubDashboard() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const t = useTranslations("hub");
   const tHome = useTranslations("hub.dashboardHome");
   const tRoles = useTranslations("hub.roleLabels");
   const pathname = usePathname();
   const mfaOk = useSessionMfaOk();
   const liveTenant = useLiveTenant();
+
+  // Re-run JWT tenancy/role refresh so Hub labels match Postgres after role changes.
+  useEffect(() => {
+    void update();
+  }, [update]);
 
   if (!session?.user) {
     return <p role="status" className="text-gray-700">{t("sessionLoading")}</p>;

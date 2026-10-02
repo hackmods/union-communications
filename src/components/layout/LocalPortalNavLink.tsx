@@ -18,6 +18,28 @@ export function LocalPortalNavLink({
   const t = useTranslations("hub");
   const pathname = usePathname();
 
+  const className =
+    layout === "desktop"
+      ? "inline-flex min-h-10 items-center rounded-md px-2.5 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-opseu-blue/5 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+      : "flex min-h-12 items-center rounded-lg px-3 py-2 font-medium text-slate-700 hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50";
+
+  // Reserve space while session resolves so hard navigations do not flash
+  // a logged-out nav (audit: auth chrome inconsistent across page loads).
+  if (status === "loading") {
+    return (
+      <span
+        aria-hidden
+        className={cn(
+          className,
+          "pointer-events-none animate-pulse bg-slate-100 text-transparent",
+        )}
+        data-testid="local-portal-nav-loading"
+      >
+        {t("portalLink")}
+      </span>
+    );
+  }
+
   if (status !== "authenticated" || !session?.user) return null;
 
   const roles = (session.user.roles ?? []) as UserRole[];
@@ -26,10 +48,6 @@ export function LocalPortalNavLink({
   if (!canAccessPortal(roles)) return null;
 
   const active = pathname.startsWith("/portal");
-  const className =
-    layout === "desktop"
-      ? "inline-flex min-h-10 items-center rounded-md px-2.5 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-opseu-blue/5 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
-      : "flex min-h-12 items-center rounded-lg px-3 py-2 font-medium text-slate-700 hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50";
 
   return (
     <Link

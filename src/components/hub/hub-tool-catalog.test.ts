@@ -3,6 +3,7 @@ import {
   HUB_TOOL_CATALOG,
   hubToolCatalogHrefs,
   hubToolGroupHrefs,
+  listHubToolLinks,
   listVisibleHubTools,
   resolveHubToolAccess,
 } from "./hub-tool-catalog";
@@ -138,6 +139,25 @@ describe("resolveHubToolAccess", () => {
     const hrefs = listVisibleHubTools(access).map((item) => item.href);
     expect(hrefs).not.toContain("/app/expenses");
     expect(hrefs).not.toContain("/app/travel");
+  });
+
+  it("hides platform admin duplicates from Officer tools", () => {
+    const access = resolveHubToolAccess(
+      ["platform_admin", "local_president"] as UserRole[],
+      ALL_MODULES,
+      scoped,
+    );
+    const hrefs = listVisibleHubTools(access).map((item) => item.href);
+    expect(hrefs).toContain("/app/audit");
+    const menu = listHubToolLinks(access, (key) => key, [
+      "platform_admin",
+      "local_president",
+    ]);
+    expect(menu.map((l) => l.href)).not.toContain("/app/audit");
+    expect(menu.map((l) => l.href)).not.toContain("/app/feedback");
+    expect(menu.map((l) => l.href)).not.toContain("/app/invites");
+    expect(menu.map((l) => l.href)).not.toContain("/app/onboarding");
+    expect(menu.map((l) => l.href)).not.toContain("/app/configuration");
   });
 
   it("hides local-scoped tools when the session has no union or local", () => {

@@ -31,47 +31,29 @@ export function PlatformOperatorAccountLinks({
   const roles = (session?.user?.roles ?? []) as UserRole[];
   if (!authenticated || !isPlatformOperator(roles)) return null;
 
+  const item = PLATFORM_OPERATOR_NAV[0];
+  if (!item) return null;
+
+  const active = platformOperatorLinkActive(pathname, item.href);
   const itemClass = cn(
     layout === "inline"
       ? "block rounded-md px-2 py-1 text-sm text-opseu-dark transition-colors hover:bg-opseu-blue/5"
       : "flex min-h-11 items-center rounded-md px-3 py-2 text-sm text-opseu-dark hover:bg-opseu-blue/5",
     linkClassName,
+    active && "bg-opseu-blue/10 font-semibold",
   );
 
   return (
     <div
       className={cn(
         layout === "inline"
-          ? "flex flex-col gap-0.5 border-l border-gray-200 pl-2"
-          : "mt-1 space-y-0.5 border-l-2 border-opseu-blue/20 pl-3",
+          ? "border-l border-gray-200 pl-2"
+          : "mt-1 border-l-2 border-opseu-blue/20 pl-3",
       )}
-      aria-label={t("menu")}
     >
-      <p
-        className={cn(
-          "font-medium text-gray-500",
-          layout === "inline" ? "px-2 text-xs" : "px-3 text-xs uppercase tracking-wide",
-        )}
-      >
+      <Link href={item.href} onClick={onNavigate} className={itemClass}>
         {t("menu")}
-      </p>
-      {PLATFORM_OPERATOR_NAV.map((item) => {
-        const active = platformOperatorLinkActive(pathname, item.href);
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={onNavigate}
-            aria-current={active ? "page" : undefined}
-            className={cn(
-              itemClass,
-              active && "bg-opseu-blue/10 font-semibold",
-            )}
-          >
-            {t(item.labelKey)}
-          </Link>
-        );
-      })}
+      </Link>
     </div>
   );
 }

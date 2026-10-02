@@ -41,6 +41,8 @@ type HubNavDrawerProps = {
   toolGroups: HubToolGroup[];
   toolsActive: boolean;
   accountLinks: HubDrawerAccountLink[];
+  mfaEnabled?: boolean;
+  mfaOk?: boolean;
   onClose: () => void;
   onCloseAfterNav: () => void;
   drawerId: string;
@@ -55,6 +57,8 @@ export function HubNavDrawer({
   toolGroups,
   toolsActive,
   accountLinks,
+  mfaEnabled = false,
+  mfaOk = false,
   onClose,
   onCloseAfterNav,
   drawerId,
@@ -220,6 +224,23 @@ export function HubNavDrawer({
           ) : null}
 
           <div className="mt-4 border-t border-gray-200 pt-3">
+            {mfaEnabled ? (
+              <Link
+                href="/app/mfa"
+                onClick={onCloseAfterNav}
+                aria-current={
+                  pathname.startsWith("/app/mfa") ? "page" : undefined
+                }
+                className={cn(
+                  "mb-2 inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium",
+                  mfaOk
+                    ? "border-emerald-200 bg-emerald-50 text-emerald-900"
+                    : "border-amber-200 bg-amber-50 text-amber-950",
+                )}
+              >
+                {mfaOk ? t("mfaOk") : t("mfaRequired")}
+              </Link>
+            ) : null}
             {accountLinks.map((link) => {
               const active = hubModuleActive(pathname, link.href);
               return (
