@@ -6,12 +6,23 @@ import { cn } from "@/lib/utils";
 export function Select({
   className,
   label,
+  hint,
+  error,
   id,
   children,
+  "aria-describedby": ariaDescribedBy,
+  "aria-invalid": ariaInvalid,
   ...props
-}: React.SelectHTMLAttributes<HTMLSelectElement> & { label?: string }) {
+}: React.SelectHTMLAttributes<HTMLSelectElement> & {
+  label?: string;
+  hint?: React.ReactNode;
+  error?: React.ReactNode;
+}) {
   const generatedId = useId();
-  const selectId = id ?? props.name ?? (label ? generatedId : undefined);
+  const selectId = id ?? props.name ?? (label || hint || error ? generatedId : undefined);
+  const hintId = hint && selectId ? `${selectId}-hint` : undefined;
+  const errorId = error && selectId ? `${selectId}-error` : undefined;
+  const describedBy = [ariaDescribedBy, hintId, errorId].filter(Boolean).join(" ") || undefined;
   return (
     <div className="space-y-0.5">
       {label && (
@@ -22,6 +33,8 @@ export function Select({
       <select
         id={selectId}
         aria-label={!label ? props["aria-label"] : undefined}
+        aria-describedby={describedBy}
+        aria-invalid={error ? true : ariaInvalid}
         className={cn(
           "min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-base focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20 focus-visible:outline-none",
           className,
@@ -30,6 +43,8 @@ export function Select({
       >
         {children}
       </select>
+      {hint && hintId ? <p id={hintId} className="text-xs text-gray-600">{hint}</p> : null}
+      {error && errorId ? <p id={errorId} className="text-xs text-red-700">{error}</p> : null}
     </div>
   );
 }

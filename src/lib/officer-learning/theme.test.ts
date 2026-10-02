@@ -15,4 +15,10 @@ describe("officer learning theme", () => {
     expect(olTheme.sourcesSection).not.toContain("max-w-prose");
     expect(olTheme.sourcesIntro).toContain("max-w-3xl");
   });
+
+  it("keeps learning cards steady and gives the full card a visible keyboard focus", () => {
+    expect(olTheme.card).toContain("focus-visible:ring-2");
+    expect(olTheme.card).toContain("motion-reduce:transition-none");
+    expect(olTheme.card).not.toContain("hover:-translate-y");
+  });
 });

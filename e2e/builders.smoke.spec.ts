@@ -41,50 +41,56 @@ const TOOL_A11Y_PAGES = [
 ] as const;
 
 test.describe("Home hero & builders smoke @smoke", () => {
-  test("home shows a direct setup action, product preview, and ordered workflow", async ({ page }) => {
+  test("home shows concrete union work, an immediate tool path, and broader product value", async ({ page }) => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-brand")).toBeVisible();
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
     await expect(
       page
-        .getByRole("region", { name: /built for unions\. shaped by local feedback/i })
-        .getByRole("link", { name: "Set up Brand Kit" }),
+        .getByRole("region", { name: /create materials\. prepare workplace cases/i })
+        .getByRole("link", { name: "Explore the tools" }),
     ).toBeVisible();
     await expect(
       page
-        .getByRole("region", { name: /built for unions\. shaped by local feedback/i })
+        .getByRole("region", { name: /create materials\. prepare workplace cases/i })
         .getByRole("link", { name: "Explore Officer Hub & Local Portal" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Brand Kit powers everything on your device" }),
+      page.getByRole("heading", { name: "Set up your identity once. Reuse it across the toolkit." }),
     ).toBeVisible();
-    await expect(page.getByTestId("home-dest-create").getByRole("link", { name: "Create" }))
-      .toHaveAttribute("href", /\/create\/$/);
-    await expect(page.getByTestId("home-dest-utilities").getByRole("link", { name: "Worksheets" }))
-      .toHaveAttribute("href", /\/utilities\/$/);
-    await expect(page.getByTestId("home-dest-learn").getByRole("link", { name: "Learn" }))
+    await expect(page.getByTestId("home-work-graphics").getByRole("link", { name: "Open Graphic Maker" }))
+      .toHaveAttribute("href", /\/create\/graphic-maker\/$/);
+    await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Open grievance worksheet" }))
+      .toHaveAttribute("href", /\/utilities\/complaint-vs-grievance\/$/);
+    await expect(page.getByTestId("home-work-learning").getByRole("link", { name: "Explore Officer Learning" }))
       .toHaveAttribute("href", /\/learn\/$/);
-    await expect(page.getByTestId("home-platform").getByRole("link", { name: "Understand Officer Hub and Local Portal" }))
-      .toHaveAttribute("href", /\/platform\/$/);
+    await expect(page.getByTestId("home-learning-preview").getByRole("link", { name: "Contract Enforcement" }))
+      .toHaveAttribute("href", /\/learn\/officer\/contract-enforcement\/$/);
+    const stewardPreview = page.getByTestId("home-steward-preview");
+    await expect(stewardPreview.getByRole("heading", { name: "Return-to-work & accommodation intake" })).toBeVisible();
+    await expect(stewardPreview.getByText("What can or cannot the member safely do?")).toBeVisible();
+    await expect(stewardPreview.getByRole("link", { name: "Open accommodation worksheet" }))
+      .toHaveAttribute("href", /\/utilities\/rtw-accommodation\/$/);
+    await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).first())
+      .toHaveAttribute("href", /\/platform\/(?:#.*)?$/);
     await expect(page.getByRole("link", { name: "Open guided setup" }).first())
       .toHaveAttribute("href", /\/start\/$/);
-    await expect(page.getByText(/drafts stay in this browser/i).first()).toBeVisible();
+    await expect(page.getByText(/most public drafts stay on your device/i).first()).toBeVisible();
+    await page.getByRole("button", { name: "Print flyer" }).click();
+    await expect(page.getByTestId("home-hero-preview")).toHaveAttribute("data-variant", "flyerMaker");
   });
 
-  test("home has no horizontal overflow on a small laptop", async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width: 1366, height: 768 });
-    await page.goto("/en/");
-    await expect(page.getByTestId("home-hero-brand")).toBeVisible();
-    await expect(page.getByTestId("home-hero-preview")).toBeVisible();
-    // Raw scrollWidth vs clientWidth — do not subtract the scrollbar gutter,
-    // or 100vw leftovers look like a false positive (the Windows laptop bug).
-    const overflow = await page.evaluate(() => {
-      const root = document.scrollingElement ?? document.documentElement;
-      return root.scrollWidth - root.clientWidth;
-    });
-    expect(overflow).toBeLessThanOrEqual(1);
+  test("home reflows in EN/FR from phone to wide desktop", async ({ page }) => {
+    for (const locale of ["en", "fr"] as const) {
+      for (const width of [320, 375, 768, 1280, 1536]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(`/${locale}/`);
+        await expect(page.getByTestId("home-hero-brand")).toBeVisible();
+        await expect(page.getByTestId("home-hero-preview")).toBeVisible();
+        await assertNoHorizontalOverflow(page);
+        if (width === 320) await expectNoSeriousA11yViolations(page);
+      }
+    }
   });
 
   test("graphic maker renders with download", async ({ page }) => {

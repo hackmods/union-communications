@@ -1,12 +1,10 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import {
   HERO_PREVIEW_HREF,
-  pickHeroPreviewVariant,
   type HeroPreviewVariant,
 } from "@/lib/comms/home-hero-preview";
 import { softGradientEndColor } from "@/lib/utils/canvas-surface";
@@ -22,22 +20,8 @@ import { cn } from "@/lib/utils";
 
 type HomeHeroPreviewProps = {
   className?: string;
+  variant: HeroPreviewVariant;
 };
-
-let clientVariant: HeroPreviewVariant | null = null;
-
-function getClientVariant(): HeroPreviewVariant {
-  clientVariant ??= pickHeroPreviewVariant();
-  return clientVariant;
-}
-
-function useHeroPreviewVariant(): HeroPreviewVariant {
-  return useSyncExternalStore(
-    () => () => {},
-    getClientVariant,
-    () => "boardNotice",
-  );
-}
 
 type VariantBodyProps = {
   variant: HeroPreviewVariant;
@@ -50,11 +34,10 @@ type VariantBodyProps = {
 };
 
 /**
- * Secondary marketing zone for `/` — product truth (mini tool previews + brand
- * chips), not gradient-as-product. Colours follow live Brand Kit. One variant
- * per visit, picked client-side after mount to avoid SSR hydration mismatch.
+ * Secondary marketing zone for `/` — existing product previews with current
+ * local identity. The visitor chooses a real tool example explicitly.
  */
-export function HomeHeroPreview({ className }: HomeHeroPreviewProps) {
+export function HomeHeroPreview({ className, variant }: HomeHeroPreviewProps) {
   const t = useTranslations("home.heroPreview");
   const brandKit = useBrandStore((s) => s.brandKit);
   const primary = brandKit.primaryColor;
@@ -66,24 +49,15 @@ export function HomeHeroPreview({ className }: HomeHeroPreviewProps) {
   const inkSoft = inkWithAlpha(ink, isLightInk(ink) ? 0.84 : 0.78);
   const localLabel = resolveLocalNumber(brandKit.local.localNumber);
 
-  const variant = useHeroPreviewVariant();
-
   return (
     <aside
       data-testid="home-hero-preview"
       data-variant={variant}
-      className={cn("home-enter home-enter-delay-2 w-full min-w-0", className)}
+      className={cn("w-full min-w-0 [overflow-wrap:anywhere]", className)}
       aria-label={t(`${variant}.ariaLabel`)}
     >
-      <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-        <div
-          className="absolute -inset-3 rounded-3xl opacity-40 blur-2xl sm:-inset-4"
-          style={{
-            backgroundImage: `linear-gradient(135deg, ${accent}, ${fieldEnd})`,
-          }}
-          aria-hidden
-        />
-        <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-black/10">
+      <div className="mx-auto w-full max-w-md lg:max-w-none">
+        <div className="overflow-hidden rounded-lg border border-slate-300 bg-white">
           <HeroPreviewBody
             variant={variant}
             primary={primary}
@@ -106,7 +80,7 @@ export function HomeHeroPreview({ className }: HomeHeroPreviewProps) {
             <p className="min-w-0 flex-1 text-xs text-gray-600">{t("swatchHint")}</p>
             <Link
               href={HERO_PREVIEW_HREF[variant]}
-              className="shrink-0 text-sm font-semibold text-opseu-blue underline-offset-2 hover:underline"
+              className="max-w-full text-sm font-semibold text-opseu-blue underline-offset-2 hover:underline"
             >
               {t(`${variant}.openTool`)}
             </Link>
@@ -134,7 +108,7 @@ function HeroPreviewBody({
     return (
       <>
         <div
-          className="flex items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
+          className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
           style={{ backgroundColor: primary, color: headerInk }}
         >
           <span>{t("graphicMaker.eyebrow")}</span>
@@ -187,7 +161,7 @@ function HeroPreviewBody({
     return (
       <>
         <div
-          className="flex items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
+          className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
           style={{ backgroundColor: primary, color: headerInk }}
         >
           <span>{t("flyerMaker.eyebrow")}</span>
@@ -235,7 +209,7 @@ function HeroPreviewBody({
   return (
     <>
       <div
-        className="flex items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
+        className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
         style={{ backgroundColor: primary, color: headerInk }}
       >
         <span>{t("boardNotice.eyebrow")}</span>

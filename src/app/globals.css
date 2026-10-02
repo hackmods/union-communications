@@ -140,38 +140,6 @@ html[data-reduced-motion] *::after {
   }
 }
 
-/* Transform-only — opacity fades make axe/color-contrast fail mid-animation */
-@keyframes home-enter {
-  from {
-    transform: translateY(0.75rem);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-.home-enter {
-  animation: home-enter 0.45s ease-out both;
-}
-
-.home-enter-delay-1 {
-  animation-delay: 0.08s;
-}
-
-.home-enter-delay-2 {
-  animation-delay: 0.16s;
-}
-
-.home-enter-delay-3 {
-  animation-delay: 0.24s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home-enter {
-    animation: none;
-  }
-}
-
 /* Equal-width CTA pairs (guide steps, tool footers, etc.) */
 .button-row {
   display: flex;

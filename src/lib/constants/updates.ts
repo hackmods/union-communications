@@ -31,6 +31,18 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/app/site-admin",
   },
   {
+    id: "home-union-work",
+    date: "2026-10-02",
+    kind: "improved",
+    href: "/",
+  },
+  {
+    id: "editor-keyboard-tabs",
+    date: "2026-10-01",
+    kind: "improved",
+    href: "/tools/graphic-maker",
+  },
+  {
     id: "mfa-save-recovery-codes",
     date: "2026-10-01",
     kind: "improved",

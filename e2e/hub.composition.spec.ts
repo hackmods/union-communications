@@ -65,13 +65,12 @@ test.describe("Hub / Portal desktop composition @smoke", () => {
     });
   });
 
-  test("dashboard remains usable at 200% browser zoom approximation", async ({ page }) => {
+  test("dashboard remains usable at the effective 200% zoom viewport", async ({ page }) => {
     await loginAsPresident(page);
-    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/en/app");
-    await page.evaluate(() => {
-      document.documentElement.style.zoom = "200%";
-    });
+    // A real 200% desktop zoom halves the layout viewport. CSS `zoom` does not
+    // consistently change media-query evaluation, so use its effective size.
+    await page.setViewportSize({ width: 640, height: 450 });
     await expect(page.getByRole("heading", { name: "What needs my attention?" })).toBeVisible();
     await assertNoHorizontalOverflow(page);
     await page.getByTestId("hub-nav-toggle").click();

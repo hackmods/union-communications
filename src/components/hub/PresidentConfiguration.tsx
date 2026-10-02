@@ -1054,7 +1054,7 @@ export function PresidentConfiguration({
           </section>
         </div>
 
-        <div className="lg:sticky lg:top-[calc(var(--site-header-height,3.5rem)+5rem)]">
+        <div className="lg:sticky lg:top-[calc(var(--site-header-height,3.5rem)+var(--hub-banner-stack-height,0px)+var(--hub-nav-height,4rem)+1rem)]">
           <PreviewPanel
             modules={draftModules}
             surfaces={draftSurfaces}

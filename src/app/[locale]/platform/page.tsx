@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
-import { PublicHubPanel } from "@/components/comms/PublicHubPanel";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
@@ -26,12 +25,12 @@ export default async function PlatformPage({
   const hubAdvertised = isOfficerHubPublic();
 
   return (
-    <ComposedPageLayout composition="hub" size="wide" className="py-10 md:py-14">
-      <header className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-wide text-opseu-blue">
+    <ComposedPageLayout composition="hub" size="wide" className="py-8 [overflow-wrap:anywhere] md:py-12">
+      <header className="max-w-4xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-opseu-blue">
           {t("eyebrow")}
         </p>
-        <h1 className="mt-2 text-4xl font-bold text-opseu-dark">{t("title")}</h1>
+        <h1 className="mt-2 text-[clamp(2rem,4.6vw,3.5rem)] font-bold leading-[1.05] tracking-tight text-opseu-dark">{t("title")}</h1>
         <p className="mt-5 max-w-prose text-lg leading-relaxed text-slate-700">
           {t("intro")}
         </p>
@@ -40,9 +39,10 @@ export default async function PlatformPage({
         </p>
       </header>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-2">
-        <PublicHubPanel className="p-5 sm:p-7">
-          <h2 className="text-xl font-bold text-opseu-dark">{t("hubTitle")}</h2>
+      <div className="mt-10 grid gap-x-12 lg:grid-cols-2">
+        <section className="min-w-0 scroll-mt-28 border-t-2 border-opseu-blue py-5" aria-labelledby="platform-hub-heading">
+          <p className="text-xs font-bold uppercase tracking-[0.15em] text-opseu-blue">{t("hubAudience")}</p>
+          <h2 id="platform-hub-heading" className="mt-2 scroll-mt-28 text-2xl font-bold tracking-tight text-opseu-dark">{t("hubTitle")}</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-700">{t("hubBody")}</p>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-700">
             <li>{t("hubItemCasework")}</li>
@@ -59,10 +59,11 @@ export default async function PlatformPage({
               {t("requestAccessCta")}
             </ButtonLink>
           )}
-        </PublicHubPanel>
+        </section>
 
-        <PublicHubPanel className="p-5 sm:p-7">
-          <h2 className="text-xl font-bold text-opseu-dark">{t("portalTitle")}</h2>
+        <section className="min-w-0 scroll-mt-28 border-t-2 border-slate-400 py-5" aria-labelledby="platform-portal-heading">
+          <p className="text-xs font-bold uppercase tracking-[0.15em] text-slate-600">{t("memberAudience")}</p>
+          <h2 id="platform-portal-heading" className="mt-2 scroll-mt-28 text-2xl font-bold tracking-tight text-opseu-dark">{t("portalTitle")}</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-700">{t("portalBody")}</p>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-700">
             <li>{t("portalItemCircles")}</li>
@@ -72,7 +73,7 @@ export default async function PlatformPage({
           <ButtonLink href="/join" variant="outline" className="mt-6">
             {t("portalCta")}
           </ButtonLink>
-        </PublicHubPanel>
+        </section>
       </div>
 
       <p className="mt-10 max-w-prose text-sm leading-relaxed text-slate-700">

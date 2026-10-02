@@ -33,7 +33,7 @@ export function PublicHubPanel({
       className={cn(
         bare
           ? "min-w-0 space-y-3"
-          : "min-w-0 space-y-3 rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.04] to-white p-4 sm:p-5",
+          : "min-w-0 space-y-3 rounded-lg border border-slate-200 bg-white p-4 sm:p-5",
         className,
       )}
     >

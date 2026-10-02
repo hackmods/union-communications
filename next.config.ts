@@ -49,6 +49,9 @@ function resolveAllowedOrigins(): string[] {
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // The local preview is often opened via 127.0.0.1 while Next dev binds localhost.
+  // Trust only that loopback alias so dev assets and client hydration keep working.
+  allowedDevOrigins: ["127.0.0.1"],
   images: {
     unoptimized: true,
   },

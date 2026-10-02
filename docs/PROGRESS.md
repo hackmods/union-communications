@@ -1,10 +1,61 @@
-## 2026-10-02 — Public marketing visual uplift flush-out
+## 2026-10-02 — Complete the visual product-presentation uplift
 
-Home destination accessible names include title+CTA; Brand Kit status waits for hydration; platform/guided CTAs full-width on phone; Callout radius aligned to cards; Start path step control touch target parity.
+- Completed the Home story with a live Brand Kit reuse relationship and separate, authentic synthetic Officer Hub and member Portal excerpts for EN/FR desktop and phone layouts. Captures include provenance, accessible text and a clear confidentiality boundary.
+- Finished scoped working-state checks: bilingual keyboard operation of the hero examples; bilingual catalog no-results, clear and browser-Back behavior; Brand Kit persistence and blocked-storage feedback; localized RTW/Graphic Maker/editor paths.
+- Final focused Playwright run passed 12 checks, including Home/Platform EN/FR at five widths and Home axe checks. Additional representative browser runs and contrast-enabled axe scans passed; see [`docs/ui-uplift/05_IMPLEMENTATION_STATUS.md`](ui-uplift/05_IMPLEMENTATION_STATUS.md).
+- `npm run typecheck` and the production build passed; all 569 static pages generated. ESLint remains skipped by the TypeScript 7 compatibility guard. Existing Edge-runtime/filesystem-tracing warnings remain.
+- Actual 200% browser zoom and a human screen-reader review remain release-review follow-ups; headless Chromium ignored browser-zoom shortcuts. The responsive and 2× text-size checks passed.
+- This entry supersedes the earlier “full completion remains open” checkpoint immediately below. Implementation and current status are pushed on `feat/ui-uplift`.
 
-## 2026-10-02 — Public marketing visual uplift (CSS polish)
+## 2026-10-02 — Sync visual uplift with current main
 
-Restrained Home + catalog + shared-primitive polish: refined `PUBLIC_*` type step-down + hero clamp, elevated destination/catalog tiles with whole-card hit targets, soft platform-band wash, Button/ButtonLink active scale + min-height parity, Header touch targets. CSS/Tailwind only (no Framer Motion / glass). Structure and branding preserved.
+- Merged current `origin/main` changes into the uplift branch, including the Site Admin navigation What's New item and EN/FR copy. The merged branch also retains the shared header wordmark semantics, 44px target refinements and Start/Common control improvements.
+- Resolved visual overlap in favor of the newer task-first Home and open ruled catalog-results composition. Those replace the older setup-first destination-card implementation; equivalent direct Home actions and mobile-width behavior remain covered by the uplift browser checks.
+- Preserved compatible current-main shared control changes. Post-merge typecheck and production build passed (569 static pages), and 69 focused unit tests passed.
+- The 90-test combined Home/catalog/accessibility/Brand Kit run passed 88 tests. Two Brand Kit cases were clicking before the page finished hydrating; added an explicit hydrated-state wait, and both cases passed together on rerun. The other 88 passed in the combined run.
+- Current main is merged into the feature branch. The branch is ready for PR validation and merge; record GitHub Action results in this entry after CI completes.
+
+## 2026-10-02 — Complete bilingual reflow coverage and reopen presentation gaps
+
+- Added Home and Platform EN/FR checks at 320/375/768/1280/1536px and doubled text at 320px. The new tests exposed 44px English and 90px French Home overflow; wrapped long prose, preview labels/tool links and the accommodation action, and made preview choices adapt to available text space.
+- All 5 focused responsive/CTA checks passed after repair. Typecheck and the Home preview unit test passed; lint still skips under the existing TypeScript 7 guard.
+- Reconciled stale blocked/pending evidence in the uplift status. Full completion remains open: visible Brand Kit reuse, authentic hosted-product presentation, French hero balance and scoped working-state/accessibility acceptance are still required. These are not deferred sibling migrations.
+
+## 2026-10-02 — Render and close the first visual-uplift checkpoint
+
+- Resolved the local rendered-review blocker: Next development now allows the exact `127.0.0.1` loopback origin used by the in-app preview, restoring client hydration and search behavior.
+- Reviewed Home, Create, Learn, Brand Kit, Graphic Maker, RTW worksheet, Platform, Officer Hub and a synthetic member-safe Local Portal route. Demo Hub/Portal images remain local review evidence and are not public marketing assets.
+- Improved the 320px French first screen by placing the useful-work CTA before the longer product breadth copy. Playwright confirms the CTA stays inside the 812px viewport and the page does not overflow.
+- Public discovery and mobile-menu suites: 26 passed; targeted viewport/CTA checks: 2 passed; representative Brand Kit/RTW/Graphic Maker checks: 3 passed; Home EN/FR and Brand Kit accessibility checks: 3 passed. Additional contrast-enabled axe scans found no violations on Home, Platform and member Portal routes in EN/FR where applicable.
+- Updated uplift status and responsive/migration records with rendered evidence and honest remaining manual/state review items. See [`docs/ui-uplift/05_IMPLEMENTATION_STATUS.md`](ui-uplift/05_IMPLEMENTATION_STATUS.md).
+
+## 2026-10-01 — Implement UnionOps homepage visual direction (in progress)
+
+- Replaced the setup-first Home composition with task-first tool discovery, six verified job links, a stable selectable communications preview, optional Brand Kit reuse, separate Officer Hub/Local Portal narratives and distinct local/hosted privacy copy.
+- Carried the system into Platform and shared public workspace/catalog patterns. Corrected Platform claims so hosted Hub access and local Brand Kit identity remain separate.
+- Updated English and French Home/Platform copy and affected smoke journeys. Removed random example selection and nonessential page-entry motion.
+- Flattened the shared Local Portal operational panel/loading shell and quieted station, Dispatch and Fronts hover states while retaining their hit targets and navigation behavior. Flattened the common ToolEditor form boundary without changing editor behavior. Corrected the Home preview label in EN/FR so a sample is not presented as a rendered application output; focused copy checks passed.
+- Shared editor regression coverage passed all 11 `ToolEditorLayout` tests after the boundary change.
+- Officer Learning module cards now use a still cover and clear whole-card focus treatment, retaining the existing theme. The focused theme regression passed.
+- Rewrote the Home first-screen headline and supporting copy in EN/FR around concrete union tasks and the separate learning/officer/member spaces; updated the English and French smoke expectations. Copy guards (46 tests) and TypeScript passed.
+- Added a real Officer Learning catalog example to Home using the localized Contract Enforcement module content and actual lesson route. TypeScript and 46 focused copy tests passed; EN/FR route assertions were added, but browser smoke remains blocked by URL policy.
+- Current-tree production build completed successfully and generated all 569 static pages; existing auth-default and dynamic filesystem trace warnings remain.
+- Encoded the Home EN/FR viewport acceptance matrix (320–1536px), horizontal-overflow checks, and 320px axe checks in the smoke suite; execution awaits supported browser access.
+- Distinguished the Home hero's in-page “Explore the tools” action from the final “Browse all tools” catalog link in EN/FR.
+- Typecheck and production build passed; the full unit suite passed 3,239 tests (2 skipped, 1 todo across 538 files). ESLint remains skipped by the TypeScript 7 compatibility guard. Browser visual/smoke review remains outstanding under the browser URL policy; see [`docs/ui-uplift/05_IMPLEMENTATION_STATUS.md`](ui-uplift/05_IMPLEMENTATION_STATUS.md).
+- Added a bilingual homepage preview of the real return-to-work worksheet, with actual functional-limits prompts and accommodation choices, no case data, and a direct tool link. Typecheck and 46 focused copy/metadata/readability tests pass; browser smoke assertions were updated but remain unexecuted.
+- The saved synthetic Hub capture exposed a French header wrap at 1280px. Shared desktop navigation now uses one-row links and tighter spacing at that width; the EN/FR smoke suite checks the French row geometry. Rendered confirmation is still outstanding.
+- Typecheck and production build passed after the header update. Browser execution of the new EN/FR 1280px nav assertion remains pending.
+- Full unit verification after the Home and header changes passed: 538 files, 3,240 passed, 2 skipped and 1 todo. ESLint remains skipped by the TypeScript 7 compatibility guard.
+- Distinguished the Hub tools drawer from global site navigation in EN/FR with “Tools” / “Outils” labels, preserving the full accessible open/close names. Updated the mobile menu assertions.
+- Typecheck and 30 focused bilingual i18n/copy tests passed after the Hub drawer label update.
+
+## 2026-10-01 — Recover UI uplift foundations
+
+- Recovered the missing product-refactor audit from the original worktree, preserving its historical pilot status. `docs/product-refactor/13_UPLIFT_BASELINE.md` records exactly what was integrated onto current main.
+- Integrated contextual navigation, shared sticky measurements, keyboard editor tabs, dialog focus containment, associated form hints/errors and valid grievance action links. Corrected integration defects and added focused regression coverage.
+- Typecheck, production build and 17 foundation tests passed at the foundation checkpoint. The repository lint command skips ESLint under TypeScript 7; browser revalidation is blocked by the browser tool URL policy. Full smoke and responsive acceptance remain outstanding.
+- Added seven UI direction/handoff documents and an EN/FR keyboard-tabs update. Home visual work began after Ryan resumed the goal.
 
 ## 2026-10-01 — Keep MFA recovery codes visible during session refresh
 

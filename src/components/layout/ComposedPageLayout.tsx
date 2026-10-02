@@ -48,7 +48,7 @@ export function ComposedPageLayout({
 
   const desktopRail = showRail ? (
     <aside className="hidden lg:block print:hidden">
-      <div className="sticky top-28 space-y-4">{rail}</div>
+      <div className="sticky top-[calc(var(--site-header-height,3.5rem)+1rem)] space-y-4">{rail}</div>
     </aside>
   ) : null;
 

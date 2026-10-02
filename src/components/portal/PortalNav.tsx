@@ -12,6 +12,7 @@ import {
 import type { UserRole } from "@/types/tenant";
 import type { StationPayload } from "@/types/portal";
 import { cn } from "@/lib/utils";
+import { observeStickyHeight } from "@/lib/layout/observe-sticky-height";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { preferredHubToolsMenuWidth } from "@/lib/utils/flyout-geometry";
 import { NavDropdown } from "@/components/layout/nav/NavDropdown";
@@ -55,11 +56,12 @@ export function PortalNav() {
     const update = () => {
       setDrawerTop(Math.ceil(el.getBoundingClientRect().bottom));
     };
-    update();
-    if (typeof ResizeObserver === "undefined") return;
-    const observer = new ResizeObserver(update);
-    observer.observe(el);
-    return () => observer.disconnect();
+    const stopMeasure = observeStickyHeight(el, "--portal-nav-height", update);
+    window.addEventListener("scroll", update, true);
+    return () => {
+      stopMeasure();
+      window.removeEventListener("scroll", update, true);
+    };
   }, [drawerOpen]);
 
   useEffect(() => {

@@ -4,6 +4,58 @@ import { expectNoSeriousA11yViolations } from "./helpers/axe";
 
 test.describe("task-first public discovery @smoke", () => {
   for (const locale of ["en", "fr"] as const) {
+    test(`${locale} hero examples can be changed with the keyboard`, async ({ page }) => {
+      await page.goto(`/${locale}/`);
+      const choices = page.getByRole("group", {
+        name: locale === "en" ? "Choose a communications example" : "Choisir un exemple de communication",
+      });
+      const notice = choices.getByRole("button", {
+        name: locale === "en" ? "Workplace notice" : "Avis en milieu de travail",
+      });
+      await notice.focus();
+      await page.keyboard.press("Enter");
+      await expect(notice).toHaveAttribute("aria-pressed", "true");
+      await expect(page.getByTestId("home-hero-preview")).toHaveAttribute("data-variant", "boardNotice");
+      await expect(page.getByTestId("home-hero-preview").getByRole("link"))
+        .toHaveAttribute("href", `/${locale}/create/board-notice/`);
+    });
+
+    for (const surface of ["", "platform/"] as const) {
+      test(`${locale} ${surface || "Home"} reflows across the uplift widths`, async ({ page }, testInfo) => {
+        for (const width of [320, 375, 768, 1280, 1536]) {
+          await page.setViewportSize({ width, height: 900 });
+          await page.goto(`/${locale}/${surface}`);
+          await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+          await page.evaluate(() => document.fonts.ready);
+          if (!surface) {
+            for (const audience of ["hub", "portal"]) {
+              const capture = page.getByTestId(`home-${audience}-capture`);
+              await capture.scrollIntoViewIfNeeded();
+              const image = capture.getByRole("img");
+              await expect.poll(() => image.evaluate((node: HTMLImageElement) => node.naturalWidth)).toBeGreaterThan(0);
+              const source = await image.evaluate((node: HTMLImageElement) => node.currentSrc);
+              expect(source.includes("-phone")).toBe(width < 640);
+              await expect(image).toHaveAttribute("alt", /.+/);
+            }
+            await page.evaluate(() => window.scrollTo(0, 0));
+          }
+          await assertNoHorizontalOverflow(page);
+          if (width === 320 || width === 1280) {
+            await page.screenshot({ path: testInfo.outputPath(`${locale}-${surface ? "platform" : "home"}-${width}.png`), fullPage: true });
+          }
+        }
+        // Text resizing is distinct from browser zoom; exercise the shared
+        // text-scale contract without claiming a browser-zoom audit.
+        await page.setViewportSize({ width: 320, height: 900 });
+        await page.evaluate(() => document.documentElement.style.setProperty("--text-scale", "2"));
+        await page.screenshot({ path: testInfo.outputPath("double-text.png"), fullPage: true });
+        await assertNoHorizontalOverflow(page);
+        await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      });
+    }
+  }
+
+  for (const locale of ["en", "fr"] as const) {
     test(`${locale} Brand Kit, Create, Worksheets, Learn, Platform, and Search render`, async ({ page }) => {
       for (const path of ["/create/", "/utilities/", "/learn/", "/platform/", "/search/"]) {
         await page.goto(`/${locale}${path}`);
@@ -52,18 +104,29 @@ test.describe("task-first public discovery @smoke", () => {
     });
   }
 
-  test("Home presents Brand Kit foundation with parallel destinations and Platform", async ({ page }) => {
+  test("Home presents practical work, a reusable Brand Kit, and the shared platform", async ({ page }) => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Brand Kit powers everything on your device" })).toBeVisible();
-    await expect(page.getByTestId("home-dest-create").getByRole("link", { name: "Create" }))
-      .toHaveAttribute("href", "/en/create/");
-    await expect(page.getByTestId("home-dest-utilities").getByRole("link", { name: "Worksheets" }))
-      .toHaveAttribute("href", "/en/utilities/");
-    await expect(page.getByTestId("home-dest-learn").getByRole("link", { name: "Learn" }))
+    await expect(page.getByRole("heading", { name: "Start with the job in front of you" })).toBeVisible();
+    await expect(page.getByTestId("home-work-graphics").getByRole("link", { name: "Open Graphic Maker" }))
+      .toHaveAttribute("href", "/en/create/graphic-maker/");
+    await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Open grievance worksheet" }))
+      .toHaveAttribute("href", "/en/utilities/complaint-vs-grievance/");
+    await expect(page.getByTestId("home-work-learning").getByRole("link", { name: "Explore Officer Learning" }))
       .toHaveAttribute("href", "/en/learn/");
-    await expect(page.getByTestId("home-platform").getByRole("link", { name: "Understand Officer Hub and Local Portal" }))
-      .toHaveAttribute("href", "/en/platform/");
+    const brandReuse = page.getByTestId("home-brand-reuse");
+    await expect(brandReuse.getByRole("link", { name: "Make a graphic" }))
+      .toHaveAttribute("href", "/en/create/graphic-maker/");
+    await expect(brandReuse.getByRole("link", { name: "Write a letter" }))
+      .toHaveAttribute("href", "/en/create/letter-generator/");
+    await expect(brandReuse.getByRole("link", { name: "Build a local website" }))
+      .toHaveAttribute("href", "/en/create/website-template/");
+    await expect(page.getByTestId("home-hub-capture").getByRole("link", { name: "View full-size example" }))
+      .toHaveAttribute("target", "_blank");
+    await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).first())
+      .toHaveAttribute("href", "/en/platform/#platform-hub-heading");
+    await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).nth(1))
+      .toHaveAttribute("href", "/en/platform/#platform-portal-heading");
     await page.getByRole("link", { name: "Open guided setup" }).first().click();
     await expect(page).toHaveURL(/\/en\/start\//);
     await expect(page.getByTestId("start-path-comms")).toBeVisible();
@@ -71,6 +134,27 @@ test.describe("task-first public discovery @smoke", () => {
     await expect(page.getByTestId("start-path-officer")).toBeVisible();
     await expect(page.getByTestId("start-path-comms").getByRole("link"))
       .toHaveAttribute("href", /\/en\/create\/brand-kit\/$/);
+  });
+
+  test("Home keeps the practical work path available in French", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 812 });
+    await page.goto("/fr/");
+    await expect(page.getByRole("heading", { level: 1, name: "Créez des documents. Préparez les dossiers en milieu de travail. Faites avancer votre section locale." })).toBeVisible();
+    const exploreTools = page.getByRole("link", { name: "Explorer les outils" }).first();
+    await expect(exploreTools).toHaveAttribute("href", "#home-work");
+    const exploreToolsBox = await exploreTools.boundingBox();
+    expect(exploreToolsBox).toBeTruthy();
+    expect(exploreToolsBox!.y + exploreToolsBox!.height).toBeLessThanOrEqual(812);
+    await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Ouvrir la feuille de préparation" }))
+      .toHaveAttribute("href", "/fr/utilities/complaint-vs-grievance/");
+    await expect(page.getByTestId("home-learning-preview").getByRole("link", { name: "Application de la convention" }))
+      .toHaveAttribute("href", "/fr/learn/officer/contract-enforcement/");
+    const stewardPreview = page.getByTestId("home-steward-preview");
+    await expect(stewardPreview.getByRole("heading", { name: "Prise en charge du retour au travail et des mesures d'adaptation" })).toBeVisible();
+    await expect(stewardPreview.getByText("Que peut ou ne peut pas faire le membre en toute sécurité?")).toBeVisible();
+    await expect(stewardPreview.getByRole("link", { name: "Ouvrir la feuille sur les mesures d’adaptation" }))
+      .toHaveAttribute("href", "/fr/utilities/rtw-accommodation/");
+    await expect(page.getByRole("heading", { name: "Des activités partagées, avec des limites claires" })).toBeVisible();
   });
 
   test("Learn search and filters work locally over the shared catalog", async ({ page }) => {
@@ -99,6 +183,25 @@ test.describe("task-first public discovery @smoke", () => {
     await search.fill("assemblée générale quorum");
     await expect(page.getByRole("heading", { name: "Tenir une assemblée" })).toBeVisible();
   });
+
+  for (const locale of ["en", "fr"] as const) {
+    test(`${locale} catalog restores no-results state after clearing filters and using Back`, async ({ page }) => {
+      await page.goto(`/${locale}/create/`);
+      const query = page.getByRole("searchbox", { name: locale === "en" ? "Search" : "Rechercher" });
+      await query.fill("nothing-matches-this-union-task-987");
+      await expect(page.getByRole("heading", { name: locale === "en" ? "No matching resources" : "Aucune ressource correspondante" })).toBeVisible();
+      await page.getByRole("combobox").nth(0).selectOption("comms");
+      await expect.poll(() => new URL(page.url()).searchParams.get("audience")).toBe("comms");
+      await expect(page.getByRole("heading", { name: locale === "en" ? "No matching resources" : "Aucune ressource correspondante" })).toBeVisible();
+      const clearFilters = page.getByRole("button", { name: locale === "en" ? "Clear filters" : "Effacer les filtres" });
+      await clearFilters.last().click();
+      await expect(query).toHaveValue("");
+      await expect(page.getByRole("status").first()).toContainText(/results|résultats/i);
+      await page.goBack();
+      await expect(query).toHaveValue("nothing-matches-this-union-task-987");
+      await expect(page.getByRole("heading", { name: locale === "en" ? "No matching resources" : "Aucune ressource correspondante" })).toBeVisible();
+    });
+  }
 
   test("Start shows a saved, resumable steward path on the same device", async ({ page }) => {
     await page.goto("/en/start/?path=steward");
@@ -218,10 +321,19 @@ test.describe("task-first public discovery @smoke", () => {
   test("Brand Kit stays a direct destination at desktop and tablet widths @mobile", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/en/");
-    const desktopNav = page.locator("header").getByRole("navigation", { name: "Site navigation" });
-    await expect(desktopNav.getByRole("link", { name: "Brand Kit", exact: true })).toBeVisible();
+    const englishNav = page.locator("header").getByRole("navigation", { name: "Site navigation" });
+    await expect(englishNav.getByRole("link", { name: "Brand Kit", exact: true })).toBeVisible();
+    await page.goto("/fr/");
+    await assertNoHorizontalOverflow(page);
+    const desktopNav = page.locator("header").getByRole("navigation", { name: "Navigation du site" });
+    await expect(desktopNav.getByRole("link", { name: "Trousse de marque", exact: true })).toBeVisible();
+    const navRows = await desktopNav.getByRole("link").evaluateAll((links) =>
+      links.map((link) => Math.round(link.getBoundingClientRect().top)),
+    );
+    expect(new Set(navRows).size).toBe(1);
 
     await page.setViewportSize({ width: 1024, height: 900 });
+    await page.goto("/en/");
     await expect(page.getByTestId("mobile-nav-toggle")).toContainText("Menu");
     await page.getByTestId("mobile-nav-toggle").click();
     const drawer = page.getByTestId("mobile-nav-drawer");

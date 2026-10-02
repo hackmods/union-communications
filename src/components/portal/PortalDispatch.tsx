@@ -97,10 +97,10 @@ export function PortalDispatch() {
                 <Link
                   href={circleHrefForDispatch(item.circleId, item.kind)}
                   className={cn(
-                    "group flex min-h-11 flex-col rounded-xl border bg-white px-3.5 py-3 transition-all duration-200 ease-out",
-                    "hover:-translate-y-0.5 hover:border-opseu-blue/40 hover:shadow-md",
+                    "group flex min-h-11 flex-col rounded-lg border bg-white px-3.5 py-3 transition-colors duration-150",
+                    "hover:border-opseu-blue/50 hover:bg-slate-50",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-offset-2",
-                    "motion-reduce:transition-none motion-reduce:hover:translate-y-0",
+                    "motion-reduce:transition-none",
                     unread
                       ? "border-l-4 border-l-opseu-blue border-slate-200/90"
                       : "border-slate-200/90 text-gray-500",
@@ -116,7 +116,7 @@ export function PortalDispatch() {
                       {item.title}
                     </span>
                     <span
-                      className="mt-0.5 shrink-0 text-sm font-medium text-opseu-blue transition-transform group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0"
+                      className="mt-0.5 shrink-0 text-sm font-medium text-opseu-blue"
                       aria-hidden
                     >
                       →

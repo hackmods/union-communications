@@ -27,10 +27,10 @@
     }
   },
   "metadata": {
-    "title": "UnionOps | Conçu pour les syndicats",
-    "titleCommsOnly": "UnionOps | Conçu pour les sections locales",
-    "description": "Outils pratiques et axés sur la confidentialité pour l’adhésion, le travail des délégués et les communications syndicales. Les outils Comms restent gratuits sur votre appareil. Un Hub des dirigeants hébergé a un coût.",
-    "descriptionCommsOnly": "Outils pratiques et axés sur la confidentialité pour l’adhésion, le travail des délégués et les communications syndicales. Ils restent sur votre appareil : pas de pubs, personne ne récolte vos données."
+    "title": "UnionOps | Des outils pour le travail syndical",
+    "titleCommsOnly": "UnionOps | Outils pratiques pour les sections locales",
+    "description": "Des outils pour les communications syndicales, la préparation au travail, la formation des délégués et les activités locales avec permissions. Comms reste gratuit. L’hébergement du Hub peut entraîner des frais.",
+    "descriptionCommsOnly": "Des outils gratuits dans le navigateur pour les communications syndicales, la préparation au travail et la formation. La plupart des projets publics restent sur votre appareil."
   },
   "nav": {
     "home": "Accueil",
@@ -303,8 +303,119 @@
   },
   "home": {
     "title": "UnionOps : logiciel dédié aux syndicats et sections locales",
-    "headline": "Conçu pour les syndicats. Façonné par les retours des sections.",
-    "subtitle": "Des outils pratiques et axés sur la confidentialité, conçus spécifiquement pour les dirigeants locaux, les délégués syndicaux et les comités de négociation.",
+    "heroEyebrow": "Du travail syndical, prêt à faire",
+    "headline": "Créez des documents. Préparez les dossiers en milieu de travail. Faites avancer votre section locale.",
+    "subtitle": "Des outils pratiques pour les dirigeants, les délégués et les comités de négociation : communications, consultation des conventions, préparation des griefs et planification des accommodements.",
+    "heroBreadth": "Allez au-delà des communications avec la formation des dirigeants et des espaces distincts pour le travail privé et la participation des membres.",
+    "exploreToolsCta": "Explorer les outils",
+    "browseAllToolsCta": "Parcourir tous les outils",
+    "heroPrivacyLine": "La plupart des projets publics restent sur votre appareil. Certains outils permettent un transfert intentionnel vers le Hub des dirigeants.",
+    "previewLabel": "Un aperçu de vos créations possibles",
+    "previewChoicesLabel": "Choisir un exemple de communication",
+    "previewExampleNote": "Aperçu de démonstration. Ajoutez le nom et les couleurs de votre section locale dans la Trousse de marque pour les voir ici.",
+    "previewChoices": {
+      "boardNotice": "Avis en milieu de travail",
+      "graphicMaker": "Visuel pour les réseaux",
+      "flyerMaker": "Tract imprimé"
+    },
+    "workEyebrow": "Des tâches utiles, dès maintenant",
+    "workTitle": "Commencez par la tâche devant vous",
+    "workIntro": "UnionOps réunit des outils pratiques, la préparation des délégués et la formation. Choisissez une tâche pour accéder directement à un espace de travail.",
+    "moreWorkLabel": "Également disponible :",
+    "moreWork": {
+      "agreement": "référence à la convention collective",
+      "stewardLog": "notes du plancher",
+      "bylaws": "projets de statuts",
+      "proposals": "suivi des propositions"
+    },
+    "work": {
+      "graphics": {
+        "title": "Créer un visuel ou un document imprimé",
+        "body": "Préparez un avis, un visuel pour les réseaux ou un tract aux couleurs de votre section.",
+        "link": "Ouvrir le Créateur de graphiques"
+      },
+      "website": {
+        "title": "Créer un site Web local",
+        "body": "Remplissez et exportez un modèle de site Web simple pour votre section.",
+        "link": "Ouvrir le modèle de site Web"
+      },
+      "grievance": {
+        "title": "Préparer un grief",
+        "body": "Organisez le problème et les questions avant de décider des prochaines étapes.",
+        "link": "Ouvrir la feuille de préparation"
+      },
+      "accommodation": {
+        "title": "Préparer un retour au travail",
+        "body": "Préparez une discussion sur les mesures d’adaptation avec des repères structurés et des notes que vous contrôlez.",
+        "link": "Ouvrir la feuille sur les mesures d’adaptation"
+      },
+      "meetings": {
+        "title": "Animer une réunion locale",
+        "body": "Consultez des références pratiques et des repères sur les règles de procédure.",
+        "link": "Ouvrir le guide de réunion"
+      },
+      "learning": {
+        "title": "Former une personne déléguée ou dirigeante",
+        "body": "Consultez des guides, des outils de référence et des modules de formation des dirigeants.",
+        "link": "Explorer la formation des dirigeants"
+      }
+    },
+    "learningEyebrow": "Formation syndicale",
+    "learningTitle": "Apprenez le travail derrière les décisions des délégués.",
+    "learningBody": "Des modules pratiques relient l’application de la convention, la discipline, les accommodements et la gouvernance locale à des autoévaluations et des fiches de référence.",
+    "stewardPreviewEyebrow": "De la formation à la préparation en milieu de travail",
+    "stewardPreviewTitle": "Préparez une rencontre de retour au travail",
+    "stewardPreviewLabel": "Une vraie fiche, sans détails de dossier",
+    "brandEyebrow": "Une base pour votre section",
+    "brandTitle": "Configurez votre identité une fois et réutilisez-la dans la trousse.",
+    "brandBody": "La Trousse de marque garde le nom, les couleurs, le logo et les liens de votre section à portée de main dans les outils compatibles. Chaque outil utilise les renseignements qu’il prend en charge. La configuration reste facultative.",
+    "brandCta": "Découvrir la Trousse de marque",
+    "brandReuse": {
+      "local": "Section {number}",
+      "example": "Section fictive {number}",
+      "source": "Une palette de votre Trousse de marque, prête dans les outils ci-dessous.",
+      "graphics": "Créer un visuel",
+      "letters": "Rédiger une lettre",
+      "website": "Créer un site Web local"
+    },
+    "platformEyebrow": "Quand la section travaille ensemble",
+    "platformTitle": "Des activités partagées, avec des limites claires",
+    "platformIntro": "La plateforme hébergée ajoute des espaces protégés par des permissions, destinés aux dirigeants et aux membres. Chaque espace a son public et son rôle.",
+    "hubAudience": "Activités privées des dirigeants et délégués",
+    "hubTitle": "Hub des dirigeants",
+    "hubBody": "Les dirigeants et délégués autorisés peuvent coordonner les activités locales, préparer des dossiers, gérer les réunions et assurer la continuité du travail.",
+    "hubBoundary": "Les dossiers et les notes du Hub restent dans l’espace réservé aux dirigeants. Ils ne sont pas automatiquement affichés dans le Portail local.",
+    "memberAudience": "Information et participation des membres",
+    "portalTitle": "Portail local",
+    "portalBody": "Les membres peuvent consulter les renseignements locaux et participer aux espaces qui leur sont ouverts, comme les cercles et les activités locales.",
+    "portalBoundary": "Les membres voient les renseignements et les espaces autorisés pour leur accès. Les dirigeants décident quoi partager.",
+    "platformDetailLink": "Voir le fonctionnement de la plateforme",
+    "hostedPreview": {
+      "hubAlt": "Section du Hub des dirigeants montrant une tâche de réunion attribuée et des suivis en attente de réponse.",
+      "hubCaption": "Exemple réel du Hub des dirigeants avec des tâches et des suivis fictifs. Les fonctions disponibles dépendent du rôle et des modules activés.",
+      "portalAlt": "Liste des cercles du Portail local montrant la salle locale et un comité de santé et sécurité accessibles au membre de démonstration.",
+      "portalCaption": "Vue réelle d’un membre dans une section fictive. L’accès aux cercles dépend des permissions et reste distinct des dossiers privés des dirigeants.",
+      "fullSize": "Voir l’exemple en taille réelle"
+    },
+    "trustEyebrow": "Confidentialité et contrôle local",
+    "trustTitle": "Choisissez où le travail doit se faire",
+    "trustIntro": "UnionOps propose des outils sur appareil et des espaces locaux hébergés. Le stockage et les règles d’accès diffèrent.",
+    "trust": {
+      "device": {
+        "title": "Travail dans le navigateur",
+        "body": "La plupart des projets publics restent sur votre appareil. Certains outils permettent de choisir une sauvegarde ou un transfert pris en charge vers le Hub des dirigeants."
+      },
+      "hosted": {
+        "title": "Activités locales avec permissions",
+        "body": "Le Hub des dirigeants et le Portail local sont des services hébergés. Les rôles et modules activés déterminent l’accès, selon les pratiques de confidentialité et de sécurité publiées."
+      },
+      "choice": {
+        "title": "Un transfert intentionnel",
+        "body": "Gardez le travail sur votre appareil ou choisissez un parcours hébergé offert pour collaborer. Consultez nos documents sur la confidentialité et la sécurité."
+      }
+    },
+    "securityLink": "Pratiques de sécurité",
+    "nextEyebrow": "Une prochaine étape utile",
     "subtitleCommsOnly": "Des outils pratiques et axés sur la confidentialité, conçus spécifiquement pour les dirigeants locaux, les délégués syndicaux et les comités de négociation. Les brouillons restent dans votre navigateur.",
     "primaryCta": "Configurer la Trousse de marque",
     "openToolsCta": "Ouvrir Créer",
@@ -7620,9 +7731,13 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
-      "platform-admin-nav": {
-        "title": "Admin de la plateforme au même endroit",
-        "body": "Les opérateurs de plateforme ouvrent maintenant un seul lien Admin de la plateforme dans la barre du Hub des dirigeants. L’admin du site regroupe les outils hôte, avec recherche et libellés d’audit plus clairs."
+      "home-union-work": {
+        "title": "Trouvez des outils pour votre travail syndical",
+        "body": "L’accueil relie les visuels, la préparation en milieu de travail, la formation et les activités locales avec des liens directs, les couleurs réutilisables de la Trousse de marque et des exemples réels du Hub des dirigeants et du Portail local."
+      },
+      "editor-keyboard-tabs": {
+        "title": "Passez de la modification à l’aperçu avec votre clavier",
+        "body": "Dans les outils qui proposent des onglets de modification et d’aperçu, utilisez les touches fléchées pour changer d’onglet tout en conservant votre travail."
       },
       "mfa-save-recovery-codes": {
         "title": "Enregistrez les codes de récupération avant de quitter la configuration",
@@ -8271,6 +8386,10 @@
       "brand-lookbook": {
         "title": "Carnet de marque",
         "body": "Ouvrez le carnet depuis le kit de marque pour voir boutons, formulaires et chrome du Hub des dirigeants peints avec vos couleurs avant d’imprimer ou d’exporter."
+      },
+      "platform-admin-nav": {
+        "title": "Admin de la plateforme au même endroit",
+        "body": "Les opérateurs de plateforme ouvrent maintenant un seul lien Admin de la plateforme dans la barre du Hub des dirigeants. L’admin du site regroupe les outils hôte, avec recherche et libellés d’audit plus clairs."
       }
     }
   },
@@ -8541,20 +8660,6 @@
     },
     "platformOperator": {
       "menu": "Admin de la plateforme",
-      "siteAdminFilterLabel": "Filtrer les outils admin du site",
-      "siteAdminFilterPlaceholder": "Rechercher par titre ou description",
-      "siteAdminFilterEmpty": "Rien ne correspond. Essayez d’autres mots, ou effacez le filtre pour voir toutes les cartes admin.",
-      "siteAdminFilterClear": "Effacer le filtre",
-      "siteAdminSectionUsersAccess": "Utilisateurs et accès",
-      "siteAdminSectionContentComms": "Contenu et communications",
-      "siteAdminSectionComplianceTrust": "Conformité et confiance",
-      "siteAdminSectionHostOps": "Exploitation de l’hôte",
-      "cardShortcutsEyebrow": "Raccourcis",
-      "cardShortcutsBody": "Accès rapide aux tâches opérateur courantes. Le catalogue complet est dans Admin de la plateforme.",
-      "usersSearch": "Rechercher",
-      "usersSearchPlaceholder": "Nom ou courriel",
-      "usersSearchNoMatches": "Aucun utilisateur ne correspond à « {q} ». Essayez l’assistance compte pour les comptes archivés.",
-      "usersSearchClear": "Effacer la recherche",
       "cardEyebrow": "À l’échelle de l’hôte",
       "cardTitle": "Opérateur de la plateforme",
       "cardBody": "Invitez des sections locales, consultez les commentaires du site et ouvrez les outils d’administration de l’hôte.",
@@ -8744,28 +8849,17 @@
       "hostPresenceAlertDelivery": "La preuve récente de livraison des alertes est manquante",
       "hostPresencePublicLegalContacts": "L’identité légale publique ou la preuve de vérification des contacts est manquante",
       "hostPresenceTenantsSeeded": "Aucun syndicat dans le stockage durable — exécutez npm run db:seed (ou le script CapRover) une fois après la migration ; la vérification du schéma ne crée pas les syndicats",
-      "operatorAuditCardTitle": "Actions opérateur — gestes humains",
+      "operatorAuditCardTitle": "Journal des actions opérateur",
       "operatorAuditCardBody": "Journal privé des actions site-admin pour tous les syndicats. Ce n’est pas un journal public.",
       "observabilityCardTitle": "Observabilité",
       "observabilityCardBody": "Événements d’erreur serveur et client pour cet hôte. Exportez en CSV ou JSONL pour la réponse aux incidents.",
       "observabilityTitle": "Observabilité",
       "observabilitySubtitle": "Journal d’erreurs opérateur pour cet hôte. Les piles d’appels peuvent contenir des données personnelles fortuites — exportez uniquement pour la réponse aux incidents.",
-      "operatorAuditTitle": "Actions opérateur — gestes humains",
+      "operatorAuditTitle": "Journal des actions opérateur",
       "operatorAuditSubtitle": "Actions d’administration du site pour cet hôte. Les dirigeants locaux continuent d’utiliser la page Audit pour leur syndicat.",
       "operatorAuditLoading": "Chargement des actions opérateur…",
       "operatorAuditEmpty": "Aucune action site-admin enregistrée pour l’instant.",
-      "operatorAuditEmptyFiltered": "Aucune action ne correspond à ces filtres. Effacez-les pour revoir les lignes déjà chargées.",
       "operatorAuditLoadError": "Impossible de charger le journal opérateur. Actualisez la page et réessayez.",
-      "operatorAuditFilterNote": "Les filtres et l’export CSV s’appliquent aux lignes déjà chargées pour cette visite (jusqu’à 200).",
-      "operatorAuditFilterFrom": "Du",
-      "operatorAuditFilterTo": "Au",
-      "operatorAuditFilterActor": "Acteur",
-      "operatorAuditFilterActorPlaceholder": "L’identifiant contient…",
-      "operatorAuditFilterOutcomeAll": "Tous les résultats",
-      "operatorAuditFilterApply": "Appliquer les filtres",
-      "operatorAuditFilterClear": "Effacer les filtres",
-      "operatorAuditExportCsv": "Exporter en CSV",
-      "operatorAuditShowing": "Affichage de {visible} action(s) sur {loaded} chargée(s).",
       "operatorAuditWhen": "Quand",
       "operatorAuditAction": "Action",
       "operatorAuditActor": "Acteur",
@@ -9085,7 +9179,7 @@
       "onboardingBody": "Accompagnez un syndicat dans la configuration du Hall, le numéro de section et les premières invitations.",
       "feedback": "Commentaires du site",
       "feedbackBody": "Lisez les notes sur le site laissées par les visiteurs et les personnes connectées.",
-      "audit": "Journal d’audit — événements système",
+      "audit": "Journal d’audit",
       "auditBody": "Voyez qui a modifié quoi sur l’hôte, et quand.",
       "brandStylesEditTheme": "Modifier le style",
       "brandStylesCollapse": "Masquer",
@@ -9459,7 +9553,6 @@
       "operatorAuditMfaSubmit": "Vérifier et charger le journal",
       "operatorAuditMfaFailed": "Ce code n’a pas été accepté. Saisissez un nouveau code et réessayez.",
       "operatorAuditMfaLimited": "Trop de tentatives. Attendez avant de réessayer.",
-      "operatorAuditMfaLimitedWait": "Trop de tentatives. Attendez environ {seconds} secondes, puis réessayez.",
       "operatorAuditUnavailable": "Le service MFA ou les preuves d’audit sont indisponibles. Le journal n’a pas été retourné.",
       "operatorAuditUnconfirmed": "Le journal n’a pas été retourné, car la preuve de son accès n’a pas pu être confirmée. Réessayez la demande.",
       "operatorAuditRetry": "Réessayer l’accès",
@@ -9495,7 +9588,6 @@
       "observabilityViewEvents": "Événements",
       "observabilityDownloadPack": "Trousse d’incident (ZIP)",
       "observabilityAutoRefresh": "Actualisation auto (30 s)",
-      "observabilityLastUpdated": "Dernière mise à jour {time}",
       "observabilityColCount": "Nombre",
       "observabilityColLast": "Dernière fois",
       "observabilityDetailTitle": "Détail",
@@ -9658,7 +9750,34 @@
       "hostedPlansCardTitle": "Forfaits hébergés",
       "hostedPlansCardBody": "Attribuer Gratuit ou Complet (Membre/Payant) par syndicat ou section locale. Le drapeau CapRover reste éteint jusqu'à l'application des plafonds.",
       "hostPresenceHostedPlans": "Les plafonds de forfait hébergé ne s'appliquent pas encore (lancement obscur)",
-      "hostActionConsequenceHostedPlans": "Laissez UNIONOPS_HOSTED_PLANS_ENABLED=false jusqu'à ce que l'admin du site attribue Gratuit/Complet. Pas de tarification publique. Passez à true seulement quand vous êtes prêt à appliquer."
+      "hostActionConsequenceHostedPlans": "Laissez UNIONOPS_HOSTED_PLANS_ENABLED=false jusqu'à ce que l'admin du site attribue Gratuit/Complet. Pas de tarification publique. Passez à true seulement quand vous êtes prêt à appliquer.",
+      "siteAdminFilterLabel": "Filtrer les outils admin du site",
+      "siteAdminFilterPlaceholder": "Rechercher par titre ou description",
+      "siteAdminFilterEmpty": "Rien ne correspond. Essayez d’autres mots, ou effacez le filtre pour voir toutes les cartes admin.",
+      "siteAdminFilterClear": "Effacer le filtre",
+      "siteAdminSectionUsersAccess": "Utilisateurs et accès",
+      "siteAdminSectionContentComms": "Contenu et communications",
+      "siteAdminSectionComplianceTrust": "Conformité et confiance",
+      "siteAdminSectionHostOps": "Exploitation de l’hôte",
+      "cardShortcutsEyebrow": "Raccourcis",
+      "cardShortcutsBody": "Accès rapide aux tâches opérateur courantes. Le catalogue complet est dans Admin de la plateforme.",
+      "usersSearch": "Rechercher",
+      "usersSearchPlaceholder": "Nom ou courriel",
+      "usersSearchNoMatches": "Aucun utilisateur ne correspond à « {q} ». Essayez l’assistance compte pour les comptes archivés.",
+      "usersSearchClear": "Effacer la recherche",
+      "operatorAuditEmptyFiltered": "Aucune action ne correspond à ces filtres. Effacez-les pour revoir les lignes déjà chargées.",
+      "operatorAuditFilterNote": "Les filtres et l’export CSV s’appliquent aux lignes déjà chargées pour cette visite (jusqu’à 200).",
+      "operatorAuditFilterFrom": "Du",
+      "operatorAuditFilterTo": "Au",
+      "operatorAuditFilterActor": "Acteur",
+      "operatorAuditFilterActorPlaceholder": "L’identifiant contient…",
+      "operatorAuditFilterOutcomeAll": "Tous les résultats",
+      "operatorAuditFilterApply": "Appliquer les filtres",
+      "operatorAuditFilterClear": "Effacer les filtres",
+      "operatorAuditExportCsv": "Exporter en CSV",
+      "operatorAuditShowing": "Affichage de {visible} action(s) sur {loaded} chargée(s).",
+      "operatorAuditMfaLimitedWait": "Trop de tentatives. Attendez environ {seconds} secondes, puis réessayez.",
+      "observabilityLastUpdated": "Dernière mise à jour {time}"
     },
     "signingIn": "Connexion...",
     "writeNoUnion": "Aucun syndicat n’est assigné à ce compte — demandez à un opérateur de plateforme d’en assigner un avant d’enregistrer.",
@@ -9717,7 +9836,7 @@
     "officersLink": "Liste des dirigeants",
     "committeesLink": "Comités",
     "electionsLink": "Élections",
-    "auditLink": "Journal d’audit — événements système",
+    "auditLink": "Journal d’audit",
     "siteFeedbackInboxLink": "Boîte de commentaires du site",
     "sendFeedbackLink": "Envoyer un commentaire",
     "sendFeedback": {
@@ -9748,17 +9867,6 @@
       "save": "Enregistrer",
       "saving": "Enregistrement…",
       "delete": "Supprimer",
-      "bulkSelectAll": "Tout sélectionner dans cette liste",
-      "bulkSelectOne": "Sélectionner cette note",
-      "bulkSelected": "{count} sélectionné(s)",
-      "bulkMarkReviewed": "Marquer comme trié",
-      "bulkArchive": "Refuser / archiver",
-      "bulkDelete": "Supprimer la sélection",
-      "bulkDeleteConfirm": "Supprimer définitivement les notes sélectionnées? Les personnes ne seront pas avisées.",
-      "bulkError": "L’action groupée a échoué. Actualisez et réessayez.",
-      "bulkSuccessReview": "{count} note(s) marquées comme triées. Elles restent dans la boîte jusqu’à ce que vous les archiviez ou les supprimiez.",
-      "bulkSuccessArchive": "{count} note(s) archivées. Changez le filtre de statut si vous devez les retrouver.",
-      "bulkSuccessDelete": "{count} note(s) supprimées. C’est irréversible.",
       "categories": {
         "idea": "Idée",
         "issue": "Quelque chose de brisé",
@@ -9777,30 +9885,23 @@
         "public": "Page publique",
         "hub": "Hub des dirigeants",
         "portal": "Portail"
-      }
+      },
+      "bulkSelectAll": "Tout sélectionner dans cette liste",
+      "bulkSelectOne": "Sélectionner cette note",
+      "bulkSelected": "{count} sélectionné(s)",
+      "bulkMarkReviewed": "Marquer comme trié",
+      "bulkArchive": "Refuser / archiver",
+      "bulkDelete": "Supprimer la sélection",
+      "bulkDeleteConfirm": "Supprimer définitivement les notes sélectionnées? Les personnes ne seront pas avisées.",
+      "bulkError": "L’action groupée a échoué. Actualisez et réessayez.",
+      "bulkSuccessReview": "{count} note(s) marquées comme triées. Elles restent dans la boîte jusqu’à ce que vous les archiviez ou les supprimiez.",
+      "bulkSuccessArchive": "{count} note(s) archivées. Changez le filtre de statut si vous devez les retrouver.",
+      "bulkSuccessDelete": "{count} note(s) supprimées. C’est irréversible."
     },
-    "auditTitle": "Journal d’audit — événements système",
+    "auditTitle": "Journal d’audit",
     "auditSubtitle": "Actions récentes des dirigeants pour votre syndicat. Sur cette instance de démo, la liste se réinitialise au redémarrage du serveur.",
     "auditEmpty": "Aucune entrée d’audit pour le moment. Les actions des dirigeants apparaîtront ici à mesure qu’ils utilisent le Hub des dirigeants.",
-    "auditEmptyFiltered": "Aucun événement ne correspond à ces filtres. Effacez-les pour voir l’activité récente, ou élargissez la plage de dates.",
     "auditLoading": "Chargement du journal d’audit…",
-    "auditLoadError": "Impossible de charger le journal d’audit. Actualisez et réessayez.",
-    "auditRetry": "Réessayer",
-    "auditFilterFrom": "Du",
-    "auditFilterTo": "Au",
-    "auditFilterActor": "Utilisateur",
-    "auditFilterActorPlaceholder": "L’identifiant contient…",
-    "auditFilterOutcomeAll": "Tous les résultats",
-    "auditFilterApply": "Appliquer les filtres",
-    "auditFilterClear": "Effacer les filtres",
-    "auditExportCsv": "Exporter en CSV",
-    "auditOutcome": {
-      "title": "Résultat",
-      "success": "Autorisé",
-      "denied": "Refusé",
-      "error": "Erreur",
-      "unknown": "Inconnu"
-    },
     "auditAction": "Action",
     "auditResource": "Ressource",
     "auditWhen": "Quand",
@@ -9910,7 +10011,7 @@
     "presidentConfigLink": "Configuration présidence",
     "toolsMenu": "Outils dirigeants",
     "documents": "Bibliothèque de documents",
-    "openHubMenuShort": "Menu",
+    "openHubMenuShort": "Outils",
     "openHubMenu": "Ouvrir le menu du hub",
     "closeHubMenu": "Fermer le menu du hub",
     "mobileNav": "Menu du hub",
@@ -10514,6 +10615,24 @@
       "mfaRequired": "Entrez votre code AMF actuel pour libérer cet envoi.",
       "sent": "Campagne mise en file pour envoi par lots.",
       "error": "Impossible de charger les listes de diffusion."
+    },
+    "auditEmptyFiltered": "Aucun événement ne correspond à ces filtres. Effacez-les pour voir l’activité récente, ou élargissez la plage de dates.",
+    "auditLoadError": "Impossible de charger le journal d’audit. Actualisez et réessayez.",
+    "auditRetry": "Réessayer",
+    "auditFilterFrom": "Du",
+    "auditFilterTo": "Au",
+    "auditFilterActor": "Utilisateur",
+    "auditFilterActorPlaceholder": "L’identifiant contient…",
+    "auditFilterOutcomeAll": "Tous les résultats",
+    "auditFilterApply": "Appliquer les filtres",
+    "auditFilterClear": "Effacer les filtres",
+    "auditExportCsv": "Exporter en CSV",
+    "auditOutcome": {
+      "title": "Résultat",
+      "success": "Autorisé",
+      "denied": "Refusé",
+      "error": "Erreur",
+      "unknown": "Inconnu"
     }
   },
   "dataWorkbench": {
@@ -10864,9 +10983,6 @@
     "localUnknown": "Section non listée",
     "pendingTitle": "Invitations de ce syndicat",
     "pendingEmpty": "Aucune invitation pour le moment. Créez-en une pour envoyer un lien.",
-    "pendingLoading": "Chargement des invitations…",
-    "pendingRetry": "Réessayer",
-    "pendingPickUnion": "Choisissez un syndicat ci-dessus pour lister les invitations en attente de cette organisation.",
     "fulfillingRequest": "Traitement de la demande d’accès pour {name} ({email}). Enregistrer une invitation marque cette demande comme Invitée.",
     "status": {
       "pending": "En attente",
@@ -10875,7 +10991,10 @@
       "expired": "Expirée"
     },
     "fulfillingRequestFallback": "Traitement de la demande d’accès {id}. Enregistrer une invitation marque cette demande comme Invitée.",
-    "fulfillingRequestLoadFailed": "Impossible de charger cette demande d’accès. Vous pouvez encore créer une invitation manuellement."
+    "fulfillingRequestLoadFailed": "Impossible de charger cette demande d’accès. Vous pouvez encore créer une invitation manuellement.",
+    "pendingLoading": "Chargement des invitations…",
+    "pendingRetry": "Réessayer",
+    "pendingPickUnion": "Choisissez un syndicat ci-dessus pour lister les invitations en attente de cette organisation."
   },
   "inviteAccept": {
     "title": "Accepter l’invitation",
@@ -17128,8 +17247,10 @@
   "platformPage": {
     "eyebrow": "Plateforme UnionOps",
     "title": "Hub des dirigeants et Portail local",
-    "intro": "UnionOps, ce n’est pas seulement des outils sur appareil. Lorsque votre section est prête, la plateforme hébergée aide les dirigeants à mener le travail privé et les membres à participer ensemble  -  avec la même fondation Trousse de marque déjà configurée.",
-    "brandBridge": "Créer, Utilitaires et Apprendre restent disponibles dans le navigateur. La plateforme ajoute des espaces partagés et autorisés pour votre section.",
+    "intro": "UnionOps va au-delà des outils dans le navigateur. Lorsque votre section est prête, les espaces hébergés avec permissions aident les dirigeants à coordonner le travail privé et les membres à participer aux espaces qui leur sont ouverts.",
+    "brandBridge": "Les outils publics restent accessibles dans votre navigateur. Certains peuvent aussi enregistrer des éléments sélectionnés dans un Hub des dirigeants autorisé. L’accès au Hub et l’identité de la Trousse de marque sont gérés séparément.",
+    "hubAudience": "Travail privé pour les dirigeants et délégués autorisés",
+    "memberAudience": "Information et participation des membres",
     "hubTitle": "Hub des dirigeants",
     "hubBody": "L’environnement opérationnel privé pour les dirigeants, les délégués, les dossiers, l’administration et d’autres flux de travail locaux pris en charge.",
     "hubItemCasework": "Dossiers de grief et de bumping avec accès selon les rôles",

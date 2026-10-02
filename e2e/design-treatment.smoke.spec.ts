@@ -154,6 +154,9 @@ test.describe("Comms design treatments @smoke", () => {
       };
     });
     await page.goto("/en/create/brand-kit/");
+    // The control renders its default before local/host Brand Kit hydration; wait
+    // for the completeness state so this checks a real, interactive selection.
+    await expect(page.getByText("Finish your local identity", { exact: true })).toBeVisible();
     await page.getByRole("radio", { name: "Mostly white" }).click();
     await expect(page.getByRole("alert").filter({ hasText: "Browser storage is blocked" })).toBeVisible();
     await expect(page.getByRole("radio", { name: "Mostly white" })).toHaveAttribute("aria-checked", "true");
@@ -188,6 +191,7 @@ test.describe("Comms design treatments @smoke", () => {
 
   test("new Brand Kits start Balanced and makers can override, undo, and reset", async ({ page }) => {
     await page.goto("/en/create/brand-kit/");
+    await expect(page.getByText("Finish your local identity", { exact: true })).toBeVisible();
     const balanced = page.getByRole("radio", { name: "Balanced" });
     await expect(balanced).toHaveAttribute("aria-checked", "true");
     await page.getByRole("radio", { name: "Mostly white" }).click();

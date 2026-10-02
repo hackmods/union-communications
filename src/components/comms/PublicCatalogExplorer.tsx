@@ -318,14 +318,12 @@ export function PublicCatalogExplorer({
           <ul className="mt-3 grid list-none gap-3 p-0 sm:grid-cols-2 xl:grid-cols-4">
             {LEARN_COLLECTIONS.map(({ id, href }) => (
               <li key={id} className="min-w-0">
-                <Card variant="elevated" interactive className="h-full p-0">
+                <Card variant="ghost" className="h-full p-0">
                   <Link
                     href={href}
                     className="block h-full rounded-xl p-4 outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-inset"
                   >
-                    <h3 className={`${PUBLIC_CARD_TITLE_CLASS} group-hover/card:text-opseu-blue`}>
-                      {t(`learnCollections.${id}Title`)}
-                    </h3>
+                    <h3 className="font-bold text-opseu-dark">{t(`learnCollections.${id}Title`)}</h3>
                     <p className="mt-1.5 text-sm leading-relaxed text-slate-700">{t(`learnCollections.${id}Body`)}</p>
                     <span aria-hidden="true" className="mt-3 inline-flex min-h-10 items-center text-sm font-semibold text-opseu-blue">→</span>
                   </Link>
@@ -425,26 +423,25 @@ export function PublicCatalogExplorer({
       </section>
 
       {items.length ? (
-        <ul className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2 xl:grid-cols-3">
+        <ul className="mt-6 grid list-none gap-x-8 gap-y-7 p-0 sm:grid-cols-2 xl:grid-cols-3">
           {items.map((item) => {
             const title = titleFor(item, nav, officerLearning);
             const summary = summaryFor(item, tools, guides, t, officerLearning);
-            const relatedItems = relatedCatalogItems(item);
-            return (
-              <li key={item.id} className="min-w-0">
-                <Card variant="elevated" interactive className="h-full p-0">
-                  <div className="h-full rounded-xl p-5 md:p-6">
-                    <Link
-                      href={item.canonicalPath}
-                      className="block rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-inset"
-                    >
+              const relatedItems = relatedCatalogItems(item);
+              return (
+              <li key={item.id} className="min-w-0 border-t border-slate-300 pt-4">
+                <div className="h-full">
+                  <Link
+                    href={item.canonicalPath}
+                    className="group block rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-inset"
+                  >
                     <div className="flex items-start justify-between gap-3">
                       <Eyebrow tone="muted">{t(`formats.${item.formats[0]}`)}</Eyebrow>
                       <span className="shrink-0 rounded-lg bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
                         {t("minutes", { count: item.estimatedMinutes })}
                       </span>
                     </div>
-                    <h3 className={`mt-3 ${PUBLIC_CARD_TITLE_CLASS} group-hover/card:text-opseu-blue`}>
+                    <h3 className={`mt-3 ${PUBLIC_CARD_TITLE_CLASS} group-hover:text-opseu-blue`}>
                       {title}
                       <span aria-hidden="true" className="ml-2 text-sm opacity-60">→</span>
                     </h3>
@@ -462,25 +459,24 @@ export function PublicCatalogExplorer({
                     <p className="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-600">
                       {t(`storage.${item.storageMode}` as never)}
                     </p>
-                    </Link>
-                    {relatedItems.length ? (
-                      <p className="mt-3 flex flex-wrap gap-x-2 gap-y-1 text-xs text-slate-600">
-                        <span>{t("relatedLabel")}</span>
-                        {relatedItems.map((related, index) => (
-                          <span key={related.id}>
-                            {index ? <span aria-hidden="true"> · </span> : null}
-                            <Link
-                              href={related.canonicalPath}
-                              className="font-semibold text-opseu-blue underline underline-offset-2 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
-                            >
-                              {titleFor(related, nav, officerLearning)}
-                            </Link>
-                          </span>
-                        ))}
-                      </p>
-                    ) : null}
-                  </div>
-                </Card>
+                  </Link>
+                  {relatedItems.length ? (
+                    <p className="mt-3 flex flex-wrap gap-x-2 gap-y-1 text-xs text-slate-600">
+                      <span>{t("relatedLabel")}</span>
+                      {relatedItems.map((related, index) => (
+                        <span key={related.id}>
+                          {index ? <span aria-hidden="true"> · </span> : null}
+                          <Link
+                            href={related.canonicalPath}
+                            className="font-semibold text-opseu-blue underline underline-offset-2 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+                          >
+                            {titleFor(related, nav, officerLearning)}
+                          </Link>
+                        </span>
+                      ))}
+                    </p>
+                  ) : null}
+                </div>
               </li>
             );
           })}

@@ -9,22 +9,29 @@ import { OfficerHubNavLink } from "@/components/layout/OfficerHubNavLink";
 import { LocalPortalNavLink } from "@/components/layout/LocalPortalNavLink";
 import { getFocusable } from "./focusables";
 import { cn } from "@/lib/utils";
-import { isPublicPrimaryNavActive, PUBLIC_PRIMARY_NAV } from "./nav-config";
+import {
+  isPublicPrimaryNavActive,
+  primaryNavForContext,
+  type ShellContext,
+} from "./nav-config";
 
 export function MobileNavDrawer({
   headerHeight,
   pathname,
+  shellContext,
   onClose,
   onCloseAfterNav,
   drawerId,
 }: {
   headerHeight: number;
   pathname: string;
+  shellContext: ShellContext;
   onClose: () => void;
   onCloseAfterNav: () => void;
   drawerId: string;
 }) {
   const t = useTranslations("nav");
+  const primaryNav = primaryNavForContext(shellContext);
   const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -106,7 +113,7 @@ export function MobileNavDrawer({
       >
         <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 [-webkit-overflow-scrolling:touch]" aria-label={t("mainNav")}>
           <div className="space-y-1">
-            {PUBLIC_PRIMARY_NAV.map((item) => {
+            {primaryNav.map((item) => {
               const active = isPublicPrimaryNavActive(pathname, item.href);
               return (
                 <Link
@@ -125,10 +132,11 @@ export function MobileNavDrawer({
           </div>
         </nav>
 
-        <nav
-          aria-label={t("utilityNav")}
-          className="shrink-0 border-t border-slate-200 px-4 pt-3"
-        >
+        {shellContext === "public" ? (
+          <nav
+            aria-label={t("utilityNav")}
+            className="shrink-0 border-t border-slate-200 px-4 pt-3"
+          >
             <Link
               href="/search"
               onClick={onCloseAfterNav}
@@ -137,7 +145,8 @@ export function MobileNavDrawer({
             >
               <span aria-hidden="true" className="mr-2">⌕</span>{t("search")}
             </Link>
-        </nav>
+          </nav>
+        ) : null}
 
         <div className="shrink-0 border-t border-slate-200 px-4 py-3">
           <AuthAccountControls
