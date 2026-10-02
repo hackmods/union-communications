@@ -62,6 +62,7 @@ export const RECOMMENDED_BACKENDS: Record<
   DATA_DB_BACKEND: { recommended: "memory", intentionalMemory: true },
   ACCESS_REQUEST_DB_BACKEND: { recommended: "postgres" },
   PORTAL_DB_BACKEND: { recommended: "postgres" },
+  HUB_SETTINGS_DB_BACKEND: { recommended: "postgres" },
 };
 
 export type BackendReadinessRow = {

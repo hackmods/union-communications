@@ -1,14 +1,13 @@
-import { getUnionPreset } from "@/lib/constants/unionPresets";
+import { isTrustedCommsPresetId } from "@/lib/brand/comms-preset-catalog";
 import { getTenantByUnionId } from "@/lib/tenant/loader";
 
 /**
- * Trusted Comms preset ids only — never treat an arbitrary slug as a theme.
+ * Trusted Comms preset ids only — compiled UNION_PRESETS or durable catalog.
  */
 export function isTrustedUnionPresetId(
   value: string | null | undefined,
 ): value is string {
-  const id = value?.trim();
-  return Boolean(id && getUnionPreset(id));
+  return isTrustedCommsPresetId(value);
 }
 
 /**

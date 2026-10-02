@@ -1,27 +1,33 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import {
-  getHubBrandKitRecord,
-  hubSettingsKey,
-  saveHubBrandKitRecord,
+  clearPersonalBrandKit,
+  resolveHubBrandKit,
+  writeHubBrandKit,
+  type BrandKitWriteScope,
 } from "@/lib/hub-settings/store";
 import { syncPreferredLibraryFromCollectionCode } from "@/lib/snippets/preferred-library";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { brandKitPutSchema } from "@/lib/validation/hub-settings";
 import type { BrandKit } from "@/types/entities";
+import type { UserRole } from "@/types/tenant";
 
 /**
- * Authenticated Brand Kit persistence for `ApiAdapter` (Hub context only).
- * Public Comms tools stay on `LocalStorageAdapter` for data sovereignty —
- * this route is never called from the public canvas tools.
+ * Authenticated Brand Kit persistence for `ApiAdapter`.
+ * Hybrid: Local shared defaults + personal overlay. Public Comms tools stay on
+ * LocalStorageAdapter unless the session opts into ApiAdapter.
  */
 export async function GET() {
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const key = hubSettingsKey(session.user.id, session.user.unionId);
-  const record = getHubBrandKitRecord(key);
+  const record = resolveHubBrandKit({
+    userId: session.user.id,
+    unionId: session.user.unionId,
+    localId: session.user.localId,
+    roles: session.user.roles as UserRole[] | undefined,
+  });
   return NextResponse.json(record);
 }
 
@@ -46,35 +52,51 @@ export async function PUT(request: Request) {
     );
   }
 
-  const key = hubSettingsKey(session.user.id, session.user.unionId);
-  const record = saveHubBrandKitRecord(key, {
-    ...(parsed.data.brandKit !== undefined
-      ? { brandKit: parsed.data.brandKit as BrandKit | null }
-      : {}),
-    ...(parsed.data.onboardingComplete !== undefined
-      ? { onboardingComplete: parsed.data.onboardingComplete }
-      : {}),
-  });
+  const scope = (parsed.data.scope ?? "personal") as BrandKitWriteScope;
 
-  // Preference only — never wipe custom CA clauses when Brand Kit collection changes.
-  const unionId = session.user.unionId;
-  const localId = session.user.localId;
-  const kit = record.brandKit;
-  if (unionId && localId && kit) {
-    const active = kit.profiles?.find((p) => p.id === kit.activeProfileId);
-    const code =
-      active?.bargainingUnitCode ?? kit.local?.bargainingUnitCode ?? null;
-    if (code) {
-      syncPreferredLibraryFromCollectionCode(
-        unionId,
-        localId,
-        code,
-        session.user.bargainingUnitId,
-      );
+  try {
+    const record = writeHubBrandKit(
+      {
+        userId: session.user.id,
+        unionId: session.user.unionId,
+        localId: session.user.localId,
+        roles: session.user.roles as UserRole[] | undefined,
+      },
+      {
+        scope,
+        ...(parsed.data.brandKit !== undefined
+          ? { brandKit: parsed.data.brandKit as BrandKit | null }
+          : {}),
+        ...(parsed.data.onboardingComplete !== undefined
+          ? { onboardingComplete: parsed.data.onboardingComplete }
+          : {}),
+      },
+    );
+
+    const unionId = session.user.unionId;
+    const localId = session.user.localId;
+    const kit = record.brandKit;
+    if (unionId && localId && kit) {
+      const active = kit.profiles?.find((p) => p.id === kit.activeProfileId);
+      const code =
+        active?.bargainingUnitCode ?? kit.local?.bargainingUnitCode ?? null;
+      if (code) {
+        syncPreferredLibraryFromCollectionCode(
+          unionId,
+          localId,
+          code,
+          session.user.bargainingUnitId,
+        );
+      }
     }
-  }
 
-  return NextResponse.json(record);
+    return NextResponse.json(record);
+  } catch (err) {
+    if (err instanceof Error && err.message === "forbidden_local_write") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    throw err;
+  }
 }
 
 export async function DELETE() {
@@ -82,7 +104,12 @@ export async function DELETE() {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const key = hubSettingsKey(session.user.id, session.user.unionId);
-  const record = saveHubBrandKitRecord(key, { brandKit: null });
+  // Clear personal overlay only — never wipe Local shared defaults.
+  const record = clearPersonalBrandKit({
+    userId: session.user.id,
+    unionId: session.user.unionId,
+    localId: session.user.localId,
+    roles: session.user.roles as UserRole[] | undefined,
+  });
   return NextResponse.json(record);
 }

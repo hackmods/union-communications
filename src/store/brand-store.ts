@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { create } from "zustand";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
@@ -10,14 +10,18 @@ import {
 import { resolveTrustedPresetId } from "@/lib/brand/union-preset-bridge";
 import { brandThemeToKitPatch } from "@/lib/brand/union-brand-theme";
 import type { UnionBrandTheme } from "@/lib/brand/union-brand-theme";
-import {
-  dataAdapter,
-  LocalStorageAdapter,
-} from "@/lib/data/local-storage-adapter";
+import { LocalStorageAdapter } from "@/lib/data/local-storage-adapter";
+import { getDataAdapter } from "@/lib/data/get-data-adapter";
+import { apiAdapter } from "@/lib/data/api-adapter";
+import type { DataAdapter } from "@/lib/data/adapter";
 import { syncBrandKitProfilesFromLocal } from "@/lib/brand/collection-profiles";
 import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
 import { normalizeBrandKit } from "@/lib/utils/local-links";
 import type { BrandKit, BrandKitPatch } from "@/types/entities";
+
+function activeAdapter(): DataAdapter {
+  return getDataAdapter();
+}
 
 interface BrandState {
   brandKit: BrandKit;
@@ -44,14 +48,16 @@ interface BrandState {
   importBrandKit: (kit: BrandKit | unknown) => void;
   setOnboardingComplete: (complete: boolean) => void;
   dismissStorageBlocked: () => void;
+  /** Publish current kit as Local shared defaults (ApiAdapter only). */
+  publishLocalBrandKit: () => Promise<boolean>;
   hydrate: () => Promise<void>;
 }
 
 let persistenceUnsub: (() => void) | null = null;
 let saveBrandKitTimer: ReturnType<typeof setTimeout> | null = null;
-/** Latest kit waiting for debounced persist — flushed on pagehide. */
+/** Latest kit waiting for debounced persist â€” flushed on pagehide. */
 let pendingSaveKit: BrandKit | null = null;
-/** Patches made before hydrate — applied onto the loaded kit, never onto defaults. */
+/** Patches made before hydrate â€” applied onto the loaded kit, never onto defaults. */
 let pendingPatch: BrandKitPatch | null = null;
 /** Import/reset requested while hydration awaits a host response. */
 let pendingReplacement: BrandKit | null = null;
@@ -71,7 +77,7 @@ function patchNeedsImmediateSave(partial: BrandKitPatch): boolean {
   return (
     patchTouchesLogo(partial) ||
     "designTreatment" in partial ||
-    // Preset switches drive Local pack / Look exports — do not wait on debounce.
+    // Preset switches drive Local pack / Look exports â€” do not wait on debounce.
     "unionPresetId" in partial
   );
 }
@@ -86,7 +92,7 @@ function flushPendingBrandKitSave(onSaved?: () => void) {
   if (kit) {
     // Invoke immediately so localStorage writes land before navigation tears
     // down the document (async `then` microtasks can be cancelled on unload).
-    const result = dataAdapter.saveBrandKit(kit);
+    const result = activeAdapter().saveBrandKit(kit);
     void Promise.resolve(result).then(() => {
       onSaved?.();
     });
@@ -177,8 +183,9 @@ function ensurePersistenceSubscription(
   set: (partial: Partial<BrandState>) => void,
 ) {
   if (persistenceUnsub) return;
-  if (!(dataAdapter instanceof LocalStorageAdapter)) return;
-  persistenceUnsub = dataAdapter.subscribePersistenceBlocked((blocked) => {
+  const adapter = activeAdapter();
+  if (!(adapter instanceof LocalStorageAdapter)) return;
+  persistenceUnsub = adapter.subscribePersistenceBlocked((blocked) => {
     if (blocked) set({ storageBlocked: true });
   });
 }
@@ -276,7 +283,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     });
     pendingReplacement = get().hydrated ? null : reset;
     set({ brandKit: reset, lastSavedAt: null, hasStoredBrandKit: true });
-    void Promise.resolve(dataAdapter.saveBrandKit(reset)).then(() => {
+    void Promise.resolve(activeAdapter().saveBrandKit(reset)).then(() => {
       if (!get().storageBlocked) {
         set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
       }
@@ -292,7 +299,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     });
     pendingReplacement = get().hydrated ? null : updated;
     set({ brandKit: updated });
-    void Promise.resolve(dataAdapter.saveBrandKit(updated)).then(() => {
+    void Promise.resolve(activeAdapter().saveBrandKit(updated)).then(() => {
       if (!get().storageBlocked) {
         set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
       }
@@ -301,20 +308,30 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
 
   setOnboardingComplete: (complete) => {
     set({ onboardingComplete: complete });
-    void dataAdapter.setOnboardingComplete(complete);
+    void activeAdapter().setOnboardingComplete(complete);
   },
 
   dismissStorageBlocked: () => {
-    if (dataAdapter instanceof LocalStorageAdapter) {
-      dataAdapter.dismissPersistenceBlocked();
+    const adapter = activeAdapter();
+    if (adapter instanceof LocalStorageAdapter) {
+      adapter.dismissPersistenceBlocked();
     }
     set({ storageBlocked: false });
   },
 
+  publishLocalBrandKit: async () => {
+    const kit = get().brandKit;
+    const ok = await apiAdapter.publishLocalBrandKit(kit);
+    if (ok) {
+      set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
+    }
+    return ok;
+  },
+
   hydrate: async () => {
     ensurePersistenceSubscription(set);
-    const kit = await dataAdapter.getBrandKit();
-    const onboardingComplete = await dataAdapter.isOnboardingComplete();
+    const kit = await activeAdapter().getBrandKit();
+    const onboardingComplete = await activeAdapter().isOnboardingComplete();
     let brandKit = kit ?? get().brandKit;
     let hasStoredBrandKit = kit != null;
 
@@ -412,3 +429,4 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     set({ brandKit, onboardingComplete, hydrated: true, hasStoredBrandKit });
   },
 }));
+

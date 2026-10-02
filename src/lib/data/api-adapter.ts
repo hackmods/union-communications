@@ -3,17 +3,20 @@ import { normalizeBrandKit } from "@/lib/utils/local-links";
 import type { UserPreferences } from "@/types/preferences";
 import type { DataAdapter } from "./adapter";
 
+export type BrandKitSaveScope = "personal" | "local";
+
 /**
- * Authenticated `DataAdapter` backed by `/api/brand-kit` and `/api/preferences`
- * (Phase 6 ApiAdapter). Intended for the Officer Hub only — public Comms tools
- * must keep using `LocalStorageAdapter` for on-device data sovereignty
- * (ADR-006 / privacy copy). See `docs/ARCHITECTURE.md` DataAdapter table.
- *
- * Every request is same-origin `credentials: "include"` so the NextAuth
- * session cookie is sent; a 401 is treated as "no data" rather than thrown,
- * so callers don't need bespoke auth-loss handling.
+ * Authenticated `DataAdapter` backed by `/api/brand-kit` and `/api/preferences`.
+ * Default save scope is personal overlay; use `publishLocalBrandKit` to
+ * publish Local shared defaults (requires officer role server-side).
  */
 export class ApiAdapter implements DataAdapter {
+  private saveScope: BrandKitSaveScope = "personal";
+
+  setSaveScope(scope: BrandKitSaveScope): void {
+    this.saveScope = scope;
+  }
+
   async getBrandKit(): Promise<BrandKit | null> {
     try {
       const res = await this.fetchJson<{ brandKit: BrandKit | null }>(
@@ -31,9 +34,23 @@ export class ApiAdapter implements DataAdapter {
     try {
       await this.putJson("/api/brand-kit", {
         brandKit: normalizeBrandKit(kit),
+        scope: this.saveScope,
       });
     } catch (err) {
       console.warn("[ApiAdapter] saveBrandKit failed", err);
+    }
+  }
+
+  async publishLocalBrandKit(kit: BrandKit): Promise<boolean> {
+    try {
+      await this.putJson("/api/brand-kit", {
+        brandKit: normalizeBrandKit(kit),
+        scope: "local",
+      });
+      return true;
+    } catch (err) {
+      console.warn("[ApiAdapter] publishLocalBrandKit failed", err);
+      return false;
     }
   }
 

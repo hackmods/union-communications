@@ -4697,6 +4697,19 @@
       "apply": "Apply published brand baseline",
       "undo": "Undo baseline application"
     },
+    "localSync": {
+      "title": "Local defaults and your overrides",
+      "statusReady": "Your Brand Kit is saved with your account while you are signed in.",
+      "statusEmpty": "Sign in so this Local can keep shared branding ready on every device.",
+      "personalHint": "Signatures and personal tweaks save automatically for you. They do not change the Local default until an officer publishes.",
+      "publish": "Save as Local default",
+      "publishing": "Saving Local default…",
+      "publishHint": "Officers publish once so stewards inherit colours, logos, and local number.",
+      "publishSuccess": "Local default saved. Other signed-in members of this Local will get these colours and logos on their next load.",
+      "publishError": "Could not save the Local default. Check you are still signed in, then try again.",
+      "stewardHint": "Ask a Local president or union admin to publish Local defaults. Your personal overrides still save for you.",
+      "localLabel": "Local number in kit: {local}"
+    },
     "presetSlogans": {
       "opseu": {
         "items": [
@@ -8491,6 +8504,10 @@
       "homepage-product-front-door": {
         "title": "Find the right tool from Home",
         "body": "Choose communications, workplace preparation, or learning from the homepage, with guided setup close at hand and clearer information about shared workspaces."
+      },
+      "hub-brand-local-sync": {
+        "title": "Local branding that follows signed-in accounts",
+        "body": "Officers can save Brand Kit colours and logos as Local defaults. Personal signatures stay private, and the Local kit loads again when you sign in on another device."
       }
     }
   },
@@ -9329,6 +9346,26 @@
       "brandStylesLogoUploadFailed": "Could not upload the logo. Use PNG, JPEG, or WebP under 5 MB, confirm customization MFA, then try again.",
       "hostBrandClearConfirm": "Clear durable host brand overrides? File and environment defaults will apply again.",
       "hostBrandErrorRemedy": "Refresh the page. If it still fails, confirm Postgres is configured for this host.",
+      "brandAdminExtras": {
+        "title": "Sector bindings and preset catalog",
+        "body": "Map a Comms preset and optional sector to a Hub union, or add a durable preset that sits on top of the built-in catalog. Empty Local Brand Kits use these when seeding.",
+        "bindingsTitle": "Preset × sector binding",
+        "catalogTitle": "Durable Comms preset",
+        "unionId": "Hub union id",
+        "presetId": "Preset id",
+        "sectorId": "Sector id (optional)",
+        "presetName": "Display name",
+        "primaryColor": "Primary colour",
+        "saveBinding": "Save binding",
+        "savePreset": "Save preset",
+        "noBindings": "No bindings yet for this filter.",
+        "mergedCount": "{count} presets available (built-in plus durable).",
+        "loadError": "Could not load brand admin extras. Check your connection and try again.",
+        "saveError": "Could not save. Check the fields and try again.",
+        "bindingSaved": "Preset binding saved.",
+        "presetSaved": "Durable preset saved.",
+        "unionRequired": "Enter a Hub union id before saving a binding."
+      },
       "accessRequestsEmptyFiltered": "No requests match this filter. Try All requests or another status.",
       "accessRequestsRole": "Role",
       "accessRequestsOfferings": "Interested in",
