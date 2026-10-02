@@ -1,6 +1,6 @@
 # UnionOps UI direction
 
-Status: direction selected; implementation in progress and rendered validation pending. Planning reconciled against checkpoint `fd204bb1` on 2026-10-01. The recovered baseline is documented in [implementation status](05_IMPLEMENTATION_STATUS.md). Follow [the implementation plan](07_IMPLEMENTATION_PLAN.md) and update its progress record as checkpoints land.
+Status: direction implemented; Home/Platform bilingual rendered checks pass, and remaining scoped working-state acceptance is tracked below. Planning reconciled against checkpoint `fd204bb1` on 2026-10-01. The recovered baseline is documented in [implementation status](05_IMPLEMENTATION_STATUS.md). Follow [the implementation plan](07_IMPLEMENTATION_PLAN.md) and update its progress record as checkpoints land.
 
 ## Working direction: useful work, visibly connected
 
@@ -12,7 +12,7 @@ Personality belongs in orientation. Catalogs help people choose. Editors foregro
 
 ## Principles that govern implementation
 
-- Demonstrate shipped functionality using actual renderers or screenshots of synthetic application states. Label examples. Never expose real cases or imply sample activity is customer activity. Home now pairs a clearly labeled communications sample with a localized Officer Learning module and a real RTW worksheet prompt/options preview. A synthetic, member-safe Hub/Portal visual remains to be added after source and rendered validation.
+- Demonstrate shipped functionality using actual renderers or screenshots of synthetic application states. Label examples. Never expose real cases or imply sample activity is customer activity. Home now pairs a clearly labeled communications sample with a localized Officer Learning module and a real RTW worksheet prompt/options preview. Home also shows authentic officer task/check-in and member Circle excerpts, captured separately from synthetic accounts in both languages and phone/desktop compositions.
 - Lead with work people recognize: make a notice, prepare a grievance, run a meeting, train a steward, build a local website.
 - Brand Kit connects applicable outputs through reusable identity. It is optional preparation for a visitor, never an invented prerequisite for public tools.
 - Officer Hub and Local Portal deserve substantial explanation, with a visible confidentiality boundary. Member participation is not unrestricted access to officer casework.

@@ -346,6 +346,14 @@
     "brandTitle": "Configurez votre identité une fois et réutilisez-la dans la trousse.",
     "brandBody": "La Trousse de marque garde le nom, les couleurs, le logo et les liens de votre section à portée de main dans les outils compatibles. Chaque outil utilise les renseignements qu’il prend en charge. La configuration reste facultative.",
     "brandCta": "Découvrir la Trousse de marque",
+    "brandReuse": {
+      "local": "Section {number}",
+      "example": "Section fictive {number}",
+      "source": "Une palette de votre Trousse de marque, prête dans les outils ci-dessous.",
+      "graphics": "Créer un visuel",
+      "letters": "Rédiger une lettre",
+      "website": "Créer un site Web local"
+    },
     "platformEyebrow": "Quand la section travaille ensemble",
     "platformTitle": "Des activités partagées, avec des limites claires",
     "platformIntro": "La plateforme hébergée ajoute des espaces protégés par des permissions, destinés aux dirigeants et aux membres. Chaque espace a son public et son rôle.",
@@ -358,6 +366,13 @@
     "portalBody": "Les membres peuvent consulter les renseignements locaux et participer aux espaces qui leur sont ouverts, comme les cercles et les activités locales.",
     "portalBoundary": "Les membres voient les renseignements et les espaces autorisés pour leur accès. Les dirigeants décident quoi partager.",
     "platformDetailLink": "Voir le fonctionnement de la plateforme",
+    "hostedPreview": {
+      "hubAlt": "Section du Hub des dirigeants montrant une tâche de réunion attribuée et des suivis en attente de réponse.",
+      "hubCaption": "Exemple réel du Hub des dirigeants avec des tâches et des suivis fictifs. Les fonctions disponibles dépendent du rôle et des modules activés.",
+      "portalAlt": "Liste des cercles du Portail local montrant la salle locale et un comité de santé et sécurité accessibles au membre de démonstration.",
+      "portalCaption": "Vue réelle d’un membre dans une section fictive. L’accès aux cercles dépend des permissions et reste distinct des dossiers privés des dirigeants.",
+      "fullSize": "Voir l’exemple en taille réelle"
+    },
     "trustEyebrow": "Confidentialité et contrôle local",
     "trustTitle": "Choisissez où le travail doit se faire",
     "trustIntro": "UnionOps propose des outils sur appareil et des espaces locaux hébergés. Le stockage et les règles d’accès diffèrent.",
@@ -7683,6 +7698,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "home-union-work": {
+        "title": "Trouvez des outils pour votre travail syndical",
+        "body": "L’accueil relie les visuels, la préparation en milieu de travail, la formation et les activités locales avec des liens directs, les couleurs réutilisables de la Trousse de marque et des exemples réels du Hub des dirigeants et du Portail local."
+      },
       "editor-keyboard-tabs": {
         "title": "Passez de la modification à l’aperçu avec votre clavier",
         "body": "Dans les outils qui proposent des onglets de modification et d’aperçu, utilisez les touches fléchées pour changer d’onglet tout en conservant votre travail."

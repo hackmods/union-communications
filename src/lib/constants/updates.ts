@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "home-union-work",
+    date: "2026-10-02",
+    kind: "improved",
+    href: "/",
+  },
+  {
     id: "editor-keyboard-tabs",
     date: "2026-10-01",
     kind: "improved",

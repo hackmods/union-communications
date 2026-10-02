@@ -346,6 +346,14 @@
     "brandTitle": "Set up your identity once. Reuse it across the toolkit.",
     "brandBody": "Brand Kit keeps your local name, colours, logo, and links ready for the tools that use them. Create materials without entering the same details again. Each tool uses the fields it supports; Brand Kit remains an optional starting point.",
     "brandCta": "Explore Brand Kit",
+    "brandReuse": {
+      "local": "Local {number}",
+      "example": "Example local {number}",
+      "source": "One palette from your Brand Kit, ready in the tools below.",
+      "graphics": "Make a graphic",
+      "letters": "Write a letter",
+      "website": "Build a local website"
+    },
     "platformEyebrow": "When the local works together",
     "platformTitle": "Shared work, with clear boundaries",
     "platformIntro": "The hosted platform extends the toolkit with permissioned spaces for officers and members. Each space has a distinct audience and purpose.",
@@ -358,6 +366,13 @@
     "portalBody": "Members can find local information and take part in spaces opened to them, such as Circles and local activities.",
     "portalBoundary": "Members see the information and spaces their access allows. Officers choose what is appropriate to share.",
     "platformDetailLink": "See how the platform works",
+    "hostedPreview": {
+      "hubAlt": "Officer Hub attention section showing an assigned meeting task and unanswered officer check-ins.",
+      "hubCaption": "Actual Officer Hub example with synthetic tasks and check-ins. Available work depends on your role and enabled modules.",
+      "portalAlt": "Local Portal Circle list showing the local Hall and a health and safety committee available to the demo member.",
+      "portalCaption": "Actual member view from a synthetic local. Circle access is permissioned; this is separate from private officer records.",
+      "fullSize": "View full-size example"
+    },
     "trustEyebrow": "Privacy and local control",
     "trustTitle": "Choose where the work belongs",
     "trustIntro": "UnionOps has device-based tools and hosted local workspaces. The two have different storage and access rules.",
@@ -7737,6 +7752,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "home-union-work": {
+        "title": "Find tools for the union work in front of you",
+        "body": "Home now connects graphics, workplace preparation, learning and local operations with direct tool links, reusable Brand Kit colours and real Officer Hub and Local Portal examples."
+      },
       "editor-keyboard-tabs": {
         "title": "Switch between editing and preview with your keyboard",
         "body": "In tool editors with Edit and Preview tabs, use the arrow keys to switch tabs while keeping your work in place."

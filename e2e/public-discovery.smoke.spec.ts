@@ -11,6 +11,18 @@ test.describe("task-first public discovery @smoke", () => {
           await page.goto(`/${locale}/${surface}`);
           await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
           await page.evaluate(() => document.fonts.ready);
+          if (!surface) {
+            for (const audience of ["hub", "portal"]) {
+              const capture = page.getByTestId(`home-${audience}-capture`);
+              await capture.scrollIntoViewIfNeeded();
+              const image = capture.getByRole("img");
+              await expect.poll(() => image.evaluate((node: HTMLImageElement) => node.naturalWidth)).toBeGreaterThan(0);
+              const source = await image.evaluate((node: HTMLImageElement) => node.currentSrc);
+              expect(source.includes("-phone")).toBe(width < 640);
+              await expect(image).toHaveAttribute("alt", /.+/);
+            }
+            await page.evaluate(() => window.scrollTo(0, 0));
+          }
           await assertNoHorizontalOverflow(page);
           if (width === 320 || width === 1280) {
             await page.screenshot({ path: testInfo.outputPath(`${locale}-${surface ? "platform" : "home"}-${width}.png`), fullPage: true });

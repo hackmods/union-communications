@@ -8,6 +8,8 @@ import { ACCOMMODATION_MEASURES } from "@/lib/steward-guides/rtw";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { HomeHeroPreview } from "@/components/pages/HomeHeroPreview";
+import { HostedProductPreview } from "@/components/pages/HostedProductPreview";
+import { HomeBrandReuse } from "@/components/pages/HomeBrandReuse";
 import { PageShell } from "@/components/layout/PageShell";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { HOME_MORE_WORK_LINKS, HOME_WORK_LINKS } from "@/lib/comms/home-work-links";
@@ -35,7 +37,7 @@ export function HomeContent() {
         <PageShell className="grid min-h-[32rem] items-center gap-10 py-10 [overflow-wrap:anywhere] sm:py-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:py-16">
           <div className="min-w-0" data-testid="home-hero-brand">
             <Eyebrow>{t("heroEyebrow")}</Eyebrow>
-            <h1 id="home-hero-heading" className="mt-3 max-w-2xl text-[clamp(2.35rem,5.3vw,4.25rem)] font-bold leading-[1.03] tracking-[-0.045em] text-opseu-dark">
+            <h1 id="home-hero-heading" className="mt-3 max-w-2xl text-[clamp(2.1rem,4vw,3.25rem)] font-bold leading-[1.08] tracking-[-0.035em] text-opseu-dark">
               {t("headline")}
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-700 sm:text-xl">
@@ -201,6 +203,7 @@ export function HomeContent() {
             <p className="max-w-prose text-base leading-relaxed text-slate-700">{t("brandBody")}</p>
             <ButtonLink href="/create/brand-kit" variant="outline" className="mt-4">{t("brandCta")}</ButtonLink>
           </div>
+          <HomeBrandReuse />
         </section>
 
         <section className="mt-14" aria-labelledby="home-platform-heading" data-testid="home-platform">
@@ -211,6 +214,7 @@ export function HomeContent() {
               <h3 className="mt-2 text-xl font-bold text-opseu-dark">{t("hubTitle")}</h3>
               <p className="mt-2 max-w-prose text-sm leading-relaxed text-slate-700">{t("hubBody")}</p>
               <p className="mt-3 max-w-prose text-sm font-medium leading-relaxed text-slate-700">{t("hubBoundary")}</p>
+              <HostedProductPreview audience="hub" />
               <Link href="/platform" className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-dark underline decoration-opseu-blue underline-offset-4">{t("platformDetailLink")} →</Link>
             </article>
             <article className="min-w-0 border-t-2 border-slate-400 pt-4">
@@ -218,6 +222,7 @@ export function HomeContent() {
               <h3 className="mt-2 text-xl font-bold text-opseu-dark">{t("portalTitle")}</h3>
               <p className="mt-2 max-w-prose text-sm leading-relaxed text-slate-700">{t("portalBody")}</p>
               <p className="mt-3 max-w-prose text-sm font-medium leading-relaxed text-slate-700">{t("portalBoundary")}</p>
+              <HostedProductPreview audience="portal" />
               <Link href="/platform" className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-dark underline decoration-opseu-blue underline-offset-4">{t("platformDetailLink")} →</Link>
             </article>
           </div>
