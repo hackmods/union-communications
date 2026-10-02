@@ -1,3 +1,10 @@
+## 2026-10-02 — Hybrid Brand Kit sync (Local + personal)
+
+- Authenticated Brand Kit now resolves **Local shared defaults** (`local_brand_kits`) plus a **personal overlay** (`user_brand_overlays`). Personal saves are automatic; officers publish with **Save as Local default**.
+- Client: `HubBrandKitSync` switches `ApiAdapter` on login and rehydrates on tenancy change. Migration `0095_hybrid_brand_kits` + `HUB_SETTINGS_DB_BACKEND` flag (memory default).
+- Site Admin APIs: preset × sector bindings (`/api/site-admin/preset-bindings`) and durable Comms preset catalog (`/api/site-admin/comms-presets`). Empty-Local seed may opt into published `brand:baseline` via `BRAND_BASELINE_AUTO_SEED`.
+- Tests: merge helper, hybrid resolve, brand-kit API, site-admin brand admin, journal contract. What’s new `hub-brand-local-sync` (audience hub).
+
 ## 2026-10-02 — Homepage product front door (implementation checkpoint)
 
 - Reworked Home into six sections: shorter hero, three task groups, Brand Kit reuse, distinct Hub/Portal examples, privacy/cost answers, and guided setup/support. Updated EN/FR copy, metadata, and public release note.

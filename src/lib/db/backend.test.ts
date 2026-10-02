@@ -25,6 +25,7 @@ import {
   officersDbBackend,
   pollsDbBackend,
   portalDbBackend,
+  hubSettingsDbBackend,
   readEffectiveBackendFlags,
   tasksDbBackend,
   timeDbBackend,
@@ -170,6 +171,10 @@ describe("db backend flags", () => {
     ).toBe("postgres");
     expect(portalDbBackend({
       PORTAL_DB_BACKEND: "postgres",
+      DATABASE_URL: "postgres://localhost/unionops",
+    })).toBe("postgres");
+    expect(hubSettingsDbBackend({
+      HUB_SETTINGS_DB_BACKEND: "postgres",
       DATABASE_URL: "postgres://localhost/unionops",
     })).toBe("postgres");
   });
@@ -509,10 +514,11 @@ describe("db backend flags", () => {
     });
     expect(flags.GRIEVANCE_DB_BACKEND).toBe("postgres");
     expect(flags.AUTH_USERS_BACKEND).toBe("postgres");
-    expect(DB_BACKEND_ENV_KEYS).toHaveLength(29);
+    expect(DB_BACKEND_ENV_KEYS).toHaveLength(30);
     expect(DB_BACKEND_ENV_KEYS).toContain("DATA_DB_BACKEND");
     expect(DB_BACKEND_ENV_KEYS).toContain("ACCESS_REQUEST_DB_BACKEND");
     expect(DB_BACKEND_ENV_KEYS).toContain("SNIPPETS_DB_BACKEND");
+    expect(DB_BACKEND_ENV_KEYS).toContain("HUB_SETTINGS_DB_BACKEND");
   });
 
   it("prefers Postgres for access requests when DATABASE_URL is set", () => {

@@ -4695,6 +4695,29 @@
       "apply": "Appliquer la base de marque publiée",
       "undo": "Annuler l'application de la base"
     },
+    "localSync": {
+      "title": "Défauts de la section locale et vos ajustements",
+      "loading": "Chargement de la marque de la section locale…",
+      "statusReady": "Votre Trousse de marque est enregistrée avec votre compte lorsque vous êtes connecté.",
+      "statusEmpty": "Connectez-vous pour que cette section locale conserve la marque partagée sur chaque appareil.",
+      "localSharedReady": "Cette section locale a déjà des défauts partagés.",
+      "localSharedMissing": "Cette section locale n’a pas encore de défauts publiés.",
+      "personalOverridesOn": "Vous avez aussi des ajustements personnels par-dessus.",
+      "personalHint": "Les signatures et ajustements personnels se sauvegardent automatiquement pour vous. Ils ne changent pas le défaut de la section locale tant qu’un dirigeant ne publie pas.",
+      "publish": "Enregistrer comme défaut de la section locale",
+      "publishing": "Enregistrement du défaut local…",
+      "publishHint": "Les dirigeants publient une fois pour que les délégués héritent des couleurs, logos et numéro de section locale.",
+      "publishSuccess": "Défaut de la section locale enregistré. Les autres membres connectés de cette section locale recevront ces couleurs et logos au prochain chargement.",
+      "publishError": "Impossible d’enregistrer le défaut de la section locale. Vérifiez que vous êtes encore connecté, puis réessayez.",
+      "retryPublish": "Réessayer",
+      "stewardHint": "Demandez à un président de section locale ou à un admin syndical de publier les défauts locaux. Vos ajustements personnels se sauvegardent quand même pour vous.",
+      "noLocalAssigned": "Votre compte n’a pas encore de section locale, donc la marque partagée ne peut pas se charger. Demandez à un dirigeant d’assigner votre section locale, puis rechargez la Trousse de marque.",
+      "confirmTitle": "Enregistrer comme défaut de la section locale ?",
+      "confirmBody": "Cela remplace la Trousse de marque partagée pour tout le monde dans votre section locale. Les signatures personnelles restent privées. Continuez seulement si ces couleurs et logos doivent être la norme de la section locale.",
+      "confirmPublish": "Enregistrer le défaut local",
+      "confirmCancel": "Annuler",
+      "localLabel": "Numéro de section locale dans la trousse : {local}"
+    },
     "presetSlogans": {
       "opseu": {
         "items": [
@@ -8437,6 +8460,10 @@
       "homepage-product-front-door": {
         "title": "Trouvez le bon outil dès l’accueil",
         "body": "Choisissez les communications, la préparation des interventions ou la formation dès l’accueil, avec un parcours guidé à portée de main et des explications plus claires sur les espaces partagés."
+      },
+      "hub-brand-local-sync": {
+        "title": "Marque de la section locale qui suit les comptes connectés",
+        "body": "Les dirigeants peuvent enregistrer les couleurs et logos de la Trousse de marque comme défauts de la section locale. Les signatures personnelles restent privées, et la trousse locale se recharge lorsque vous vous connectez sur un autre appareil."
       }
     }
   },
@@ -8952,7 +8979,7 @@
       "directoryAccessHint": "Désactivé par défaut. Permet aux administrateurs de ce syndicat de voir seulement les numéros des sections, sans accès aux dossiers, au contenu des groupes ni aux adhésions. Nécessite un stockage durable.",
       "directoryAccessSaved": "Accès au répertoire syndical mis à jour.",
       "directoryAccessFailed": "Impossible de modifier l'accès au répertoire. Vérifiez que PostgreSQL est disponible, puis réessayez.",
-      "brandStylesBody": "Associez un préréglage Comms et des couleurs/polices optionnelles à chaque syndicat du Hub pour que le site public des membres corresponde. Cela ne change pas l'adhésion ni les invitations. Les défauts de marque d'instance s'appliquent tant qu'aucune trousse n'est enregistrée.",
+      "brandStylesBody": "Associez un préréglage Comms et des couleurs/polices optionnelles à chaque syndicat du Hub pour que le site public des membres corresponde. Cela ne change pas l'adhésion ni les invitations. Les défauts de marque d'instance s'appliquent tant qu'aucune trousse n'est enregistrée. Plus bas, liez les secteurs et ajoutez des préréglages durables pour l’amorçage des Trousses de marque locales vides.",
       "brandStylesLoading": "Chargement des syndicats…",
       "brandStylesLoadFailed": "Impossible de charger les liaisons de style de marque. Vérifiez votre connexion et réessayez.",
       "brandStylesSaveFailed": "Impossible d’enregistrer cette liaison. Corrigez le nom d’URL ou le préréglage et réessayez.",
@@ -9275,6 +9302,34 @@
       "brandStylesLogoUploadFailed": "Impossible de téléverser le logo. Utilisez PNG, JPEG ou WebP de moins de 5 Mo, confirmez le MFA de personnalisation, puis réessayez.",
       "hostBrandClearConfirm": "Effacer les remplacements durables de marque d'instance ? Les défauts fichier et environnement s'appliqueront de nouveau.",
       "hostBrandErrorRemedy": "Actualisez la page. Si cela échoue encore, confirmez que Postgres est configuré pour cet hôte.",
+      "brandAdminExtras": {
+        "title": "Liaisons de secteur et catalogue de préréglages",
+        "body": "Associez un préréglage Comms et un secteur optionnel à un syndicat Hub, ou ajoutez un préréglage durable qui s’ajoute au catalogue intégré. Les Trousses de marque locales vides les utilisent au démarrage.",
+        "loading": "Chargement des liaisons de secteur et des préréglages…",
+        "saving": "Enregistrement…",
+        "bindingsTitle": "Liaison préréglage × secteur",
+        "catalogTitle": "Préréglage Comms durable",
+        "unionId": "Syndicat Hub",
+        "presetId": "Préréglage",
+        "sectorId": "Identifiant de secteur (optionnel)",
+        "presetName": "Nom affiché",
+        "primaryColor": "Couleur principale",
+        "saveBinding": "Enregistrer la liaison",
+        "removeBinding": "Retirer",
+        "savePreset": "Enregistrer le préréglage",
+        "noBindings": "Aucune liaison pour ce filtre.",
+        "noUnions": "Aucun syndicat Hub sur cet hôte pour le moment",
+        "mergedCount": "{count} préréglages disponibles (intégré et durable).",
+        "loadError": "Impossible de charger les options de marque. Vérifiez la connexion, puis réessayez.",
+        "saveError": "Impossible d’enregistrer. Vérifiez les champs, puis réessayez.",
+        "bindingSaved": "Liaison de préréglage enregistrée.",
+        "bindingRemoved": "Liaison de préréglage retirée.",
+        "presetSaved": "Préréglage durable enregistré.",
+        "unionRequired": "Choisissez un syndicat Hub avant d’enregistrer une liaison.",
+        "presetRequired": "Choisissez un préréglage avant d’enregistrer une liaison.",
+        "presetFieldsRequired": "Entrez un identifiant de préréglage et un nom affiché.",
+        "invalidHex": "La couleur principale doit être un hexadécimal à six chiffres comme #C2410C."
+      },
       "accessRequestsEmptyFiltered": "Aucune demande ne correspond à ce filtre. Essayez Toutes les demandes ou un autre statut.",
       "accessRequestsRole": "Rôle",
       "accessRequestsOfferings": "Intérêt pour",
@@ -17051,6 +17106,7 @@
     "noResultsBody": "Essayez une recherche plus large ou effacez un ou plusieurs filtres.",
     "relatedLabel": "À consulter aussi :",
     "learnCollectionsTitle": "Commencez par une tâche courante",
+    "learnCollectionsCta": "Ouvrir",
     "learnCollections": {
       "firstWeekTitle": "Premiers pas en communication",
       "firstWeekBody": "Après la Trousse de marque, planifiez tableaux, impression, social et un site simple avec un message clair.",

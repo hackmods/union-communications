@@ -53,6 +53,7 @@ import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { JointActionCard } from "@/components/comms/campaign/JointActionCard";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { BrandBaselineOffer } from "@/components/customization/BrandBaselineOffer";
+import { BrandKitLocalPublishPanel } from "@/components/brand/BrandKitLocalPublishPanel";
 
 export default function BrandKitPage() {
   const t = useTranslations("brandKit");
@@ -160,6 +161,7 @@ export default function BrandKitPage() {
       </div>
 
       <BrandKitContextHint />
+      <BrandKitLocalPublishPanel />
 
       <nav
         aria-label={t("sectionNavLabel")}

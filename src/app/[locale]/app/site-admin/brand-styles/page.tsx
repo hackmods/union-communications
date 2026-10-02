@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { redirectUnlessSiteAdmin, requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { BrandStylesAdminForm } from "@/components/site-admin/BrandStylesAdminForm";
 import { HostBrandAdminForm } from "@/components/site-admin/HostBrandAdminForm";
+import { BrandAdminExtrasPanel } from "@/components/site-admin/BrandAdminExtrasPanel";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +46,7 @@ export default async function SiteAdminBrandStylesPage({
       </p>
       <BrandStylesAdminForm />
       <HostBrandAdminForm />
+      <BrandAdminExtrasPanel />
     </main>
   );
 }

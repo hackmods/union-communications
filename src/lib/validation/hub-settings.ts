@@ -23,6 +23,8 @@ export const brandKitPutSchema = z
   .object({
     brandKit: brandKitInputSchema.nullable().optional(),
     onboardingComplete: z.boolean().optional(),
+    /** personal (default) = overlay; local = publish Local shared defaults */
+    scope: z.enum(["personal", "local"]).optional(),
   })
   .strict()
   .refine((v) => v.brandKit !== undefined || v.onboardingComplete !== undefined, {

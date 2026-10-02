@@ -55,6 +55,8 @@ export const LOCAL_MOVE_UNION_ID_TABLES: readonly string[] = [
   "document_access_grants",
   // Customization root scopes (children via LOCAL_MOVE_SCOPE_CHILD_TABLES)
   "customization_scopes",
+  // Local Brand Kit defaults (hybrid Brand Kit / migration 0095)
+  "local_brand_kits",
   // Casework / modules (same breadth as demo purge)
   ...DEMO_PURGE_UNION_SCOPED_TABLES,
 ] as const;

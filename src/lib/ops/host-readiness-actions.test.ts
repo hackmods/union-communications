@@ -43,6 +43,7 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
       DATA_DB_BACKEND: "memory",
       ACCESS_REQUEST_DB_BACKEND: "postgres",
       PORTAL_DB_BACKEND: "postgres",
+      HUB_SETTINGS_DB_BACKEND: "postgres",
     },
     postgresConfigured: true,
     memoryCaseDataActive: false,

@@ -27,9 +27,9 @@ Give platform operators a full Site Admin surface to configure per-union brand t
 
 | Capability | Notes |
 |------------|--------|
-| Sector / collection bindings UI | Productize `customization_preset_bindings` sector_id matrix + OPSEU sectors |
-| Preset catalog admin | Add/edit Comms presets without code changes to `unionPresets.ts` |
-| Auto-apply published baseline on Hub seed | Opt-in policy (never silent overwrite of steward kits) — Apply button remains correct |
+| Sector / collection bindings UI | **Shipped 2026-10-02** — `/api/site-admin/preset-bindings` + memory store wired into empty-Local seed |
+| Preset catalog admin | **Shipped 2026-10-02** — durable `comms_preset_catalog` + `/api/site-admin/comms-presets`; `UNION_PRESETS` remains compiled fallback |
+| Auto-apply published baseline on Hub seed | **Narrowed 2026-10-02** — opt-in `BRAND_BASELINE_AUTO_SEED` for **empty Local only**; Match/Apply remain for existing kits |
 
 ## Shipped after theme-admin (2026-09-30)
 

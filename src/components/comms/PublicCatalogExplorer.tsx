@@ -318,14 +318,30 @@ export function PublicCatalogExplorer({
           <ul className="mt-3 grid list-none gap-3 p-0 sm:grid-cols-2 xl:grid-cols-4">
             {LEARN_COLLECTIONS.map(({ id, href }) => (
               <li key={id} className="min-w-0">
-                <Card variant="ghost" className="h-full p-0">
+                <Card variant="elevated" className="h-full p-0">
                   <Link
                     href={href}
-                    className="block h-full rounded-xl p-4 outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-inset"
+                    className="group flex h-full flex-col rounded-xl p-4 outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-inset"
                   >
-                    <h3 className="font-bold text-opseu-dark">{t(`learnCollections.${id}Title`)}</h3>
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="font-bold text-opseu-dark">{t(`learnCollections.${id}Title`)}</h3>
+                      <span
+                        aria-hidden="true"
+                        className="mt-0.5 shrink-0 text-base font-semibold leading-none text-opseu-blue transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0"
+                      >
+                        →
+                      </span>
+                    </div>
                     <p className="mt-1.5 text-sm leading-relaxed text-slate-700">{t(`learnCollections.${id}Body`)}</p>
-                    <span aria-hidden="true" className="mt-3 inline-flex min-h-10 items-center text-sm font-semibold text-opseu-blue">→</span>
+                    <span className="mt-auto inline-flex min-h-10 items-center pt-4 text-sm font-semibold text-opseu-blue">
+                      {t("learnCollectionsCta")}
+                      <span
+                        aria-hidden="true"
+                        className="ml-1.5 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0"
+                      >
+                        →
+                      </span>
+                    </span>
                   </Link>
                 </Card>
               </li>
