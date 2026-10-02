@@ -1,10 +1,10 @@
-import { and, desc, eq, type SQL } from "drizzle-orm";
+import { and, desc, eq, gte, ilike, lte, type SQL } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 import { auditLog } from "@/lib/audit/store";
-import type { AuditEntry } from "@/lib/audit/adapter";
+import type { AuditEntry, AuditOutcome } from "@/lib/audit/adapter";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
 import { auditDbBackend } from "@/lib/db/backend";
 import { getDb } from "@/lib/db/client";
@@ -14,12 +14,60 @@ import {
   isOwnerDbConfigured,
 } from "@/lib/db/owner-client";
 
+const OUTCOMES = ["success", "denied", "error", "unknown"] as const;
+
 const requestSchema = z
   .object({
     limit: z.number().int().min(1).max(200).optional(),
     mfaCode: z.string().max(32).optional(),
+    from: z.string().max(40).optional(),
+    to: z.string().max(40).optional(),
+    actor: z.string().max(80).optional(),
+    outcome: z.enum(OUTCOMES).optional(),
   })
   .strict();
+
+type AuditListFilters = {
+  from?: Date;
+  to?: Date;
+  actor?: string;
+  outcome?: AuditOutcome;
+};
+
+function parseIsoDate(value: string | undefined): Date | undefined {
+  if (!value?.trim()) return undefined;
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? undefined : d;
+}
+
+function endOfDay(value: Date): Date {
+  const d = new Date(value);
+  d.setHours(23, 59, 59, 999);
+  return d;
+}
+
+function filterAuditEntries(
+  entries: AuditEntry[],
+  filters: AuditListFilters,
+): AuditEntry[] {
+  let result = entries;
+  if (filters.from) {
+    const fromMs = filters.from.getTime();
+    result = result.filter((e) => new Date(e.timestamp).getTime() >= fromMs);
+  }
+  if (filters.to) {
+    const toMs = filters.to.getTime();
+    result = result.filter((e) => new Date(e.timestamp).getTime() <= toMs);
+  }
+  if (filters.actor) {
+    const needle = filters.actor.trim().toLowerCase();
+    result = result.filter((e) => e.userId.toLowerCase().includes(needle));
+  }
+  if (filters.outcome) {
+    result = result.filter((e) => e.outcome === filters.outcome);
+  }
+  return result;
+}
 
 function toIso(value: Date | string): string {
   return value instanceof Date ? value.toISOString() : value;
@@ -29,13 +77,32 @@ function toIso(value: Date | string): string {
  * Cross-tenant site_admin audit rows. Uses owner DB when available so RLS
  * does not hide rows that carry a foreign union_id.
  */
-async function querySiteAdminAudit(limit: number): Promise<AuditEntry[]> {
+async function querySiteAdminAudit(
+  limit: number,
+  filters: AuditListFilters,
+): Promise<AuditEntry[]> {
+  const hasFilters = Boolean(
+    filters.from || filters.to || filters.actor || filters.outcome,
+  );
+  const fetchLimit = hasFilters ? Math.min(limit * 4, 500) : limit;
+
   if (auditDbBackend() !== "postgres") {
-    return auditLog.query({ resourceType: "site_admin", limit });
+    const entries = await auditLog.query({
+      resourceType: "site_admin",
+      limit: fetchLimit,
+    });
+    return filterAuditEntries(entries, filters).slice(0, limit);
   }
 
   const db = isOwnerDbConfigured() ? getOwnerDb() : getDb();
   const conditions: SQL[] = [eq(auditLogTable.resourceType, "site_admin")];
+  if (filters.from) conditions.push(gte(auditLogTable.timestamp, filters.from));
+  if (filters.to) conditions.push(lte(auditLogTable.timestamp, filters.to));
+  if (filters.outcome) conditions.push(eq(auditLogTable.outcome, filters.outcome));
+  if (filters.actor?.trim()) {
+    conditions.push(ilike(auditLogTable.userId, `%${filters.actor.trim()}%`));
+  }
+
   const rows = await db
     .select()
     .from(auditLogTable)
@@ -86,9 +153,15 @@ export async function POST(request: Request) {
     return respond({ error: "Invalid audit request" }, 400);
   }
   const limit = parsed.data.limit ?? 100;
+  const from = parseIsoDate(parsed.data.from);
+  const toRaw = parseIsoDate(parsed.data.to);
+  const to = toRaw ? endOfDay(toRaw) : undefined;
+  const actor = parsed.data.actor?.trim() || undefined;
+  const outcome = parsed.data.outcome;
+  const listFilters: AuditListFilters = { from, to, actor, outcome };
 
   const recordOutcome = (
-    outcome: "success" | "denied" | "error",
+    outcomeValue: "success" | "denied" | "error",
     metadata: Record<string, string>,
   ) =>
     auditLog.log({
@@ -96,7 +169,7 @@ export async function POST(request: Request) {
       action: "site_admin.audit.list",
       resourceType: "site_admin",
       resourceId: "*",
-      outcome,
+      outcome: outcomeValue,
       requestId: correlation.requestId,
       metadata,
     });
@@ -139,6 +212,8 @@ export async function POST(request: Request) {
         phase: "read_authorized",
         limit: String(limit),
         ownerRead: ownerRead ? "true" : "false",
+        filtered:
+          from || to || actor || outcome ? "true" : "false",
       });
     } catch {
       return respond(
@@ -150,13 +225,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const entries = await querySiteAdminAudit(limit);
+    const entries = await querySiteAdminAudit(limit, listFilters);
     try {
       await recordOutcome("success", {
         phase: "read_result",
         limit: String(limit),
         count: String(entries.length),
         ownerRead: ownerRead ? "true" : "false",
+        filtered:
+          from || to || actor || outcome ? "true" : "false",
       });
     } catch {
       return respond(
