@@ -8441,6 +8441,10 @@
         "title": "Brand lookbook",
         "body": "Open the lookbook from Brand Kit to see Officer Hub buttons, forms, and chrome painted with your colours before you print or export."
       },
+      "hub-mobile-one-menu": {
+        "title": "One menu on Officer Hub phones",
+        "body": "On a phone, Officer Hub opens a single Tools menu for your local work plus Site links like Brand Kit and Create. The second Menu button is gone, and larger Accessibility text keeps the drawer under the Officer Hub bar."
+      },
       "platform-admin-nav": {
         "title": "Platform admin in one place",
         "body": "Platform operators now open a single Platform admin link in the Officer Hub bar. Site admin groups every host tool, with search and clearer audit labels."
@@ -10287,6 +10291,7 @@
     "openHubMenu": "Open hub menu",
     "closeHubMenu": "Close hub menu",
     "mobileNav": "Hub menu",
+    "mobileSiteSection": "Site",
     "toolsGroupCasework": "Casework",
     "toolsGroupRecords": "Records",
     "toolsGroupFunds": "Funds",
@@ -12879,6 +12884,7 @@
     "openPortalMenu": "Open portal menu",
     "closePortalMenu": "Close portal menu",
     "mobileNav": "Portal menu",
+    "mobileSiteSection": "Site",
     "circlesMenu": "Circles",
     "circlesEmpty": "No Circles yet. Open Together to join or create one.",
     "memoryBannerLabel": "Session data",

@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
-import { createPortal } from "react-dom";
+import { useId, useState, type ReactNode } from "react";
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { getFocusable } from "@/components/layout/nav/focusables";
+import { MobileSheet } from "@/components/layout/nav/MobileSheet";
+import { MobileSiteSection } from "@/components/layout/nav/MobileSiteSection";
 import { HubContextSwitcher } from "@/components/hub/HubContextSwitcher";
 import {
   hubModuleActive,
@@ -65,72 +65,8 @@ export function HubNavDrawer({
   compactDashboard = false,
 }: HubNavDrawerProps) {
   const t = useTranslations("hub");
-  const drawerRef = useRef<HTMLDivElement>(null);
   const toolsPanelId = useId();
   const [toolsOpen, setToolsOpen] = useState(toolsActive);
-
-  useEffect(() => {
-    const scrollY = window.scrollY;
-    const { body } = document;
-    const prev = {
-      overflow: body.style.overflow,
-      position: body.style.position,
-      top: body.style.top,
-      paddingRight: body.style.paddingRight,
-    };
-    const scrollbarGap =
-      window.innerWidth - document.documentElement.clientWidth;
-    body.style.overflow = "hidden";
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.left = "0";
-    body.style.right = "0";
-    if (scrollbarGap > 0) {
-      body.style.paddingRight = `${scrollbarGap}px`;
-    }
-
-    const panel = drawerRef.current;
-    const focusTimer = window.setTimeout(() => {
-      const focusable = panel ? getFocusable(panel) : [];
-      focusable[0]?.focus();
-    }, 0);
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        onClose();
-        return;
-      }
-      if (event.key !== "Tab" || !panel) return;
-      const items = getFocusable(panel);
-      if (items.length === 0) return;
-      const firstItem = items[0];
-      const lastItem = items[items.length - 1];
-      const active = document.activeElement as HTMLElement | null;
-      if (event.shiftKey) {
-        if (active === firstItem || !panel.contains(active)) {
-          event.preventDefault();
-          lastItem.focus();
-        }
-      } else if (active === lastItem) {
-        event.preventDefault();
-        firstItem.focus();
-      }
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      window.clearTimeout(focusTimer);
-      body.style.overflow = prev.overflow;
-      body.style.position = prev.position;
-      body.style.top = prev.top;
-      body.style.left = "";
-      body.style.right = "";
-      body.style.paddingRight = prev.paddingRight;
-      window.scrollTo(0, scrollY);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [onClose]);
 
   const linkClass = (active: boolean) =>
     cn(
@@ -138,145 +74,142 @@ export function HubNavDrawer({
       active && "bg-white font-semibold text-opseu-dark",
     );
 
-  return createPortal(
-    <div className={compactDashboard ? "2xl:hidden" : "lg:hidden"} role="presentation">
-      <button
-        type="button"
-        className="fixed inset-x-0 bottom-0 z-[60] bg-black/40"
-        style={{ top: drawerTop }}
-        aria-label={t("closeHubMenu")}
-        onClick={onClose}
-      />
-      <div
-        ref={drawerRef}
-        id={drawerId}
-        role="dialog"
-        aria-modal="true"
+  return (
+    <MobileSheet
+      top={drawerTop}
+      drawerId={drawerId}
+      label={t("mobileNav")}
+      closeLabel={t("closeHubMenu")}
+      testId="hub-nav-drawer"
+      visibilityClassName={compactDashboard ? "2xl:hidden" : "lg:hidden"}
+      panelClassName="max-w-[min(100vw,20rem)] border-gray-200 bg-gray-50"
+      onClose={onClose}
+    >
+      <nav
+        className="min-h-0 flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-3 py-3 text-base"
         aria-label={t("mobileNav")}
-        data-testid="hub-nav-drawer"
-        style={{ top: drawerTop }}
-        className="fixed bottom-0 right-0 z-[70] flex w-full max-w-[min(100vw,20rem)] flex-col border-l border-gray-200 bg-gray-50 shadow-xl pb-[env(safe-area-inset-bottom)]"
       >
-        <nav
-          className="min-h-0 flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-3 py-3 text-base"
-          aria-label={t("mobileNav")}
-        >
-          <div className="mb-3 rounded-md bg-white px-3 py-3">
-            <HubContextSwitcher variant="drawer" />
-          </div>
+        <div className="mb-3 rounded-md bg-white px-3 py-3">
+          <HubContextSwitcher variant="drawer" />
+        </div>
 
-          {modules.map((mod) => {
-            const active = hubModuleActive(pathname, mod.href);
-            return (
-              <Link
-                key={mod.id}
-                href={mod.href}
-                onClick={onCloseAfterNav}
-                aria-current={active ? "page" : undefined}
-                className={cn(linkClass(active), mod.dimmed && "opacity-60")}
-              >
-                <Emoji id={mod.emojiId} />
-                <span className="ml-2">{mod.label}</span>
-              </Link>
-            );
-          })}
-
-          {setupLinks.map((link) => {
-            const active = hubToolLinkActive(pathname, link.href);
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={onCloseAfterNav}
-                aria-current={active ? "page" : undefined}
-                className={linkClass(active)}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-
-          {toolGroups.length > 0 ? (
-            <HubAccordion
-              label={t("toolsMenu")}
-              open={toolsOpen}
-              panelId={toolsPanelId}
-              active={toolsActive}
-              onToggle={() => setToolsOpen((v) => !v)}
+        {modules.map((mod) => {
+          const active = hubModuleActive(pathname, mod.href);
+          return (
+            <Link
+              key={mod.id}
+              href={mod.href}
+              onClick={onCloseAfterNav}
+              aria-current={active ? "page" : undefined}
+              className={cn(linkClass(active), mod.dimmed && "opacity-60")}
             >
-              {toolGroups.map((group) => (
-                <div key={group.id} className="mt-1">
-                  <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                    {t(group.labelKey)}
-                  </p>
-                  {group.links.map((link) => (
-                    <HubDrawerToolLink
-                      key={link.href}
-                      link={link}
-                      pathname={pathname}
-                      onNavigate={onCloseAfterNav}
-                      className={linkClass}
-                    />
-                  ))}
-                </div>
-              ))}
-            </HubAccordion>
+              <Emoji id={mod.emojiId} />
+              <span className="ml-2">{mod.label}</span>
+            </Link>
+          );
+        })}
+
+        {setupLinks.map((link) => {
+          const active = hubToolLinkActive(pathname, link.href);
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={onCloseAfterNav}
+              aria-current={active ? "page" : undefined}
+              className={linkClass(active)}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+
+        {toolGroups.length > 0 ? (
+          <HubAccordion
+            label={t("toolsMenu")}
+            open={toolsOpen}
+            panelId={toolsPanelId}
+            active={toolsActive}
+            onToggle={() => setToolsOpen((v) => !v)}
+          >
+            {toolGroups.map((group) => (
+              <div key={group.id} className="mt-1">
+                <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  {t(group.labelKey)}
+                </p>
+                {group.links.map((link) => (
+                  <HubDrawerToolLink
+                    key={link.href}
+                    link={link}
+                    pathname={pathname}
+                    onNavigate={onCloseAfterNav}
+                    className={linkClass}
+                  />
+                ))}
+              </div>
+            ))}
+          </HubAccordion>
+        ) : null}
+
+        <div className="mt-4 border-t border-gray-200 pt-3">
+          {mfaEnabled ? (
+            <Link
+              href="/app/mfa"
+              onClick={onCloseAfterNav}
+              aria-current={
+                pathname.startsWith("/app/mfa") ? "page" : undefined
+              }
+              className={cn(
+                "mb-2 inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium",
+                mfaOk
+                  ? "border-emerald-200 bg-emerald-50 text-emerald-900"
+                  : "border-amber-200 bg-amber-50 text-amber-950",
+              )}
+            >
+              {mfaOk ? t("mfaOk") : t("mfaRequired")}
+            </Link>
           ) : null}
+          {accountLinks.map((link) => {
+            const active = hubModuleActive(pathname, link.href);
+            return (
+              <div key={link.href}>
+                <Link
+                  href={link.href}
+                  onClick={onCloseAfterNav}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(linkClass(active), link.className)}
+                >
+                  {link.label}
+                </Link>
+                {link.href === "/app/profile" ? (
+                  <PlatformOperatorAccountLinks
+                    layout="stack"
+                    onNavigate={onCloseAfterNav}
+                  />
+                ) : null}
+              </div>
+            );
+          })}
+          <button
+            type="button"
+            className={cn(linkClass(false), "w-full text-left text-opseu-dark")}
+            onClick={() => {
+              onCloseAfterNav();
+              void signOut({ callbackUrl: "/" });
+            }}
+          >
+            {t("signOut")}
+          </button>
+        </div>
 
-          <div className="mt-4 border-t border-gray-200 pt-3">
-            {mfaEnabled ? (
-              <Link
-                href="/app/mfa"
-                onClick={onCloseAfterNav}
-                aria-current={
-                  pathname.startsWith("/app/mfa") ? "page" : undefined
-                }
-                className={cn(
-                  "mb-2 inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium",
-                  mfaOk
-                    ? "border-emerald-200 bg-emerald-50 text-emerald-900"
-                    : "border-amber-200 bg-amber-50 text-amber-950",
-                )}
-              >
-                {mfaOk ? t("mfaOk") : t("mfaRequired")}
-              </Link>
-            ) : null}
-            {accountLinks.map((link) => {
-              const active = hubModuleActive(pathname, link.href);
-              return (
-                <div key={link.href}>
-                  <Link
-                    href={link.href}
-                    onClick={onCloseAfterNav}
-                    aria-current={active ? "page" : undefined}
-                    className={cn(linkClass(active), link.className)}
-                  >
-                    {link.label}
-                  </Link>
-                  {link.href === "/app/profile" ? (
-                    <PlatformOperatorAccountLinks
-                      layout="stack"
-                      onNavigate={onCloseAfterNav}
-                    />
-                  ) : null}
-                </div>
-              );
-            })}
-            <button
-              type="button"
-              className={cn(linkClass(false), "w-full text-left text-opseu-dark")}
-              onClick={() => {
-                onCloseAfterNav();
-                void signOut({ callbackUrl: "/" });
-              }}
-            >
-              {t("signOut")}
-            </button>
-          </div>
-        </nav>
-      </div>
-    </div>,
-    document.body,
+        <MobileSiteSection
+          pathname={pathname}
+          onNavigate={onCloseAfterNav}
+          heading={t("mobileSiteSection")}
+          linkClassName={linkClass}
+        />
+      </nav>
+    </MobileSheet>
   );
 }
 

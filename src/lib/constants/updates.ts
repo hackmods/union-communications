@@ -24,6 +24,13 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "hub-mobile-one-menu",
+    date: "2026-10-02",
+    kind: "improved",
+    audience: "hub",
+    href: "/app",
+  },
+  {
     id: "platform-admin-nav",
     date: "2026-10-02",
     kind: "improved",
