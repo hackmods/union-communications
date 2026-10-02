@@ -251,7 +251,7 @@ function OfficerLearningDashboardInner({
                       src={module.coverSrc}
                       alt=""
                       fill
-                      className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                      className="object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                     />
                     <div className={olTheme.coverFade} />

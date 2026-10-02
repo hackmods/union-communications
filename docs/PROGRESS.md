@@ -5,6 +5,7 @@
 - Updated English and French Home/Platform copy and affected smoke journeys. Removed random example selection and nonessential page-entry motion.
 - Flattened the shared Local Portal operational panel/loading shell and quieted station, Dispatch and Fronts hover states while retaining their hit targets and navigation behavior. Flattened the common ToolEditor form boundary without changing editor behavior. Corrected the Home preview label in EN/FR so a sample is not presented as a rendered application output; focused copy checks passed.
 - Shared editor regression coverage passed all 11 `ToolEditorLayout` tests after the boundary change.
+- Officer Learning module cards now use a still cover and clear whole-card focus treatment, retaining the existing theme. The focused theme regression passed.
 - Typecheck and production build passed; the full unit suite passed 3,239 tests (2 skipped, 1 todo across 538 files). ESLint remains skipped by the TypeScript 7 compatibility guard. Browser visual/smoke review remains outstanding under the browser URL policy; see [`docs/ui-uplift/05_IMPLEMENTATION_STATUS.md`](ui-uplift/05_IMPLEMENTATION_STATUS.md).
 
 ## 2026-10-01 — Recover UI uplift foundations

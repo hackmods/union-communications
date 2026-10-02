@@ -97,7 +97,7 @@ export const olTheme = {
   pathNav: "rounded-2xl border border-gray-200 bg-white p-4 sm:p-5",
   pathTitle: "block text-sm font-semibold text-opseu-dark",
   pathArrow: "hidden shrink-0 self-center text-gray-400 lg:inline",
-  card: "group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg transition hover:-translate-y-1 hover:border-opseu-blue/30 hover:shadow-md",
+  card: "group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-colors duration-150 hover:border-opseu-blue/40 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-offset-2 motion-reduce:transition-none",
   cardCover: "relative aspect-[16/9] overflow-hidden bg-gray-100",
   coverFade: "absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent",
   heroFade: "absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent",
