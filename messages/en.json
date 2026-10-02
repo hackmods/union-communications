@@ -27,10 +27,10 @@
     }
   },
   "metadata": {
-    "title": "UnionOps | Tools for the work your union does",
+    "title": "UnionOps | Practical tools for your union",
     "titleCommsOnly": "UnionOps | Practical tools for union locals",
-    "description": "Tools for union communications, workplace preparation, steward learning, and permissioned local operations. Comms stay free; hosted Officer Hub may have a hosting cost.",
-    "descriptionCommsOnly": "Free browser tools for union communications, workplace preparation, and steward learning. Most public drafts stay on your device."
+    "description": "Create communications, prepare for workplace issues, and build union skills. Explore free tools and shared workspaces for local officers and members.",
+    "descriptionCommsOnly": "Create union communications, prepare for workplace conversations, and build steward skills with free browser tools. Most public drafts stay on your device."
   },
   "nav": {
     "home": "Home",
@@ -304,10 +304,10 @@
   "home": {
     "title": "UnionOps: dedicated software for labour unions and locals",
     "heroEyebrow": "Union work, ready to do",
-    "headline": "Create materials. Prepare workplace cases. Keep local work moving.",
-    "subtitle": "Practical tools for officers, stewards and bargaining committees, from communications and agreement reference to grievance preparation and accommodation planning.",
+    "headline": "Practical tools for the work of your union.",
+    "subtitle": "Create communications, prepare for workplace conversations, and coordinate your local with tools for officers, stewards, and members.",
     "heroBreadth": "Go beyond communications with officer learning and separate spaces for private officer work and member participation.",
-    "exploreToolsCta": "Explore the tools",
+    "exploreToolsCta": "Find a tool",
     "browseAllToolsCta": "Browse all tools",
     "heroPrivacyLine": "Most public drafts stay on your device. Selected tools support an intentional Hub handoff.",
     "previewLabel": "A sample of the work you can make",
@@ -319,7 +319,7 @@
       "flyerMaker": "Print flyer"
     },
     "workEyebrow": "Useful work, today",
-    "workTitle": "Start with the job in front of you",
+    "workTitle": "Choose the work you need to do",
     "workIntro": "UnionOps brings practical tools, steward preparation, and learning into one place. Choose a task and go straight to a working surface.",
     "moreWorkLabel": "Also available:",
     "moreWork": {
@@ -367,9 +367,9 @@
     "stewardPreviewTitle": "Structure a return-to-work conversation",
     "stewardPreviewLabel": "A real worksheet, shown without case details",
     "brandEyebrow": "One local foundation",
-    "brandTitle": "Set up your identity once. Reuse it across the toolkit.",
-    "brandBody": "Brand Kit keeps your local name, colours, logo, and links ready for the tools that use them. Create materials without entering the same details again. Each tool uses the fields it supports; Brand Kit remains an optional starting point.",
-    "brandCta": "Explore Brand Kit",
+    "brandTitle": "One identity across your materials",
+    "brandBody": "Keep your local name, colours, logo, and links ready for graphics, letters, and your website. Brand Kit is an optional starting point; each tool uses the fields it supports.",
+    "brandCta": "Open Brand Kit",
     "brandReuse": {
       "local": "Local {number}",
       "example": "Example local {number}",
@@ -379,16 +379,16 @@
       "website": "Build a local website"
     },
     "platformEyebrow": "When the local works together",
-    "platformTitle": "Shared work, with clear boundaries",
-    "platformIntro": "The hosted platform extends the toolkit with permissioned spaces for officers and members. Each space has a distinct audience and purpose.",
+    "platformTitle": "When your local needs shared work",
+    "platformIntro": "Officer Hub and Local Portal provide separate spaces for officers and members. Access is required, and hosted services may involve hosting costs.",
     "hubAudience": "Private officer and steward work",
     "hubTitle": "Officer Hub",
-    "hubBody": "Authorized officers and stewards can coordinate local operations, prepare casework, manage meetings, and carry work forward between people.",
-    "hubBoundary": "Hub records and casework remain in the permissioned officer workspace. They are not automatically shown in the member Portal.",
+    "hubBody": "Coordinate local operations, prepare casework, and carry work forward between officers and stewards.",
+    "hubBoundary": "Private officer records are permissioned and are not automatically shared with members.",
     "memberAudience": "Member information and participation",
     "portalTitle": "Local Portal",
-    "portalBody": "Members can find local information and take part in spaces opened to them, such as Circles and local activities.",
-    "portalBoundary": "Members see the information and spaces their access allows. Officers choose what is appropriate to share.",
+    "portalBody": "Give members a place to find local information and take part in local activities.",
+    "portalBoundary": "Members see only the information and spaces their access allows.",
     "platformDetailLink": "See how the platform works",
     "hostedPreview": {
       "hubAlt": "Officer Hub attention section showing an assigned meeting task and unanswered officer check-ins.",
@@ -398,20 +398,20 @@
       "fullSize": "View full-size example"
     },
     "trustEyebrow": "Privacy and local control",
-    "trustTitle": "Choose where the work belongs",
+    "trustTitle": "Clear answers about privacy and cost",
     "trustIntro": "UnionOps has device-based tools and hosted local workspaces. The two have different storage and access rules.",
     "trust": {
       "device": {
-        "title": "Browser-based work",
-        "body": "Most public drafts stay on your device. Selected tools let you choose a supported save or handoff to Officer Hub."
+        "title": "What stays on my device?",
+        "body": "Most public drafts stay on your device. Selected tools let you explicitly save a copy or hand work to Officer Hub."
       },
       "hosted": {
-        "title": "Permissioned local operations",
-        "body": "Officer Hub and Local Portal are hosted services. Roles and enabled modules shape access, under the posted privacy and security practices."
+        "title": "What is hosted?",
+        "body": "Officer Hub and Local Portal hold shared work. Roles and enabled modules determine access under the posted privacy and security practices."
       },
       "choice": {
-        "title": "A deliberate handoff",
-        "body": "Keep a task on device or use an available hosted path when shared work is needed. Details are in our privacy and security material."
+        "title": "What stays free?",
+        "body": "Communications tools stay free. UnionOps-hosted Officer Hub and Local Portal may recover hosting costs."
       }
     },
     "securityLink": "Security practices",
@@ -430,8 +430,8 @@
     "workflowCreateBody": "Make graphics, flyers, board materials, letters, documents, and other finished communication artifacts.",
     "workflowLearnTitle": "Learn the work",
     "workflowLearnBody": "Follow guides, playbooks, Officer Learning modules, and workshops without burying courses inside the tools.",
-    "guidedSetupTitle": "Need instructions for your role?",
-    "guidedSetupBody": "Choose communications lead, steward, or local officer to see an ordered checklist.",
+    "guidedSetupTitle": "Not sure where to begin?",
+    "guidedSetupBody": "Follow a short checklist for communications leads, stewards, or local officers.",
     "privacySummary": "Communications drafts stay in this browser. Officer Hub work is kept separate from those drafts.",
     "privacySummaryCommsOnly": "Communications drafts stay in this browser. They are not sent to a UnionOps server.",
     "privacyLink": "Privacy and data handling",
@@ -521,7 +521,7 @@
       }
     },
     "brandFoundation": "Set up your local once. Use UnionOps everywhere.",
-    "explorePlatformCta": "Explore Officer Hub & Local Portal",
+    "explorePlatformCta": "Explore the platform",
     "workflowUtilitiesTitle": "Use practical worksheets",
     "workflowUtilitiesBody": "Open steward worksheets for case prep, governance drafts, and meeting aids.",
     "workflowPlatformTitle": "Operate together on the platform",
@@ -542,7 +542,38 @@
     "destLearnBody": "Understand the work through guides, playbooks, Officer Learning, and workshops.",
     "platformBandTitle": "Operate together on the hosted platform",
     "platformBandBody": "Officer Hub is the private space for officers and stewards. Local Portal is the member-facing space. Both sit beside the free on-device toolkit.",
-    "platformBandCta": "Understand Officer Hub and Local Portal"
+    "platformBandCta": "Understand Officer Hub and Local Portal",
+    "heroReassurance": "Communications tools stay free. No account needed to get started.",
+    "taskGroups": {
+      "communications": {
+        "title": "Create communications",
+        "body": "Make graphics, print materials, and a website with your local identity."
+      },
+      "workplace": {
+        "title": "Prepare for workplace issues",
+        "body": "Organize your questions and notes before a grievance or accommodation conversation."
+      },
+      "learning": {
+        "title": "Build your skills",
+        "body": "Learn steward practice and find practical guidance for your next meeting."
+      }
+    },
+    "taskLinks": {
+      "graphics": "Graphic Maker",
+      "website": "Website Template",
+      "create": "All creation tools",
+      "grievance": "Grievance preparation",
+      "accommodation": "Accommodation worksheet",
+      "utilities": "All worksheets",
+      "learning": "Officer Learning",
+      "meetings": "Rules of Order",
+      "learn": "All learning resources"
+    },
+    "earlySetupCta": "New here? Follow guided setup",
+    "hubDetailLink": "Explore Officer Hub",
+    "portalDetailLink": "Explore Local Portal",
+    "trustLink": "Trust and transparency",
+    "supportCta": "Get support"
   },
   "socialMediaPlan": {
     "title": "Comms getting started",
@@ -8456,6 +8487,10 @@
       "platform-admin-nav": {
         "title": "Platform admin in one place",
         "body": "Platform operators now open a single Platform admin link in the Officer Hub bar. Site admin groups every host tool, with search and clearer audit labels."
+      },
+      "homepage-product-front-door": {
+        "title": "Find the right tool from Home",
+        "body": "Choose communications, workplace preparation, or learning from the homepage, with guided setup close at hand and clearer information about shared workspaces."
       }
     }
   },

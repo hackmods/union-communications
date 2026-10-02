@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { PUBLIC_PATHS } from "@/app/sitemap";
-import { HOME_MORE_WORK_LINKS, HOME_WORK_LINKS } from "@/lib/comms/home-work-links";
+import { HOME_WORK_GROUPS } from "@/lib/comms/home-work-links";
 
 describe("Home task links", () => {
   it("points every featured task to a current public catalog route", () => {
-    for (const item of [...HOME_WORK_LINKS, ...HOME_MORE_WORK_LINKS]) {
+    for (const item of HOME_WORK_GROUPS.flatMap((group) => [...group.links])) {
       expect(PUBLIC_PATHS, item.href).toContain(item.href);
     }
   });

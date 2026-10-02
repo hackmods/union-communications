@@ -17,7 +17,7 @@ export function HomeBrandReuse() {
   const kit = useBrandStore((state) => state.brandKit);
   const colours = [kit.primaryColor, kit.secondaryColor, kit.accentColor];
   return (
-    <div className="mt-6 min-w-0 border-t border-slate-300 pt-5 lg:col-span-2" data-testid="home-brand-reuse">
+    <div className="min-w-0 rounded-xl border border-slate-200 bg-white p-5 sm:p-6" data-testid="home-brand-reuse">
       <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
         <p className="font-bold text-opseu-dark">
           {t(kit.local.localNumber.trim() ? "local" : "example", {

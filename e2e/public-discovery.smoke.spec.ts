@@ -1,9 +1,59 @@
 import { expect, test } from "@playwright/test";
 import { assertNoHorizontalOverflow } from "./helpers/layout";
 import { expectNoSeriousA11yViolations } from "./helpers/axe";
+import { HOME_WORK_GROUPS } from "../src/lib/comms/home-work-links";
 
 test.describe("task-first public discovery @smoke", () => {
+  for (const primaryColor of ["#142746", "#FFFFFF"]) {
+    test(`Home retains a saved ${primaryColor} Brand Kit at phone width`, async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 900 });
+      await page.addInitScript((colour) => {
+        localStorage.setItem("unionops-brand-kit", JSON.stringify({
+          version: "2.0",
+          local: { id: "home-test", localNumber: "12345678901234567890", subText: "A long local identity for workplace representatives" },
+          primaryColor: colour, secondaryColor: "#FFFFFF", accentColor: "#142746",
+          useOfficialLogo: false, logoText: "Solidarity", designTreatment: "balanced",
+          updatedAt: "2026-10-02T00:00:00.000Z",
+        }));
+      }, primaryColor);
+      await page.goto("/fr/");
+      await expect(page.getByTestId("home-brand-reuse")).toContainText("12345678901234567890");
+      await expect(page.getByTestId("home-hero-preview")).toContainText("12345678901234567890");
+      await assertNoHorizontalOverflow(page);
+      await expectNoSeriousA11yViolations(page);
+      await page.reload();
+      await expect(page.getByTestId("home-brand-reuse")).toContainText("12345678901234567890");
+    });
+  }
+
   for (const locale of ["en", "fr"] as const) {
+    test(`${locale} Home task paths, tablet search, and sticky anchor work`, async ({ page }) => {
+      await page.setViewportSize({ width: 768, height: 900 });
+      await page.goto(`/${locale}/`);
+      const header = page.locator("header").first();
+      await expect(page.locator("header").getByRole("link", {
+        name: locale === "en" ? "Search" : "Rechercher", exact: true,
+      })).toBeVisible();
+      for (const group of HOME_WORK_GROUPS) {
+        for (const { id, href } of group.links) {
+          await expect(page.getByTestId(`home-work-${id}`).getByRole("link"))
+            .toHaveAttribute("href", `/${locale}${href}/`);
+        }
+      }
+      await page.getByRole("link", { name: locale === "en" ? "Find a tool" : "Trouver un outil", exact: true }).click();
+      const heading = page.locator("#home-work-heading");
+      await expect(heading).toBeInViewport();
+      await expect.poll(async () => {
+        const top = await heading.boundingBox();
+        const chrome = await header.boundingBox();
+        return top && chrome ? top.y >= chrome.y + chrome.height : false;
+      }).toBe(true);
+      await page.locator("#home-work").getByRole("link", {
+        name: locale === "en" ? "New here? Follow guided setup" : "Vous débutez? Suivez le parcours guidé",
+      }).click();
+      await expect(page).toHaveURL(new RegExp(`/${locale}/start/`));
+    });
+
     test(`${locale} hero examples can be changed with the keyboard`, async ({ page }) => {
       await page.goto(`/${locale}/`);
       const choices = page.getByRole("group", {
@@ -107,13 +157,13 @@ test.describe("task-first public discovery @smoke", () => {
   test("Home presents practical work, a reusable Brand Kit, and the shared platform", async ({ page }) => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Start with the job in front of you" })).toBeVisible();
-    await expect(page.getByTestId("home-work-graphics").getByRole("link", { name: "Open Graphic Maker" }))
+    await expect(page.getByRole("heading", { name: "Choose the work you need to do" })).toBeVisible();
+    await expect(page.getByTestId("home-work-graphics").getByRole("link", { name: "Graphic Maker" }))
       .toHaveAttribute("href", "/en/create/graphic-maker/");
-    await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Open grievance worksheet" }))
+    await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Grievance preparation" }))
       .toHaveAttribute("href", "/en/utilities/complaint-vs-grievance/");
-    await expect(page.getByTestId("home-work-learning").getByRole("link", { name: "Explore Officer Learning" }))
-      .toHaveAttribute("href", "/en/learn/");
+    await expect(page.getByTestId("home-work-learning").getByRole("link", { name: "Officer Learning" }))
+      .toHaveAttribute("href", "/en/learn/officer/");
     const brandReuse = page.getByTestId("home-brand-reuse");
     await expect(brandReuse.getByRole("link", { name: "Make a graphic" }))
       .toHaveAttribute("href", "/en/create/graphic-maker/");
@@ -123,9 +173,9 @@ test.describe("task-first public discovery @smoke", () => {
       .toHaveAttribute("href", "/en/create/website-template/");
     await expect(page.getByTestId("home-hub-capture").getByRole("link", { name: "View full-size example" }))
       .toHaveAttribute("target", "_blank");
-    await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).first())
+    await expect(page.getByTestId("home-platform").getByRole("link", { name: "Explore Officer Hub" }))
       .toHaveAttribute("href", "/en/platform/#platform-hub-heading");
-    await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).nth(1))
+    await expect(page.getByTestId("home-platform").getByRole("link", { name: "Explore Local Portal" }))
       .toHaveAttribute("href", "/en/platform/#platform-portal-heading");
     await page.getByRole("link", { name: "Open guided setup" }).first().click();
     await expect(page).toHaveURL(/\/en\/start\//);
@@ -139,22 +189,17 @@ test.describe("task-first public discovery @smoke", () => {
   test("Home keeps the practical work path available in French", async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 812 });
     await page.goto("/fr/");
-    await expect(page.getByRole("heading", { level: 1, name: "Créez des documents. Préparez les dossiers en milieu de travail. Faites avancer votre section locale." })).toBeVisible();
-    const exploreTools = page.getByRole("link", { name: "Explorer les outils" }).first();
+    await expect(page.getByRole("heading", { level: 1, name: "Des outils pratiques pour le travail de votre syndicat." })).toBeVisible();
+    const exploreTools = page.getByRole("link", { name: "Trouver un outil" }).first();
     await expect(exploreTools).toHaveAttribute("href", "#home-work");
     const exploreToolsBox = await exploreTools.boundingBox();
     expect(exploreToolsBox).toBeTruthy();
     expect(exploreToolsBox!.y + exploreToolsBox!.height).toBeLessThanOrEqual(812);
-    await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Ouvrir la feuille de préparation" }))
+    await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Préparation d’un grief" }))
       .toHaveAttribute("href", "/fr/utilities/complaint-vs-grievance/");
-    await expect(page.getByTestId("home-learning-preview").getByRole("link", { name: "Application de la convention" }))
-      .toHaveAttribute("href", "/fr/learn/officer/contract-enforcement/");
-    const stewardPreview = page.getByTestId("home-steward-preview");
-    await expect(stewardPreview.getByRole("heading", { name: "Prise en charge du retour au travail et des mesures d'adaptation" })).toBeVisible();
-    await expect(stewardPreview.getByText("Que peut ou ne peut pas faire le membre en toute sécurité?")).toBeVisible();
-    await expect(stewardPreview.getByRole("link", { name: "Ouvrir la feuille sur les mesures d’adaptation" }))
+    await expect(page.getByTestId("home-work-accommodation").getByRole("link"))
       .toHaveAttribute("href", "/fr/utilities/rtw-accommodation/");
-    await expect(page.getByRole("heading", { name: "Des activités partagées, avec des limites claires" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Quand votre section locale travaille ensemble" })).toBeVisible();
   });
 
   test("Learn search and filters work locally over the shared catalog", async ({ page }) => {
