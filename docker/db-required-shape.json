@@ -1009,6 +1009,46 @@
       ]
     },
     {
+      "name": "comms_preset_catalog",
+      "columns": [
+        {
+          "name": "archived_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name_fr",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "payload",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "customization_assets",
       "columns": [
         {
@@ -3678,6 +3718,36 @@
         },
         {
           "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "local_brand_kits",
+      "columns": [
+        {
+          "name": "brand_kit",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by",
           "dataType": "text",
           "notNull": true
         }
@@ -9283,6 +9353,36 @@
         },
         {
           "name": "slug",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "user_brand_overlays",
+      "columns": [
+        {
+          "name": "onboarding_complete",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "overlay",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
           "dataType": "text",
           "notNull": true
         }
