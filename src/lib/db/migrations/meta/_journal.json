@@ -673,6 +673,13 @@
       "when": 1794100000000,
       "tag": "0095_hybrid_brand_kits",
       "breakpoints": true
+    },
+    {
+      "idx": 96,
+      "version": "7",
+      "when": 1794200000000,
+      "tag": "0096_ops_boot_notify_state",
+      "breakpoints": true
     }
   ]
 }

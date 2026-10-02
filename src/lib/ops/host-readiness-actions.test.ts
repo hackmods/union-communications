@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { HealthStatus } from "@/lib/ops/health-status";
+import { emptyOpsLifecycleNotifyHealth } from "@/lib/ops/health-status";
 import {
   emptyHostedControlEvidence,
   readyHostedControlEvidence,
@@ -66,6 +67,7 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
       alertDeliveryGaps: ["review_date_or_owner"],
       publicLegalContactsGaps: ["contacts_incomplete"],
     }),
+    opsLifecycleNotify: emptyOpsLifecycleNotifyHealth(),
     observability: {
       backend: "noop",
       storeEnabled: false,

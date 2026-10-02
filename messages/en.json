@@ -8908,6 +8908,8 @@
       "hostImageVersion": "App version",
       "hostImageCommit": "Build commit",
       "hostImageBuiltAt": "Built at (UTC)",
+      "hostLifecycleEmail": "Lifecycle email: deploy {deploy} · restart {restart} · last deploy {lastDeploy}",
+      "hostLifecycleEmailNever": "never",
       "hostDbHeading": "Database revision",
       "hostDbLead": "Applied on container boot by the fail-closed migrate gate. Tip advances when you deploy a new image — not by re-seeding.",
       "hostDbTip": "Journal tip",

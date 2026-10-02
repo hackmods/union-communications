@@ -27,3 +27,4 @@ export {
   composeProductNewsPreferencesEmail,
 } from "./compose-marketing";
 export { composeObservabilityCrisisAlert } from "./compose-observability-alert";
+export { composeOpsLifecycleNotify } from "./compose-ops-lifecycle";

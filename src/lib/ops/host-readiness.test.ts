@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { HealthStatus } from "@/lib/ops/health-status";
+import { emptyOpsLifecycleNotifyHealth } from "@/lib/ops/health-status";
 import { emptyHostedControlEvidence, readyHostedControlEvidence } from "@/lib/ops/host-control-evidence";
 import { buildHostReadiness } from "@/lib/ops/host-readiness";
 import { listMemoryCaseDataBackendKeys } from "@/lib/db/backend";
@@ -62,6 +63,7 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     hostedPlansEnabled: false,
     demoAuthEnabled: true,
     hostedControlEvidence: emptyHostedControlEvidence(),
+    opsLifecycleNotify: emptyOpsLifecycleNotifyHealth(),
     observability: {
       backend: "noop",
       storeEnabled: false,

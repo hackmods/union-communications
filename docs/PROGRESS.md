@@ -1,3 +1,10 @@
+## 2026-10-02 — Ops lifecycle emails (deploy / restart)
+
+- Independent CapRover toggles `OPS_NOTIFY_ON_DEPLOY` / `OPS_NOTIFY_ON_RESTART` (legacy `DEPLOY_NOTIFY_ENABLED` aliases deploy-on); shared `DEPLOY_NOTIFY_EMAIL`.
+- Boot hook in `instrumentation.ts` + migration `0096_ops_boot_notify_state`; CI deploy-notify cron shares last-commit state and dedupe window.
+- Host board read-only lifecycle line; gated health `opsLifecycleNotify`. No settings page.
+- Lessons: [`docs/audit/session-knowledge-2026-10-02-ops-boot-notify.md`](audit/session-knowledge-2026-10-02-ops-boot-notify.md).
+
 ## 2026-10-02 — Hybrid Brand Kit sync (Local + personal)
 
 - Authenticated Brand Kit now resolves **Local shared defaults** (`local_brand_kits`) plus a **personal overlay** (`user_brand_overlays`). Personal saves are automatic; officers publish with **Save as Local default**.

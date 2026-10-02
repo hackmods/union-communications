@@ -6,6 +6,7 @@ import {
 } from "@/lib/ops/deploy-notify";
 import { GET as deployNotifyGet, POST as deployNotifyPost } from "@/app/api/cron/deploy-notify/route";
 import type { HealthStatus } from "@/lib/ops/health-status";
+import { emptyOpsLifecycleNotifyHealth } from "@/lib/ops/health-status";
 import { emptyHostedControlEvidence } from "@/lib/ops/host-control-evidence";
 import { memoryDatabaseBootAttestation } from "@/lib/ops/database-boot";
 
@@ -62,6 +63,7 @@ function sampleHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     hostedPlansEnabled: false,
     demoAuthEnabled: false,
     hostedControlEvidence: emptyHostedControlEvidence(),
+    opsLifecycleNotify: emptyOpsLifecycleNotifyHealth(),
     observability: {
       backend: "noop",
       storeEnabled: false,
@@ -93,6 +95,7 @@ describe("deploy-notify", () => {
   it("reads env gates", () => {
     expect(isDeployNotifyEnabled({})).toBe(false);
     expect(isDeployNotifyEnabled({ DEPLOY_NOTIFY_ENABLED: "true" })).toBe(true);
+    expect(isDeployNotifyEnabled({ OPS_NOTIFY_ON_DEPLOY: "true" })).toBe(true);
     expect(readDeployNotifyEmail({ DEPLOY_NOTIFY_EMAIL: " ops@example.ca " })).toBe(
       "ops@example.ca",
     );

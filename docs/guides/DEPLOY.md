@@ -157,15 +157,21 @@ Optional SMTP (non-DO hosts, or Mailgun port **2525** if your network allows it)
 
 When `MAILGUN_API_KEY` is set it takes priority over SMTP. On SMTP CONN timeout to 465/587 the app retries port 2525 once, then surfaces a DigitalOcean hint.
 
-Optional post-deploy operator notify (no member lists):
+Optional post-deploy / restart operator notify (no member lists):
 
 | Variable | Example |
 |----------|---------|
 | `CRON_SECRET` | shared secret for `/api/cron/*` |
-| `DEPLOY_NOTIFY_ENABLED` | `true` to allow `/api/cron/deploy-notify` |
-| `DEPLOY_NOTIFY_EMAIL` | operator inbox for host-readiness summaries |
+| `OPS_NOTIFY_ON_DEPLOY` | `true` to email on new image (boot + `/api/cron/deploy-notify`) |
+| `DEPLOY_NOTIFY_ENABLED` | legacy alias of `OPS_NOTIFY_ON_DEPLOY` |
+| `OPS_NOTIFY_ON_RESTART` | `true` to email on same-image process start (cooldown) |
+| `OPS_NOTIFY_RESTART_COOLDOWN_MINUTES` | `15` (default) |
+| `OPS_NOTIFY_DEPLOY_DEDUPE_MINUTES` | `10` — skip second deploy mail for the same commit (boot↔CI) |
+| `DEPLOY_NOTIFY_EMAIL` | operator inbox for host-readiness / restart summaries |
 
-CI runs `npm run health:check:readiness` after the commit smoke. MFA remains advisory for evaluation and self-hosted profiles. For the UnionOps-operated production target, CI requires `UNIONOPS_HOSTED_CUSTOMER_MODE=true` and blocks unless production TOTP, approved attachment storage, strict scanner settings, current operator backup/restore evidence, and alert delivery evidence pass. The runtime checks configuration and owner/date attestations; they do not independently verify provider behavior. Store the same high-entropy `HOST_READINESS_SECRET` on the app host and as a GitHub Actions secret: only authenticated health requests receive operational evidence booleans. When `CRON_SECRET` is in GitHub secrets, CI also calls deploy-notify (continue-on-error).
+Boot detect uses `BUILD_COMMIT_SHA` vs durable state (Postgres `ops_boot_notify_state`, or file fallback). Host board shows a read-only lifecycle line. No Site Admin settings page — CapRover App Config only.
+
+CI runs `npm run health:check:readiness` after the commit smoke. MFA remains advisory for evaluation and self-hosted profiles. For the UnionOps-operated production target, CI requires `UNIONOPS_HOSTED_CUSTOMER_MODE=true` and blocks unless production TOTP, approved attachment storage, strict scanner settings, current operator backup/restore evidence, and alert delivery evidence pass. The runtime checks configuration and owner/date attestations; they do not independently verify provider behavior. Store the same high-entropy `HOST_READINESS_SECRET` on the app host and as a GitHub Actions secret: only authenticated health requests receive operational evidence booleans (including `opsLifecycleNotify`). When `CRON_SECRET` is in GitHub secrets, CI also calls deploy-notify (continue-on-error).
 
 Optional **error sinks** (ADR-006 — ops only, not product analytics; defaults off). Full matrix: [`HOSTED_SECURITY.md`](HOSTED_SECURITY.md).
 

@@ -25,6 +25,10 @@ import { mfaDurableFallbackRecently } from "@/lib/auth/mfa-durable-fallback-sign
 import { isTotpEncryptionConfigured } from "@/lib/auth/totp-secret-crypto";
 import { readHostedControlEvidence, type HostedControlEvidence } from "@/lib/ops/host-control-evidence";
 import { isHostedPlansEnabled } from "@/lib/tenant/hosted-plans";
+import {
+  buildOpsLifecycleNotifySummary,
+  type OpsLifecycleNotifyStateBackend,
+} from "@/lib/ops/boot-notify";
 
 /** Non-secret runtime summary for `/api/health` (operators + smoke). */
 export type HealthStatus = {
@@ -63,6 +67,11 @@ export type HealthStatus = {
   observability: ObservabilityHealth;
   /** Boolean-only operator evidence; detailed values stay in deployment config. */
   hostedControlEvidence: HostedControlEvidence;
+  /**
+   * Lifecycle email toggles + last notify timestamps (gated on /api/health).
+   * Never includes the recipient address.
+   */
+  opsLifecycleNotify: OpsLifecycleNotifyHealth;
   /** Non-authoritative evidence from the fail-closed boot deployment gate. */
   databaseDeployment: DatabaseBootAttestation;
   /**
@@ -73,6 +82,34 @@ export type HealthStatus = {
   tenantRegistry: TenantRegistryHealth;
   publicDocuments?: PublicDocumentsReadiness;
 };
+
+export type OpsLifecycleNotifyHealth = {
+  deployEnabled: boolean;
+  restartEnabled: boolean;
+  cooldownMinutes: number;
+  dedupeMinutes: number;
+  stateBackend: OpsLifecycleNotifyStateBackend;
+  lastDeployCommit: string | null;
+  lastDeployNotifiedAt: string | null;
+  lastRestartNotifiedAt: string | null;
+};
+
+/** Fixture helper — disabled lifecycle notify with empty timestamps. */
+export function emptyOpsLifecycleNotifyHealth(
+  overrides: Partial<OpsLifecycleNotifyHealth> = {},
+): OpsLifecycleNotifyHealth {
+  return {
+    deployEnabled: false,
+    restartEnabled: false,
+    cooldownMinutes: 15,
+    dedupeMinutes: 10,
+    stateBackend: "file",
+    lastDeployCommit: null,
+    lastDeployNotifiedAt: null,
+    lastRestartNotifiedAt: null,
+    ...overrides,
+  };
+}
 
 export type TenantRegistryHealth = {
   /** null when Postgres unset or count failed */
@@ -134,6 +171,7 @@ export async function buildHealthStatus(): Promise<HealthStatus> {
     : memoryDatabaseBootAttestation();
   const tenantRegistry = await readTenantRegistryHealth(postgresConfigured);
   const publicDocuments = await checkPublicDocumentsReadiness();
+  const opsLifecycleNotify = await buildOpsLifecycleNotifySummary();
   // Public-document readiness only applies when Postgres can hold publications.
   // Production memory hosts (CI `npm start`, demo images) must stay HTTP 200.
   const requirePublicDocs =
@@ -168,6 +206,7 @@ export async function buildHealthStatus(): Promise<HealthStatus> {
     demoAuthEnabled: isDemoAuthEnabled(),
     observability: buildObservabilityHealth(),
     hostedControlEvidence: readHostedControlEvidence(),
+    opsLifecycleNotify,
     databaseDeployment,
     tenantRegistry,
     publicDocuments,

@@ -6,6 +6,9 @@ export async function register() {
   if (process.env.NEXT_RUNTIME === "nodejs") {
     await import("./sentry.server.config");
     warnObservabilityMisconfigOnce();
+    void import("@/lib/ops/boot-notify").then((m) => {
+      m.scheduleBootLifecycleNotify();
+    });
   }
 
   if (process.env.NEXT_RUNTIME === "edge") {

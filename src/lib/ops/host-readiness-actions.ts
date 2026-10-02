@@ -443,11 +443,35 @@ export function buildHostActions(health: HealthStatus): HostAction[] {
           role: "required",
           formatHint: "ops@union.example",
         },
+        {
+          name: "DEPLOY_NOTIFY_EMAIL",
+          role: "supporting",
+          formatHint: "ops@union.example",
+        },
+        {
+          name: "OPS_NOTIFY_ON_DEPLOY",
+          role: "supporting",
+          formatHint: "true",
+        },
+        {
+          name: "OPS_NOTIFY_ON_RESTART",
+          role: "supporting",
+          formatHint: "true",
+        },
+        {
+          name: "OPS_NOTIFY_RESTART_COOLDOWN_MINUTES",
+          role: "supporting",
+          formatHint: "15",
+        },
       ],
       caproverBlock: lines([
         ["UNIONOPS_ALERTS_CONFIGURED", "true"],
         ["UNIONOPS_ALERT_DELIVERY_TESTED_AT", "YYYY-MM-DD"],
         ["UNIONOPS_ALERT_OWNER", "ops@union.example"],
+        ["DEPLOY_NOTIFY_EMAIL", "ops@union.example"],
+        ["OPS_NOTIFY_ON_DEPLOY", "true"],
+        ["OPS_NOTIFY_ON_RESTART", "true"],
+        ["OPS_NOTIFY_RESTART_COOLDOWN_MINUTES", "15"],
       ]),
     },
     {

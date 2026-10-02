@@ -18,8 +18,9 @@ import { isPostgresConfigured } from "@/lib/db/client";
 /**
  * Opt-in post-deploy operator email (host readiness summary).
  * Auth: Authorization Bearer / x-cron-secret = CRON_SECRET
- * Env: DEPLOY_NOTIFY_ENABLED=true + DEPLOY_NOTIFY_EMAIL + EMAIL_ENABLED
+ * Env: OPS_NOTIFY_ON_DEPLOY=true (or DEPLOY_NOTIFY_ENABLED) + DEPLOY_NOTIFY_EMAIL + EMAIL_ENABLED
  * Optional: OBSERVABILITY_AUTO_ACK_ON_DEPLOY=true after a successful notify.
+ * Successful sends update shared ops_boot_notify_state so boot does not re-mail.
  *
  * GET|POST /api/cron/deploy-notify?dryRun=1
  */
