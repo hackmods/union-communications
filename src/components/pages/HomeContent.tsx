@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Callout } from "@/components/ui/Callout";
-import { Card } from "@/components/ui/Card";
+import { Card, CardTitle } from "@/components/ui/Card";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { HomeHeroPreview } from "@/components/pages/HomeHeroPreview";
 import { PageShell } from "@/components/layout/PageShell";
@@ -14,6 +14,10 @@ import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { useSession } from "next-auth/react";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
+import {
+  PUBLIC_HERO_TITLE_CLASS,
+  PUBLIC_SECTION_TITLE_CLASS,
+} from "@/lib/constants/public-type";
 import { cn } from "@/lib/utils";
 
 export function HomeContent() {
@@ -60,20 +64,32 @@ export function HomeContent() {
         className="home-hero relative w-full overflow-hidden bg-gradient-to-br from-opseu-blue via-opseu-blue to-opseu-dark text-white"
         aria-labelledby="home-hero-heading"
       >
-        <div className={cn(PAGE_SHELL.wide, "grid grid-cols-1 items-center gap-8 py-10 sm:py-14 lg:grid-cols-2 lg:gap-12 lg:py-16")}>
-          <div className="min-w-0" data-testid="home-hero-brand">
+        <div
+          className={cn(
+            PAGE_SHELL.wide,
+            "grid grid-cols-1 items-center gap-8 py-12 sm:py-16 lg:grid-cols-2 lg:gap-12 lg:py-20",
+          )}
+        >
+          <div className="home-enter min-w-0" data-testid="home-hero-brand">
             <Eyebrow className="text-white/80">UnionOps</Eyebrow>
-            <h1 id="home-hero-heading" className="mt-3 max-w-2xl text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
+            <h1
+              id="home-hero-heading"
+              className={cn(PUBLIC_HERO_TITLE_CLASS, "mt-3 max-w-2xl text-white")}
+            >
               {t("headline")}
             </h1>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg sm:leading-[1.7]">
               {t(hubAvailable ? "subtitle" : "subtitleCommsOnly")}
             </p>
             <p className="mt-3 max-w-xl text-sm font-medium leading-relaxed text-white/85 sm:text-base">
               {t("brandFoundation")}
             </p>
-            <div className="mt-7 flex flex-wrap items-center gap-3">
-              <ButtonLink href={primaryHref} variant="outline" className="border-white bg-white text-opseu-dark hover:bg-white/90">
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <ButtonLink
+                href={primaryHref}
+                variant="outline"
+                className="border-white bg-white text-opseu-dark hover:bg-white/90"
+              >
                 {primaryCta}
               </ButtonLink>
               <ButtonLink
@@ -89,17 +105,28 @@ export function HomeContent() {
         </div>
       </section>
 
-      <PageShell className="py-8 md:py-12">
-        <Callout tone="plain" className="border border-slate-200 bg-slate-50 p-4 sm:p-5" role="note">
+      <PageShell className="py-10 md:py-14">
+        <Callout
+          tone="plain"
+          className="rounded-xl border border-slate-200 bg-slate-50 p-4 sm:p-5"
+          role="note"
+        >
           <p className="text-sm leading-relaxed text-slate-800 sm:text-base">
             {t(hubAvailable ? "privacySummary" : "privacySummaryCommsOnly")}{" "}
-            <Link href="/documents/privacy" className="font-semibold underline underline-offset-2">
+            <Link
+              href="/documents/privacy"
+              className="font-semibold underline underline-offset-2 transition-colors hover:text-opseu-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+            >
               {t("privacyLink")}
             </Link>
           </p>
         </Callout>
 
-        <section className="mt-10" aria-labelledby="home-foundation-heading" data-testid="home-foundation">
+        <section
+          className="mt-10 md:mt-14"
+          aria-labelledby="home-foundation-heading"
+          data-testid="home-foundation"
+        >
           <SectionHeading
             id="home-foundation-heading"
             eyebrow={t("foundationEyebrow")}
@@ -116,7 +143,7 @@ export function HomeContent() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="home-destinations-heading">
+        <section className="mt-10 md:mt-14" aria-labelledby="home-destinations-heading">
           <SectionHeading
             id="home-destinations-heading"
             eyebrow={t("destinationsEyebrow")}
@@ -126,18 +153,21 @@ export function HomeContent() {
           <ul className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2 xl:grid-cols-3">
             {destinations.map((item) => (
               <li key={item.id} className="min-w-0" data-testid={`home-dest-${item.id}`}>
-                <Card variant="ghost" className="h-full border border-slate-200 bg-white p-5 sm:p-6">
-                  <h3 className="text-lg font-bold text-opseu-dark">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-700">{item.body}</p>
+                <Card variant="elevated" interactive className="relative h-full">
                   <Link
                     href={item.href}
-                    className="mt-5 inline-flex min-h-10 items-center font-semibold text-opseu-blue underline underline-offset-2 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+                    className="absolute inset-0 z-10 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-inset"
+                    aria-label={item.cta}
+                  />
+                  <CardTitle className="group-hover/card:text-opseu-blue">{item.title}</CardTitle>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-700">{item.body}</p>
+                  <span
+                    aria-hidden="true"
+                    className="mt-5 inline-flex min-h-11 items-center font-semibold text-opseu-blue underline underline-offset-2 group-hover/card:text-opseu-dark"
                   >
                     {item.cta}
-                    <span aria-hidden="true" className="ml-2">
-                      →
-                    </span>
-                  </Link>
+                    <span className="ml-2">→</span>
+                  </span>
                 </Card>
               </li>
             ))}
@@ -145,14 +175,14 @@ export function HomeContent() {
         </section>
 
         <section
-          className="mt-12 rounded-lg border border-slate-200 bg-slate-50 p-5 sm:p-7"
+          className="mt-10 rounded-xl border border-slate-200/80 bg-slate-50 bg-gradient-to-br from-opseu-blue/[0.04] to-slate-50 p-5 shadow-sm sm:p-7 md:mt-14"
           aria-labelledby="home-platform-heading"
           data-testid="home-platform"
         >
-          <h2 id="home-platform-heading" className="text-xl font-bold text-opseu-dark">
+          <h2 id="home-platform-heading" className={PUBLIC_SECTION_TITLE_CLASS}>
             {t("platformBandTitle")}
           </h2>
-          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-700 sm:text-base">
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-700 sm:text-base sm:leading-[1.7]">
             {t("platformBandBody")}
           </p>
           <ButtonLink href="/platform" className="mt-5">
@@ -161,14 +191,14 @@ export function HomeContent() {
         </section>
 
         <section
-          className="mt-8 flex flex-col gap-4 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between"
+          className="mt-10 flex flex-col gap-4 border-t border-slate-200 pt-8 sm:flex-row sm:items-center sm:justify-between md:mt-14"
           aria-labelledby="home-guided-setup-heading"
         >
           <div>
-            <h2 id="home-guided-setup-heading" className="text-lg font-bold text-opseu-dark">
+            <h2 id="home-guided-setup-heading" className={PUBLIC_SECTION_TITLE_CLASS}>
               {t("guidedSetupTitle")}
             </h2>
-            <p className="mt-1 max-w-2xl text-sm leading-relaxed text-slate-700">
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-700">
               {t("guidedSetupBody")}
             </p>
           </div>

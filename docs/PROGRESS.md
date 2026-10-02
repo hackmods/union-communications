@@ -1,3 +1,7 @@
+## 2026-10-02 — Public marketing visual uplift (CSS polish)
+
+Restrained Home + catalog + shared-primitive polish: refined `PUBLIC_*` type step-down + hero clamp, elevated destination/catalog tiles with whole-card hit targets, soft platform-band wash, Button/ButtonLink active scale + min-height parity, Header touch targets. CSS/Tailwind only (no Framer Motion / glass). Structure and branding preserved.
+
 ## 2026-10-01 — Keep MFA recovery codes visible during session refresh
 
 - Enrollment confirmation now retains the recovery-code screen across Auth.js loading/authenticated transitions. Refresh no longer rechecks enrollment and redirects away before codes are saved.

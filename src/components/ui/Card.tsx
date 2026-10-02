@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { PUBLIC_CARD_TITLE_CLASS } from "@/lib/constants/public-type";
 
 type CardVariant = "default" | "elevated" | "outline" | "ghost";
 
@@ -20,12 +21,12 @@ type CardProps = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 const baseClass =
-  "min-w-0 rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 ease-out motion-reduce:transition-none";
+  "min-w-0 rounded-xl border border-slate-200 bg-white shadow-sm transition-[transform,box-shadow,border-color] duration-200 ease-out motion-reduce:transition-none";
 
 const variantClass: Record<CardVariant, string> = {
   default: "",
   elevated:
-    "hover:-translate-y-1 hover:border-opseu-blue/40 hover:shadow-lg focus-within:-translate-y-1 focus-within:border-opseu-blue/40 focus-within:shadow-lg motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0",
+    "hover:-translate-y-1 hover:border-opseu-blue/40 hover:shadow-md focus-within:-translate-y-1 focus-within:border-opseu-blue/40 focus-within:shadow-md motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0",
   outline:
     "rounded-r-lg border-y-0 border-r-0 border-l-2 border-l-opseu-blue/30 shadow-none",
   ghost:
@@ -63,7 +64,7 @@ export function CardTitle({
 }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
-      className={cn("text-lg font-bold text-opseu-dark", className)}
+      className={cn(PUBLIC_CARD_TITLE_CLASS, className)}
       {...props}
     >
       {children}
