@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -34,9 +34,14 @@ export function HubDashboard() {
   const pathname = usePathname();
   const mfaOk = useSessionMfaOk();
   const liveTenant = useLiveTenant();
+  const refreshedJwt = useRef(false);
 
-  // Re-run JWT tenancy/role refresh so Hub labels match Postgres after role changes.
+  // One-shot JWT tenancy/role refresh so Hub labels match Postgres after role
+  // changes. Gate with a ref so a changing `update` identity cannot re-fire
+  // and flicker session-gated chrome (e.g. Platform admin).
   useEffect(() => {
+    if (refreshedJwt.current) return;
+    refreshedJwt.current = true;
     void update();
   }, [update]);
 

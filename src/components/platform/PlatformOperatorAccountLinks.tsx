@@ -1,8 +1,8 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useSessionChrome } from "@/components/auth/useSessionChrome";
 import {
   isPlatformOperator,
   PLATFORM_OPERATOR_NAV,
@@ -23,11 +23,10 @@ export function PlatformOperatorAccountLinks({
   onNavigate,
   linkClassName,
 }: PlatformOperatorAccountLinksProps) {
-  const { data: session, status } = useSession();
+  const { session, authenticated } = useSessionChrome();
   const pathname = usePathname();
   const t = useTranslations("hub.platformOperator");
 
-  const authenticated = status === "authenticated" && Boolean(session?.user);
   const roles = (session?.user?.roles ?? []) as UserRole[];
   if (!authenticated || !isPlatformOperator(roles)) return null;
 
@@ -51,7 +50,12 @@ export function PlatformOperatorAccountLinks({
           : "mt-1 border-l-2 border-opseu-blue/20 pl-3",
       )}
     >
-      <Link href={item.href} onClick={onNavigate} className={itemClass}>
+      <Link
+        href={item.href}
+        onClick={onNavigate}
+        className={itemClass}
+        data-testid="platform-operator-account-link"
+      >
         {t("menu")}
       </Link>
     </div>
