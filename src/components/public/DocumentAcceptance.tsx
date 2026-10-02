@@ -96,7 +96,10 @@ export function DocumentAcceptance({ locale, returnTo }: { locale: string; retur
                     {item.acceptanceScope === "organization" && (
                       <>
                         <label className="mt-4 flex items-start gap-2 text-sm text-gray-700">
-                          <input className="mt-1" type="checkbox" checked={Boolean(attested[item.versionId])} onChange={(event) => setAttested((current) => ({ ...current, [item.versionId]: event.target.checked }))} />
+                          <input className="mt-1" type="checkbox" checked={Boolean(attested[item.versionId])} onChange={(event) => {
+                            const checked = event.target.checked;
+                            setAttested((current) => ({ ...current, [item.versionId]: checked }));
+                          }} />
                           <span>{fr ? "J’atteste être autorisé à accepter cette entente au nom du syndicat ou de la section indiqué(e)." : "I confirm that I am authorized to accept this agreement on behalf of the selected union or local."}</span>
                         </label>
                         {itemScopes.length > 0 && (
