@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -23,12 +23,21 @@ interface AuditRow {
 
 type OutcomeFilter = "" | AuditRow["outcome"];
 
-function buildQuery(filters: {
+type AuditFilters = {
   from: string;
   to: string;
   actor: string;
   outcome: OutcomeFilter;
-}): string {
+};
+
+const EMPTY_FILTERS: AuditFilters = {
+  from: "",
+  to: "",
+  actor: "",
+  outcome: "",
+};
+
+function buildQuery(filters: AuditFilters): string {
   const params = new URLSearchParams({ limit: "200" });
   if (filters.from) params.set("from", filters.from);
   if (filters.to) params.set("to", filters.to);
@@ -44,6 +53,12 @@ function escapeCsvCell(value: string): string {
   return value;
 }
 
+function filtersActive(filters: AuditFilters): boolean {
+  return Boolean(
+    filters.from || filters.to || filters.actor.trim() || filters.outcome,
+  );
+}
+
 export function AuditLogClient() {
   const t = useTranslations("hub");
   const outcomeLabels = {
@@ -55,37 +70,49 @@ export function AuditLogClient() {
   const [entries, setEntries] = useState<AuditRow[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [actor, setActor] = useState("");
-  const [outcome, setOutcome] = useState<OutcomeFilter>("");
+  const [draft, setDraft] = useState<AuditFilters>(EMPTY_FILTERS);
+  const [applied, setApplied] = useState<AuditFilters>(EMPTY_FILTERS);
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const qs = buildQuery({ from, to, actor, outcome });
-      const res = await fetch(`/api/audit?${qs}`);
-      if (!res.ok) {
-        const body = (await res.json().catch(() => null)) as {
-          error?: string;
-        } | null;
-        throw new Error(body?.error ?? res.statusText);
+  const load = useCallback(
+    async (filters: AuditFilters) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const qs = buildQuery(filters);
+        const res = await fetch(`/api/audit?${qs}`);
+        if (!res.ok) {
+          const body = (await res.json().catch(() => null)) as {
+            error?: string;
+          } | null;
+          throw new Error(body?.error ?? res.statusText);
+        }
+        const data = (await res.json()) as { entries: AuditRow[] };
+        setEntries(data.entries);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : t("auditLoadError"));
+      } finally {
+        setLoading(false);
       }
-      const data = (await res.json()) as { entries: AuditRow[] };
-      setEntries(data.entries);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : t("auditLoadError"));
-    } finally {
-      setLoading(false);
-    }
-  }, [actor, from, outcome, t, to]);
+    },
+    [t],
+  );
 
   useEffect(() => {
-    void load();
+    void load(EMPTY_FILTERS);
   }, [load]);
 
-  const exportCsv = useCallback(() => {
+  function applyFilters() {
+    setApplied(draft);
+    void load(draft);
+  }
+
+  function clearFilters() {
+    setDraft(EMPTY_FILTERS);
+    setApplied(EMPTY_FILTERS);
+    void load(EMPTY_FILTERS);
+  }
+
+  function exportCsv() {
     const header = [
       t("auditWhen"),
       t("auditAction"),
@@ -118,67 +145,11 @@ export function AuditLogClient() {
     anchor.download = "audit-log.csv";
     anchor.click();
     URL.revokeObjectURL(url);
-  }, [entries, outcomeLabels, t]);
+  }
 
   const hasRows = entries.length > 0;
-
-  const filterFields = useMemo(
-    () => (
-      <div className="mt-6 flex flex-wrap items-end gap-3">
-        <Input
-          label={t("auditFilterFrom")}
-          type="date"
-          value={from}
-          onChange={(e) => setFrom(e.target.value)}
-        />
-        <Input
-          label={t("auditFilterTo")}
-          type="date"
-          value={to}
-          onChange={(e) => setTo(e.target.value)}
-        />
-        <Input
-          label={t("auditFilterActor")}
-          value={actor}
-          onChange={(e) => setActor(e.target.value)}
-          placeholder={t("auditFilterActorPlaceholder")}
-        />
-        <Select
-          label={t("auditOutcome.title")}
-          value={outcome}
-          onChange={(e) => setOutcome(e.target.value as OutcomeFilter)}
-        >
-          <option value="">{t("auditFilterOutcomeAll")}</option>
-          <option value="success">{outcomeLabels.success}</option>
-          <option value="denied">{outcomeLabels.denied}</option>
-          <option value="error">{outcomeLabels.error}</option>
-          <option value="unknown">{outcomeLabels.unknown}</option>
-        </Select>
-        <Button type="button" variant="secondary" onClick={() => void load()}>
-          {t("auditFilterApply")}
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          disabled={!hasRows}
-          onClick={exportCsv}
-        >
-          {t("auditExportCsv")}
-        </Button>
-      </div>
-    ),
-    [
-      actor,
-      exportCsv,
-      from,
-      hasRows,
-      load,
-      outcome,
-      outcomeLabels,
-      t,
-      to,
-    ],
-  );
+  const filteredEmpty =
+    !loading && !error && !hasRows && filtersActive(applied);
 
   return (
     <>
@@ -188,7 +159,62 @@ export function AuditLogClient() {
       <p className="mt-1 text-sm text-gray-600 sm:text-base">
         {t("auditSubtitle")}
       </p>
-      {filterFields}
+      <div className="mt-6 flex flex-wrap items-end gap-3">
+        <Input
+          label={t("auditFilterFrom")}
+          type="date"
+          value={draft.from}
+          onChange={(e) =>
+            setDraft((prev) => ({ ...prev, from: e.target.value }))
+          }
+        />
+        <Input
+          label={t("auditFilterTo")}
+          type="date"
+          value={draft.to}
+          onChange={(e) => setDraft((prev) => ({ ...prev, to: e.target.value }))}
+        />
+        <Input
+          label={t("auditFilterActor")}
+          value={draft.actor}
+          onChange={(e) =>
+            setDraft((prev) => ({ ...prev, actor: e.target.value }))
+          }
+          placeholder={t("auditFilterActorPlaceholder")}
+        />
+        <Select
+          label={t("auditOutcome.title")}
+          value={draft.outcome}
+          onChange={(e) =>
+            setDraft((prev) => ({
+              ...prev,
+              outcome: e.target.value as OutcomeFilter,
+            }))
+          }
+        >
+          <option value="">{t("auditFilterOutcomeAll")}</option>
+          <option value="success">{outcomeLabels.success}</option>
+          <option value="denied">{outcomeLabels.denied}</option>
+          <option value="error">{outcomeLabels.error}</option>
+          <option value="unknown">{outcomeLabels.unknown}</option>
+        </Select>
+        <Button type="button" variant="secondary" onClick={applyFilters}>
+          {t("auditFilterApply")}
+        </Button>
+        {filtersActive(draft) || filtersActive(applied) ? (
+          <Button type="button" variant="outline" onClick={clearFilters}>
+            {t("auditFilterClear")}
+          </Button>
+        ) : null}
+        <Button
+          type="button"
+          variant="outline"
+          disabled={!hasRows}
+          onClick={exportCsv}
+        >
+          {t("auditExportCsv")}
+        </Button>
+      </div>
       {loading && (
         <div
           className="mt-6 space-y-3"
@@ -203,12 +229,30 @@ export function AuditLogClient() {
         </div>
       )}
       {error && (
-        <p className="mt-6 text-sm text-red-700" role="alert">
-          {error}
-        </p>
+        <div className="mt-6 space-y-2" role="alert">
+          <p className="text-sm text-red-700">{error}</p>
+          <Button
+            type="button"
+            variant="outline"
+            className="min-h-11"
+            onClick={() => void load(applied)}
+          >
+            {t("auditRetry")}
+          </Button>
+        </div>
       )}
       {!loading && !error && entries.length === 0 && (
-        <EmptyState className="mt-6" title={t("auditEmpty")} />
+        <EmptyState
+          className="mt-6"
+          title={filteredEmpty ? t("auditEmptyFiltered") : t("auditEmpty")}
+          action={
+            filteredEmpty ? (
+              <Button type="button" variant="outline" onClick={clearFilters}>
+                {t("auditFilterClear")}
+              </Button>
+            ) : undefined
+          }
+        />
       )}
       {hasRows && !loading && (
         <>
@@ -271,7 +315,9 @@ export function AuditLogClient() {
                       {new Date(row.timestamp).toLocaleString()}
                     </td>
                     <td className="px-3 py-2 font-mono text-xs">{row.action}</td>
-                    <td className="px-3 py-2 text-xs">{outcomeLabels[row.outcome]}</td>
+                    <td className="px-3 py-2 text-xs">
+                      {outcomeLabels[row.outcome]}
+                    </td>
                     <td className="px-3 py-2 font-mono text-xs">
                       {row.resourceType}/{row.resourceId}
                     </td>

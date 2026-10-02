@@ -24,6 +24,13 @@ interface AuditRow {
 
 export function OperatorAuditClient() {
   const t = useTranslations("hub.platformOperator");
+  const tOutcome = useTranslations("hub.auditOutcome");
+  const outcomeLabels = {
+    success: tOutcome("success"),
+    denied: tOutcome("denied"),
+    error: tOutcome("error"),
+    unknown: tOutcome("unknown"),
+  };
   const [entries, setEntries] = useState<AuditRow[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -189,7 +196,9 @@ export function OperatorAuditClient() {
                     {row.resourceType}/{row.resourceId}
                     {row.unionId ? ` · ${row.unionId}` : ""}
                   </td>
-                  <td className="px-3 py-2 text-xs text-gray-700">{row.outcome}</td>
+                  <td className="px-3 py-2 text-xs text-gray-700">
+                    {outcomeLabels[row.outcome]}
+                  </td>
                   <td className="px-3 py-2 font-mono text-xs text-gray-700">{row.requestId ?? "—"}</td>
                   <td className="max-w-xs truncate px-3 py-2 font-mono text-xs text-gray-600">
                     {row.metadata

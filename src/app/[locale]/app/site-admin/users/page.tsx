@@ -160,6 +160,7 @@ export default async function SiteAdminUsersPage({
           defaultValue={q}
           placeholder={t("usersSearchPlaceholder")}
           className="min-w-[12rem] flex-1 rounded-md border border-opseu-gray/30 bg-white px-3 py-2 text-sm shadow-sm focus:border-opseu-blue focus:outline-none focus:ring-2 focus:ring-opseu-blue/30"
+          aria-label={t("usersSearchPlaceholder")}
         />
         <button
           type="submit"
@@ -167,11 +168,25 @@ export default async function SiteAdminUsersPage({
         >
           {t("usersSearch")}
         </button>
+        {q ? (
+          <Link
+            href="/app/site-admin/users"
+            className="rounded-md px-3 py-2 text-sm font-medium text-opseu-blue hover:underline focus:outline-none focus:ring-2 focus:ring-opseu-blue/50"
+          >
+            {t("usersSearchClear")}
+          </Link>
+        ) : null}
       </form>
 
       {q && rows.length === 0 ? (
         <p className="mb-4 text-sm text-opseu-gray-dark">
-          {t("usersSearchNoMatches", { q })}
+          {t("usersSearchNoMatches", { q })}{" "}
+          <Link
+            href="/app/site-admin/users"
+            className="text-opseu-blue hover:underline"
+          >
+            {t("usersSearchClear")}
+          </Link>
         </p>
       ) : null}
 
