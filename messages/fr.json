@@ -8787,6 +8787,8 @@
       "hostImageVersion": "Version de l’app",
       "hostImageCommit": "Commit de build",
       "hostImageBuiltAt": "Construit à (UTC)",
+      "hostLifecycleEmail": "Courriel de cycle de vie : déploiement {deploy} · redémarrage {restart} · dernier déploiement {lastDeploy}",
+      "hostLifecycleEmailNever": "jamais",
       "hostDbHeading": "Révision de la base de données",
       "hostDbLead": "Appliquée au démarrage du conteneur par la passerelle de migration fail-closed. La pointe avance quand vous déployez une nouvelle image — pas en réensemençant.",
       "hostDbTip": "Pointe du journal",

@@ -31,7 +31,8 @@ export default async function HostReadinessPage({
     locale,
     namespace: "hub.platformOperator",
   });
-  const readiness = buildHostReadiness(await buildHealthStatus());
+  const health = await buildHealthStatus();
+  const readiness = buildHostReadiness(health);
 
   const nextActions = readiness.missingBlockingActions.filter(
     (action) => action.group !== "attestation",
@@ -95,6 +96,19 @@ export default async function HostReadinessPage({
             <dd className="font-mono text-opseu-dark">{readiness.image.builtAt}</dd>
           </div>
         </dl>
+        <p className="mt-3 text-sm text-opseu-gray-dark">
+          {t("hostLifecycleEmail", {
+            deploy: health.opsLifecycleNotify.deployEnabled
+              ? t("hostFlagOn")
+              : t("hostFlagOff"),
+            restart: health.opsLifecycleNotify.restartEnabled
+              ? t("hostFlagOn")
+              : t("hostFlagOff"),
+            lastDeploy: health.opsLifecycleNotify.lastDeployCommit
+              ? health.opsLifecycleNotify.lastDeployCommit.slice(0, 7)
+              : t("hostLifecycleEmailNever"),
+          })}
+        </p>
       </section>
 
       <section className="mb-8 rounded-lg border border-opseu-gray/15 bg-white p-4 shadow-sm">

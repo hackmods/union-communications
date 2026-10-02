@@ -1,5 +1,6 @@
 /**
  * Post-deploy operator email — env-gated, no member lists (ADR-016).
+ * Deploy gate: OPS_NOTIFY_ON_DEPLOY or legacy DEPLOY_NOTIFY_ENABLED.
  */
 
 import {
@@ -11,24 +12,22 @@ import {
   type HealthStatus,
 } from "@/lib/ops/health-status";
 import {
+  isOpsNotifyOnDeploy,
+  readDeployNotifyEmail,
+  recordDeployNotifySuccess,
+} from "@/lib/ops/boot-notify";
+import {
   isTransactionalEmailAvailable,
   sendTransactionalEmail,
 } from "@/lib/email/send";
 
-type EnvLike = Record<string, string | undefined>;
+export { isOpsNotifyOnDeploy, readDeployNotifyEmail };
 
+/** @deprecated Prefer isOpsNotifyOnDeploy — alias for backward-compatible imports. */
 export function isDeployNotifyEnabled(
-  env: EnvLike = process.env,
+  env: Record<string, string | undefined> = process.env,
 ): boolean {
-  const raw = env.DEPLOY_NOTIFY_ENABLED?.trim().toLowerCase();
-  return raw === "true" || raw === "1" || raw === "yes";
-}
-
-export function readDeployNotifyEmail(
-  env: EnvLike = process.env,
-): string | null {
-  const value = env.DEPLOY_NOTIFY_EMAIL?.trim();
-  return value || null;
+  return isOpsNotifyOnDeploy(env);
 }
 
 export type DeployNotifyPayload = {
@@ -68,7 +67,7 @@ export async function sendDeployNotifyEmail(input?: {
   payload?: DeployNotifyPayload;
 }): Promise<DeployNotifySendResult & { payload: DeployNotifyPayload }> {
   const payload = input?.payload ?? (await buildDeployNotifyPayload());
-  if (!isDeployNotifyEnabled()) {
+  if (!isOpsNotifyOnDeploy()) {
     return { ok: false, skipped: "disabled", payload };
   }
   const to = (input?.to ?? readDeployNotifyEmail())?.trim();
@@ -90,6 +89,14 @@ export async function sendDeployNotifyEmail(input?: {
       error: result.error,
       payload,
     };
+  }
+  try {
+    await recordDeployNotifySuccess({ commit: payload.commit });
+  } catch (error) {
+    console.warn(
+      "[deploy-notify] failed to persist last deploy commit after send",
+      error,
+    );
   }
   return { ok: true, messageId: result.messageId, payload };
 }

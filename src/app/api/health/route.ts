@@ -21,8 +21,9 @@ function canReadOperationalEvidence(request: Request): boolean {
 function publicHealthPayload(
   status: Awaited<ReturnType<typeof buildHealthStatus>>,
 ) {
-  const { hostedControlEvidence, ...publicStatus } = status;
+  const { hostedControlEvidence, opsLifecycleNotify, ...publicStatus } = status;
   void hostedControlEvidence;
+  void opsLifecycleNotify;
   return publicStatus;
 }
 

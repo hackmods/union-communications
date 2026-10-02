@@ -12,6 +12,7 @@ import {
   HOST_GAP_KEYS,
 } from "@/lib/ops/host-readiness-copy";
 import type { HealthStatus } from "@/lib/ops/health-status";
+import { emptyOpsLifecycleNotifyHealth } from "@/lib/ops/health-status";
 import { emptyHostedControlEvidence } from "@/lib/ops/host-control-evidence";
 import { memoryDatabaseBootAttestation } from "@/lib/ops/database-boot";
 
@@ -43,6 +44,7 @@ function stubHealth(): HealthStatus {
     hostedPlansEnabled: false,
     demoAuthEnabled: false,
     hostedControlEvidence: emptyHostedControlEvidence(),
+    opsLifecycleNotify: emptyOpsLifecycleNotifyHealth(),
     observability: {
       backend: "noop",
       storeEnabled: false,

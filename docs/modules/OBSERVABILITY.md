@@ -12,11 +12,31 @@ Session notes: [`session-knowledge-2026-09-08-sentry-observability.md`](../audit
 | Store adapter | `src/lib/observability/adapter.ts` |
 | Postgres store (Docker primary) | `postgres-store.ts` + migrations `0082`–`0084` |
 | Issue acks + alert rules | `acks.ts`, `alert-rules.ts`, `alert-store.ts`, `file-alert-store.ts`, `evaluate-alerts.ts` |
-| Auto-ack on deploy | `auto-ack-deploy.ts` (hooked from deploy-notify cron) |
+| Auto-ack on deploy | `auto-ack-deploy.ts` (hooked from deploy-notify cron **and** boot deploy) |
 | Crisis email | `composeObservabilityCrisisAlert` via Email Engine (`security`, `multipart`\|`plain`) |
+| Lifecycle email | `boot-notify.ts` + `composeOpsLifecycleNotify` (restart); deploy body stays host-readiness |
 | Alert cron | `POST /api/cron/observability-alerts` (`CRON_SECRET`) |
+| Deploy cron | `POST /api/cron/deploy-notify` (`OPS_NOTIFY_ON_DEPLOY` or `DEPLOY_NOTIFY_ENABLED`) |
 | File backend (JSONL) | `file-store.ts` + sidecar rules/acks/firings |
 | Site Admin UI | `/app/site-admin/observability` |
+
+## Lifecycle emails (deploy / restart)
+
+Independent CapRover toggles — **no settings page**. Recipient is always `DEPLOY_NOTIFY_EMAIL`.
+
+```
+EMAIL_ENABLED=true
+DEPLOY_NOTIFY_EMAIL=ops@example.org
+OPS_NOTIFY_ON_DEPLOY=true      # or DEPLOY_NOTIFY_ENABLED=true
+OPS_NOTIFY_ON_RESTART=false    # flip true for same-image bounce mail
+OPS_NOTIFY_RESTART_COOLDOWN_MINUTES=15
+OPS_NOTIFY_DEPLOY_DEDUPE_MINUTES=10
+```
+
+- **Deploy:** boot compares `BUILD_COMMIT_SHA` to durable state (`ops_boot_notify_state` / file). CI may also hit `/api/cron/deploy-notify`; shared state + dedupe window prevent double-mail.
+- **Restart:** same-image process start; cooldown suppresses restart storms. Deploy on a boot **subsumes** restart.
+- Multi-replica: Postgres advisory lock. File-only hosts may double-send without a volume.
+- Host board shows a read-only lifecycle line; gated health includes `opsLifecycleNotify`.
 
 ## Docker CapRover (preferred)
 
@@ -48,7 +68,7 @@ Without a persistent volume, file logs **and** file alert sidecars vanish on red
 
 Postgres (`observability_issue_acks`) or file sidecar `observability-issue-acks.json`. UI: Acknowledge / Clear ack, hide acknowledged (default on). Acked fingerprints skipped by alert cron.
 
-**Auto-ack on deploy:** `OBSERVABILITY_AUTO_ACK_ON_DEPLOY=true` — after a successful deploy-notify cron send, fingerprints whose latest event `build` ≠ current `BUILD_COMMIT_SHA` are acknowledged as `system-deploy`. Audit `observability.ack.auto_deploy`.
+**Auto-ack on deploy:** `OBSERVABILITY_AUTO_ACK_ON_DEPLOY=true` — after a successful deploy-notify (cron **or** boot), fingerprints whose latest event `build` ≠ current `BUILD_COMMIT_SHA` are acknowledged as `system-deploy`. Audit `observability.ack.auto_deploy`.
 
 ## Crisis email alerts
 

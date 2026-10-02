@@ -1,3 +1,10 @@
+## 2026-10-02 — Ops lifecycle emails (deploy / restart)
+
+- Independent CapRover toggles `OPS_NOTIFY_ON_DEPLOY` / `OPS_NOTIFY_ON_RESTART` (legacy `DEPLOY_NOTIFY_ENABLED` aliases deploy-on); shared `DEPLOY_NOTIFY_EMAIL`.
+- Boot hook in `instrumentation.ts` + migration `0095_ops_boot_notify_state`; CI deploy-notify cron shares last-commit state and dedupe window.
+- Host board read-only lifecycle line; gated health `opsLifecycleNotify`. No settings page.
+- Lessons: [`docs/audit/session-knowledge-2026-10-02-ops-boot-notify.md`](audit/session-knowledge-2026-10-02-ops-boot-notify.md).
+
 ## 2026-10-02 — Unified mobile nav sheet (Hub/Portal)
 
 - Hide the public Header hamburger on `/app` and `/portal` so phones show one Tools/Portal toggle, not two Menu buttons.

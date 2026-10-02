@@ -5369,6 +5369,36 @@
       ]
     },
     {
+      "name": "ops_boot_notify_state",
+      "columns": [
+        {
+          "name": "id",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "last_deploy_commit",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "last_deploy_notified_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "last_restart_notified_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "outreach_action_tokens",
       "columns": [
         {

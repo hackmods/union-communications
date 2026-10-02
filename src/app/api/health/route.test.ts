@@ -19,6 +19,16 @@ function sampleStatus(): HealthStatus {
   return {
     status: "ok",
     hostedControlEvidence: readyHostedControlEvidence(),
+    opsLifecycleNotify: {
+      deployEnabled: false,
+      restartEnabled: false,
+      cooldownMinutes: 15,
+      dedupeMinutes: 10,
+      stateBackend: "file",
+      lastDeployCommit: null,
+      lastDeployNotifiedAt: null,
+      lastRestartNotifiedAt: null,
+    },
   } as unknown as HealthStatus;
 }
 
@@ -34,6 +44,7 @@ describe("GET /api/health operational evidence", () => {
 
     expect(response.status).toBe(200);
     expect(body).not.toHaveProperty("hostedControlEvidence");
+    expect(body).not.toHaveProperty("opsLifecycleNotify");
   });
 
   it("returns operator evidence only for the dedicated bearer secret", async () => {
@@ -45,16 +56,20 @@ describe("GET /api/health operational evidence", () => {
         headers: { authorization: "Bearer wrong-key" },
       }),
     );
-    expect(await denied.json()).not.toHaveProperty("hostedControlEvidence");
+    const deniedBody = await denied.json();
+    expect(deniedBody).not.toHaveProperty("hostedControlEvidence");
+    expect(deniedBody).not.toHaveProperty("opsLifecycleNotify");
 
     const authorized = await GET(
       new Request("http://localhost/api/health", {
         headers: { authorization: `Bearer ${secret}` },
       }),
     );
-    expect(await authorized.json()).toHaveProperty(
+    const authorizedBody = await authorized.json();
+    expect(authorizedBody).toHaveProperty(
       "hostedControlEvidence",
       readyHostedControlEvidence(),
     );
+    expect(authorizedBody).toHaveProperty("opsLifecycleNotify");
   });
 });

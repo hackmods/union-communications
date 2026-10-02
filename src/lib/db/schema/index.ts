@@ -40,3 +40,4 @@ export * from "./marketing";
 export * from "./member-broadcast";
 export * from "./outreach";
 export * from "./observability";
+export * from "./ops-boot-notify";
