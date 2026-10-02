@@ -28,7 +28,7 @@ Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 - After rewriting the first-screen Home copy: TypeScript and the focused public-copy/metadata/readability suite passed (46 tests). Updated browser smoke expectations are present but not executed.
 - After adding the real learning example: TypeScript and the same 46 focused copy tests passed; the EN/FR canonical lesson-link assertions are added to smoke specs but not run.
 - `npm run build`: passed on the current tree after the real Officer Learning Home example; all 569 static pages generated. Next still logs the existing auth-default and dynamic filesystem tracing warnings.
-- Updated Home EN/FR smoke assertions are in `e2e/builders.smoke.spec.ts` and `e2e/public-discovery.smoke.spec.ts`; browser smoke was not run because the local URL is blocked by the browser tool policy.
+- Updated Home EN/FR smoke assertions are in `e2e/builders.smoke.spec.ts` and `e2e/public-discovery.smoke.spec.ts`. A 320/375/768/1280/1536 width/no-overflow matrix now covers EN/FR with axe at 320px; browser smoke was not run because the local URL is blocked by the browser tool policy.
 - The browser tool previously denied this local URL under its URL policy. No viewport screenshots of the new UI or keyboard walkthrough have been captured in this checkpoint.
 
 ## Earlier rendered baseline (before this visual diff)

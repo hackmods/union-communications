@@ -9,6 +9,7 @@
 - Rewrote the Home first-screen headline and supporting copy in EN/FR around concrete union tasks and the separate learning/officer/member spaces; updated the English and French smoke expectations. Copy guards (46 tests) and TypeScript passed.
 - Added a real Officer Learning catalog example to Home using the localized Contract Enforcement module content and actual lesson route. TypeScript and 46 focused copy tests passed; EN/FR route assertions were added, but browser smoke remains blocked by URL policy.
 - Current-tree production build completed successfully and generated all 569 static pages; existing auth-default and dynamic filesystem trace warnings remain.
+- Encoded the Home EN/FR viewport acceptance matrix (320–1536px), horizontal-overflow checks, and 320px axe checks in the smoke suite; execution awaits supported browser access.
 - Typecheck and production build passed; the full unit suite passed 3,239 tests (2 skipped, 1 todo across 538 files). ESLint remains skipped by the TypeScript 7 compatibility guard. Browser visual/smoke review remains outstanding under the browser URL policy; see [`docs/ui-uplift/05_IMPLEMENTATION_STATUS.md`](ui-uplift/05_IMPLEMENTATION_STATUS.md).
 
 ## 2026-10-01 — Recover UI uplift foundations

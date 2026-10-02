@@ -75,21 +75,17 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(page.getByTestId("home-hero-preview")).toHaveAttribute("data-variant", "flyerMaker");
   });
 
-  test("home has no horizontal overflow on a small laptop", async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width: 1366, height: 768 });
-    await page.goto("/en/");
-    await expect(page.getByTestId("home-hero-brand")).toBeVisible();
-    await expect(page.getByTestId("home-hero-preview")).toBeVisible();
-    await expect(page.getByText("A sample of the work you can make")).toBeVisible();
-    // Raw scrollWidth vs clientWidth — do not subtract the scrollbar gutter,
-    // or 100vw leftovers look like a false positive (the Windows laptop bug).
-    const overflow = await page.evaluate(() => {
-      const root = document.scrollingElement ?? document.documentElement;
-      return root.scrollWidth - root.clientWidth;
-    });
-    expect(overflow).toBeLessThanOrEqual(1);
+  test("home reflows in EN/FR from phone to wide desktop", async ({ page }) => {
+    for (const locale of ["en", "fr"] as const) {
+      for (const width of [320, 375, 768, 1280, 1536]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(`/${locale}/`);
+        await expect(page.getByTestId("home-hero-brand")).toBeVisible();
+        await expect(page.getByTestId("home-hero-preview")).toBeVisible();
+        await assertNoHorizontalOverflow(page);
+        if (width === 320) await expectNoSeriousA11yViolations(page);
+      }
+    }
   });
 
   test("graphic maker renders with download", async ({ page }) => {

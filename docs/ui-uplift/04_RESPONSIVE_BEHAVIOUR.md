@@ -1,6 +1,6 @@
 # Responsive behavior and review
 
-Status: acceptance plan, not visually verified. The implementation has a stacked phone hero, wrapping CTA group, three-column preview selector and responsive outcome list. Initial observations are recorded in [implementation status](05_IMPLEMENTATION_STATUS.md); viewport and accessibility acceptance remains pending.
+Status: source composition is in place, rendered acceptance pending. Home stacks the two-zone hero, wraps CTAs, offers a three-choice communications preview and responsive outcome list, then shows a real localized learning-module example in one column on phones and a split section at `lg`. The smoke spec now encodes no-overflow checks at 320, 375, 768, 1280 and 1536px in both locales, with axe at 320px; it has not run. The longer French hero still needs phone and 200% zoom review. Initial observations are recorded in [implementation status](05_IMPLEMENTATION_STATUS.md); viewport and accessibility acceptance remains pending.
 
 | Surface | Phone | Tablet | Desktop |
 |---|---|---|---|
