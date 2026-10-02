@@ -15,6 +15,7 @@
 - Added a bilingual homepage preview of the real return-to-work worksheet, with actual functional-limits prompts and accommodation choices, no case data, and a direct tool link. Typecheck and 46 focused copy/metadata/readability tests pass; browser smoke assertions were updated but remain unexecuted.
 - The saved synthetic Hub capture exposed a French header wrap at 1280px. Shared desktop navigation now uses one-row links and tighter spacing at that width; the EN/FR smoke suite checks the French row geometry. Rendered confirmation is still outstanding.
 - Typecheck and production build passed after the header update. Browser execution of the new EN/FR 1280px nav assertion remains pending.
+- Full unit verification after the Home and header changes passed: 538 files, 3,240 passed, 2 skipped and 1 todo. ESLint remains skipped by the TypeScript 7 compatibility guard.
 
 ## 2026-10-01 — Recover UI uplift foundations
 
