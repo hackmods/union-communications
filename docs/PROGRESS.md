@@ -1,3 +1,11 @@
+## 2026-10-02 — Render and close the first visual-uplift checkpoint
+
+- Resolved the local rendered-review blocker: Next development now allows the exact `127.0.0.1` loopback origin used by the in-app preview, restoring client hydration and search behavior.
+- Reviewed Home, Create, Learn, Brand Kit, Graphic Maker, RTW worksheet, Platform, Officer Hub and a synthetic member-safe Local Portal route. Demo Hub/Portal images remain local review evidence and are not public marketing assets.
+- Improved the 320px French first screen by placing the useful-work CTA before the longer product breadth copy. Playwright confirms the CTA stays inside the 812px viewport and the page does not overflow.
+- Public discovery and mobile-menu suites: 26 passed; targeted viewport/CTA checks: 2 passed; representative Brand Kit/RTW/Graphic Maker checks: 3 passed; Home EN/FR and Brand Kit accessibility checks: 3 passed. Additional contrast-enabled axe scans found no violations on Home, Platform and member Portal routes in EN/FR where applicable.
+- Updated uplift status and responsive/migration records with rendered evidence and honest remaining manual/state review items. See [`docs/ui-uplift/05_IMPLEMENTATION_STATUS.md`](ui-uplift/05_IMPLEMENTATION_STATUS.md).
+
 ## 2026-10-01 — Implement UnionOps homepage visual direction (in progress)
 
 - Replaced the setup-first Home composition with task-first tool discovery, six verified job links, a stable selectable communications preview, optional Brand Kit reuse, separate Officer Hub/Local Portal narratives and distinct local/hosted privacy copy.

@@ -1,6 +1,6 @@
 # Implementation status
 
-Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1`. This visual pass is in progress. The source and contract recovery is documented in [13_UPLIFT_BASELINE](../product-refactor/13_UPLIFT_BASELINE.md); implementation order is in [07_IMPLEMENTATION_PLAN](07_IMPLEMENTATION_PLAN.md).
+Updated 2026-10-02. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1`. The visual implementation and first rendered review are complete; deeper state and human accessibility review remain open. The source and contract recovery is documented in [13_UPLIFT_BASELINE](../product-refactor/13_UPLIFT_BASELINE.md); implementation order is in [07_IMPLEMENTATION_PLAN](07_IMPLEMENTATION_PLAN.md).
 
 ## Delivered in this working checkpoint
 
@@ -20,6 +20,23 @@ Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 - EN/FR Home and Platform copy, responsive/focus assertions, and the affected smoke expectations were updated. No API, authorization, persistence, tenancy or export-renderer change was made.
 
 ## Verification so far
+
+### Rendered review on 2026-10-02
+
+- The local preview is verified at `http://127.0.0.1:3015`. Next dev had been rejecting its client assets on this loopback alias; `next.config.ts` now explicitly allows only `127.0.0.1` for development assets. This restores hydration, live search and the correct brand mark on the URL used for review.
+- Rendered and reviewed Home (EN desktop, FR at 320/375/1280), Create and Learn catalogs, Brand Kit, Graphic Maker, the RTW worksheet, Platform, authenticated Officer Hub and a synthetic member-safe Local Portal view. Hub/Portal captures contain synthetic/demo data and are local review evidence only, not marketing assets.
+- Moved the hero actions ahead of the longer breadth description in French. At 320×812 the primary action now ends at y=793 and remains in the first viewport; the page has no horizontal overflow. The French copy remains intact.
+- `public-discovery.smoke.spec.ts` and `mobile-menu.matrix.spec.ts`: 26 passed. Coverage includes French and English Home/catalog routes, 320/375/768/1280/1536 viewport checks, focus containment/Escape and the separate public/Hub mobile menus. The catalog width loop is English; dedicated French routes and the Home first-screen check are covered separately.
+- Targeted CTA and catalog viewport checks: 2 passed. Representative Brand Kit, RTW and Graphic Maker smoke checks: 3 passed. Home EN/FR and Brand Kit axe smoke checks: 3 passed.
+- Axe scans with color-contrast enabled reported no violations on Home EN/FR, Platform EN/FR and the synthetic member Portal route. This does not replace manual keyboard, screen-reader or 200% zoom review.
+- The public Home/Platform/catalog and shared workspace changes continue to preserve route, tenant, permission, persistence and export behavior. The stale French same-page search expectation was corrected to the canonical hash URL.
+
+### Final checks for this checkpoint
+
+- `npm run typecheck`: passed after stopping the preview server and clearing only its malformed generated `.next/dev` cache.
+- `npm run build`: passed; all 569 static pages generated. Existing Edge-runtime deprecation and dynamic filesystem tracing warnings remain.
+- `npm run lint`: exits 0 but skips ESLint because typescript-eslint does not yet support TypeScript 7; this is not an ESLint pass.
+- `git diff --check`: passed before commit.
 
 - `npm run typecheck`: passed after the first-screen rewrite and real Officer Learning example.
 - Full `npm run test:unit`: 3,239 passed, 2 skipped and 1 todo across 538 files at the Home/catalog/Platform checkpoint, before the later shared visual refinements.

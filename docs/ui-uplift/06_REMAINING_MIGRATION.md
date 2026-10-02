@@ -1,6 +1,6 @@
 # Remaining migration
 
-Status: implementation in progress; Home, Platform, public catalog and shared public/Portal surfaces have implementation checkpoints. This file remains the scope boundary until representative validation is recorded.
+Status: first visual implementation and representative rendered review are complete. Further work should follow concrete state/accessibility findings and shared patterns, rather than reopen product architecture or repeat reviewed surfaces.
 
 ## Required in this pass
 
@@ -10,7 +10,9 @@ Status: implementation in progress; Home, Platform, public catalog and shared pu
 - English/French responsive treatment, accessible controls and clear immediate-value CTAs.
 - Representative validation: Home, Create, Learn, Brand Kit, complex Builder, steward worksheet, Platform, Officer Hub and Local Portal.
 
-The Home pairs its labeled communications sample and real localized Officer Learning module with a real RTW worksheet preview. The steward preview sources its title, labels and measure options from the actual bilingual tool, omits case data, and links to the working worksheet. A synthetic, member-safe hosted interface example remains necessary. The saved Hub image is authentic but includes demo/memory-only warnings and should not be published as a product capture; there is no Portal capture yet. The Local Portal shared shell and loading state use a flat white workspace boundary; Station, Dispatch and Fronts entries use color-only hover cues. `ToolEditorLayout` gives shared builder forms a flatter boundary while preserving form spacing and mobile editing. Officer Learning retains its dedicated palette while removing nonessential catalog motion and adding visible keyboard focus. Permission rules, member-safe fields, form behavior and route behavior are unchanged. Rendered responsive confirmation is still required.
+The Home pairs its labeled communications sample and real localized Officer Learning module with a real RTW worksheet preview. The steward preview sources its title, labels and measure options from the actual bilingual tool, omits case data, and links to the working worksheet. Rendered review now includes a synthetic, member-safe Portal route and an authenticated synthetic Hub. Hub/Portal captures contain demo/memory-only warnings and are local evidence only, not public product imagery. The Local Portal shared shell and loading state use a flat white workspace boundary; Station, Dispatch and Fronts entries use color-only hover cues. `ToolEditorLayout` gives shared builder forms a flatter boundary while preserving form spacing and mobile editing. Officer Learning retains its dedicated palette while removing nonessential catalog motion and adding visible keyboard focus. Permission rules, member-safe fields, form behavior and route behavior are unchanged.
+
+Remaining validation: manually review keyboard use and 200% zoom/reflow, screen-reader announcements, Brand Kit persisted/error states, builder export failures, worksheet retention, and Hub role/module/MFA plus Portal membership/permission states. The rendered checkpoint covers representative states, not every route state. Sibling migration should be driven by these findings and follow the shared patterns in [03_COMPONENT_PATTERNS](03_COMPONENT_PATTERNS.md); do not perform repetitive page-by-page restyling without a demonstrated gap.
 
 ## Explicitly outside this visual pass
 

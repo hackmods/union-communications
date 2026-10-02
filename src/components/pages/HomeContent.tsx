@@ -41,13 +41,13 @@ export function HomeContent() {
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-700 sm:text-xl">
               {t("subtitle")}
             </p>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
-              {t("heroBreadth")}
-            </p>
-            <div className="mt-7 flex flex-col items-stretch gap-3 min-[420px]:flex-row min-[420px]:items-center">
+            <div className="mt-6 flex flex-col items-stretch gap-3 min-[420px]:flex-row min-[420px]:items-center">
               <ButtonLink href="#home-work" trailingArrow>{t("exploreToolsCta")}</ButtonLink>
               <ButtonLink href="/platform" variant="outline">{t("explorePlatformCta")}</ButtonLink>
             </div>
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
+              {t("heroBreadth")}
+            </p>
             <p className="mt-4 text-sm text-slate-600">
               {t("heroPrivacyLine")} {" "}
               <Link href="/documents/privacy" className="font-semibold text-opseu-dark underline decoration-opseu-blue underline-offset-4">

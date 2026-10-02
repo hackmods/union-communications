@@ -74,10 +74,14 @@ test.describe("task-first public discovery @smoke", () => {
   });
 
   test("Home keeps the practical work path available in French", async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 812 });
+    await page.setViewportSize({ width: 320, height: 812 });
     await page.goto("/fr/");
     await expect(page.getByRole("heading", { level: 1, name: "Créez des documents. Préparez les dossiers en milieu de travail. Faites avancer votre section locale." })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Explorer les outils" }).first()).toHaveAttribute("href", "/fr/#home-work");
+    const exploreTools = page.getByRole("link", { name: "Explorer les outils" }).first();
+    await expect(exploreTools).toHaveAttribute("href", "#home-work");
+    const exploreToolsBox = await exploreTools.boundingBox();
+    expect(exploreToolsBox).toBeTruthy();
+    expect(exploreToolsBox!.y + exploreToolsBox!.height).toBeLessThanOrEqual(812);
     await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Ouvrir la feuille de préparation" }))
       .toHaveAttribute("href", "/fr/utilities/complaint-vs-grievance/");
     await expect(page.getByTestId("home-learning-preview").getByRole("link", { name: "Application de la convention" }))
