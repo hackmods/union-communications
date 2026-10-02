@@ -9,6 +9,7 @@ import {
 } from "@/components/hub/hub-nav-model";
 import {
   listVisibleHubTools,
+  PLATFORM_ADMIN_OFFICER_MENU_EXCLUDES,
   resolveHubToolAccess,
 } from "@/components/hub/hub-tool-catalog";
 import { PUBLIC_CARD_TITLE_CLASS } from "@/lib/constants/public-type";
@@ -36,8 +37,15 @@ export function HubOfficerToolsCatalog({
     unionId,
     localId,
   });
+  const visibleTools = listVisibleHubTools(access).filter(
+    (item) =>
+      !(
+        roles.includes("platform_admin") &&
+        PLATFORM_ADMIN_OFFICER_MENU_EXCLUDES.has(item.href)
+      ),
+  );
   const groups = groupHubToolLinks(
-    listVisibleHubTools(access).map((item) => ({
+    visibleTools.map((item) => ({
       href: item.href,
       label: t(item.labelKey),
       blurbKey: item.blurbKey,

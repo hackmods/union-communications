@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
@@ -7,12 +6,15 @@ import {
   requirePublicDocumentAdmin,
   type PublicDocumentAdminReadinessCode,
 } from "@/lib/auth/public-document-admin";
+import { redirectUnlessSiteAdmin } from "@/lib/auth/site-admin-session";
 
 export const dynamic = "force-dynamic";
 
 const READINESS_REASON_KEYS: Record<
   PublicDocumentAdminReadinessCode,
-  "publicDocumentsReasonMfa" | "publicDocumentsReasonPostgres" | "publicDocumentsReasonStorage"
+  | "publicDocumentsReasonMfa"
+  | "publicDocumentsReasonPostgres"
+  | "publicDocumentsReasonStorage"
 > = {
   mfa_disabled: "publicDocumentsReasonMfa",
   postgres_required: "publicDocumentsReasonPostgres",
@@ -28,11 +30,20 @@ export default async function PublicDocumentsAdminPage({
   setRequestLocale(locale);
   const gate = await requirePublicDocumentAdmin();
 
-  if (!gate.ok && gate.status === 401) {
-    redirect(`/${locale}/app/login`);
-  }
-  if (!gate.ok && gate.status === 403) {
-    redirect(`/${locale}/app/site-admin`);
+  if (!gate.ok && (gate.status === 401 || gate.status === 403)) {
+    redirectUnlessSiteAdmin(
+      locale,
+      {
+        ok: false,
+        status: gate.status,
+        error: gate.error,
+        code:
+          gate.status === 401
+            ? "unauthorized"
+            : gate.authCode ?? "forbidden",
+      },
+      "/app/site-admin/documents",
+    );
   }
 
   const t = await getTranslations({
@@ -41,9 +52,10 @@ export default async function PublicDocumentsAdminPage({
   });
 
   if (!gate.ok) {
-    const reasonKey = gate.code
-      ? READINESS_REASON_KEYS[gate.code]
-      : null;
+    const reasonKey =
+      gate.code && gate.code in READINESS_REASON_KEYS
+        ? READINESS_REASON_KEYS[gate.code as PublicDocumentAdminReadinessCode]
+        : null;
     return (
       <main className="mx-auto max-w-3xl px-4 py-12">
         <p className="text-sm">

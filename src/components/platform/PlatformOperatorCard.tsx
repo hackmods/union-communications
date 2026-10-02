@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import {
+  PLATFORM_OPERATOR_DASHBOARD_SHORTCUTS,
   PLATFORM_OPERATOR_NAV,
   platformOperatorLinkActive,
   type PlatformOperatorNavKey,
@@ -30,7 +31,10 @@ export function PlatformOperatorCard({
 }: PlatformOperatorCardProps) {
   const t = useTranslations("hub.platformOperator");
   const isCard = variant === "card";
-  const [primary, ...secondary] = PLATFORM_OPERATOR_NAV;
+  const primary = PLATFORM_OPERATOR_NAV[0];
+  const shortcuts = PLATFORM_OPERATOR_DASHBOARD_SHORTCUTS;
+
+  if (!primary) return null;
 
   if (!isCard) {
     return (
@@ -48,20 +52,12 @@ export function PlatformOperatorCard({
           {t("cardBody")}
         </p>
         <nav aria-label={t("menu")} className="mt-4">
-          <ul className="grid gap-2 sm:grid-cols-2">
-            {PLATFORM_OPERATOR_NAV.map((item) => (
-              <li key={item.href}>
-                <OperatorTile
-                  href={item.href}
-                  title={t(item.labelKey)}
-                  body={t(BLURB_KEY[item.labelKey])}
-                  active={platformOperatorLinkActive(pathname, item.href)}
-                  featured={item.labelKey === "siteAdmin"}
-                  compact
-                />
-              </li>
-            ))}
-          </ul>
+          <Link
+            href={primary.href}
+            className="inline-flex min-h-11 items-center rounded-md bg-opseu-blue px-4 py-2 text-sm font-semibold text-white hover:bg-opseu-blue/90"
+          >
+            {t("menu")}
+          </Link>
         </nav>
       </section>
     );
@@ -91,7 +87,7 @@ export function PlatformOperatorCard({
         <div className="grid gap-3 lg:grid-cols-3 lg:grid-rows-2">
           <OperatorTile
             href={primary.href}
-            title={t(primary.labelKey)}
+            title={t("menu")}
             body={t(BLURB_KEY[primary.labelKey])}
             active={platformOperatorLinkActive(pathname, primary.href)}
             featured
@@ -99,15 +95,25 @@ export function PlatformOperatorCard({
             cta={t("openSiteAdmin")}
             className="lg:row-span-2"
           />
-          {secondary.map((item) => (
-            <OperatorTile
-              key={item.href}
-              href={item.href}
-              title={t(item.labelKey)}
-              body={t(BLURB_KEY[item.labelKey])}
-              active={platformOperatorLinkActive(pathname, item.href)}
-            />
-          ))}
+          <div className="lg:col-span-2 lg:row-span-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+              {t("cardShortcutsEyebrow")}
+            </p>
+            <p className="mt-1 text-sm text-gray-600">{t("cardShortcutsBody")}</p>
+            <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+              {shortcuts.map((item) => (
+                <li key={item.href}>
+                  <OperatorTile
+                    href={item.href}
+                    title={t(item.labelKey)}
+                    body={t(BLURB_KEY[item.labelKey])}
+                    active={platformOperatorLinkActive(pathname, item.href)}
+                    compact
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </nav>
     </section>

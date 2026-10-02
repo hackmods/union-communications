@@ -71,9 +71,10 @@ export function UnionOpsMark({
 
   return (
     <span
-      role="img"
-      aria-label={title}
-      title={title}
+      role={title ? "img" : undefined}
+      aria-label={title || undefined}
+      aria-hidden={title ? undefined : true}
+      title={title || undefined}
       className={cn("inline-flex shrink-0 overflow-hidden rounded-[22%]", className)}
       style={{ ...style, width: cap, height: cap }}
     >

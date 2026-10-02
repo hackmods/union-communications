@@ -141,6 +141,12 @@ test.describe("SEO smoke @smoke", () => {
       page.getByRole("link", { name: /^Worksheets$|^Feuilles de travail$/i }).first(),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: /^Learn$|^Apprendre$/i }).first()).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Back to home|Retour à l'accueil/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Tell us this was missing|Dites-nous/i }),
+    ).toBeVisible();
   });
 
   test("unprefixed miss lands in locale Local 404 with site header", async ({

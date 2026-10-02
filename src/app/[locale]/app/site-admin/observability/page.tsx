@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { redirectUnlessSiteAdmin, requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { buildObservabilityHealth } from "@/lib/observability/config";
 import { ObservabilityPanelClient } from "@/components/site-admin/ObservabilityPanelClient";
 import { Link } from "@/i18n/navigation";
@@ -19,10 +19,7 @@ export default async function SiteAdminObservabilityPage({
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) {
-    if (gate.status === 403) redirect(`/${locale}/app`);
-    redirect(`/${locale}/app/login`);
-  }
+  redirectUnlessSiteAdmin(locale, gate, "/app/site-admin/observability");
 
   const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
   const health = buildObservabilityHealth();

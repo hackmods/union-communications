@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { redirectUnlessSiteAdmin, requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { OutreachListsAdminPanel } from "@/components/site-admin/OutreachListsAdminPanel";
 
 export const dynamic = "force-dynamic";
@@ -17,9 +17,7 @@ export default async function SiteAdminOutreachListsPage({
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) {
-    redirect(gate.status === 403 ? `/${locale}/app` : `/${locale}/app/login`);
-  }
+  redirectUnlessSiteAdmin(locale, gate, "/app/site-admin/outreach-lists");
   const t = await getTranslations({ locale, namespace: "outreachListsAdmin" });
   return (
     <main className="mx-auto max-w-4xl px-4 py-8 lg:py-12">

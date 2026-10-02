@@ -122,7 +122,8 @@ export function ObservabilityPanelClient({
   const [view, setView] = useState<ViewMode>("issues");
   const [selected, setSelected] = useState<ObsEvent | ObsIssue | null>(null);
   const [exporting, setExporting] = useState<string | null>(null);
-  const [autoRefresh, setAutoRefresh] = useState(false);
+  const [autoRefresh, setAutoRefresh] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [hideAcked, setHideAcked] = useState(true);
   const [ackBusy, setAckBusy] = useState(false);
   const [ackNote, setAckNote] = useState("");
@@ -274,6 +275,8 @@ export function ObservabilityPanelClient({
         if (data.health) setHealth(data.health);
         setStepUpRequired(false);
         setMfaCode("");
+        setLastUpdated(new Date());
+        setAutoRefresh(true);
         void loadAlertRules();
       } catch {
         if (isCurrent()) setError(t("observabilityLoadError"));
@@ -736,6 +739,13 @@ export function ObservabilityPanelClient({
         >
           {t("observabilityRefresh")}
         </Button>
+        {lastUpdated ? (
+          <span className="text-sm text-opseu-gray-dark">
+            {t("observabilityLastUpdated", {
+              time: lastUpdated.toLocaleTimeString(),
+            })}
+          </span>
+        ) : null}
         <label className="ml-2 flex items-center gap-2 text-sm text-opseu-gray-dark">
           <input
             type="checkbox"

@@ -5,7 +5,7 @@ import { and, asc, eq, type SQL } from "drizzle-orm";
 import { Link } from "@/i18n/navigation";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { locals, unions } from "@/lib/db/schema/tenant";
-import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { redirectUnlessSiteAdmin, requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
 import {
   countUnionAttachments,
@@ -81,10 +81,7 @@ export default async function SiteAdminOrganizationUnionPage({
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) {
-    if (gate.status === 403) redirect(`/${locale}/app`);
-    redirect(`/${locale}/app/login`);
-  }
+  redirectUnlessSiteAdmin(locale, gate, "/app/site-admin/organization/x");
   const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
 
   let unionRow: Awaited<ReturnType<typeof loadUnionLifecycleRow>> = null;

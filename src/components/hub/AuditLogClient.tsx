@@ -1,7 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 
@@ -18,6 +21,29 @@ interface AuditRow {
   requestId?: string;
 }
 
+type OutcomeFilter = "" | AuditRow["outcome"];
+
+function buildQuery(filters: {
+  from: string;
+  to: string;
+  actor: string;
+  outcome: OutcomeFilter;
+}): string {
+  const params = new URLSearchParams({ limit: "200" });
+  if (filters.from) params.set("from", filters.from);
+  if (filters.to) params.set("to", filters.to);
+  if (filters.actor.trim()) params.set("actor", filters.actor.trim());
+  if (filters.outcome) params.set("outcome", filters.outcome);
+  return params.toString();
+}
+
+function escapeCsvCell(value: string): string {
+  if (/[",\n\r]/.test(value)) {
+    return `"${value.replace(/"/g, '""')}"`;
+  }
+  return value;
+}
+
 export function AuditLogClient() {
   const t = useTranslations("hub");
   const outcomeLabels = {
@@ -29,32 +55,130 @@ export function AuditLogClient() {
   const [entries, setEntries] = useState<AuditRow[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [actor, setActor] = useState("");
+  const [outcome, setOutcome] = useState<OutcomeFilter>("");
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const qs = buildQuery({ from, to, actor, outcome });
+      const res = await fetch(`/api/audit?${qs}`);
+      if (!res.ok) {
+        const body = (await res.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        throw new Error(body?.error ?? res.statusText);
+      }
+      const data = (await res.json()) as { entries: AuditRow[] };
+      setEntries(data.entries);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t("auditLoadError"));
+    } finally {
+      setLoading(false);
+    }
+  }, [actor, from, outcome, t, to]);
 
   useEffect(() => {
-    let cancelled = false;
-    void (async () => {
-      try {
-        const res = await fetch("/api/audit?limit=100");
-        if (!res.ok) {
-          const body = (await res.json().catch(() => null)) as {
-            error?: string;
-          } | null;
-          throw new Error(body?.error ?? res.statusText);
-        }
-        const data = (await res.json()) as { entries: AuditRow[] };
-        if (!cancelled) setEntries(data.entries);
-      } catch (e) {
-        if (!cancelled) {
-          setError(e instanceof Error ? e.message : "Failed to load");
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    void load();
+  }, [load]);
+
+  const exportCsv = useCallback(() => {
+    const header = [
+      t("auditWhen"),
+      t("auditAction"),
+      t("auditOutcome.title"),
+      t("auditResource"),
+      t("auditUser"),
+      t("auditLocal"),
+    ];
+    const lines = [
+      header.map(escapeCsvCell).join(","),
+      ...entries.map((row) =>
+        [
+          new Date(row.timestamp).toISOString(),
+          row.action,
+          outcomeLabels[row.outcome],
+          `${row.resourceType}/${row.resourceId}`,
+          row.userId,
+          row.localId ?? "",
+        ]
+          .map((cell) => escapeCsvCell(String(cell)))
+          .join(","),
+      ),
+    ];
+    const blob = new Blob([lines.join("\n")], {
+      type: "text/csv;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "audit-log.csv";
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }, [entries, outcomeLabels, t]);
+
+  const hasRows = entries.length > 0;
+
+  const filterFields = useMemo(
+    () => (
+      <div className="mt-6 flex flex-wrap items-end gap-3">
+        <Input
+          label={t("auditFilterFrom")}
+          type="date"
+          value={from}
+          onChange={(e) => setFrom(e.target.value)}
+        />
+        <Input
+          label={t("auditFilterTo")}
+          type="date"
+          value={to}
+          onChange={(e) => setTo(e.target.value)}
+        />
+        <Input
+          label={t("auditFilterActor")}
+          value={actor}
+          onChange={(e) => setActor(e.target.value)}
+          placeholder={t("auditFilterActorPlaceholder")}
+        />
+        <Select
+          label={t("auditOutcome.title")}
+          value={outcome}
+          onChange={(e) => setOutcome(e.target.value as OutcomeFilter)}
+        >
+          <option value="">{t("auditFilterOutcomeAll")}</option>
+          <option value="success">{outcomeLabels.success}</option>
+          <option value="denied">{outcomeLabels.denied}</option>
+          <option value="error">{outcomeLabels.error}</option>
+          <option value="unknown">{outcomeLabels.unknown}</option>
+        </Select>
+        <Button type="button" variant="secondary" onClick={() => void load()}>
+          {t("auditFilterApply")}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={!hasRows}
+          onClick={exportCsv}
+        >
+          {t("auditExportCsv")}
+        </Button>
+      </div>
+    ),
+    [
+      actor,
+      exportCsv,
+      from,
+      hasRows,
+      load,
+      outcome,
+      outcomeLabels,
+      t,
+      to,
+    ],
+  );
 
   return (
     <>
@@ -64,6 +188,7 @@ export function AuditLogClient() {
       <p className="mt-1 text-sm text-gray-600 sm:text-base">
         {t("auditSubtitle")}
       </p>
+      {filterFields}
       {loading && (
         <div
           className="mt-6 space-y-3"
@@ -85,7 +210,7 @@ export function AuditLogClient() {
       {!loading && !error && entries.length === 0 && (
         <EmptyState className="mt-6" title={t("auditEmpty")} />
       )}
-      {entries.length > 0 && (
+      {hasRows && !loading && (
         <>
           <ul className="mt-6 space-y-3 md:hidden">
             {entries.map((row) => (

@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { redirectUnlessSiteAdmin, requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
 import { isPostgresConfigured } from "@/lib/db/client";
 import { isDemoPurgeEnabled } from "@/lib/features/demo-purge";
@@ -26,10 +26,7 @@ export default async function SiteAdminOrganizationPage({
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) {
-    if (gate.status === 403) redirect(`/${locale}/app`);
-    redirect(`/${locale}/app/login`);
-  }
+  redirectUnlessSiteAdmin(locale, gate, "/app/site-admin/organization");
   const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
 
   let rows: Awaited<ReturnType<typeof listUnionsForSiteAdmin>> = [];

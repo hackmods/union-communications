@@ -34,6 +34,7 @@ export function AuthAccountControls({
   const pathname = usePathname();
   const [avatarFailed, setAvatarFailed] = useState(false);
 
+  const loading = status === "loading";
   const authenticated = status === "authenticated" && Boolean(session?.user);
   const showHub = authenticated || isOfficerHubPublic();
   const roles = (session?.user?.roles ?? []) as UserRole[];
@@ -51,7 +52,17 @@ export function AuthAccountControls({
   const hubCurrent = pathname.startsWith("/app");
   const profileActive = pathname.startsWith("/app/profile");
 
-  if ((!showHub || !showHubLink) && !showPortal && !authenticated) return null;
+  // While session resolves, keep reserved account chrome so hard navigations
+  // do not look logged-out. Only omit the cluster when we know the user is out
+  // and Hub/Portal links are not shown here.
+  if (
+    !loading &&
+    (!showHub || !showHubLink) &&
+    !showPortal &&
+    !authenticated
+  ) {
+    return null;
+  }
 
   /** When Hub/Portal live in the main nav, account cluster keeps profile/sign-out only. */
   const hubPrimaryClass = (current: boolean) =>
@@ -97,6 +108,36 @@ export function AuthAccountControls({
     </Link>
   ) : null;
 
+  const accountSkeleton =
+    loading && !authenticated ? (
+      <div
+        className={cn(
+          layout === "inline"
+            ? "flex items-center gap-1"
+            : "mt-1 flex flex-col gap-2",
+        )}
+        role="status"
+        aria-busy="true"
+        aria-label={t("sessionLoading")}
+        data-testid="auth-account-loading"
+      >
+        <span
+          aria-hidden
+          className={cn(
+            "inline-block animate-pulse rounded-md bg-slate-200",
+            layout === "inline" ? "h-8 w-20" : "h-11 w-full",
+          )}
+        />
+        <span
+          aria-hidden
+          className={cn(
+            "inline-block animate-pulse rounded-md bg-slate-200",
+            layout === "inline" ? "h-8 w-16" : "h-11 w-full",
+          )}
+        />
+      </div>
+    ) : null;
+
   return (
     <div
       className={cn(
@@ -125,6 +166,7 @@ export function AuthAccountControls({
                 "inline-flex items-center gap-2",
                 profileActive && "bg-opseu-blue/10 font-semibold",
               )}
+              data-testid="auth-profile-link"
             >
               {!avatarFailed ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -158,6 +200,7 @@ export function AuthAccountControls({
           <button
             type="button"
             className={secondaryClass}
+            data-testid="auth-sign-out"
             onClick={() => {
               onNavigate?.();
               void signOut({ callbackUrl: "/" });
@@ -166,7 +209,9 @@ export function AuthAccountControls({
             {t("signOut")}
           </button>
         </>
-      ) : null}
+      ) : (
+        accountSkeleton
+      )}
     </div>
   );
 }

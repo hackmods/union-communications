@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
-import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { redirectUnlessSiteAdmin, requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
 import { isDemoPurgeEnabled } from "@/lib/features/demo-purge";
 import {
@@ -25,10 +25,7 @@ export default async function SiteAdminDemoCleanupPage({
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) {
-    if (gate.status === 403) redirect(`/${locale}/app`);
-    redirect(`/${locale}/app/login`);
-  }
+  redirectUnlessSiteAdmin(locale, gate, "/app/site-admin/demo-cleanup");
   if (!isDemoPurgeEnabled()) {
     redirect(`/${locale}/app/site-admin`);
   }

@@ -5,7 +5,7 @@ import { and, eq, ilike, isNull, or } from "drizzle-orm";
 import { Link } from "@/i18n/navigation";
 import { getDb } from "@/lib/db/client";
 import { users } from "@/lib/db/schema/tenant";
-import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { redirectUnlessSiteAdmin, requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
 
 export const dynamic = "force-dynamic";
@@ -23,10 +23,7 @@ export default async function AccountSupportSearchPage({
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) {
-    if (gate.status === 403) redirect(`/${locale}/app`);
-    redirect(`/${locale}/app/login`);
-  }
+  redirectUnlessSiteAdmin(locale, gate, "/app/site-admin/account-support");
   const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
 
   const { q: rawQ } = await searchParams;

@@ -113,6 +113,7 @@ export function InvitesBoard() {
   );
   const [pending, setPending] = useState<PendingInvite[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [listLoading, setListLoading] = useState(true);
 
   const [presidentName, setPresidentName] = useState("");
   const [presidentEmail, setPresidentEmail] = useState("");
@@ -135,66 +136,72 @@ export function InvitesBoard() {
     const qs = unionQuery
       ? `?unionId=${encodeURIComponent(unionQuery)}`
       : "";
-    const res = await fetch(`/api/invites${qs}`);
-    if (!res.ok) throw new Error("fail");
-    const data = (await res.json()) as InvitesGetResponse;
-    setInviteRoles(data.inviteRoles);
-    setCanInvitePresident(data.canInvitePresident);
-    setCanElevate(Boolean(data.canElevateLocalNumber ?? data.canInvitePresident));
-    setIsPlatformAdmin(Boolean(data.isPlatformAdmin));
-    setUnions(data.unions ?? []);
-    setLocals(data.locals);
-    setCollectives(data.collectives ?? []);
-    setSubGroups(data.subGroups ?? []);
-    setPending(data.invites);
-    setSessionUnionId(data.sessionUnionId ?? null);
-    setUnionName(data.unionName ?? null);
-    setSessionLocalId(data.sessionLocalId);
-    setRoles((prev) => {
-      const allowed = new Set(data.inviteRoles);
-      const next = prev.filter((r) => allowed.has(r));
-      if (next.length > 0) return next;
-      if (data.inviteRoles.includes("local_steward")) return ["local_steward"];
-      return data.inviteRoles[0] ? [data.inviteRoles[0]] : [];
-    });
-    const lockedLocal = data.locals.find((l) => l.id === data.sessionLocalId);
-    const defaultUnion =
-      data.selectedUnionId ??
-      data.sessionUnionId ??
-      data.unions?.[0]?.id ??
-      "";
-    setTeamLocal((prev) => {
-      if (data.isPlatformAdmin) {
-        if (
-          prev.unionId === UNION_LOCAL_SELECT_OTHER ||
-          (prev.unionId &&
-            (data.unions ?? []).some((u) => u.id === prev.unionId))
-        ) {
-          return prev;
+    setListLoading(true);
+    setLoadError(null);
+    try {
+      const res = await fetch(`/api/invites${qs}`);
+      if (!res.ok) throw new Error("fail");
+      const data = (await res.json()) as InvitesGetResponse;
+      setInviteRoles(data.inviteRoles);
+      setCanInvitePresident(data.canInvitePresident);
+      setCanElevate(Boolean(data.canElevateLocalNumber ?? data.canInvitePresident));
+      setIsPlatformAdmin(Boolean(data.isPlatformAdmin));
+      setUnions(data.unions ?? []);
+      setLocals(data.locals);
+      setCollectives(data.collectives ?? []);
+      setSubGroups(data.subGroups ?? []);
+      setPending(data.invites);
+      setSessionUnionId(data.sessionUnionId ?? null);
+      setUnionName(data.unionName ?? null);
+      setSessionLocalId(data.sessionLocalId);
+      setRoles((prev) => {
+        const allowed = new Set(data.inviteRoles);
+        const next = prev.filter((r) => allowed.has(r));
+        if (next.length > 0) return next;
+        if (data.inviteRoles.includes("local_steward")) return ["local_steward"];
+        return data.inviteRoles[0] ? [data.inviteRoles[0]] : [];
+      });
+      const lockedLocal = data.locals.find((l) => l.id === data.sessionLocalId);
+      const defaultUnion =
+        data.selectedUnionId ??
+        data.sessionUnionId ??
+        data.unions?.[0]?.id ??
+        "";
+      setTeamLocal((prev) => {
+        if (data.isPlatformAdmin) {
+          if (
+            prev.unionId === UNION_LOCAL_SELECT_OTHER ||
+            (prev.unionId &&
+              (data.unions ?? []).some((u) => u.id === prev.unionId))
+          ) {
+            return prev;
+          }
+          return {
+            ...emptyUnionLocalSelectValue(),
+            unionId: defaultUnion,
+            localId: data.sessionLocalId ?? "",
+          };
         }
-        return {
-          ...emptyUnionLocalSelectValue(),
-          unionId: defaultUnion,
-          localId: data.sessionLocalId ?? "",
-        };
-      }
-      if (data.canElevateLocalNumber || data.canInvitePresident) {
-        if (prev.localId && data.locals.some((l) => l.id === prev.localId)) {
-          return prev;
+        if (data.canElevateLocalNumber || data.canInvitePresident) {
+          if (prev.localId && data.locals.some((l) => l.id === prev.localId)) {
+            return prev;
+          }
+          return {
+            ...emptyUnionLocalSelectValue(),
+            unionId: data.sessionUnionId ?? "",
+            localId: data.sessionLocalId ?? data.locals[0]?.id ?? "",
+          };
         }
         return {
           ...emptyUnionLocalSelectValue(),
           unionId: data.sessionUnionId ?? "",
-          localId: data.sessionLocalId ?? data.locals[0]?.id ?? "",
+          localId: data.sessionLocalId ?? "",
+          localNumber: lockedLocal?.localNumber ?? "",
         };
-      }
-      return {
-        ...emptyUnionLocalSelectValue(),
-        unionId: data.sessionUnionId ?? "",
-        localId: data.sessionLocalId ?? "",
-        localNumber: lockedLocal?.localNumber ?? "",
-      };
-    });
+      });
+    } finally {
+      setListLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -909,7 +916,36 @@ export function InvitesBoard() {
             >
               {t("pendingTitle")}
             </h2>
-            {pending.length === 0 ? (
+            {listLoading ? (
+              <div
+                className="space-y-2"
+                role="status"
+                aria-busy="true"
+                aria-label={t("pendingLoading")}
+              >
+                <div className="h-10 animate-pulse rounded-md bg-slate-100" />
+                <div className="h-10 animate-pulse rounded-md bg-slate-100" />
+                <div className="h-10 w-3/4 animate-pulse rounded-md bg-slate-100" />
+              </div>
+            ) : loadError ? (
+              <div className="space-y-2" role="alert">
+                <p className="text-sm text-red-700">{loadError}</p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="min-h-11"
+                  onClick={() => void refresh()}
+                >
+                  {t("pendingRetry")}
+                </Button>
+              </div>
+            ) : isPlatformAdmin &&
+              !sessionUnionId &&
+              (!teamLocal.unionId ||
+                teamLocal.unionId === UNION_LOCAL_SELECT_OTHER) &&
+              pending.length === 0 ? (
+              <p className="text-sm text-gray-600">{t("pendingPickUnion")}</p>
+            ) : pending.length === 0 ? (
               <p className="text-sm text-gray-600">{t("pendingEmpty")}</p>
             ) : (
               <ul className="space-y-2 text-sm">
