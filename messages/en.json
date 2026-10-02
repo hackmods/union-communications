@@ -8713,7 +8713,7 @@
       "lookbookIntro": "Live preview of your draft theme on Officer Hub controls and a Comms sample. Save above to publish it for members."
     },
     "platformOperator": {
-      "menu": "Platform",
+      "menu": "Platform admin",
       "cardEyebrow": "Host-wide",
       "cardTitle": "Platform operator",
       "cardBody": "Invite locals, review site feedback, and open host-wide admin tools.",

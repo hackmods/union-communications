@@ -25,7 +25,7 @@ export default async function PlatformPage({
   const hubAdvertised = isOfficerHubPublic();
 
   return (
-    <ComposedPageLayout composition="hub" size="wide" className="py-8 md:py-12">
+    <ComposedPageLayout composition="hub" size="wide" className="py-8 [overflow-wrap:anywhere] md:py-12">
       <header className="max-w-4xl">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-opseu-blue">
           {t("eyebrow")}

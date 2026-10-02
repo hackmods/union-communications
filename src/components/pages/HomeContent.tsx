@@ -37,13 +37,13 @@ export function HomeContent() {
         <PageShell className="grid min-h-[32rem] items-center gap-10 py-10 [overflow-wrap:anywhere] sm:py-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:py-16">
           <div className="min-w-0" data-testid="home-hero-brand">
             <Eyebrow>{t("heroEyebrow")}</Eyebrow>
-            <h1 id="home-hero-heading" className="mt-3 max-w-2xl text-[clamp(2.1rem,4vw,3.25rem)] font-bold leading-[1.08] tracking-[-0.035em] text-opseu-dark">
+            <h1 id="home-hero-heading" className="mt-2 max-w-2xl text-[clamp(2.1rem,4vw,3.25rem)] font-bold leading-[1.08] tracking-[-0.035em] text-opseu-dark sm:mt-3">
               {t("headline")}
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-700 sm:text-xl">
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-slate-700 sm:mt-5 sm:text-xl">
               {t("subtitle")}
             </p>
-            <div className="mt-6 flex flex-col items-stretch gap-3 min-[420px]:flex-row min-[420px]:items-center">
+            <div className="mt-5 flex flex-col items-stretch gap-3 min-[420px]:flex-row min-[420px]:items-center sm:mt-6">
               <ButtonLink href="#home-work" trailingArrow>{t("exploreToolsCta")}</ButtonLink>
               <ButtonLink href="/platform" variant="outline">{t("explorePlatformCta")}</ButtonLink>
             </div>
