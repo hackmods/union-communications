@@ -1,6 +1,6 @@
 # Remaining migration
 
-Status: first visual implementation and representative rendered review are complete. Further work should follow concrete state/accessibility findings and shared patterns, rather than reopen product architecture or repeat reviewed surfaces.
+Status: the first implementation checkpoint is pushed; full completion remains open. The completion audit in [05_IMPLEMENTATION_STATUS](05_IMPLEMENTATION_STATUS.md) identifies missing visible Brand Kit and hosted-product evidence, hero balance and scoped acceptance work. These are required uplift work, not deferred sibling migration.
 
 ## Required in this pass
 

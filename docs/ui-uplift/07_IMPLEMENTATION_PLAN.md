@@ -26,7 +26,7 @@ Use synthetic Local 777 examples, explicitly labelled as examples, never actual 
 
 For each selected example, record route, locale, state, source component or capture path, and what the image proves. Read the canvas contract before touching any output renderer. Do not rewrite the capture engine to obtain a hero. Include French examples or genuinely language-neutral output when a screenshot carries readable text. The public bundle must not acquire full builder, export or hosted data libraries merely to display examples.
 
-Browser revalidation is currently blocked by the browser tool's local-URL policy denial. Resolve that access through supported permission/configuration before new captures or visual acceptance; do not bypass it with another automation channel. Source work can proceed when requested, but final visual sign-off requires actual rendered evidence.
+Browser revalidation is available through the repository's Playwright runner against the loopback development server. The exact loopback alias is allowed for Next development assets. Current rendered evidence and remaining acceptance gaps are recorded in `05_IMPLEMENTATION_STATUS.md`.
 
 ## Execution checkpoints
 
@@ -52,7 +52,7 @@ Finish each checkpoint before broadening scope. A significant unresolved preview
 
 Complete Home, shared system, Platform presentation and the nine-surface validation/fixes. Stop before repetitive migration of every guide, module or tool. Residual items must name the affected component, established pattern to adopt and verification needed. Missing hero breadth, bilingual responsiveness, working-screen regressions or inaccessible controls cannot be deferred as migration cleanup.
 
-## Progress log
+## Historical checkpoint log (2026-10-01)
 
 - **Checkpoint 1, code complete; visual acceptance pending:** task-first Home hierarchy, brand-aware example selector, flat shared workspace panels, quieter catalog results, and consistent Platform sections are implemented. Typecheck and production build pass. Full unit suite: 3,239 passed, 2 skipped and 1 todo. ESLint is skipped by the TypeScript 7 compatibility guard.
 - **Shared-surface refinement, 2026-10-01:** flattened Local Portal's shared panel and loading shell and replaced the member station's lift/shadow hover with a color cue. This keeps the contained member work legible while reducing decorative movement. Source review only; rendered acceptance is still pending.
@@ -70,4 +70,6 @@ Complete Home, shared system, Platform presentation and the nine-surface validat
 - **Checkpoint 3, pending:** inspect and adopt the system across the nine representative routes in current runtime states.
 - **Checkpoint 4, pending:** browser review, full appropriate checks, final docs and migration boundary.
 
-The previous next action is underway. Continue checkpoint 1 while supported browser access for visual comparisons is resolved; no more architecture planning is needed.
+## Current completion audit (2026-10-02)
+
+Responsive review now runs successfully and has exposed/fixed doubled-text overflow. The full bilingual Home/Platform width matrix passes. However, checkpoint 2 remains incomplete: Home still needs visible Brand Kit reuse and authentic hosted-product examples, and the French desktop hero needs better balance. Finish those concrete presentation gaps, then the scoped working-state and accessibility checks in `05_IMPLEMENTATION_STATUS.md`. Previous browser-blocked entries above are historical, not current blockers.

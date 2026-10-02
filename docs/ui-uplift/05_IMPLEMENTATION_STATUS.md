@@ -1,6 +1,6 @@
 # Implementation status
 
-Updated 2026-10-02. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1`. The visual implementation and first rendered review are complete; deeper state and human accessibility review remain open. The source and contract recovery is documented in [13_UPLIFT_BASELINE](../product-refactor/13_UPLIFT_BASELINE.md); implementation order is in [07_IMPLEMENTATION_PLAN](07_IMPLEMENTATION_PLAN.md).
+Updated 2026-10-02. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1`. The first implementation checkpoint is pushed, but the full uplift is not complete. The current completion audit identifies presentation and acceptance gaps below. The source and contract recovery is documented in [13_UPLIFT_BASELINE](../product-refactor/13_UPLIFT_BASELINE.md); implementation order is in [07_IMPLEMENTATION_PLAN](07_IMPLEMENTATION_PLAN.md).
 
 ## Delivered in this working checkpoint
 
@@ -8,7 +8,7 @@ Updated 2026-10-02. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 - Home presents six direct tasks with canonical links to graphic creation, website templates, grievance preparation, return-to-work accommodation, meeting rules, and Officer Learning.
 - Home now shows one actual localized Officer Learning module from the shipped catalog, including its real summary, self-test marker and lesson destination; no fake progress state is shown.
 - Home now previews the actual RTW worksheet title, functional-limit prompt and supported accommodation measures, linked to the real tool. The preview shows no case details and its prompt/options come from the existing bilingual tool catalog.
-- A prior authenticated Hub capture revealed that the French global navigation wrapped its last links at 1280px. Desktop nav links now prevent wrapping and use tighter horizontal spacing from 1280px; an EN/FR smoke assertion records the expected one-row layout. Rendered confirmation is pending.
+- A prior authenticated Hub capture revealed that the French global navigation wrapped its last links at 1280px. Desktop nav links now prevent wrapping and use tighter horizontal spacing from 1280px; an EN/FR smoke assertion records the expected one-row layout. The EN/FR navigation smoke assertion has passed.
 - The Hub and global site bars each have a mobile drawer. Their visible labels now distinguish site navigation (“Menu”) from Hub module/tools navigation (“Tools” / “Outils”); the Hub drawer keeps its full localized accessible name.
 - The notice/graphic/flyer preview is stable and visitor-selected, with local Brand Kit colours applied. Copy identifies it as a sample preview rather than a rendered application output. Page-entry motion was removed.
 - A ruled two-audience platform section explains private Officer Hub work and member Portal participation. Trust copy distinguishes on-device drafts from role/module-controlled hosted spaces and links Privacy/Security.
@@ -19,64 +19,24 @@ Updated 2026-10-02. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 - Officer Learning retains its visual theme and module cover art; the catalog card no longer lifts or zooms, and whole-card keyboard focus is visible with reduced-motion support.
 - EN/FR Home and Platform copy, responsive/focus assertions, and the affected smoke expectations were updated. No API, authorization, persistence, tenancy or export-renderer change was made.
 
-## Verification so far
+## Verified evidence
 
-### Rendered review on 2026-10-02
+- Previous full unit checkpoint: 538 files, 3,240 passed, 2 skipped and 1 todo. Focused editor, learning-theme, copy and locale checks also passed after their respective changes.
+- At commit `abc398ee`: typecheck and production build passed (569 static pages). Lint exits 0 by intentionally skipping ESLint under TypeScript 7; this is not an ESLint pass. Existing Edge-runtime and filesystem-tracing warnings remain.
+- Public discovery and mobile-menu suites: 26 passed. Representative Brand Kit, RTW and Graphic Maker checks: 3 passed. Home EN/FR and Brand Kit axe checks: 3 passed. Additional contrast-enabled axe scans found no violations on Home EN/FR, Platform EN/FR and synthetic member Portal.
+- Review covered all nine named surfaces: Home, Create, Learn, Brand Kit, Graphic Maker, RTW, Platform, Officer Hub and member Portal. These were representative states, not an exhaustive domain-state audit. Synthetic Hub/Portal captures contain demo warnings and have not been published as marketing images.
+- Next development now explicitly allows the exact loopback alias `127.0.0.1`, restoring hydration and search on the local preview. A malformed generated dev types cache was removed with the server stopped; source typecheck then passed.
+- The latest focused responsive run passed 5 tests: Home and Platform in both locales at 320, 375, 768, 1280 and 1536px, each also at 320px with the shared text scale set to 2; plus the French first-screen CTA test. These new checks found and drove fixes for long-word wrapping, a nonshrinking preview link, preview labels and the selector layout.
+- Doubled text is a text-resize check, not a browser-zoom or assistive-technology audit. Screenshots at 320/1280 and doubled text are emitted into Playwright's ignored `test-results` output.
+- After the text-reflow repair, typecheck and the Home preview unit test passed; lint still exits through the existing TypeScript 7 skip.
+- The older catalog width loop covers English at 375, 768, 1280 and 1536px. Dedicated French search/navigation tests passed, but that does not constitute a complete bilingual catalog state/width matrix.
 
-- The local preview is verified at `http://127.0.0.1:3015`. Next dev had been rejecting its client assets on this loopback alias; `next.config.ts` now explicitly allows only `127.0.0.1` for development assets. This restores hydration, live search and the correct brand mark on the URL used for review.
-- Rendered and reviewed Home (EN desktop, FR at 320/375/1280), Create and Learn catalogs, Brand Kit, Graphic Maker, the RTW worksheet, Platform, authenticated Officer Hub and a synthetic member-safe Local Portal view. Hub/Portal captures contain synthetic/demo data and are local review evidence only, not marketing assets.
-- Moved the hero actions ahead of the longer breadth description in French. At 320×812 the primary action now ends at y=793 and remains in the first viewport; the page has no horizontal overflow. The French copy remains intact.
-- `public-discovery.smoke.spec.ts` and `mobile-menu.matrix.spec.ts`: 26 passed. Coverage includes French and English Home/catalog routes, 320/375/768/1280/1536 viewport checks, focus containment/Escape and the separate public/Hub mobile menus. The catalog width loop is English; dedicated French routes and the Home first-screen check are covered separately.
-- Targeted CTA and catalog viewport checks: 2 passed. Representative Brand Kit, RTW and Graphic Maker smoke checks: 3 passed. Home EN/FR and Brand Kit axe smoke checks: 3 passed.
-- Axe scans with color-contrast enabled reported no violations on Home EN/FR, Platform EN/FR and the synthetic member Portal route. This does not replace manual keyboard, screen-reader or 200% zoom review.
-- The public Home/Platform/catalog and shared workspace changes continue to preserve route, tenant, permission, persistence and export behavior. The stale French same-page search expectation was corrected to the canonical hash URL.
+## Completion audit: still required
 
-### Final checks for this checkpoint
+1. **Visible product evidence:** the current Home hosted section is still text-only, and Brand Kit reuse is explained rather than demonstrated. The plan calls for authentic synthetic hosted views and a visual identity relationship. Source/read-only review captures do not satisfy the public presentation requirement.
+2. **Hero quality:** the French desktop headline dominates the example. Improve the balance and meaningful product demonstration while preserving the immediate tool CTA and concrete breadth.
+3. **Working-state acceptance:** finish the scoped phone/French editor switching and retained-value checks, catalog no-results/clear/Back, and relevant Brand Kit save/error feedback. Existing domain suites can provide evidence; do not introduce new authorization or persistence behavior.
+4. **Accessibility:** verify keyboard operation of the examples and relevant changed controls, actual zoom/reflow, reduced-motion behavior, and readable expanded text. No accessibility conformance or exhaustive screen-reader validation is claimed.
+5. **Handoff and gates:** reconcile the implementation plan and direction documents with the final result; record named remaining sibling migrations rather than a generic backlog. Run affected checks after further implementation changes.
 
-- `npm run typecheck`: passed after stopping the preview server and clearing only its malformed generated `.next/dev` cache.
-- `npm run build`: passed; all 569 static pages generated. Existing Edge-runtime deprecation and dynamic filesystem tracing warnings remain.
-- `npm run lint`: exits 0 but skips ESLint because typescript-eslint does not yet support TypeScript 7; this is not an ESLint pass.
-- `git diff --check`: passed before commit.
-
-- `npm run typecheck`: passed after the first-screen rewrite and real Officer Learning example.
-- Full `npm run test:unit`: 3,239 passed, 2 skipped and 1 todo across 538 files at the Home/catalog/Platform checkpoint, before the later shared visual refinements.
-- `npm run lint`: exits successfully but skips ESLint because the configured typescript-eslint does not support TypeScript 7. It is not an ESLint pass.
-- `git diff --check`: passed after the Officer Learning example and documentation updates.
-- After clarifying the preview sample label in both locales: TypeScript and the 4 focused copy/metadata/readability test files passed (46 tests).
-- After flattening the shared editor form boundary: `ToolEditorLayout.test.tsx` passed (11 tests).
-- After the Officer Learning card interaction change: `theme.test.ts` passed (3 tests).
-- After rewriting the first-screen Home copy: TypeScript and the focused public-copy/metadata/readability suite passed (46 tests). Updated browser smoke expectations are present but not executed.
-- After adding the real learning example: TypeScript and the same 46 focused copy tests passed; the EN/FR canonical lesson-link assertions are added to smoke specs but not run.
-- After adding the RTW worksheet preview: `npm run typecheck` passed and the focused public-copy/metadata/readability suite passed (46 tests). EN/FR smoke assertions cover the real prompt and canonical tool route; browser smoke and rendered review remain pending.
-- After compacting the shared desktop navigation: `npm run typecheck` and `npm run build` passed; all 569 static pages generated. The French 1280px one-row assertion is in the public-discovery smoke suite but was not run in a browser.
-- Current full unit suite after the Home and responsive-nav changes: 538 files passed; 3,240 passed, 2 skipped and 1 todo. `npm run lint` still exits by intentionally skipping ESLint because the configured typescript-eslint does not support TypeScript 7.
-- After distinguishing the Hub mobile drawer label in EN/FR, typecheck passed and focused i18n/public-copy checks passed (30 tests). E2E menu assertions were updated but not browser-run.
-- `npm run build`: passed after the real Officer Learning Home example and again after the RTW steward preview; all 569 static pages generated. Next still logs the existing auth-default, Edge deprecation and dynamic filesystem tracing warnings.
-- Updated Home EN/FR smoke assertions are in `e2e/builders.smoke.spec.ts` and `e2e/public-discovery.smoke.spec.ts`. A 320/375/768/1280/1536 width/no-overflow matrix now covers EN/FR with axe at 320px; browser smoke was not run because the local URL is blocked by the browser tool policy.
-- The browser tool previously denied this local URL under its URL policy. No viewport screenshots of the new UI or keyboard walkthrough have been captured in this checkpoint.
-- Reviewed `docs/audit/hub-after-en-1280.png` and its EN/FR companion captures. They show the real seeded Local 777 Hub and are suitable for source review, but the development badge and demo/memory-only warnings make them unsuitable as public product imagery. No Portal capture exists in the audit assets.
-
-## Earlier rendered baseline (before this visual diff)
-
-These observations describe the old interface and are not acceptance evidence for the new one.
-
-| Surface | Earlier inspected state | Current follow-up |
-|---|---|---|
-| Home | EN desktop and FR phone | New layout awaits rendered EN/FR review across viewport matrix. |
-| Create / Learn | EN catalog | Open result rows are implemented; filter, no-results, URL and phone states await rendered review. |
-| Brand Kit | Unconfigured/hydrating workspace | Shared panels are flatter; hydration, configured and failure states need review. |
-| Graphic Maker | Default Member Spotlight form/output | Shared editor contracts are preserved; French and phone editing/preview remain to verify. |
-| Steward worksheet | Empty RTW/accommodation intake | No domain form change; confirm reading order and medical-privacy guidance remain clear. |
-| Platform | Two text-led panels | Two audience sections and source-correct copy are implemented; review in browser. |
-| Officer Hub | Synthetic Local 777 president | Shared shell foundation is present; role/module/MFA states and compact layout remain to verify. |
-| Local Portal | Synthetic officer Together view | Officer view does not prove member permissions; a synthetic member-safe view is required. |
-
-## Remaining before completion
-
-1. Visually review Home and Platform in EN/FR at 320, 375, 768, 1280 and 1536px, including zoom, reflow and keyboard behavior.
-2. Review all nine named representative surfaces, retaining screenshots or a concise evidence record and checking actual saved/error/empty states.
-3. Add a synthetic, member-safe hosted interface example. The Home communications preview is still a labeled sample renderer, not an exact application capture.
-4. Run affected unit/smoke coverage, lint (reporting its skip accurately), typecheck and production build. No browser visual acceptance or accessibility conformance is claimed yet.
-5. Update `docs/PROGRESS.md`, direction/pattern/migration docs and the remaining migration list from actual review findings.
-
-Browser revalidation remains blocked under the browser tool URL policy. It needs a supported URL permission/configuration before rendered evidence can be produced. This limitation does not erase the code work above, but it prevents visual acceptance of responsive and operational surfaces. The Local Portal shell refinement is source-verified only until that acceptance is available.
+The browser-review blocker is resolved. Remaining work is implementation and scoped verification, not a tooling impasse. The goal remains active.

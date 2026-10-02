@@ -1,3 +1,9 @@
+## 2026-10-02 — Complete bilingual reflow coverage and reopen presentation gaps
+
+- Added Home and Platform EN/FR checks at 320/375/768/1280/1536px and doubled text at 320px. The new tests exposed 44px English and 90px French Home overflow; wrapped long prose, preview labels/tool links and the accommodation action, and made preview choices adapt to available text space.
+- All 5 focused responsive/CTA checks passed after repair. Typecheck and the Home preview unit test passed; lint still skips under the existing TypeScript 7 guard.
+- Reconciled stale blocked/pending evidence in the uplift status. Full completion remains open: visible Brand Kit reuse, authentic hosted-product presentation, French hero balance and scoped working-state/accessibility acceptance are still required. These are not deferred sibling migrations.
+
 ## 2026-10-02 — Render and close the first visual-uplift checkpoint
 
 - Resolved the local rendered-review blocker: Next development now allows the exact `127.0.0.1` loopback origin used by the in-app preview, restoring client hydration and search behavior.

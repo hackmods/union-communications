@@ -11,6 +11,8 @@ Status: rendered review completed for the first uplift checkpoint; manual 200% z
 | Worksheet | Prompts and result in meaningful reading order | Group related inputs without forced canvas | Use available space without making prose unbounded |
 | Hub/Portal | Scope, current work and allowed actions stay visible | Keep comparisons and relationships | Quiet, information-dense operations; no marketing hero |
 
+The completion-audit regression now tests Home and Platform in **both locales** at 320, 375, 768, 1280 and 1536px, plus doubled text at 320px. All four surface/locale cases pass. Text-resize failures drove explicit long-word wrapping and flexible preview labels/choices; the French first-screen CTA check also passes. This supersedes the earlier partial Home/Platform matrix, while the older catalog matrix remains English-only at 375–1536px.
+
 Review widths near 375, 768, 1280 and 1536 pixels, plus 320-pixel reflow. Test English and French expansion, keyboard focus, enlarged text/zoom, reduced motion and contrast preferences. Wide data tables may scroll within a named region; the page should not depend on horizontal scrolling.
 
 Check real states, not only populated screenshots: catalog no matches, Brand Kit new/configured, editor output failure, worksheet retention, Hub role/module/MFA gating, and Portal member visibility. Reuse existing behavior suites and add targeted coverage only for changed behavior. Automated accessibility checks do not replace keyboard or human comprehension review.

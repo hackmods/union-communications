@@ -4,6 +4,30 @@ import { expectNoSeriousA11yViolations } from "./helpers/axe";
 
 test.describe("task-first public discovery @smoke", () => {
   for (const locale of ["en", "fr"] as const) {
+    for (const surface of ["", "platform/"] as const) {
+      test(`${locale} ${surface || "Home"} reflows across the uplift widths`, async ({ page }, testInfo) => {
+        for (const width of [320, 375, 768, 1280, 1536]) {
+          await page.setViewportSize({ width, height: 900 });
+          await page.goto(`/${locale}/${surface}`);
+          await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+          await page.evaluate(() => document.fonts.ready);
+          await assertNoHorizontalOverflow(page);
+          if (width === 320 || width === 1280) {
+            await page.screenshot({ path: testInfo.outputPath(`${locale}-${surface ? "platform" : "home"}-${width}.png`), fullPage: true });
+          }
+        }
+        // Text resizing is distinct from browser zoom; exercise the shared
+        // text-scale contract without claiming a browser-zoom audit.
+        await page.setViewportSize({ width: 320, height: 900 });
+        await page.evaluate(() => document.documentElement.style.setProperty("--text-scale", "2"));
+        await page.screenshot({ path: testInfo.outputPath("double-text.png"), fullPage: true });
+        await assertNoHorizontalOverflow(page);
+        await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      });
+    }
+  }
+
+  for (const locale of ["en", "fr"] as const) {
     test(`${locale} Brand Kit, Create, Worksheets, Learn, Platform, and Search render`, async ({ page }) => {
       for (const path of ["/create/", "/utilities/", "/learn/", "/platform/", "/search/"]) {
         await page.goto(`/${locale}${path}`);

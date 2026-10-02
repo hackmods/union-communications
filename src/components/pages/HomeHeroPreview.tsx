@@ -53,7 +53,7 @@ export function HomeHeroPreview({ className, variant }: HomeHeroPreviewProps) {
     <aside
       data-testid="home-hero-preview"
       data-variant={variant}
-      className={cn("w-full min-w-0", className)}
+      className={cn("w-full min-w-0 [overflow-wrap:anywhere]", className)}
       aria-label={t(`${variant}.ariaLabel`)}
     >
       <div className="mx-auto w-full max-w-md lg:max-w-none">
@@ -80,7 +80,7 @@ export function HomeHeroPreview({ className, variant }: HomeHeroPreviewProps) {
             <p className="min-w-0 flex-1 text-xs text-gray-600">{t("swatchHint")}</p>
             <Link
               href={HERO_PREVIEW_HREF[variant]}
-              className="shrink-0 text-sm font-semibold text-opseu-blue underline-offset-2 hover:underline"
+              className="max-w-full text-sm font-semibold text-opseu-blue underline-offset-2 hover:underline"
             >
               {t(`${variant}.openTool`)}
             </Link>
@@ -108,7 +108,7 @@ function HeroPreviewBody({
     return (
       <>
         <div
-          className="flex items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
+          className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
           style={{ backgroundColor: primary, color: headerInk }}
         >
           <span>{t("graphicMaker.eyebrow")}</span>
@@ -161,7 +161,7 @@ function HeroPreviewBody({
     return (
       <>
         <div
-          className="flex items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
+          className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
           style={{ backgroundColor: primary, color: headerInk }}
         >
           <span>{t("flyerMaker.eyebrow")}</span>
@@ -209,7 +209,7 @@ function HeroPreviewBody({
   return (
     <>
       <div
-        className="flex items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
+        className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
         style={{ backgroundColor: primary, color: headerInk }}
       >
         <span>{t("boardNotice.eyebrow")}</span>

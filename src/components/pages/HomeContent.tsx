@@ -32,7 +32,7 @@ export function HomeContent() {
   return (
     <>
       <section className="home-hero w-full border-b border-slate-200 bg-white" aria-labelledby="home-hero-heading">
-        <PageShell className="grid min-h-[32rem] items-center gap-10 py-10 sm:py-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:py-16">
+        <PageShell className="grid min-h-[32rem] items-center gap-10 py-10 [overflow-wrap:anywhere] sm:py-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:py-16">
           <div className="min-w-0" data-testid="home-hero-brand">
             <Eyebrow>{t("heroEyebrow")}</Eyebrow>
             <h1 id="home-hero-heading" className="mt-3 max-w-2xl text-[clamp(2.35rem,5.3vw,4.25rem)] font-bold leading-[1.03] tracking-[-0.045em] text-opseu-dark">
@@ -59,7 +59,7 @@ export function HomeContent() {
           <div className="min-w-0 border-t-2 border-opseu-blue pt-4 lg:border-t-0 lg:border-l-2 lg:pl-7 lg:pt-0">
             <p className="mb-3 text-sm font-semibold text-slate-700">{t("previewLabel")}</p>
             <HomeHeroPreview variant={preview} className="max-w-none" />
-            <div className="mt-4 grid grid-cols-3 border-y border-slate-200" role="group" aria-label={t("previewChoicesLabel")}>
+            <div className="mt-4 grid grid-cols-[repeat(auto-fit,minmax(min(100%,6rem),1fr))] border-y border-slate-200" role="group" aria-label={t("previewChoicesLabel")}>
               {HERO_PREVIEW_VARIANTS.map((variant) => (
                 <button
                   key={variant}
@@ -77,7 +77,7 @@ export function HomeContent() {
         </PageShell>
       </section>
 
-      <PageShell className="py-10 md:py-14">
+      <PageShell className="py-10 [overflow-wrap:anywhere] md:py-14">
         <section id="home-work" aria-labelledby="home-work-heading" className="scroll-mt-28">
           <SectionHeading
             id="home-work-heading"
@@ -185,7 +185,7 @@ export function HomeContent() {
             </div>
             <Link
               href="/utilities/rtw-accommodation"
-              className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-dark underline decoration-opseu-blue underline-offset-4 hover:text-opseu-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+              className="mt-3 inline-flex max-w-full min-h-11 items-center [overflow-wrap:anywhere] font-semibold text-opseu-dark underline decoration-opseu-blue underline-offset-4 hover:text-opseu-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
             >
               {t("work.accommodation.link")} <span className="ml-2" aria-hidden="true">→</span>
             </Link>
