@@ -1,8 +1,8 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useSessionChrome } from "@/components/auth/useSessionChrome";
 import { canAccessPortal } from "@/lib/portal/access";
 import type { UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ export function LocalPortalNavLink({
   layout?: "desktop" | "mobile";
   onNavigate?: () => void;
 }) {
-  const { data: session, status } = useSession();
+  const { session, authenticated, coldLoading } = useSessionChrome();
   const t = useTranslations("hub");
   const pathname = usePathname();
 
@@ -23,9 +23,9 @@ export function LocalPortalNavLink({
       ? "inline-flex min-h-10 items-center rounded-md px-2.5 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-opseu-blue/5 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
       : "flex min-h-12 items-center rounded-lg px-3 py-2 font-medium text-slate-700 hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50";
 
-  // Reserve space while session resolves so hard navigations do not flash
-  // a logged-out nav (audit: auth chrome inconsistent across page loads).
-  if (status === "loading") {
+  // Reserve space only on cold start (no user yet). JWT refresh keeps
+  // session.user — do not flash an empty pulse over a known session.
+  if (coldLoading) {
     return (
       <span
         aria-hidden
@@ -40,7 +40,7 @@ export function LocalPortalNavLink({
     );
   }
 
-  if (status !== "authenticated" || !session?.user) return null;
+  if (!authenticated || !session?.user) return null;
 
   const roles = (session.user.roles ?? []) as UserRole[];
   // Show by default for portal-eligible roles (including platform_admin).
