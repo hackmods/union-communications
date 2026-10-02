@@ -1,6 +1,6 @@
 # UnionOps UI direction
 
-Status: proposed direction; implementation and rendered validation pending. Source inspected at `7f95b679` on 2026-10-01. See [implementation status](05_IMPLEMENTATION_STATUS.md) for the unresolved refactor baseline.
+Status: direction selected for implementation; visual implementation and rendered validation pending. Planning reconciled against checkpoint `fd204bb1` on 2026-10-01. The recovered baseline is documented in [implementation status](05_IMPLEMENTATION_STATUS.md). Execute [the implementation plan](07_IMPLEMENTATION_PLAN.md) when visual work resumes.
 
 ## Working direction: useful work, visibly connected
 

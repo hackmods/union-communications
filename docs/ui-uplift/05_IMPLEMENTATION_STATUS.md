@@ -37,7 +37,7 @@ The original discrepancy was revalidated after that review. The user's subsequen
 
 ## Required before completion
 
-1. Finish validating and recording the recovered foundation branch, preserving unrelated work.
+1. Baseline checkpoint completed: `fd204bb1`, pushed to `origin/feat/ui-uplift`. Typecheck, production build and 51 focused tests passed; browser acceptance remains outstanding.
 2. Reconcile these initial runtime observations against that baseline and select real demo states.
 3. Implement shared visual foundations and homepage, with EN/FR copy.
 4. Verify the design across all nine requested representative surfaces.
@@ -45,3 +45,7 @@ The original discrepancy was revalidated after that review. The user's subsequen
 6. Record evidence, update PROGRESS and What's new at the implementation milestone, and narrow remaining migration to low-value sibling adoption.
 
 No passing application test suite, translation-quality review, accessibility conformance, deployment, or user-comprehension result is claimed by these documents. Installation and page rendering are not substitutes for those checks.
+
+## Planning checkpoint
+
+Planning completed at Ryan's request after the baseline push. [Implementation plan](07_IMPLEMENTATION_PLAN.md) fixes the sequence, demo strategy, bounded scope and acceptance gates. Production visual changes remain pending; the previous request to pause visual implementation remains in effect.

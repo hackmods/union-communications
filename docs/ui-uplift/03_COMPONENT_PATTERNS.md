@@ -16,4 +16,4 @@ Product demonstrations are not a new interactive application embedded in Home. P
 
 PublicHubPanel, PortalPanel and artifact frames can use related visual tokens while retaining separate responsibilities. A notice is not a card, a page heading is not a hero, and a worksheet result is not a canvas.
 
-Refactor-owned shell measurement, WorkspaceHeader, tabs, dialogs and field-feedback semantics must come from the confirmed structural implementation. Do not recreate the pending pilots in this uplift branch.
+Shell measurements, editor keyboard tabs, Dialog and field-feedback associations are integrated in `fd204bb1`. Reuse those foundations. WorkspaceHeader and domain-specific pilots were not imported and are not prerequisites for this pass. Introduce a shared visual primitive only when actual consumers justify it.

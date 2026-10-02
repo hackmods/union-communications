@@ -1,6 +1,12 @@
 # Visual system
 
-Status: proposed; token changes await the confirmed structural baseline and rendered comparison.
+Status: implementation direction selected on recovered baseline `fd204bb1`; token changes require rendered comparison.
+
+## Starting specifications
+
+Keep the existing system sans stack for controls and body copy; use weight and tight heading tracking for editorial character. Start public hero headings at a fluid 2.25–3.75rem, section headings at 1.5–2.25rem, and working titles at 1.25–1.75rem. Body text stays at 1rem with 1.5–1.65 line height; compact metadata can use 0.875rem. These are role specifications, not blanket element selectors or export typography.
+
+Start with neutral ink and paper surfaces, existing accessible orange for platform actions, one-pixel rules, 4–8px control/panel corners and little or no shadow. Preserve tenant identity in outputs and existing brand-aware chrome. Add semantic tokens only where multiple consumers need them; do not replace the brand configuration model. Use a 4/8px spacing rhythm, 16–24px within groups and 32–64px between public sections, with tighter operational grouping. Check final colours in every supported theme before adoption.
 
 ## Foundation
 

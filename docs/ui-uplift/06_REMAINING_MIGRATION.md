@@ -13,7 +13,7 @@ Status: pre-implementation scope, not a post-uplift residual list.
 ## Explicitly outside this visual pass
 
 - Reopening product architecture, route taxonomy, membership or storage choices.
-- Completing missing structural refactor packets as a substitute for obtaining the completed baseline.
+- Completing historical structural refactor packets beyond the recovered baseline documented in `13_UPLIFT_BASELINE.md`.
 - Auth, tenant authority, MFA, audit, hosted readiness or persistence changes.
 - Rewriting output engines, removing useful formats, or restyling export roots through global CSS.
 - New dashboards, AI features, tours, speculative analytics, customer claims or a new design framework.
