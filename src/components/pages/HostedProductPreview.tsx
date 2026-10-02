@@ -53,6 +53,7 @@ export function HostedProductPreview({ audience }: { audience: "hub" | "portal" 
         <source media="(max-width: 639px)" srcSet={phone.src} width={phone.width} height={phone.height} />
         <Image
           src={desktop.src}
+          loading="lazy"
           alt={t(`${audience}Alt`)}
           width={desktop.width}
           height={desktop.height}

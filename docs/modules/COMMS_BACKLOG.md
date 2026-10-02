@@ -4,6 +4,10 @@ Ideas from the 2026-07 public nav review. Not scheduled for a phase; pick up whe
 
 Implementation surface today: [`HomeContent.tsx`](../../src/components/pages/HomeContent.tsx), `home.*` in `messages/en.json` + `fr.json`.
 
+## Homepage rework (2026-10-02)
+
+Implemented six-section product front door, three task groups, earlier guided setup, Brand Kit reuse, distinct Hub/Portal paths, consolidated privacy/cost answers, and tablet Search. Remaining human validation: fluent French editorial review, NVDA/VoiceOver, actual browser zoom, and uncoached volunteer/steward/local-leader task sessions. Automated viewport/text-resize and axe checks do not establish those outcomes.
+
 ## Deferred content
 
 ### Short-form video guide — SHIPPED (2026-08-18)

@@ -84,7 +84,8 @@ describe("public header uses task-first direct navigation", () => {
     expect(navConfig).toContain('{ href: "/platform", key: "platform" }');
     expect(navConfig).not.toContain('{ href: "/start", key: "start" }');
     expect(header).toContain('href="/search"');
-    expect(header).toContain("PUBLIC_PRIMARY_NAV.map");
+    expect(header).toContain("primaryNavForContext");
+    expect(header).toContain("primaryNav.map");
     expect(header).not.toContain("MenuContents");
     expect(header).not.toContain('from "./nav/NavDropdown"');
   });

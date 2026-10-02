@@ -47,31 +47,24 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
     await expect(
       page
-        .getByRole("region", { name: /create materials\. prepare workplace cases/i })
-        .getByRole("link", { name: "Explore the tools" }),
+        .getByRole("region", { name: /practical tools for the work of your union/i })
+        .getByRole("link", { name: "Find a tool" }),
     ).toBeVisible();
     await expect(
       page
-        .getByRole("region", { name: /create materials\. prepare workplace cases/i })
-        .getByRole("link", { name: "Explore Officer Hub & Local Portal" }),
+        .getByRole("region", { name: /practical tools for the work of your union/i })
+        .getByRole("link", { name: "Explore the platform" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Set up your identity once. Reuse it across the toolkit." }),
+      page.getByRole("heading", { name: "One identity across your materials" }),
     ).toBeVisible();
-    await expect(page.getByTestId("home-work-graphics").getByRole("link", { name: "Open Graphic Maker" }))
+    await expect(page.getByTestId("home-work-graphics").getByRole("link", { name: "Graphic Maker" }))
       .toHaveAttribute("href", /\/create\/graphic-maker\/$/);
-    await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Open grievance worksheet" }))
+    await expect(page.getByTestId("home-work-grievance").getByRole("link", { name: "Grievance preparation" }))
       .toHaveAttribute("href", /\/utilities\/complaint-vs-grievance\/$/);
-    await expect(page.getByTestId("home-work-learning").getByRole("link", { name: "Explore Officer Learning" }))
-      .toHaveAttribute("href", /\/learn\/$/);
-    await expect(page.getByTestId("home-learning-preview").getByRole("link", { name: "Contract Enforcement" }))
-      .toHaveAttribute("href", /\/learn\/officer\/contract-enforcement\/$/);
-    const stewardPreview = page.getByTestId("home-steward-preview");
-    await expect(stewardPreview.getByRole("heading", { name: "Return-to-work & accommodation intake" })).toBeVisible();
-    await expect(stewardPreview.getByText("What can or cannot the member safely do?")).toBeVisible();
-    await expect(stewardPreview.getByRole("link", { name: "Open accommodation worksheet" }))
-      .toHaveAttribute("href", /\/utilities\/rtw-accommodation\/$/);
-    await expect(page.getByTestId("home-platform").getByRole("link", { name: "See how the platform works" }).first())
+    await expect(page.getByTestId("home-work-learning").getByRole("link", { name: "Officer Learning" }))
+      .toHaveAttribute("href", /\/learn\/officer\/$/);
+    await expect(page.getByTestId("home-platform").getByRole("link", { name: "Explore Officer Hub" }))
       .toHaveAttribute("href", /\/platform\/(?:#.*)?$/);
     await expect(page.getByRole("link", { name: "Open guided setup" }).first())
       .toHaveAttribute("href", /\/start\/$/);
