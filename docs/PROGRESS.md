@@ -16,6 +16,8 @@
 - The saved synthetic Hub capture exposed a French header wrap at 1280px. Shared desktop navigation now uses one-row links and tighter spacing at that width; the EN/FR smoke suite checks the French row geometry. Rendered confirmation is still outstanding.
 - Typecheck and production build passed after the header update. Browser execution of the new EN/FR 1280px nav assertion remains pending.
 - Full unit verification after the Home and header changes passed: 538 files, 3,240 passed, 2 skipped and 1 todo. ESLint remains skipped by the TypeScript 7 compatibility guard.
+- Distinguished the Hub tools drawer from global site navigation in EN/FR with “Tools” / “Outils” labels, preserving the full accessible open/close names. Updated the mobile menu assertions.
+- Typecheck and 30 focused bilingual i18n/copy tests passed after the Hub drawer label update.
 
 ## 2026-10-01 — Recover UI uplift foundations
 

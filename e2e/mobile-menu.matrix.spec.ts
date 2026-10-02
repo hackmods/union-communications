@@ -105,14 +105,14 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
     });
   }
 
-  test("hub hamburger shows a visible Menu label from sm widths", async ({
+  test("hub hamburger names the tool menu from sm widths", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 768, height: 900 });
     await page.goto("/en/app/");
     const toggle = page.getByTestId("hub-nav-toggle");
     await expect(toggle).toBeVisible();
-    await expect(toggle).toContainText(/Menu|menu/i);
+    await expect(toggle).toContainText("Tools");
   });
 
   for (const width of LARGE_TEXT_WIDTHS) {
@@ -148,7 +148,7 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
 
       const toggle = page.getByTestId("hub-nav-toggle");
       await expect(toggle).toBeVisible();
-      await expect(toggle).toContainText(/Menu|menu/i);
+      await expect(toggle).toContainText("Tools");
       const toggleBox = await toggle.boundingBox();
       expect(toggleBox).toBeTruthy();
       if (toggleBox) {
@@ -157,8 +157,8 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
 
       await toggle.click();
       await expect(toggle).toHaveAttribute("aria-expanded", "true");
-      // Visible label stays short ("Menu") even while open — aria-label carries close.
-      await expect(toggle).toContainText(/Menu|menu/i);
+      // Visible label stays short even while open; aria-label carries close.
+      await expect(toggle).toContainText("Tools");
       await expect(toggle).not.toContainText(/Close hub menu|Fermer le menu/i);
 
       const drawer = page.getByTestId("hub-nav-drawer");
