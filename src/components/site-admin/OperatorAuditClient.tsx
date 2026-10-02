@@ -145,7 +145,14 @@ export function OperatorAuditClient() {
             setStepUpRequired(true);
             setUnlocked(false);
             setMfaCode("");
-            setError(t("operatorAuditMfaLimited"));
+            const retryAfter = Number(res.headers.get("Retry-After"));
+            setError(
+              Number.isFinite(retryAfter) && retryAfter > 0
+                ? t("operatorAuditMfaLimitedWait", {
+                    seconds: Math.ceil(retryAfter),
+                  })
+                : t("operatorAuditMfaLimited"),
+            );
           } else if (
             data.code === "mfa_step_up_unavailable" ||
             data.code === "audit_unavailable"
@@ -351,6 +358,14 @@ export function OperatorAuditClient() {
               {t("operatorAuditExportCsv")}
             </Button>
           </div>
+          {!loading && entries.length > 0 ? (
+            <p className="mt-2 text-sm text-gray-600" role="status">
+              {t("operatorAuditShowing", {
+                visible: visible.length,
+                loaded: entries.length,
+              })}
+            </p>
+          ) : null}
         </>
       ) : null}
       {loading && (
@@ -398,67 +413,116 @@ export function OperatorAuditClient() {
         />
       ) : null}
       {visible.length > 0 && !loading && (
-        <div className="mt-6 overflow-x-auto rounded-lg border border-gray-200">
-          <table className="min-w-full divide-y divide-gray-200 text-left text-sm">
-            <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
-              <tr>
-                <th className="px-3 py-2 font-medium">
-                  {t("operatorAuditWhen")}
-                </th>
-                <th className="px-3 py-2 font-medium">
-                  {t("operatorAuditAction")}
-                </th>
-                <th className="px-3 py-2 font-medium">
-                  {t("operatorAuditActor")}
-                </th>
-                <th className="px-3 py-2 font-medium">
-                  {t("operatorAuditResource")}
-                </th>
-                <th className="px-3 py-2 font-medium">
-                  {t("operatorAuditOutcome")}
-                </th>
-                <th className="px-3 py-2 font-medium">
-                  {t("operatorAuditRequestId")}
-                </th>
-                <th className="px-3 py-2 font-medium">
-                  {t("operatorAuditMeta")}
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 bg-white">
-              {visible.map((row) => (
-                <tr key={row.id}>
-                  <td className="whitespace-nowrap px-3 py-2 text-gray-700">
-                    {new Date(row.timestamp).toLocaleString()}
-                  </td>
-                  <td className="px-3 py-2 font-mono text-xs text-opseu-dark">
-                    {row.action}
-                  </td>
-                  <td className="px-3 py-2 font-mono text-xs text-gray-700">
-                    {row.userId}
-                  </td>
-                  <td className="px-3 py-2 font-mono text-xs text-gray-700">
-                    {row.resourceType}/{row.resourceId}
-                    {row.unionId ? ` · ${row.unionId}` : ""}
-                  </td>
-                  <td className="px-3 py-2 text-xs text-gray-700">
-                    {outcomeLabels[row.outcome]}
-                  </td>
-                  <td className="px-3 py-2 font-mono text-xs text-gray-700">
-                    {row.requestId ?? "—"}
-                  </td>
-                  <td className="max-w-xs truncate px-3 py-2 font-mono text-xs text-gray-600">
-                    {row.metadata
-                      ? Object.entries(row.metadata)
-                          .map(([k, v]) => `${k}=${v}`)
-                          .join(" ")
-                      : "—"}
-                  </td>
+        <>
+          <ul className="mt-6 space-y-3 md:hidden">
+            {visible.map((row) => (
+              <li
+                key={row.id}
+                className="rounded-lg border border-gray-200 bg-white p-3"
+              >
+                <p className="text-sm font-medium text-opseu-dark">
+                  {new Date(row.timestamp).toLocaleString()}
+                </p>
+                <dl className="mt-2 space-y-1.5 text-xs">
+                  <div className="flex min-w-0 gap-2">
+                    <dt className="shrink-0 text-gray-500">
+                      {t("operatorAuditAction")}
+                    </dt>
+                    <dd className="min-w-0 break-all font-mono text-gray-800">
+                      {row.action} · {outcomeLabels[row.outcome]}
+                    </dd>
+                  </div>
+                  <div className="flex min-w-0 gap-2">
+                    <dt className="shrink-0 text-gray-500">
+                      {t("operatorAuditActor")}
+                    </dt>
+                    <dd className="min-w-0 break-all font-mono text-gray-800">
+                      {row.userId}
+                    </dd>
+                  </div>
+                  <div className="flex min-w-0 gap-2">
+                    <dt className="shrink-0 text-gray-500">
+                      {t("operatorAuditResource")}
+                    </dt>
+                    <dd className="min-w-0 break-all font-mono text-gray-800">
+                      {row.resourceType}/{row.resourceId}
+                      {row.unionId ? ` · ${row.unionId}` : ""}
+                    </dd>
+                  </div>
+                  <div className="flex min-w-0 gap-2">
+                    <dt className="shrink-0 text-gray-500">
+                      {t("operatorAuditRequestId")}
+                    </dt>
+                    <dd className="min-w-0 break-all font-mono text-gray-800">
+                      {row.requestId ?? "—"}
+                    </dd>
+                  </div>
+                </dl>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-6 hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
+            <table className="min-w-full divide-y divide-gray-200 text-left text-sm">
+              <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
+                <tr>
+                  <th className="px-3 py-2 font-medium">
+                    {t("operatorAuditWhen")}
+                  </th>
+                  <th className="px-3 py-2 font-medium">
+                    {t("operatorAuditAction")}
+                  </th>
+                  <th className="px-3 py-2 font-medium">
+                    {t("operatorAuditActor")}
+                  </th>
+                  <th className="px-3 py-2 font-medium">
+                    {t("operatorAuditResource")}
+                  </th>
+                  <th className="px-3 py-2 font-medium">
+                    {t("operatorAuditOutcome")}
+                  </th>
+                  <th className="px-3 py-2 font-medium">
+                    {t("operatorAuditRequestId")}
+                  </th>
+                  <th className="px-3 py-2 font-medium">
+                    {t("operatorAuditMeta")}
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-gray-100 bg-white">
+                {visible.map((row) => (
+                  <tr key={row.id}>
+                    <td className="whitespace-nowrap px-3 py-2 text-gray-700">
+                      {new Date(row.timestamp).toLocaleString()}
+                    </td>
+                    <td className="px-3 py-2 font-mono text-xs text-opseu-dark">
+                      {row.action}
+                    </td>
+                    <td className="px-3 py-2 font-mono text-xs text-gray-700">
+                      {row.userId}
+                    </td>
+                    <td className="px-3 py-2 font-mono text-xs text-gray-700">
+                      {row.resourceType}/{row.resourceId}
+                      {row.unionId ? ` · ${row.unionId}` : ""}
+                    </td>
+                    <td className="px-3 py-2 text-xs text-gray-700">
+                      {outcomeLabels[row.outcome]}
+                    </td>
+                    <td className="px-3 py-2 font-mono text-xs text-gray-700">
+                      {row.requestId ?? "—"}
+                    </td>
+                    <td className="max-w-xs truncate px-3 py-2 font-mono text-xs text-gray-600">
+                      {row.metadata
+                        ? Object.entries(row.metadata)
+                            .map(([k, v]) => `${k}=${v}`)
+                            .join(" ")
+                        : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </>
   );
