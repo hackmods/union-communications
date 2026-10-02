@@ -23,9 +23,23 @@ describe("public primary navigation", () => {
     expect(shellContextForPath("/app/")).toBe("hub");
     expect(shellContextForPath("/portal/circles/example/")).toBe("portal");
     expect(shellContextForPath("/application")).toBe("public");
-    expect(primaryNavForContext("hub").map((item) => item.key)).toEqual(["brandKit"]);
-    expect(primaryNavForContext("public-task").map((item) => item.key))
-      .toEqual(["brandKit", "create", "utilities"]);
+    expect(primaryNavForContext("hub").map((item) => item.key)).toEqual([
+      "brandKit",
+      "create",
+      "utilities",
+      "learn",
+      "platform",
+    ]);
+    expect(primaryNavForContext("public-task").map((item) => item.key)).toEqual([
+      "brandKit",
+      "create",
+      "utilities",
+      "learn",
+      "platform",
+    ]);
+    expect(primaryNavForContext("portal").map((item) => item.key)).toEqual(
+      primaryNavForContext("public").map((item) => item.key),
+    );
   });
 
   it("keeps Brand Kit, Create, Utilities, Learn, and Platform as direct destinations", () => {
