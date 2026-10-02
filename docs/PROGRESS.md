@@ -1,3 +1,12 @@
+## 2026-10-02 — Complete the visual product-presentation uplift
+
+- Completed the Home story with a live Brand Kit reuse relationship and separate, authentic synthetic Officer Hub and member Portal excerpts for EN/FR desktop and phone layouts. Captures include provenance, accessible text and a clear confidentiality boundary.
+- Finished scoped working-state checks: bilingual keyboard operation of the hero examples; bilingual catalog no-results, clear and browser-Back behavior; Brand Kit persistence and blocked-storage feedback; localized RTW/Graphic Maker/editor paths.
+- Final focused Playwright run passed 12 checks, including Home/Platform EN/FR at five widths and Home axe checks. Additional representative browser runs and contrast-enabled axe scans passed; see [`docs/ui-uplift/05_IMPLEMENTATION_STATUS.md`](ui-uplift/05_IMPLEMENTATION_STATUS.md).
+- `npm run typecheck` and the production build passed; all 569 static pages generated. ESLint remains skipped by the TypeScript 7 compatibility guard. Existing Edge-runtime/filesystem-tracing warnings remain.
+- Actual 200% browser zoom and a human screen-reader review remain release-review follow-ups; headless Chromium ignored browser-zoom shortcuts. The responsive and 2× text-size checks passed.
+- This entry supersedes the earlier “full completion remains open” checkpoint immediately below. Implementation and current status are pushed on `feat/ui-uplift`.
+
 ## 2026-10-02 — Complete bilingual reflow coverage and reopen presentation gaps
 
 - Added Home and Platform EN/FR checks at 320/375/768/1280/1536px and doubled text at 320px. The new tests exposed 44px English and 90px French Home overflow; wrapped long prose, preview labels/tool links and the accommodation action, and made preview choices adapt to available text space.

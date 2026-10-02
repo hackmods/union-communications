@@ -1,6 +1,6 @@
 # UnionOps UI direction
 
-Status: direction implemented; Home/Platform bilingual rendered checks pass, and remaining scoped working-state acceptance is tracked below. Planning reconciled against checkpoint `fd204bb1` on 2026-10-01. The recovered baseline is documented in [implementation status](05_IMPLEMENTATION_STATUS.md). Follow [the implementation plan](07_IMPLEMENTATION_PLAN.md) and update its progress record as checkpoints land.
+Status: implemented and validated at representative surfaces. Home/Platform bilingual responsive checks, scoped working-state checks and automated accessibility scans pass. Human 200% browser-zoom and screen-reader review remain release-review items; see [implementation status](05_IMPLEMENTATION_STATUS.md). The recovered product-refactor baseline is documented in `docs/product-refactor/13_UPLIFT_BASELINE.md`.
 
 ## Working direction: useful work, visibly connected
 

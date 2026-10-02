@@ -4,6 +4,22 @@ import { expectNoSeriousA11yViolations } from "./helpers/axe";
 
 test.describe("task-first public discovery @smoke", () => {
   for (const locale of ["en", "fr"] as const) {
+    test(`${locale} hero examples can be changed with the keyboard`, async ({ page }) => {
+      await page.goto(`/${locale}/`);
+      const choices = page.getByRole("group", {
+        name: locale === "en" ? "Choose a communications example" : "Choisir un exemple de communication",
+      });
+      const notice = choices.getByRole("button", {
+        name: locale === "en" ? "Workplace notice" : "Avis en milieu de travail",
+      });
+      await notice.focus();
+      await page.keyboard.press("Enter");
+      await expect(notice).toHaveAttribute("aria-pressed", "true");
+      await expect(page.getByTestId("home-hero-preview")).toHaveAttribute("data-variant", "boardNotice");
+      await expect(page.getByTestId("home-hero-preview").getByRole("link"))
+        .toHaveAttribute("href", `/${locale}/create/board-notice/`);
+    });
+
     for (const surface of ["", "platform/"] as const) {
       test(`${locale} ${surface || "Home"} reflows across the uplift widths`, async ({ page }, testInfo) => {
         for (const width of [320, 375, 768, 1280, 1536]) {
@@ -167,6 +183,25 @@ test.describe("task-first public discovery @smoke", () => {
     await search.fill("assemblée générale quorum");
     await expect(page.getByRole("heading", { name: "Tenir une assemblée" })).toBeVisible();
   });
+
+  for (const locale of ["en", "fr"] as const) {
+    test(`${locale} catalog restores no-results state after clearing filters and using Back`, async ({ page }) => {
+      await page.goto(`/${locale}/create/`);
+      const query = page.getByRole("searchbox", { name: locale === "en" ? "Search" : "Rechercher" });
+      await query.fill("nothing-matches-this-union-task-987");
+      await expect(page.getByRole("heading", { name: locale === "en" ? "No matching resources" : "Aucune ressource correspondante" })).toBeVisible();
+      await page.getByRole("combobox").nth(0).selectOption("comms");
+      await expect.poll(() => new URL(page.url()).searchParams.get("audience")).toBe("comms");
+      await expect(page.getByRole("heading", { name: locale === "en" ? "No matching resources" : "Aucune ressource correspondante" })).toBeVisible();
+      const clearFilters = page.getByRole("button", { name: locale === "en" ? "Clear filters" : "Effacer les filtres" });
+      await clearFilters.last().click();
+      await expect(query).toHaveValue("");
+      await expect(page.getByRole("status").first()).toContainText(/results|résultats/i);
+      await page.goBack();
+      await expect(query).toHaveValue("nothing-matches-this-union-task-987");
+      await expect(page.getByRole("heading", { name: locale === "en" ? "No matching resources" : "Aucune ressource correspondante" })).toBeVisible();
+    });
+  }
 
   test("Start shows a saved, resumable steward path on the same device", async ({ page }) => {
     await page.goto("/en/start/?path=steward");

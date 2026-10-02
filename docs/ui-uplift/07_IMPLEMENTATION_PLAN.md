@@ -1,6 +1,6 @@
 # Visual uplift implementation plan
 
-Plan established: 2026-10-01. Base: `fd204bb1` on `feat/ui-uplift`, pushed to origin. Implementation resumed by Ryan; progress and remaining evidence are tracked below and in `05_IMPLEMENTATION_STATUS.md`.
+Plan established: 2026-10-01. Status: all four checkpoints complete on `feat/ui-uplift`; implementation pushed to origin. Final evidence and follow-up boundaries are in `05_IMPLEMENTATION_STATUS.md` and `06_REMAINING_MIGRATION.md`.
 
 ## Selected direction
 
@@ -41,7 +41,7 @@ Finish each checkpoint before broadening scope. A significant unresolved preview
 
 ## Acceptance matrix
 
-- **Home and Platform:** EN/FR at 375, 768, 1280 and 1536px; 320px reflow; 200% zoom and text preferences. Verify headings, reading order, CTA targets, long French labels, demonstration controls and image alternatives. A reviewer can identify several jobs, immediate tools, shared operations and the local/hosted distinction after a brief look. Record this as review evidence, not a fabricated user-study result.
+- **Home and Platform:** EN/FR at 320, 375, 768, 1280 and 1536px; doubled text at 320px. Verify headings, reading order, CTA targets, long French labels, demonstration controls and image alternatives. Actual 200% browser zoom remains a human follow-up because the headless runner ignores its zoom shortcuts. A reviewer can identify several jobs, immediate tools, shared operations and the local/hosted distinction after a brief look. Record this as review evidence, not a fabricated user-study result.
 - **Create and Learn:** desktop and phone in both locales; search/filter/clear/no-results and browser Back; no unnecessary new discovery model.
 - **Brand Kit, Graphic Maker, RTW:** desktop and phone, French expansion, retained form values, visible validation/save status, editor/preview switching and reachable output actions. Compare a generated output before/after any shared style change that reaches its renderer.
 - **Hub and Portal:** desktop and phone with synthetic role/module states; verify existing MFA/permission boundaries and a member-safe Portal view. Keep primary actions, scope and work records prominent. Do not infer member safety from an officer screenshot.
@@ -72,4 +72,4 @@ Complete Home, shared system, Platform presentation and the nine-surface validat
 
 ## Current completion audit (2026-10-02)
 
-Responsive review now runs successfully and has exposed/fixed doubled-text overflow. The full bilingual Home/Platform width matrix passes. Checkpoint 2 presentation gaps are now implemented: a live palette-to-tools relationship, authentic separate officer/member excerpts, and a better-balanced French hero. The Brand Kit treatment deliberately uses the real saved identity and verified destinations instead of inventing three output mockups. Continue the scoped working-state and accessibility checks in `05_IMPLEMENTATION_STATUS.md`. Previous browser-blocked entries above are historical, not current blockers.
+All four checkpoints are complete. Home and Platform pass the bilingual five-width matrix; keyboard example selection, catalog no-results/clear/browser-Back, Brand Kit save/error, representative editor/worksheet/graphics paths and automated accessibility checks passed. Typecheck and the 569-page production build passed. The latest change and verification record are pushed to `origin/feat/ui-uplift`. Real browser zoom and human screen-reader validation remain follow-up review; those limits are explicit in `05_IMPLEMENTATION_STATUS.md`. Earlier pending/blocked notes in the historical log describe prior checkpoints and are superseded by this audit.

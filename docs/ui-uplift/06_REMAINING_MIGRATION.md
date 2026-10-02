@@ -1,25 +1,28 @@
 # Remaining migration
 
-Status: the first implementation checkpoint is pushed; full completion remains open. The visible Brand Kit relationship, authentic hosted excerpts and hero balance are now implemented and rendered. Scoped working-state/accessibility acceptance remains required, as tracked in [05_IMPLEMENTATION_STATUS](05_IMPLEMENTATION_STATUS.md).
+The planned visual-uplift implementation is complete. The shared system has been tested across the nine named representative surfaces; repetitive route-by-route restyling was intentionally not part of this pass. No required implementation item remains open.
 
-## Required in this pass
+## Human review follow-up
 
-- Shared visual foundation and the full homepage product story.
-- Real product demonstrations spanning communications and deeper union work.
-- Brand Kit's reusable identity advantage and substantial, accurate Hub/Portal distinction.
-- English/French responsive treatment, accessible controls and clear immediate-value CTAs.
-- Representative validation: Home, Create, Learn, Brand Kit, complex Builder, steward worksheet, Platform, Officer Hub and Local Portal.
+- Verify 200% browser zoom and reflow in a headed browser with the target deployment/browser combination. The current headless Chromium ignored its zoom shortcuts; the responsive width matrix and doubled-text test passed.
+- Complete a human screen-reader review of the Home example selector, primary task links, Brand Kit relationship and hosted-preview captions, plus one catalog and one working form. Automated axe/keyboard results are not a conformance claim.
+- For release reviews, exercise the unchanged domain states: Hub role/module/MFA gating, Portal membership visibility, builder export failures and worksheet value retention. Existing domain behavior and contracts were not altered by this presentation pass.
 
-The Home pairs its labeled communications sample and real localized Officer Learning module with a real RTW worksheet preview. The steward preview sources its title, labels and measure options from the actual bilingual tool, omits case data, and links to the working worksheet. Rendered review now includes a synthetic, member-safe Portal route and an authenticated synthetic Hub. Full-page review captures contain demo warnings and stay local. The new public excerpts capture only genuine task/check-in and member Circle components, with synthetic-example captions and documented provenance. The Local Portal shared shell and loading state use a flat white workspace boundary; Station, Dispatch and Fronts entries use color-only hover cues. `ToolEditorLayout` gives shared builder forms a flatter boundary while preserving form spacing and mobile editing. Officer Learning retains its dedicated palette while removing nonessential catalog motion and adding visible keyboard focus. Permission rules, member-safe fields, form behavior and route behavior are unchanged.
+## Shared patterns for later sibling work
 
-Remaining validation: manually review keyboard use and 200% zoom/reflow, screen-reader announcements, Brand Kit persisted/error states, builder export failures, worksheet retention, and Hub role/module/MFA plus Portal membership/permission states. The rendered checkpoint covers representative states, not every route state. Sibling migration should be driven by these findings and follow the shared patterns in [03_COMPONENT_PATTERNS](03_COMPONENT_PATTERNS.md); do not perform repetitive page-by-page restyling without a demonstrated gap.
+Future changes should be driven by an observed usability defect and reuse [03_COMPONENT_PATTERNS](03_COMPONENT_PATTERNS.md):
 
-## Explicitly outside this visual pass
+| Surface group | Shared pattern to reuse | Defer until a demonstrated gap |
+|---|---|---|
+| Other Create/Learn catalogs | `PublicCatalogExplorer`: readable open results, explicit filters, stable query/history behavior | Catalog-by-catalog restyling without a specific layout or task failure |
+| Tool editors | `ToolEditorLayout`: compact task framing, existing field hierarchy, mounted preview and mobile Edit/Preview | Canvas/export-root styling, which has separate geometry contracts |
+| Hub modules | Existing operational components and contextual navigation: scope, permission, current work, allowed action | Applying public landing-page hierarchy to authenticated tasks |
+| Portal modules | Existing member-safe `PortalPanel`, consent, membership and participation boundaries | Surfacing private Hub records or treating every module as public |
+| Guides and Officer Learning | Existing teaching hierarchy, source links, lesson and progress patterns; Officer Learning keeps its dedicated theme | Replacing instruction with marketing cards or decorative movement |
 
-- Reopening product architecture, route taxonomy, membership or storage choices.
-- Completing historical structural refactor packets beyond the recovered baseline documented in `13_UPLIFT_BASELINE.md`.
-- Auth, tenant authority, MFA, audit, hosted readiness or persistence changes.
-- Rewriting output engines, removing useful formats, or restyling export roots through global CSS.
-- New dashboards, AI features, tours, speculative analytics, customer claims or a new design framework.
+## Outside this pass
 
-After the representative pass, list specific remaining sibling components with the shared pattern they should adopt, known exceptions and verification needs. Do not mark this work complete merely because it has been moved to this file.
+- Product architecture, route taxonomy, tenancy, membership, permission, storage and pricing decisions.
+- Historical product-refactor packets beyond the recovered baseline in `docs/product-refactor/13_UPLIFT_BASELINE.md`.
+- Auth, MFA, audit, hosted readiness or persistence behavior.
+- Output-engine rewrites, export-root restyling, new dashboards, speculative analytics, tours, testimonials or customer claims.
