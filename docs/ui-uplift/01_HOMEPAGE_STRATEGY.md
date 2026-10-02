@@ -13,7 +13,7 @@ Before implementation, `HomeContent` led unconfigured visitors to Brand Kit. `Ho
 3. **Choose today's work.** A short set of outcome-led links reaches canonical tools or filtered catalogs. The homepage explains the jobs; the existing catalogs own exhaustive discovery.
 4. **One local identity across applicable outputs.** Show a single identity appearing on a graphic, a document and a website where the actual engines support it. Place Brand Kit here as a useful advantage. Do not imply it sets Hub membership or automatically replaces a local's saved kit.
 5. **Carry work with the local.** Give Officer Hub and Local Portal a substantial paired presentation. Officer work stays permissioned; member spaces show appropriate participation and information. Explain intentional sharing rather than a fictional automatic pipeline.
-6. **Control people can understand.** Distinguish on-device preparation, explicit hosted work and local permissions. Link existing Trust/Privacy/Security material and end with a clear task or platform next step.
+6. **Control people can understand.** Distinguish on-device preparation, explicit hosted work and local permissions. Link existing Trust/Privacy/Security material and end with a clear task or platform next step. The final all-tools link names the catalog action instead of repeating the hero's in-page exploration label.
 
 These are narrative responsibilities, not six mandatory boxed sections. Avoid repeating identical CTA pairs after every paragraph. Keep the existing availability gates when presenting access actions.
 

@@ -204,7 +204,7 @@ export function HomeContent() {
           </div>
           <div className="flex flex-col gap-3 min-[420px]:flex-row">
             <ButtonLink href="/start" variant="outline">{t("guidedSetupCta")}</ButtonLink>
-            <ButtonLink href="/create">{t("exploreToolsCta")}</ButtonLink>
+            <ButtonLink href="/create">{t("browseAllToolsCta")}</ButtonLink>
           </div>
         </section>
       </PageShell>
