@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { SiteAdminCard } from "@/components/site-admin/SiteAdminCard";
+import { Button } from "@/components/ui/Button";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 export type SiteAdminLandingCard = {
   id: string;
@@ -70,7 +72,19 @@ export function SiteAdminLandingClient({ sections }: SiteAdminLandingClientProps
       </label>
 
       {filteredSections.length === 0 ? (
-        <p className="text-sm text-opseu-gray-dark">{t("siteAdminFilterEmpty")}</p>
+        <EmptyState
+          title={t("siteAdminFilterEmpty")}
+          action={
+            <Button
+              type="button"
+              variant="outline"
+              className="min-h-11"
+              onClick={() => setQuery("")}
+            >
+              {t("siteAdminFilterClear")}
+            </Button>
+          }
+        />
       ) : (
         filteredSections.map((section) => (
           <section key={section.id} aria-labelledby={`site-admin-${section.id}`}>

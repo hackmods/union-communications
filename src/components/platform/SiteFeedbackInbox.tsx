@@ -48,6 +48,7 @@ export function SiteFeedbackInbox({ memoryBackend }: { memoryBackend: boolean })
   const [openId, setOpenId] = useState<string | null>(null);
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
   const [bulkBusy, setBulkBusy] = useState(false);
+  const [bulkSuccess, setBulkSuccess] = useState<string | null>(null);
 
   const visibleIds = useMemo(() => items.map((item) => item.id), [items]);
   const allVisibleSelected =
@@ -149,6 +150,7 @@ export function SiteFeedbackInbox({ memoryBackend }: { memoryBackend: boolean })
 
     setBulkBusy(true);
     setError(null);
+    setBulkSuccess(null);
     try {
       const res = await fetch("/api/platform-feedback/bulk", {
         method: "POST",
@@ -163,7 +165,16 @@ export function SiteFeedbackInbox({ memoryBackend }: { memoryBackend: boolean })
         setError(t("bulkError"));
         return;
       }
+      const count = ids.length;
       setSelected(new Set());
+      if (openId && ids.includes(openId)) setOpenId(null);
+      setBulkSuccess(
+        action === "delete"
+          ? t("bulkSuccessDelete", { count })
+          : status === "declined"
+            ? t("bulkSuccessArchive", { count })
+            : t("bulkSuccessReview", { count }),
+      );
       await refresh();
     } catch {
       setError(t("bulkError"));
@@ -225,6 +236,12 @@ export function SiteFeedbackInbox({ memoryBackend }: { memoryBackend: boolean })
       {error ? (
         <Callout tone="danger" role="alert">
           {error}
+        </Callout>
+      ) : null}
+
+      {bulkSuccess ? (
+        <Callout tone="success" role="status">
+          {bulkSuccess}
         </Callout>
       ) : null}
 
