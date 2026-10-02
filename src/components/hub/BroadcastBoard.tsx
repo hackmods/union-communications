@@ -253,8 +253,9 @@ export function BroadcastBoard() {
                     checked={selected.includes(row.userId)}
                     disabled={row.status !== "confirmed"}
                     onChange={(e) => {
+                      const checked = e.target.checked;
                       setSelected((prev) =>
-                        e.target.checked
+                        checked
                           ? [...prev, row.userId]
                           : prev.filter((id) => id !== row.userId),
                       );

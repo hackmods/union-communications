@@ -8,6 +8,40 @@ export const GATEABLE_PUBLIC_TOOL_SLUGS: readonly string[] = TOOL_SLUGS.filter(
   (slug) => !NON_GATEABLE_TOOL_SLUGS.has(slug),
 );
 
+/**
+ * Maps gateable tool URL slugs → `nav.*` message keys for Site Admin labels.
+ * Keep in sync with GATEABLE_PUBLIC_TOOL_SLUGS (unit-tested).
+ */
+export const PUBLIC_TOOL_NAV_KEY_BY_SLUG: Record<string, string> = {
+  "flyer-maker": "flyerMaker",
+  "graphic-maker": "graphicMaker",
+  "logo-builder": "logoBuilder",
+  "quote-card": "quoteCard",
+  resizer: "resizer",
+  "alt-text": "altText",
+  "board-notice": "boardNotice",
+  "board-banner": "boardBanner",
+  "solidarity-poster": "solidarityPoster",
+  "qr-board": "qrBoard",
+  "qr-card": "qrCard",
+  "action-card": "actionCard",
+  "meeting-background": "meetingBackground",
+  "website-template": "websiteTemplate",
+  "document-generator": "documentGenerator",
+  "org-chart": "orgChart",
+  "local-pack": "localPack",
+  "letter-generator": "letterGenerator",
+  "grievance-form-builder": "grievanceFormBuilder",
+  "ca-snippets": "caSnippets",
+  "steward-quick-log": "stewardQuickLog",
+  "rtw-accommodation": "rtwAccommodation",
+  "pre-disciplinary-log": "preDisciplinaryLog",
+  "complaint-vs-grievance": "complaintVsGrievance",
+  "bylaw-builder": "bylawBuilder",
+  "proposal-tracker": "proposalTracker",
+  "rules-of-order": "rulesOfOrder",
+};
+
 export type PublicToolSettingsRecord = {
   disabledToolSlugs: string[];
   updatedById: string;

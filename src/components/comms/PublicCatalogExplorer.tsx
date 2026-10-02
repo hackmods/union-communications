@@ -26,7 +26,11 @@ import { Card } from "@/components/ui/Card";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
+import {
+  PUBLIC_CARD_TITLE_CLASS,
+  PUBLIC_PAGE_TITLE_CLASS,
+  PUBLIC_SECTION_TITLE_CLASS,
+} from "@/lib/constants/public-type";
 
 type ExplorerMode = "create" | "utilities" | "learn" | "search";
 
@@ -299,16 +303,16 @@ export function PublicCatalogExplorer({
   const titleId = `catalog-${mode}-title`;
 
   return (
-    <div className="mx-auto w-full max-w-[90rem] px-4 py-8 sm:px-6 md:py-12 xl:px-8">
+    <div className="mx-auto w-full max-w-[90rem] px-4 py-10 sm:px-6 md:py-14 xl:px-8">
       <header className="max-w-3xl">
         <Eyebrow>{pageEyebrow}</Eyebrow>
         <h1 id={titleId} className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{pageTitle}</h1>
-        <p className="mt-4 max-w-prose text-base leading-relaxed text-slate-700">{pageIntro}</p>
+        <p className="mt-4 max-w-prose text-base leading-relaxed text-slate-700 sm:leading-[1.7]">{pageIntro}</p>
       </header>
 
       {mode === "learn" && activeFilters.length === 0 ? (
-        <section className="mt-8" aria-labelledby={`${titleId}-collections`}>
-          <h2 id={`${titleId}-collections`} className="text-lg font-bold text-opseu-dark">
+        <section className="mt-8 md:mt-10" aria-labelledby={`${titleId}-collections`}>
+          <h2 id={`${titleId}-collections`} className={PUBLIC_SECTION_TITLE_CLASS}>
             {t("learnCollectionsTitle")}
           </h2>
           <ul className="mt-3 grid list-none gap-3 p-0 sm:grid-cols-2 xl:grid-cols-4">
@@ -321,7 +325,7 @@ export function PublicCatalogExplorer({
                   >
                     <h3 className="font-bold text-opseu-dark">{t(`learnCollections.${id}Title`)}</h3>
                     <p className="mt-1.5 text-sm leading-relaxed text-slate-700">{t(`learnCollections.${id}Body`)}</p>
-                    <span aria-hidden="true" className="mt-3 inline-block text-sm font-semibold text-opseu-blue">→</span>
+                    <span aria-hidden="true" className="mt-3 inline-flex min-h-10 items-center text-sm font-semibold text-opseu-blue">→</span>
                   </Link>
                 </Card>
               </li>
@@ -341,7 +345,7 @@ export function PublicCatalogExplorer({
                 value={query}
                 onChange={(event) => setQuery(event.currentTarget.value)}
                 placeholder={t("searchPlaceholder")}
-                className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 font-normal text-slate-900 outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+                className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 font-normal text-slate-900 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
               />
             </label>
             <FilterSelect
@@ -391,7 +395,7 @@ export function PublicCatalogExplorer({
             <button
               type="button"
               onClick={resetFilters}
-              className="inline-flex min-h-10 items-center rounded-md px-2 text-sm font-semibold text-opseu-blue underline underline-offset-2 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+              className="inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-semibold text-opseu-blue underline underline-offset-2 transition-colors hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
             >
               {t("clearFilters")}
             </button>
@@ -406,7 +410,7 @@ export function PublicCatalogExplorer({
                       type="button"
                       onClick={() => removeFilter(key)}
                       aria-label={t("removeFilter", { filter: label })}
-                      className="inline-flex min-h-9 items-center gap-2 rounded-full border border-slate-300 bg-white px-3 text-sm text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+                      className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-700 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
                     >
                       <span>{label}: {value}</span><span aria-hidden="true">×</span>
                     </button>
@@ -433,11 +437,11 @@ export function PublicCatalogExplorer({
                   >
                     <div className="flex items-start justify-between gap-3">
                       <Eyebrow tone="muted">{t(`formats.${item.formats[0]}`)}</Eyebrow>
-                      <span className="shrink-0 rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
+                      <span className="shrink-0 rounded-lg bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
                         {t("minutes", { count: item.estimatedMinutes })}
                       </span>
                     </div>
-                    <h3 className="mt-3 text-lg font-bold text-opseu-dark group-hover:text-opseu-blue">
+                    <h3 className={`mt-3 ${PUBLIC_CARD_TITLE_CLASS} group-hover:text-opseu-blue`}>
                       {title}
                       <span aria-hidden="true" className="ml-2 text-sm opacity-60">→</span>
                     </h3>
@@ -510,7 +514,7 @@ function FilterSelect<T extends string>({
       <select
         value={value}
         onChange={(event) => onChange(event.currentTarget.value)}
-        className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-2.5 font-normal text-slate-900 outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+        className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-2.5 font-normal text-slate-900 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
       >
         <option value="">{allLabel}</option>
         {values.map((option) => (

@@ -240,9 +240,10 @@ export function HandoffWizard() {
               <input
                 type="checkbox"
                 checked={!!checked[item]}
-                onChange={(e) =>
-                  setChecked((prev) => ({ ...prev, [item]: e.target.checked }))
-                }
+                onChange={(e) => {
+                  const next = e.target.checked;
+                  setChecked((prev) => ({ ...prev, [item]: next }));
+                }}
                 className="mt-1"
               />
               <span className="min-w-0">{item}</span>

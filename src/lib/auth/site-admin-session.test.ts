@@ -37,22 +37,28 @@ describe("requireSiteAdminSession", () => {
     if (!result.ok) expect(result.status).toBe(401);
   });
 
-  it("returns 403 when MFA is not satisfied (even for platform_admin)", async () => {
+  it("returns 403 mfa_required when MFA is not satisfied (even for platform_admin)", async () => {
     mockedAuth.mockResolvedValueOnce(makeSession(["platform_admin"]));
     mockedMfa.mockReturnValueOnce(false);
     const result = await requireSiteAdminSession();
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.status).toBe(403);
+    if (!result.ok) {
+      expect(result.status).toBe(403);
+      expect(result.code).toBe("mfa_required");
+    }
   });
 
-  it("returns 403 for non-platform_admin roles, even if MFA is verified", async () => {
+  it("returns 403 forbidden for non-platform_admin roles, even if MFA is verified", async () => {
     mockedAuth.mockResolvedValueOnce(
       makeSession(["union_admin", "local_president"]),
     );
     mockedMfa.mockReturnValueOnce(true);
     const result = await requireSiteAdminSession();
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.status).toBe(403);
+    if (!result.ok) {
+      expect(result.status).toBe(403);
+      expect(result.code).toBe("forbidden");
+    }
   });
 
   it("returns ok for platform_admin + MFA", async () => {

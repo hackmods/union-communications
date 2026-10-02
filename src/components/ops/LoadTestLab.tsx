@@ -459,12 +459,13 @@ export function LoadTestLab() {
                 type="checkbox"
                 className="mt-1"
                 checked={form.allowProduction}
-                onChange={(e) =>
+                onChange={(e) => {
+                  const allowProduction = e.target.checked;
                   setForm((f) => ({
                     ...f,
-                    allowProduction: e.target.checked,
-                  }))
-                }
+                    allowProduction,
+                  }));
+                }}
               />
               <span>{t.allowProduction}</span>
             </label>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
@@ -46,6 +46,21 @@ export function SiteFeedbackInbox({ memoryBackend }: { memoryBackend: boolean })
   const [category, setCategory] = useState<string>("");
   const [source, setSource] = useState<string>("");
   const [openId, setOpenId] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Set<string>>(() => new Set());
+  const [bulkBusy, setBulkBusy] = useState(false);
+  const [bulkSuccess, setBulkSuccess] = useState<string | null>(null);
+
+  const visibleIds = useMemo(() => items.map((item) => item.id), [items]);
+  const allVisibleSelected =
+    visibleIds.length > 0 && visibleIds.every((id) => selected.has(id));
+  const someSelected = selected.size > 0;
+
+  useEffect(() => {
+    setSelected((prev) => {
+      const next = new Set([...prev].filter((id) => visibleIds.includes(id)));
+      return next.size === prev.size ? prev : next;
+    });
+  }, [visibleIds]);
 
   useEffect(() => {
     let cancelled = false;
@@ -101,7 +116,71 @@ export function SiteFeedbackInbox({ memoryBackend }: { memoryBackend: boolean })
       return;
     }
     if (openId === id) setOpenId(null);
+    setSelected((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
     await refresh();
+  }
+
+  function toggleSelected(id: string, on: boolean) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (on) next.add(id);
+      else next.delete(id);
+      return next;
+    });
+  }
+
+  function toggleSelectAllVisible() {
+    setSelected((prev) => {
+      if (allVisibleSelected) return new Set();
+      return new Set(visibleIds);
+    });
+  }
+
+  async function runBulk(
+    action: "set_status" | "delete",
+    status?: SiteFeedbackStatus,
+  ) {
+    const ids = [...selected].filter((id) => visibleIds.includes(id));
+    if (ids.length === 0) return;
+    if (action === "delete" && !window.confirm(t("bulkDeleteConfirm"))) return;
+
+    setBulkBusy(true);
+    setError(null);
+    setBulkSuccess(null);
+    try {
+      const res = await fetch("/api/platform-feedback/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ids,
+          action,
+          ...(status ? { status } : {}),
+        }),
+      });
+      if (!res.ok) {
+        setError(t("bulkError"));
+        return;
+      }
+      const count = ids.length;
+      setSelected(new Set());
+      if (openId && ids.includes(openId)) setOpenId(null);
+      setBulkSuccess(
+        action === "delete"
+          ? t("bulkSuccessDelete", { count })
+          : status === "declined"
+            ? t("bulkSuccessArchive", { count })
+            : t("bulkSuccessReview", { count }),
+      );
+      await refresh();
+    } catch {
+      setError(t("bulkError"));
+    } finally {
+      setBulkBusy(false);
+    }
   }
 
   return (
@@ -160,6 +239,57 @@ export function SiteFeedbackInbox({ memoryBackend }: { memoryBackend: boolean })
         </Callout>
       ) : null}
 
+      {bulkSuccess ? (
+        <Callout tone="success" role="status">
+          {bulkSuccess}
+        </Callout>
+      ) : null}
+
+      {!loading && items.length > 0 ? (
+        <div className="flex flex-wrap items-center gap-3 rounded-md border border-gray-200 bg-gray-50 px-3 py-2">
+          <label className="flex items-center gap-2 text-sm text-gray-700">
+            <input
+              type="checkbox"
+              checked={allVisibleSelected}
+              onChange={toggleSelectAllVisible}
+              aria-label={t("bulkSelectAll")}
+            />
+            {t("bulkSelectAll")}
+          </label>
+          {someSelected ? (
+            <>
+              <span className="text-sm text-gray-600">
+                {t("bulkSelected", { count: selected.size })}
+              </span>
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={bulkBusy}
+                onClick={() => void runBulk("set_status", "triaged")}
+              >
+                {t("bulkMarkReviewed")}
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={bulkBusy}
+                onClick={() => void runBulk("set_status", "declined")}
+              >
+                {t("bulkArchive")}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                disabled={bulkBusy}
+                onClick={() => void runBulk("delete")}
+              >
+                {t("bulkDelete")}
+              </Button>
+            </>
+          ) : null}
+        </div>
+      ) : null}
+
       {loading ? (
         <div className="space-y-3">
           <Skeleton className="h-24 w-full" />
@@ -174,6 +304,8 @@ export function SiteFeedbackInbox({ memoryBackend }: { memoryBackend: boolean })
               key={item.id}
               item={item}
               open={openId === item.id}
+              checked={selected.has(item.id)}
+              onCheckedChange={(on) => toggleSelected(item.id, on)}
               onToggle={() =>
                 setOpenId((current) => (current === item.id ? null : item.id))
               }
@@ -190,12 +322,16 @@ export function SiteFeedbackInbox({ memoryBackend }: { memoryBackend: boolean })
 function InboxCard({
   item,
   open,
+  checked,
+  onCheckedChange,
   onToggle,
   onSave,
   onDelete,
 }: {
   item: SiteFeedbackInboxItem;
   open: boolean;
+  checked: boolean;
+  onCheckedChange: (on: boolean) => void;
   onToggle: () => void;
   onSave: (
     id: string,
@@ -208,12 +344,21 @@ function InboxCard({
   return (
     <li>
       <Card density="compact">
-        <button
-          type="button"
-          className="flex w-full flex-col items-start gap-1 text-left"
-          onClick={onToggle}
-          aria-expanded={open}
-        >
+        <div className="flex gap-3">
+          <input
+            type="checkbox"
+            className="mt-1 shrink-0"
+            checked={checked}
+            onChange={(e) => onCheckedChange(e.target.checked)}
+            aria-label={t("bulkSelectOne")}
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            type="button"
+            className="flex min-w-0 flex-1 flex-col items-start gap-1 text-left"
+            onClick={onToggle}
+            aria-expanded={open}
+          >
           <p className="font-semibold text-opseu-dark">
             {t(`categories.${item.category as SiteFeedbackCategory}`)} ·{" "}
             {t(`statuses.${item.status}`)}
@@ -224,7 +369,8 @@ function InboxCard({
             {t(`sources.${item.source as SiteFeedbackSource}`)}
             {item.signedIn ? ` · ${t("signedIn")}` : ` · ${t("anonymous")}`}
           </p>
-        </button>
+          </button>
+        </div>
         {open ? (
           <InboxDraft
             key={`${item.id}-${item.status}-${item.stewardNote ?? ""}`}

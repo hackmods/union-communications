@@ -1,6 +1,6 @@
 # Visual uplift implementation plan
 
-Plan established: 2026-10-01. Status: all four checkpoints complete on `feat/ui-uplift`; implementation pushed to origin. Final evidence and follow-up boundaries are in `05_IMPLEMENTATION_STATUS.md` and `06_REMAINING_MIGRATION.md`.
+Plan established: 2026-10-01. Status: all four checkpoints complete on `feat/ui-uplift`; current `origin/main` has been integrated and local verification passed. PR validation and merge are in progress. Final evidence and follow-up boundaries are in `05_IMPLEMENTATION_STATUS.md` and `06_REMAINING_MIGRATION.md`.
 
 ## Selected direction
 
@@ -72,4 +72,4 @@ Complete Home, shared system, Platform presentation and the nine-surface validat
 
 ## Current completion audit (2026-10-02)
 
-All four checkpoints are complete. Home and Platform pass the bilingual five-width matrix; keyboard example selection, catalog no-results/clear/browser-Back, Brand Kit save/error, representative editor/worksheet/graphics paths and automated accessibility checks passed. Typecheck and the 569-page production build passed. The latest change and verification record are pushed to `origin/feat/ui-uplift`. Real browser zoom and human screen-reader validation remain follow-up review; those limits are explicit in `05_IMPLEMENTATION_STATUS.md`. Earlier pending/blocked notes in the historical log describe prior checkpoints and are superseded by this audit.
+All four implementation checkpoints are complete. Home and Platform pass the bilingual five-width matrix; keyboard example selection, catalog no-results/clear/browser-Back, Brand Kit save/error, representative editor/worksheet/graphics paths and automated accessibility checks passed. Typecheck and the post-sync 569-page production build passed. The current-main merge is resolved locally; PR validation and GitHub Actions are the remaining integration gates. Real browser zoom and human screen-reader validation remain follow-up review; those limits are explicit in `05_IMPLEMENTATION_STATUS.md`. Earlier pending/blocked notes in the historical log describe prior checkpoints and are superseded by this audit.

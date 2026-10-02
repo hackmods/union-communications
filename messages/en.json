@@ -329,12 +329,36 @@
       "proposals": "proposal tracking"
     },
     "work": {
-      "graphics": { "title": "Make a graphic or print piece", "body": "Create a workplace notice, social graphic, or flyer using your local identity.", "link": "Open Graphic Maker" },
-      "website": { "title": "Build a local website", "body": "Fill in and export a simple website template for your local.", "link": "Open Website Template" },
-      "grievance": { "title": "Prepare for a grievance", "body": "Organize the issue and prepare questions before deciding on next steps.", "link": "Open grievance worksheet" },
-      "accommodation": { "title": "Plan return-to-work support", "body": "Prepare an accommodation conversation with structured prompts and records you control.", "link": "Open accommodation worksheet" },
-      "meetings": { "title": "Run a local meeting", "body": "Use practical meeting references and rules-of-order guidance.", "link": "Open meeting guide" },
-      "learning": { "title": "Train a steward or officer", "body": "Work through practical guides, playbooks, and Officer Learning modules.", "link": "Explore Officer Learning" }
+      "graphics": {
+        "title": "Make a graphic or print piece",
+        "body": "Create a workplace notice, social graphic, or flyer using your local identity.",
+        "link": "Open Graphic Maker"
+      },
+      "website": {
+        "title": "Build a local website",
+        "body": "Fill in and export a simple website template for your local.",
+        "link": "Open Website Template"
+      },
+      "grievance": {
+        "title": "Prepare for a grievance",
+        "body": "Organize the issue and prepare questions before deciding on next steps.",
+        "link": "Open grievance worksheet"
+      },
+      "accommodation": {
+        "title": "Plan return-to-work support",
+        "body": "Prepare an accommodation conversation with structured prompts and records you control.",
+        "link": "Open accommodation worksheet"
+      },
+      "meetings": {
+        "title": "Run a local meeting",
+        "body": "Use practical meeting references and rules-of-order guidance.",
+        "link": "Open meeting guide"
+      },
+      "learning": {
+        "title": "Train a steward or officer",
+        "body": "Work through practical guides, playbooks, and Officer Learning modules.",
+        "link": "Explore Officer Learning"
+      }
     },
     "learningEyebrow": "Officer Learning",
     "learningTitle": "Learn the work behind steward decisions.",
@@ -377,9 +401,18 @@
     "trustTitle": "Choose where the work belongs",
     "trustIntro": "UnionOps has device-based tools and hosted local workspaces. The two have different storage and access rules.",
     "trust": {
-      "device": { "title": "Browser-based work", "body": "Most public drafts stay on your device. Selected tools let you choose a supported save or handoff to Officer Hub." },
-      "hosted": { "title": "Permissioned local operations", "body": "Officer Hub and Local Portal are hosted services. Roles and enabled modules shape access, under the posted privacy and security practices." },
-      "choice": { "title": "A deliberate handoff", "body": "Keep a task on device or use an available hosted path when shared work is needed. Details are in our privacy and security material." }
+      "device": {
+        "title": "Browser-based work",
+        "body": "Most public drafts stay on your device. Selected tools let you choose a supported save or handoff to Officer Hub."
+      },
+      "hosted": {
+        "title": "Permissioned local operations",
+        "body": "Officer Hub and Local Portal are hosted services. Roles and enabled modules shape access, under the posted privacy and security practices."
+      },
+      "choice": {
+        "title": "A deliberate handoff",
+        "body": "Keep a task on device or use an available hosted path when shared work is needed. Details are in our privacy and security material."
+      }
     },
     "securityLink": "Security practices",
     "nextEyebrow": "A useful next step",
@@ -8407,6 +8440,10 @@
       "brand-lookbook": {
         "title": "Brand lookbook",
         "body": "Open the lookbook from Brand Kit to see Officer Hub buttons, forms, and chrome painted with your colours before you print or export."
+      },
+      "platform-admin-nav": {
+        "title": "Platform admin in one place",
+        "body": "Platform operators now open a single Platform admin link in the Officer Hub bar. Site admin groups every host tool, with search and clearer audit labels."
       }
     }
   },
@@ -9767,7 +9804,34 @@
       "hostedPlansCardTitle": "Hosted plans",
       "hostedPlansCardBody": "Assign Free or Full (Member/Paid) per union or local. CapRover flag stays off until you enforce caps.",
       "hostPresenceHostedPlans": "Hosted plan caps are not applying yet (dark launch)",
-      "hostActionConsequenceHostedPlans": "Leave UNIONOPS_HOSTED_PLANS_ENABLED=false until Site Admin assigns Free/Full locals. No public pricing. Flip true only when ready to enforce."
+      "hostActionConsequenceHostedPlans": "Leave UNIONOPS_HOSTED_PLANS_ENABLED=false until Site Admin assigns Free/Full locals. No public pricing. Flip true only when ready to enforce.",
+      "siteAdminFilterLabel": "Filter site admin tools",
+      "siteAdminFilterPlaceholder": "Search by title or description",
+      "siteAdminFilterEmpty": "Nothing matches that search. Try different words, or clear the filter to see every admin card.",
+      "siteAdminFilterClear": "Clear filter",
+      "siteAdminSectionUsersAccess": "Users & access",
+      "siteAdminSectionContentComms": "Content & comms",
+      "siteAdminSectionComplianceTrust": "Compliance & trust",
+      "siteAdminSectionHostOps": "Host operations",
+      "cardShortcutsEyebrow": "Shortcuts",
+      "cardShortcutsBody": "Jump to common operator tasks. Full catalog lives in Platform admin.",
+      "usersSearch": "Search",
+      "usersSearchPlaceholder": "Name or email",
+      "usersSearchNoMatches": "No users match “{q}”. Try account support for archived accounts.",
+      "usersSearchClear": "Clear search",
+      "operatorAuditEmptyFiltered": "No actions match these filters. Clear them to see the loaded rows again.",
+      "operatorAuditFilterNote": "Filters and CSV export apply to the rows already loaded for this visit (up to 200).",
+      "operatorAuditFilterFrom": "From",
+      "operatorAuditFilterTo": "To",
+      "operatorAuditFilterActor": "Actor",
+      "operatorAuditFilterActorPlaceholder": "User id contains…",
+      "operatorAuditFilterOutcomeAll": "All outcomes",
+      "operatorAuditFilterApply": "Apply filters",
+      "operatorAuditFilterClear": "Clear filters",
+      "operatorAuditExportCsv": "Export CSV",
+      "operatorAuditShowing": "Showing {visible} of {loaded} loaded actions.",
+      "operatorAuditMfaLimitedWait": "Too many code attempts. Wait about {seconds} seconds, then try again.",
+      "observabilityLastUpdated": "Last updated {time}"
     },
     "signingIn": "Signing in...",
     "writeNoUnion": "No union is assigned to this account — ask a platform operator to assign one before saving.",
@@ -9875,7 +9939,18 @@
         "public": "Public page",
         "hub": "Officer Hub",
         "portal": "Portal"
-      }
+      },
+      "bulkSelectAll": "Select all in this list",
+      "bulkSelectOne": "Select this note",
+      "bulkSelected": "{count} selected",
+      "bulkMarkReviewed": "Mark triaged",
+      "bulkArchive": "Decline / archive",
+      "bulkDelete": "Delete selected",
+      "bulkDeleteConfirm": "Delete the selected notes permanently? Senders will not be notified.",
+      "bulkError": "Bulk action failed. Refresh and try again.",
+      "bulkSuccessReview": "Marked {count} note(s) as triaged. They stay in the inbox until you archive or delete them.",
+      "bulkSuccessArchive": "Archived {count} note(s). Change the status filter if you need to find them again.",
+      "bulkSuccessDelete": "Deleted {count} note(s). That cannot be undone."
     },
     "auditTitle": "Audit log",
     "auditSubtitle": "Recent officer actions for your union. On this demo instance, the list resets when the server restarts.",
@@ -10594,6 +10669,24 @@
       "mfaRequired": "Enter your current MFA code to release this send.",
       "sent": "Campaign queued for batched delivery.",
       "error": "Could not load outreach lists."
+    },
+    "auditEmptyFiltered": "No events match these filters. Clear them to see recent activity, or try a wider date range.",
+    "auditLoadError": "Could not load the audit log. Refresh and try again.",
+    "auditRetry": "Try again",
+    "auditFilterFrom": "From",
+    "auditFilterTo": "To",
+    "auditFilterActor": "User",
+    "auditFilterActorPlaceholder": "User id contains…",
+    "auditFilterOutcomeAll": "All outcomes",
+    "auditFilterApply": "Apply filters",
+    "auditFilterClear": "Clear filters",
+    "auditExportCsv": "Export CSV",
+    "auditOutcome": {
+      "title": "Outcome",
+      "success": "Allowed",
+      "denied": "Denied",
+      "error": "Error",
+      "unknown": "Unknown"
     }
   },
   "dataWorkbench": {
@@ -10952,7 +11045,10 @@
       "expired": "Expired"
     },
     "fulfillingRequestFallback": "Fulfilling access request {id}. Saving an invite marks that request Invited.",
-    "fulfillingRequestLoadFailed": "Could not load that access request. You can still create an invite manually."
+    "fulfillingRequestLoadFailed": "Could not load that access request. You can still create an invite manually.",
+    "pendingLoading": "Loading invites…",
+    "pendingRetry": "Try again",
+    "pendingPickUnion": "Choose a union above to list pending invites for that organization."
   },
   "inviteAccept": {
     "title": "Accept invite",

@@ -13,13 +13,23 @@ export type PlatformOperatorNavItem = {
   labelKey: PlatformOperatorNavKey;
 };
 
+/** Header / Hub chrome — one entry to the operator landing page. */
 export const PLATFORM_OPERATOR_NAV: readonly PlatformOperatorNavItem[] = [
-  // Landing page first — a single tile that lists every operator surface.
   { href: "/app/site-admin", labelKey: "siteAdmin" },
-  { href: "/app/invites", labelKey: "invites" },
-  { href: "/app/onboarding", labelKey: "onboarding" },
-  { href: "/app/feedback", labelKey: "feedback" },
-  { href: "/app/audit", labelKey: "audit" },
+];
+
+/** Dashboard card shortcuts — not duplicated in Officer tools for platform_admin. */
+export const PLATFORM_OPERATOR_DASHBOARD_SHORTCUTS: readonly PlatformOperatorNavItem[] =
+  [
+    { href: "/app/invites", labelKey: "invites" },
+    { href: "/app/onboarding", labelKey: "onboarding" },
+    { href: "/app/feedback", labelKey: "feedback" },
+    { href: "/app/audit", labelKey: "audit" },
+  ];
+
+const OPERATOR_ROUTE_PREFIXES = [
+  "/app/site-admin",
+  ...PLATFORM_OPERATOR_DASHBOARD_SHORTCUTS.map((item) => item.href),
 ];
 
 export function isPlatformOperator(
@@ -29,9 +39,8 @@ export function isPlatformOperator(
 }
 
 export function platformOperatorNavActive(pathname: string): boolean {
-  return PLATFORM_OPERATOR_NAV.some(
-    (item) =>
-      pathname === item.href || pathname.startsWith(`${item.href}/`),
+  return OPERATOR_ROUTE_PREFIXES.some(
+    (href) => pathname === href || pathname.startsWith(`${href}/`),
   );
 }
 

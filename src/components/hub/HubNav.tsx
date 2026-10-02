@@ -112,7 +112,10 @@ export function HubNav() {
         { href: "/app/union-directory", label: t("unionAdmin.directoryLink") },
       ]
     : [];
-  const toolLinks = [...listHubToolLinks(toolAccess, (key) => t(key)), ...unionAdminLinks];
+  const toolLinks = [
+    ...listHubToolLinks(toolAccess, (key) => t(key), roles),
+    ...unionAdminLinks,
+  ];
   // When the module strip is empty, promote setup links so presidents are not stuck.
   const setupLinks =
     modules.length === 0
@@ -135,16 +138,11 @@ export function HubNav() {
   }));
 
   const accountLinks = [
-    mfaEnabled && {
-      href: "/app/mfa",
-      label: mfaOk ? t("mfaOk") : t("mfaRequired"),
-      className: "text-opseu-blue",
-    },
     {
       href: "/app/profile",
       label: t("profileLink"),
     },
-  ].filter(Boolean) as { href: string; label: string; className?: string }[];
+  ];
 
   const linkClass = (extra?: string) =>
     cn(
@@ -284,17 +282,22 @@ export function HubNav() {
               </Link>
             );
           })}
-          {mfaEnabled && (
+          {mfaEnabled ? (
             <Link
               href="/app/mfa"
               aria-current={
                 pathname.startsWith("/app/mfa") ? "page" : undefined
               }
-              className={linkClass("text-opseu-blue")}
+              className={cn(
+                "inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium",
+                mfaOk
+                  ? "border-emerald-200 bg-emerald-50 text-emerald-900 hover:bg-emerald-100"
+                  : "border-amber-200 bg-amber-50 text-amber-950 hover:bg-amber-100",
+              )}
             >
               {mfaOk ? t("mfaOk") : t("mfaRequired")}
             </Link>
-          )}
+          ) : null}
         </div>
 
         <button
@@ -336,6 +339,8 @@ export function HubNav() {
           toolGroups={toolGroups}
           toolsActive={toolsActive}
           accountLinks={accountLinks}
+          mfaEnabled={mfaEnabled}
+          mfaOk={mfaOk}
           onClose={closeDrawer}
           onCloseAfterNav={closeDrawerAfterNav}
           drawerId={drawerId}

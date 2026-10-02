@@ -411,12 +411,13 @@ export function HostedPlansAdminPanel() {
               <input
                 type="checkbox"
                 checked={form.donationAcknowledged}
-                onChange={(e) =>
+                onChange={(e) => {
+                  const donationAcknowledged = e.target.checked;
                   setForm((prev) => ({
                     ...prev,
-                    donationAcknowledged: e.target.checked,
-                  }))
-                }
+                    donationAcknowledged,
+                  }));
+                }}
               />
               {t("donationLabel")}
             </label>

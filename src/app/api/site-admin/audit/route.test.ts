@@ -15,6 +15,9 @@ vi.mock("drizzle-orm", () => ({
   and: vi.fn((...conditions) => conditions),
   desc: vi.fn((column) => column),
   eq: vi.fn((column, value) => ({ column, value })),
+  gte: vi.fn((column, value) => ({ column, value, op: "gte" })),
+  lte: vi.fn((column, value) => ({ column, value, op: "lte" })),
+  ilike: vi.fn((column, value) => ({ column, value, op: "ilike" })),
 }));
 vi.mock("@/lib/audit/store", () => ({
   auditLog: { log: mocks.auditLogLog, query: mocks.auditLogQuery },
@@ -142,7 +145,37 @@ describe("Site Admin cross-tenant audit log access", () => {
           limit: "25",
           count: "1",
           ownerRead: "false",
+          filtered: "false",
         },
+      }),
+    );
+    expect(JSON.stringify(mocks.auditLogLog.mock.calls)).not.toContain("654321");
+  });
+
+  it("filters memory-backed rows by actor without copying the MFA code into audit metadata", async () => {
+    mocks.freshMfaStepUp.mockResolvedValue({ ok: true, required: true });
+    mocks.auditLogQuery.mockResolvedValue([
+      auditEntry,
+      { ...auditEntry, id: "event-2", userId: "other-operator" },
+    ]);
+
+    const response = await POST(
+      request({ limit: 25, mfaCode: "654321", actor: "operator-2" }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.entries).toEqual([auditEntry]);
+    expect(mocks.auditLogQuery).toHaveBeenCalledWith({
+      resourceType: "site_admin",
+      limit: 100,
+    });
+    expect(mocks.auditLogLog).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        metadata: expect.objectContaining({
+          filtered: "true",
+          count: "1",
+        }),
       }),
     );
     expect(JSON.stringify(mocks.auditLogLog.mock.calls)).not.toContain("654321");

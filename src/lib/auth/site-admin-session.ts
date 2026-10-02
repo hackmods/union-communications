@@ -1,5 +1,7 @@
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import { sessionMfaOk } from "@/lib/auth/mfa-policy";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 import { isPlatformOperator } from "@/lib/platform/operator-nav";
 import type { UserRole } from "@/types/tenant";
 
@@ -10,7 +12,13 @@ export type SiteAdminSessionResult =
         user: { id: string; unionId?: string; localId?: string; roles: UserRole[] };
       };
     }
-  | { ok: false; status: 401 | 403; error: string };
+  | {
+      ok: false;
+      status: 401 | 403;
+      error: string;
+      /** Distinguishes MFA step-up from role denial when status is 403. */
+      code?: "unauthorized" | "mfa_required" | "forbidden";
+    };
 
 /**
  * Strict platform-admin gate for `/app/site-admin/*` and `/api/site-admin/*`.
@@ -25,14 +33,29 @@ export type SiteAdminSessionResult =
 export async function requireSiteAdminSession(): Promise<SiteAdminSessionResult> {
   const session = await auth();
   if (!session?.user) {
-    return { ok: false, status: 401, error: "Unauthorized" };
+    return {
+      ok: false,
+      status: 401,
+      error: "Unauthorized",
+      code: "unauthorized",
+    };
   }
   if (!sessionMfaOk(session)) {
-    return { ok: false, status: 403, error: "MFA required" };
+    return {
+      ok: false,
+      status: 403,
+      error: "MFA required",
+      code: "mfa_required",
+    };
   }
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!isPlatformOperator(roles)) {
-    return { ok: false, status: 403, error: "Forbidden" };
+    return {
+      ok: false,
+      status: 403,
+      error: "Forbidden",
+      code: "forbidden",
+    };
   }
   return {
     ok: true,
@@ -45,4 +68,23 @@ export async function requireSiteAdminSession(): Promise<SiteAdminSessionResult>
       },
     },
   };
+}
+
+/**
+ * Page-level redirect for a failed site-admin gate.
+ * MFA failures go to the challenge with a return path (not a silent Hub bounce).
+ */
+export function redirectUnlessSiteAdmin(
+  locale: string,
+  gate: SiteAdminSessionResult,
+  returnPath: string,
+): asserts gate is Extract<SiteAdminSessionResult, { ok: true }> {
+  if (gate.ok) return;
+  if (gate.status === 401 || gate.code === "unauthorized") {
+    redirect(`/${locale}/app/login`);
+  }
+  if (gate.code === "mfa_required" || gate.error === "MFA required") {
+    redirect(localeMfaRedirect(locale, returnPath));
+  }
+  redirect(`/${locale}/app`);
 }

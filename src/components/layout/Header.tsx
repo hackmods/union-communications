@@ -42,7 +42,7 @@ export function Header() {
   const isActive = (base: string) => pathname === base || pathname.startsWith(`${base}/`);
   const linkClass = (active: boolean) =>
     cn(
-      "inline-flex min-h-10 items-center whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-opseu-blue/5 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40 xl:px-1.5",
+      "inline-flex min-h-11 items-center whitespace-nowrap rounded-lg px-2.5 py-1.5 text-sm font-medium text-slate-700 transition-colors duration-150 ease-out hover:bg-opseu-blue/5 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40 xl:px-1.5",
       active && "bg-opseu-blue/10 font-semibold text-opseu-dark",
     );
   const renderPrimaryLink = (item: (typeof PUBLIC_PRIMARY_NAV)[number]) => {
@@ -93,12 +93,14 @@ export function Header() {
           href="/"
           className="flex min-w-0 items-center gap-2 font-bold text-opseu-blue"
           onClick={drawerOpen ? closeDrawerAfterNav : undefined}
+          aria-label={th("platformName")}
         >
           {hydrated ? (
             <BrandLogo
               size="sm"
               variantOverride={siteChromeLogoVariant}
               className="h-9 w-auto max-w-[10rem] shrink-0 object-contain sm:h-10"
+              alt=""
             />
           ) : (
             <span
@@ -106,7 +108,9 @@ export function Header() {
               className="inline-block h-9 w-9 shrink-0 rounded-[22%] bg-slate-100 sm:h-10 sm:w-10"
             />
           )}
-          <span className="truncate">{th("platformName")}</span>
+          <span className="truncate" aria-hidden>
+            {th("platformName")}
+          </span>
         </Link>
 
         <nav className="hidden flex-nowrap items-center gap-0.5 xl:flex" aria-label={t("mainNav")}>
@@ -136,7 +140,7 @@ export function Header() {
           <button
             ref={toggleRef}
             type="button"
-            className="relative z-[80] inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-md border border-slate-300 px-3 font-semibold text-opseu-dark hover:bg-opseu-blue/5 xl:hidden"
+            className="relative z-[80] inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-300 px-3 font-semibold text-opseu-dark transition-colors duration-150 ease-out hover:bg-opseu-blue/5 xl:hidden"
             aria-expanded={drawerOpen}
             aria-controls={drawerId}
             aria-label={drawerOpen ? t("closeMenu") : t("openMenu")}

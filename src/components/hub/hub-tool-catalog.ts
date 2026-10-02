@@ -252,6 +252,15 @@ export const HUB_SETUP_TOOL_HREFS = [
   "/app/onboarding",
 ] as const;
 
+/** Platform admin opens these from Site admin — hide Officer tools duplicates. */
+export const PLATFORM_ADMIN_OFFICER_MENU_EXCLUDES = new Set([
+  "/app/audit",
+  "/app/feedback",
+  "/app/invites",
+  "/app/onboarding",
+  "/app/configuration",
+]);
+
 export function isHubSetupToolHref(href: string): boolean {
   return (HUB_SETUP_TOOL_HREFS as readonly string[]).includes(href);
 }
@@ -333,11 +342,16 @@ export function listVisibleHubTools(access: HubToolAccess): HubToolDef[] {
 export function listHubToolLinks(
   access: HubToolAccess,
   label: (key: HubToolLabelKey) => string,
+  roles?: readonly UserRole[],
 ): HubToolLink[] {
-  return listVisibleHubTools(access).map((item) => ({
+  const links = listVisibleHubTools(access).map((item) => ({
     href: item.href,
     label: label(item.labelKey),
   }));
+  if (roles?.includes("platform_admin")) {
+    return links.filter((link) => !PLATFORM_ADMIN_OFFICER_MENU_EXCLUDES.has(link.href));
+  }
+  return links;
 }
 
 /** Guard: every grouped nav href must have a catalog row (and vice versa). */

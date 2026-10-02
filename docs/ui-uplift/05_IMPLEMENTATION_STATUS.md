@@ -1,6 +1,6 @@
 # Implementation status
 
-Updated 2026-10-02. The visual uplift implementation is complete on `feat/ui-uplift`; the latest implementation checkpoint is pushed to `origin/feat/ui-uplift`. The direction, narrative, visual system, representative adoption and residual scope are described in [00_UI_DIRECTION](00_UI_DIRECTION.md), [01_HOMEPAGE_STRATEGY](01_HOMEPAGE_STRATEGY.md), [02_VISUAL_SYSTEM](02_VISUAL_SYSTEM.md), [03_COMPONENT_PATTERNS](03_COMPONENT_PATTERNS.md) and [06_REMAINING_MIGRATION](06_REMAINING_MIGRATION.md).
+Updated 2026-10-02. The visual uplift implementation is complete on `feat/ui-uplift`, synchronized with current `origin/main`, and undergoing PR validation before merge. The direction, narrative, visual system, representative adoption and residual scope are described in [00_UI_DIRECTION](00_UI_DIRECTION.md), [01_HOMEPAGE_STRATEGY](01_HOMEPAGE_STRATEGY.md), [02_VISUAL_SYSTEM](02_VISUAL_SYSTEM.md), [03_COMPONENT_PATTERNS](03_COMPONENT_PATTERNS.md) and [06_REMAINING_MIGRATION](06_REMAINING_MIGRATION.md).
 
 ## Delivered
 
@@ -27,3 +27,9 @@ Updated 2026-10-02. The visual uplift implementation is complete on `feat/ui-upl
 The headless Chromium runner ignores browser zoom keyboard shortcuts, so the 200% browser-zoom condition was not certified. Automated axe and keyboard checks are not a substitute for a human screen-reader review. The responsive matrix and 2× text-size/reflow test passed, but a reviewer should still verify actual browser zoom and screen-reader announcements before making a formal accessibility-conformance claim. This limitation does not leave implementation work blocked.
 
 Hub role/module/MFA gating, Portal membership visibility, builder export failures and worksheet value retention remain governed by their existing domain tests and contracts; the uplift did not alter those behaviors. See [remaining migration](06_REMAINING_MIGRATION.md) for specific follow-up boundaries.
+
+## Synchronization with current main
+
+- `origin/main` was merged into `feat/ui-uplift`. Compatible mainline header semantics, touch-target refinements, shared control changes, Site Admin What's New entry and EN/FR copy were retained. The newer task-first Home and open ruled catalog results intentionally supersede the older setup-first Home and destination-card/catalog-card treatment.
+- Post-merge `npm run typecheck`, `npm run build` (569 static pages) and 69 focused unit tests passed.
+- The combined 90-test browser run had 88 passes and two Brand Kit interactions that ran before client hydration. Both now wait for the hydrated completeness state and passed together in an isolated rerun; the other 88 checks passed in the combined run. GitHub Actions remain the merge gate.

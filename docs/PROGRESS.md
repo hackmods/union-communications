@@ -7,6 +7,14 @@
 - Actual 200% browser zoom and a human screen-reader review remain release-review follow-ups; headless Chromium ignored browser-zoom shortcuts. The responsive and 2× text-size checks passed.
 - This entry supersedes the earlier “full completion remains open” checkpoint immediately below. Implementation and current status are pushed on `feat/ui-uplift`.
 
+## 2026-10-02 — Sync visual uplift with current main
+
+- Merged current `origin/main` changes into the uplift branch, including the Site Admin navigation What's New item and EN/FR copy. The merged branch also retains the shared header wordmark semantics, 44px target refinements and Start/Common control improvements.
+- Resolved visual overlap in favor of the newer task-first Home and open ruled catalog-results composition. Those replace the older setup-first destination-card implementation; equivalent direct Home actions and mobile-width behavior remain covered by the uplift browser checks.
+- Preserved compatible current-main shared control changes. Post-merge typecheck and production build passed (569 static pages), and 69 focused unit tests passed.
+- The 90-test combined Home/catalog/accessibility/Brand Kit run passed 88 tests. Two Brand Kit cases were clicking before the page finished hydrating; added an explicit hydrated-state wait, and both cases passed together on rerun. The other 88 passed in the combined run.
+- Current main is merged into the feature branch. The branch is ready for PR validation and merge; record GitHub Action results in this entry after CI completes.
+
 ## 2026-10-02 — Complete bilingual reflow coverage and reopen presentation gaps
 
 - Added Home and Platform EN/FR checks at 320/375/768/1280/1536px and doubled text at 320px. The new tests exposed 44px English and 90px French Home overflow; wrapped long prose, preview labels/tool links and the accommodation action, and made preview choices adapt to available text space.

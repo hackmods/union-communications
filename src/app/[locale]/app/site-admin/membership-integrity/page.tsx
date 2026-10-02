@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { redirectUnlessSiteAdmin, requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { isPostgresConfigured } from "@/lib/db/client";
 import { scanMembershipIntegrity } from "@/lib/site-admin/membership-integrity";
 
@@ -19,10 +19,7 @@ export default async function MembershipIntegrityPage({
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) {
-    if (gate.status === 403) redirect(`/${locale}/app`);
-    redirect(`/${locale}/app/login`);
-  }
+  redirectUnlessSiteAdmin(locale, gate, "/app/site-admin/membership-integrity");
 
   const t = await getTranslations({
     locale,

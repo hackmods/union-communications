@@ -15,6 +15,8 @@ export type PublicDocumentAdminResult =
       status: 401 | 403 | 503;
       error: string;
       code?: PublicDocumentAdminReadinessCode;
+      /** Present on 401/403 from requireSiteAdminSession. */
+      authCode?: "unauthorized" | "mfa_required" | "forbidden";
     };
 
 /**
@@ -26,7 +28,14 @@ export type PublicDocumentAdminResult =
  */
 export async function requirePublicDocumentAdmin(): Promise<PublicDocumentAdminResult> {
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) return gate;
+  if (!gate.ok) {
+    return {
+      ok: false,
+      status: gate.status,
+      error: gate.error,
+      authCode: gate.code,
+    };
+  }
   if (!isMfaEnabled()) {
     return {
       ok: false,

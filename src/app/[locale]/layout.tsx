@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { auth } from "@/auth";
 import { routing } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -41,8 +42,7 @@ export async function generateMetadata({
 
   return {
     title: {
-      default: title,
-      template: `%s | UnionOps`,
+      absolute: title,
     },
     description,
   };
@@ -62,7 +62,7 @@ export default async function LocaleLayout({
   }
 
   setRequestLocale(locale);
-  const messages = await getMessages();
+  const [messages, session] = await Promise.all([getMessages(), auth()]);
 
   // Blocking head scripts may set prefs / Brand Kit chrome on <html> before hydrate (FOUC).
   return (
@@ -83,7 +83,7 @@ export default async function LocaleLayout({
       </head>
       <body className="flex min-h-full min-w-0 flex-col antialiased" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
-          <AuthProvider>
+          <AuthProvider session={session}>
             <BrandProvider>
               <HubBrandKitSeed />
               <PreferencesProvider>

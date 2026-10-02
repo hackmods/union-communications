@@ -39,7 +39,7 @@ test.describe("Officer Hub task-first home @smoke", () => {
     await expect(page.getByRole("heading", { name: "What needs my attention?" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Local setup and administration" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Platform operator" })).toBeVisible();
-    await expect(page.getByRole("link", { name: /^Site admin$/i }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Platform admin$/i }).first()).toBeVisible();
   });
 
   test("empty work and failed loads have different messages", async ({ page }) => {
