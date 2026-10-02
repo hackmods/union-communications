@@ -40,9 +40,9 @@ export default async function PlatformPage({
       </header>
 
       <div className="mt-10 grid gap-x-12 lg:grid-cols-2">
-        <section className="min-w-0 scroll-mt-28 border-t-2 border-opseu-blue py-5" aria-labelledby="platform-hub-heading">
+        <section className="min-w-0 scroll-mt-[calc(var(--site-header-height,7rem)+1rem)] border-t-2 border-opseu-blue py-5" aria-labelledby="platform-hub-heading">
           <p className="text-xs font-bold uppercase tracking-[0.15em] text-opseu-blue">{t("hubAudience")}</p>
-          <h2 id="platform-hub-heading" className="mt-2 scroll-mt-28 text-2xl font-bold tracking-tight text-opseu-dark">{t("hubTitle")}</h2>
+          <h2 id="platform-hub-heading" className="mt-2 scroll-mt-[calc(var(--site-header-height,7rem)+1rem)] text-2xl font-bold tracking-tight text-opseu-dark">{t("hubTitle")}</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-700">{t("hubBody")}</p>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-700">
             <li>{t("hubItemCasework")}</li>
@@ -61,9 +61,9 @@ export default async function PlatformPage({
           )}
         </section>
 
-        <section className="min-w-0 scroll-mt-28 border-t-2 border-slate-400 py-5" aria-labelledby="platform-portal-heading">
+        <section className="min-w-0 scroll-mt-[calc(var(--site-header-height,7rem)+1rem)] border-t-2 border-slate-400 py-5" aria-labelledby="platform-portal-heading">
           <p className="text-xs font-bold uppercase tracking-[0.15em] text-slate-600">{t("memberAudience")}</p>
-          <h2 id="platform-portal-heading" className="mt-2 scroll-mt-28 text-2xl font-bold tracking-tight text-opseu-dark">{t("portalTitle")}</h2>
+          <h2 id="platform-portal-heading" className="mt-2 scroll-mt-[calc(var(--site-header-height,7rem)+1rem)] text-2xl font-bold tracking-tight text-opseu-dark">{t("portalTitle")}</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-700">{t("portalBody")}</p>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-700">
             <li>{t("portalItemCircles")}</li>

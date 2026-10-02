@@ -36,6 +36,7 @@ export const DB_BACKEND_ENV_KEYS = [
   "DATA_DB_BACKEND",
   "ACCESS_REQUEST_DB_BACKEND",
   "PORTAL_DB_BACKEND",
+  "HUB_SETTINGS_DB_BACKEND",
 ] as const;
 
 export type DbBackendEnvKey = (typeof DB_BACKEND_ENV_KEYS)[number];
@@ -245,6 +246,13 @@ export function portalDbBackend(
   return resolveBackend("PORTAL_DB_BACKEND", env);
 }
 
+/** Hub Brand Kit local shared + personal overlays. Default memory for demos. */
+export function hubSettingsDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("HUB_SETTINGS_DB_BACKEND", env);
+}
+
 /** Durable Hub users + password-reset tokens (SEC-007). */
 export function authUsersDbBackend(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -308,6 +316,7 @@ export function readEffectiveBackendFlags(
     DATA_DB_BACKEND: dataDbBackend(env),
     ACCESS_REQUEST_DB_BACKEND: accessRequestDbBackend(env),
     PORTAL_DB_BACKEND: portalDbBackend(env),
+    HUB_SETTINGS_DB_BACKEND: hubSettingsDbBackend(env),
   };
 }
 

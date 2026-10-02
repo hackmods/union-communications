@@ -12,21 +12,11 @@ Public-facing communications toolbox covering social media, print, union boards,
 
 ## Public navigation (IA)
 
-Top bar is slim and dual-audience oriented:
+The public header uses Brand Kit, Create, Worksheets, Learn, and Platform; account destinations keep their existing session and launch gates. Search is a separate utility and is visible from tablet widths. The wordmark links to Home. Guided setup remains on /start and is linked early on Home rather than added as another primary destination.
 
-| Item | Route / contents |
-|------|------------------|
-| **Get started** | `/#toolkit` — Home chooser (Comms / steward craft / run the local). Brand Kit stays a separate link. Comms onboarding is the Comms path card, not this CTA |
-| **Guides ▾** | **Comms:** First week, Blueprint, Workshop outline · **By channel:** Print, Union Boards, Website, Email & outreach, Short-form video · **Steward craft:** Steward playbooks hub, Steward 101, Bargaining, Strike operations, Crisis comms · **Floor and the local:** nested Floor (grievance, DFR, RTR, seniority, joint committee, mapping) and The local (union history, running meetings, bylaws, land acknowledgement, membership) — collapsed by default (`<details>`; active subgroup opens) · **Libraries:** Social Examples, Captions, Photo Consent, Brand Assets, Comms Resources. Footer **All guides** → `/guides` catalog (Comms path · By channel · Campaign · Steward craft · Floor · The local). Officer Learning stays a top-level header link. What's new / manifesto / install stay in the site footer. |
-| **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Assets) |
-| **Tools ▾** | Mega-menu columns grouped by **job** — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, Org Chart · **Print & cards:** Flyer, QR Cards, Action Cards, Pulse Poll (signed-in) · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · **Steward worksheets:** RTW, Pre-disciplinary log, Complaint vs grievance, Bylaw Builder, Proposal Tracker · footer **All tools** → `/tools`. Do not 1:1-map these columns to First week channels; see [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../audit/session-knowledge-2026-08-18-tools-catalog-ia.md) |
-| **Officer Hub** | `/app` (auth) — filled primary CTA |
+Home now has six sections: a two-zone hero with manually selected live examples; three task groups at #home-work (communications, workplace preparation, learning); optional Brand Kit reuse; Officer Hub and Local Portal with localized synthetic examples; privacy/cost answers; and guided setup/support. The primary action is Find a tool. Hosted services remain access-controlled and may recover hosting costs. Public tool storage and intentional Hub handoffs are unchanged.
 
-Footer includes Tools, Steward playbooks, Brand Kit, **What's new**, Built in solidarity, Privacy, Security, Accessibility, Feedback.
-
-Social Examples and Captions are **not** top-level nav items. They remain under Guides → Libraries, the home Comms tools column, and First week socials step. Channel guides (print / boards / website) live under Guides → By channel. Tools ▾ columns are **jobs** (brand / boards / print & cards / social & web / steward prep), not a second copy of those channels.
-
-Home landing (`HomeContent`): two-zone hero at `lg+` (toolkit headline + `HomeHeroPreview`), primary CTA scrolls to `#toolkit` (three jobs: Comms / steward craft / run the local). Comms card owns Brand Kit / First week (`COPY-001`). Officer Hub is advertised on that card only when the hub is public; otherwise Officer Learning plus an invite-only note. Four-column Comms tools (boards → print → social → website) sit below. Composition rules: [`.cursor/rules/public-marketing-ux.mdc`](../../.cursor/rules/public-marketing-ux.mdc). First week (`/guide/social-media-plan`) is the Comms roadmap **after** Brand Kit. Optional fifth-channel email guide at `/guide/email-broadcast`. Operators verify deploys with `GET /api/health` (`npm run health:check`). Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
+The homepage uses the existing wide shell and brand tokens. Header and platform-anchor offsets use the measured sticky-header height. No analytics or marketing dependencies were added. See [public-marketing-ux.mdc](../../.cursor/rules/public-marketing-ux.mdc) and [COMMS_BACKLOG.md](COMMS_BACKLOG.md).
 
 ## Routes
 

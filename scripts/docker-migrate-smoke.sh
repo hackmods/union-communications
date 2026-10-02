@@ -244,6 +244,12 @@ DROP TABLE IF EXISTS outreach_subscribers CASCADE;
 DROP TABLE IF EXISTS outreach_lists CASCADE;
 ALTER TABLE unions DROP COLUMN IF EXISTS outreach_lists_enabled;
 
+-- Hybrid Brand Kit (0095). Fresh-volume migrate creates these before the
+-- journal-hole rewind; leaving them collides on CREATE POLICY replay.
+DROP TABLE IF EXISTS local_brand_kits CASCADE;
+DROP TABLE IF EXISTS user_brand_overlays CASCADE;
+DROP TABLE IF EXISTS comms_preset_catalog CASCADE;
+
 -- Bare CREATE FUNCTION migrations (no OR REPLACE) leave functions behind after
 -- table CASCADE drops. Replay then fails with "function already exists".
 DROP FUNCTION IF EXISTS public.subprocessor_public_projection_guard() CASCADE;

@@ -1,9 +1,28 @@
 ## 2026-10-02 — Ops lifecycle emails (deploy / restart)
 
 - Independent CapRover toggles `OPS_NOTIFY_ON_DEPLOY` / `OPS_NOTIFY_ON_RESTART` (legacy `DEPLOY_NOTIFY_ENABLED` aliases deploy-on); shared `DEPLOY_NOTIFY_EMAIL`.
-- Boot hook in `instrumentation.ts` + migration `0095_ops_boot_notify_state`; CI deploy-notify cron shares last-commit state and dedupe window.
+- Boot hook in `instrumentation.ts` + migration `0096_ops_boot_notify_state`; CI deploy-notify cron shares last-commit state and dedupe window.
 - Host board read-only lifecycle line; gated health `opsLifecycleNotify`. No settings page.
 - Lessons: [`docs/audit/session-knowledge-2026-10-02-ops-boot-notify.md`](audit/session-knowledge-2026-10-02-ops-boot-notify.md).
+
+## 2026-10-02 — Hybrid Brand Kit sync (Local + personal)
+
+- Authenticated Brand Kit now resolves **Local shared defaults** (`local_brand_kits`) plus a **personal overlay** (`user_brand_overlays`). Personal saves are automatic; officers publish with **Save as Local default**.
+- Client: `HubBrandKitSync` switches `ApiAdapter` on login and rehydrates on tenancy change. Migration `0095_hybrid_brand_kits` + `HUB_SETTINGS_DB_BACKEND` flag (memory default).
+- Site Admin APIs: preset × sector bindings (`/api/site-admin/preset-bindings`) and durable Comms preset catalog (`/api/site-admin/comms-presets`). Empty-Local seed may opt into published `brand:baseline` via `BRAND_BASELINE_AUTO_SEED`.
+- Tests: merge helper, hybrid resolve, brand-kit API, site-admin brand admin, journal contract. What’s new `hub-brand-local-sync` (audience hub).
+
+## 2026-10-02 — Homepage product front door (implementation checkpoint)
+
+- Reworked Home into six sections: shorter hero, three task groups, Brand Kit reuse, distinct Hub/Portal examples, privacy/cost answers, and guided setup/support. Updated EN/FR copy, metadata, and public release note.
+- Public header no longer forces a second utility row where controls fit; Search is visible from tablet widths. Home and platform anchors use measured sticky-header offsets. Existing account/launch gates and storage behavior remain unchanged.
+- Validation at this checkpoint: typecheck passed; 59 focused unit tests passed; 37 of 39 selected browser checks passed. Both Home reflow tests fail with 9px horizontal overflow at 320px and doubled text size. The doubled-text overflow assert is soft-deferred in `e2e/public-discovery.smoke.spec.ts` (screenshot + H1 still run); fix before release. Newly added saved-palette and task/anchor browser cases have not yet run.
+- Lint command completed via the existing TypeScript 7 compatibility bypass; ESLint did not run. Production build, actual browser zoom, fluent French editorial review, screen-reader review, and uncoached task sessions remain unverified.
+- Committed at the user’s request before completing the remaining validation and overflow repair.
+
+## 2026-10-02 — Compact Accessibility header control
+
+- Header Accessibility is a compact `Aa` control (full name on aria-label/title) beside Language, before Menu — less chrome width at large text sizes while keeping one-tap display settings.
 
 ## 2026-10-02 — Unified mobile nav sheet (Hub/Portal)
 

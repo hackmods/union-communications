@@ -123,8 +123,8 @@ export function Header() {
 
         <div
           className={cn(
-            "flex shrink-0 flex-wrap items-center justify-end gap-2 xl:w-auto",
-            // Full-width wrap is for public Menu + Accessibility + Language.
+            "flex min-w-0 max-w-full shrink-0 flex-wrap items-center justify-end gap-2 xl:w-auto",
+            // Full-width wrap is for public Menu + Language + Accessibility.
             // On Hub/Portal the public hamburger is hidden — keep utilities compact.
             hidePublicHamburger ? "w-auto" : "w-full",
           )}
@@ -133,7 +133,7 @@ export function Header() {
             <Link
               href="/search"
               aria-current={isActive("/search") ? "page" : undefined}
-              className={cn(linkClass(isActive("/search")), "hidden xl:inline-flex")}
+              className={cn(linkClass(isActive("/search")), "hidden md:inline-flex")}
             >
               <span aria-hidden="true" className="mr-1.5">⌕</span>{t("search")}
             </Link>
@@ -142,8 +142,8 @@ export function Header() {
             <PlatformOperatorNavDropdown />
             <AuthAccountControls layout="inline" showHubLink={false} showPortalLink={false} />
           </div>
-          <DisplaySettingsMenu />
           <LanguageToggle />
+          <DisplaySettingsMenu />
           {!hidePublicHamburger ? (
             <button
               ref={toggleRef}

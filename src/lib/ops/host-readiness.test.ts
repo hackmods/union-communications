@@ -37,6 +37,7 @@ function allMemoryBackends(): HealthStatus["backends"] {
     DATA_DB_BACKEND: "memory",
     ACCESS_REQUEST_DB_BACKEND: "memory",
     PORTAL_DB_BACKEND: "memory",
+    HUB_SETTINGS_DB_BACKEND: "memory",
   };
 }
 
@@ -107,6 +108,7 @@ const HUB_POSTGRES_KEYS = [
   "PLATFORM_SETTINGS_DB_BACKEND",
   "BYLAWS_DB_BACKEND",
   "PROPOSALS_DB_BACKEND",
+  "HUB_SETTINGS_DB_BACKEND",
 ] as const;
 
 describe("buildHostReadiness", () => {

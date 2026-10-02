@@ -33,6 +33,7 @@ export * from "./hub-bylaws-proposals";
 export * from "./data-workbench";
 export * from "./customization";
 export * from "./platform-host-brand";
+export * from "./hub-brand-settings";
 export * from "./public-documents";
 export * from "./incidents";
 export * from "./subprocessors";

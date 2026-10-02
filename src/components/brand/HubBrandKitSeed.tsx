@@ -3,61 +3,58 @@
 import { useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useBrandStore } from "@/store/brand-store";
-import type { UnionBrandTheme } from "@/lib/brand/union-brand-theme";
+import {
+  getDataAdapter,
+  setDataAdapterMode,
+} from "@/lib/data/get-data-adapter";
 
 /**
- * One-way Hub → Brand Kit seed for browsers with no stored kit.
- * Never overwrites an existing steward Brand Kit. Does not write Hub tenancy.
+ * Authenticated Brand Kit sync: switch to ApiAdapter and rehydrate when
+ * Hub tenancy changes. Server owns empty-Local seed; never overwrites silently
+ * beyond hydrate from `/api/brand-kit`.
  */
-export function HubBrandKitSeed() {
+export function HubBrandKitSync() {
   const { data: session, status } = useSession();
-  const hydrated = useBrandStore((s) => s.hydrated);
-  const hasStoredBrandKit = useBrandStore((s) => s.hasStoredBrandKit);
-  const applyUnionPresetId = useBrandStore((s) => s.applyUnionPresetId);
-  const applyBrandTheme = useBrandStore((s) => s.applyBrandTheme);
-  const attempted = useRef(false);
+  const hydrate = useBrandStore((s) => s.hydrate);
+  const lastKey = useRef<string | null>(null);
 
   useEffect(() => {
-    if (attempted.current) return;
-    if (!hydrated || hasStoredBrandKit) return;
-    if (status !== "authenticated" || !session?.user?.unionId) return;
+    if (status === "loading") return;
 
-    attempted.current = true;
-    let cancelled = false;
-
-    void (async () => {
-      try {
-        const res = await fetch("/api/me/union-brand-preset");
-        if (!res.ok || cancelled) return;
-        const data = (await res.json()) as {
-          presetId?: string | null;
-          theme?: UnionBrandTheme | null;
-        };
-        if (cancelled) return;
-        // Re-check — steward may have saved while we fetched
-        if (useBrandStore.getState().hasStoredBrandKit) return;
-        if (data.presetId) {
-          applyUnionPresetId(data.presetId);
-        }
-        if (data.theme) {
-          applyBrandTheme(data.theme);
-        }
-      } catch {
-        // Best-effort seed; Match control remains available on Brand Kit.
+    if (status !== "authenticated" || !session?.user?.id) {
+      if (lastKey.current !== "local") {
+        setDataAdapterMode("local");
+        lastKey.current = "local";
+        void hydrate();
       }
-    })();
+      return;
+    }
 
-    return () => {
-      cancelled = true;
-    };
+    const key = [
+      session.user.id,
+      session.user.unionId ?? "",
+      session.user.localId ?? "",
+      // sessionVersion may live on token; optional refresh signal
+      (session.user as { sessionVersion?: number }).sessionVersion ?? "",
+    ].join(":");
+
+    if (lastKey.current === key) return;
+    lastKey.current = key;
+    setDataAdapterMode("api");
+    // Ensure adapter resolution sees the new mode before hydrate.
+    void getDataAdapter();
+    void hydrate();
   }, [
-    hydrated,
-    hasStoredBrandKit,
     status,
+    session?.user?.id,
     session?.user?.unionId,
-    applyUnionPresetId,
-    applyBrandTheme,
+    session?.user?.localId,
+    (session?.user as { sessionVersion?: number } | undefined)?.sessionVersion,
+    hydrate,
   ]);
 
   return null;
 }
+
+/** @deprecated Use HubBrandKitSync — kept as alias for existing imports. */
+export { HubBrandKitSync as HubBrandKitSeed };

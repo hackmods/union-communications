@@ -7,7 +7,7 @@ Independent CapRover env toggles for **new-image deploy** and **same-image resta
 - `OPS_NOTIFY_ON_DEPLOY` (alias `DEPLOY_NOTIFY_ENABLED`) + `OPS_NOTIFY_ON_RESTART`
 - Shared inbox `DEPLOY_NOTIFY_EMAIL`
 - Boot hook from `instrumentation.ts` (`scheduleBootLifecycleNotify`)
-- Durable state: migration `0095_ops_boot_notify_state` (+ file fallback)
+- Durable state: migration `0096_ops_boot_notify_state` (+ file fallback)
 - CI cron `/api/cron/deploy-notify` writes the same last-commit state
 - Host board read-only lifecycle line; gated `/api/health` → `opsLifecycleNotify`
 - **No** Site Admin settings page

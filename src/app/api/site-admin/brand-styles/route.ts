@@ -11,6 +11,7 @@ import {
 } from "@/lib/brand/union-brand-theme";
 import { isCustomizationPublishAvailable } from "@/lib/brand/brand-baseline-from-styles";
 import { UNION_PRESETS } from "@/lib/constants/unionPresets";
+import { listMergedCommsPresets } from "@/lib/brand/comms-preset-catalog";
 import {
   hydrateTenantOverlayFromPostgres,
   setUnionBrandTheme,
@@ -40,7 +41,14 @@ export async function GET() {
     return NextResponse.json({ error: gate.error }, { status: gate.status });
   }
 
-  const presets = UNION_PRESETS.map((p) => ({ id: p.id, name: p.name }));
+  const merged = listMergedCommsPresets().map((p) => ({
+    id: p.id,
+    name: p.name,
+  }));
+  const presets =
+    merged.length > 0
+      ? merged
+      : UNION_PRESETS.map((p) => ({ id: p.id, name: p.name }));
   const fonts = {
     headline: [...CANVAS_FONT_ORDER],
     body: [...CANVAS_BODY_FONT_ORDER],

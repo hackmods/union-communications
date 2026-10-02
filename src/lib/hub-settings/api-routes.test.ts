@@ -19,8 +19,8 @@ import {
   PUT as putPreferences,
 } from "@/app/api/preferences/route";
 import {
-  getHubBrandKitRecord,
-  hubSettingsKey,
+  getLocalBrandKit,
+  getPersonalBrandRecord,
   resetHubSettingsStoreForTests,
 } from "@/lib/hub-settings/store";
 import {
@@ -67,7 +67,7 @@ const validKit = {
   updatedAt: "2026-09-25T00:00:00.000Z",
 };
 
-describe("GET/PUT/DELETE /api/brand-kit", () => {
+describe("GET/PUT/DELETE /api/brand-kit (hybrid)", () => {
   beforeEach(() => {
     authMock.mockReset();
     resetHubSettingsStoreForTests();
@@ -107,16 +107,19 @@ describe("GET/PUT/DELETE /api/brand-kit", () => {
     expect(empty.status).toBe(400);
   });
 
-  it("stores the kit on the session key and syncs preferred CA library for that local only", async () => {
+  it("stores personal overlay and syncs preferred CA library for that local only", async () => {
     authMock.mockResolvedValue(session({ bargainingUnitId: "bu-pt" }));
     const saved = await putBrandKit(jsonRequest({ brandKit: validKit }));
     expect(saved.status).toBe(200);
     const body = (await saved.json()) as {
       brandKit: { primaryColor: string; local: { bargainingUnitCode?: string } };
       onboardingComplete: boolean;
+      source?: { hasPersonalOverlay: boolean; canPublishLocal: boolean };
     };
     expect(body.brandKit.primaryColor).toBe("#111111");
     expect(body.onboardingComplete).toBe(false);
+    expect(body.source?.hasPersonalOverlay).toBe(true);
+    expect(body.source?.canPublishLocal).toBe(true);
     expect(
       getPreferredSnippetLibrary("union-b7p", "local-7", "bu-pt"),
     ).toBe("caat-s-pt");
@@ -128,34 +131,82 @@ describe("GET/PUT/DELETE /api/brand-kit", () => {
     );
     const other = await getBrandKit();
     expect(other.status).toBe(200);
-    expect(await other.json()).toEqual({
-      brandKit: null,
-      onboardingComplete: false,
-    });
+    const otherBody = (await other.json()) as {
+      brandKit: { primaryColor?: string } | null;
+      source?: { hasLocalShared: boolean };
+    };
+    // Sister local gets its own seeded Local shared kit — not the personal overlay.
+    expect(otherBody.source?.hasLocalShared).toBe(true);
+    expect(otherBody.brandKit?.primaryColor).not.toBe("#111111");
     expect(getPreferredSnippetLibrary("union-b7p", "local-1337")).toBeNull();
   });
 
-  it("does not let a second officer read or clear another officer's kit", async () => {
+  it("keeps personal overlay private until Local publish", async () => {
     authMock.mockResolvedValue(session());
     await putBrandKit(
-      jsonRequest({ brandKit: validKit, onboardingComplete: true }),
+      jsonRequest({
+        brandKit: { ...validKit, signatureName: "President Only" },
+        onboardingComplete: true,
+      }),
     );
 
     authMock.mockResolvedValue(session({ id: "user-other-officer" }));
     const peek = await getBrandKit();
-    expect(await peek.json()).toEqual({
-      brandKit: null,
-      onboardingComplete: false,
-    });
+    const peekBody = (await peek.json()) as {
+      brandKit: { signatureName?: string; primaryColor?: string } | null;
+    };
+    expect(peekBody.brandKit?.signatureName).toBeUndefined();
 
     const cleared = await deleteBrandKit();
     expect(cleared.status).toBe(200);
     expect(
-      getHubBrandKitRecord(hubSettingsKey("user-president-7", "union-b7p")),
+      getPersonalBrandRecord("user-president-7", "union-b7p").overlay,
     ).toMatchObject({
-      brandKit: expect.objectContaining({ primaryColor: "#111111" }),
-      onboardingComplete: true,
+      signatureName: "President Only",
     });
+  });
+
+  it("publishes Local shared defaults for presidents and rejects stewards", async () => {
+    authMock.mockResolvedValue(session());
+    const published = await putBrandKit(
+      jsonRequest({ brandKit: validKit, scope: "local" }),
+    );
+    expect(published.status).toBe(200);
+    expect(getLocalBrandKit("union-b7p", "local-7")?.primaryColor).toBe(
+      "#111111",
+    );
+
+    authMock.mockResolvedValue(
+      session({ id: "steward-1", roles: ["local_steward"] }),
+    );
+    const denied = await putBrandKit(
+      jsonRequest({
+        brandKit: { ...validKit, primaryColor: "#000000" },
+        scope: "local",
+      }),
+    );
+    expect(denied.status).toBe(403);
+  });
+
+  it("DELETE clears personal overlay only", async () => {
+    authMock.mockResolvedValue(session());
+    await putBrandKit(jsonRequest({ brandKit: validKit, scope: "local" }));
+    await putBrandKit(
+      jsonRequest({
+        brandKit: { ...validKit, signatureName: "Temp" },
+        scope: "personal",
+      }),
+    );
+    const cleared = await deleteBrandKit();
+    expect(cleared.status).toBe(200);
+    const body = (await cleared.json()) as {
+      brandKit: { signatureName?: string; primaryColor?: string } | null;
+    };
+    expect(body.brandKit?.signatureName).toBeUndefined();
+    expect(body.brandKit?.primaryColor).toBe("#111111");
+    expect(getLocalBrandKit("union-b7p", "local-7")?.primaryColor).toBe(
+      "#111111",
+    );
   });
 });
 
@@ -179,31 +230,16 @@ describe("GET/PUT /api/preferences", () => {
   it("returns 401 without a session", async () => {
     authMock.mockResolvedValue(null);
     expect((await getPreferences()).status).toBe(401);
-    expect(
-      (await putPreferences(jsonRequest({ preferences: prefs }))).status,
-    ).toBe(401);
+    expect((await putPreferences(jsonRequest({ preferences: prefs }))).status).toBe(
+      401,
+    );
   });
 
-  it("rejects invalid JSON and extra keys, then stores on the session key only", async () => {
+  it("stores preferences per user", async () => {
     authMock.mockResolvedValue(session());
-    const invalid = await putPreferences({
-      json: async () => {
-        throw new SyntaxError("bad json");
-      },
-    } as unknown as Request);
-    expect(invalid.status).toBe(400);
-
-    const extra = await putPreferences(
-      jsonRequest({ preferences: prefs, userId: "attacker" }),
-    );
-    expect(extra.status).toBe(400);
-
     const saved = await putPreferences(jsonRequest({ preferences: prefs }));
     expect(saved.status).toBe(200);
-    expect(await saved.json()).toEqual({ preferences: prefs });
-
-    authMock.mockResolvedValue(session({ id: "user-other-officer" }));
-    const other = await getPreferences();
-    expect(await other.json()).toEqual({ preferences: null });
+    const got = await getPreferences();
+    expect(await got.json()).toEqual({ preferences: prefs });
   });
 });

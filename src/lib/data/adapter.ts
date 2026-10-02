@@ -13,10 +13,9 @@ export interface DataAdapter {
 
 /**
  * Storage backend selector persisted client-side. `local` (default) keeps
- * Comms data sovereign on-device (ADR-006); `api` opts an authenticated Hub
- * user into server-persisted Brand Kit + preferences via `ApiAdapter`. This
- * is a per-browser preference, not a global feature flag — never default a
- * whole tenant to `api` without explicit user opt-in.
+ * Comms data sovereign on-device (ADR-006). `api` is set for authenticated
+ * sessions by `HubBrandKitSync` so Brand Kit syncs Local defaults + personal
+ * overlays via `/api/brand-kit`. Logged-out public tools stay on `local`.
  */
 export type DataAdapterMode = "local" | "api";
 export const DATA_ADAPTER_MODE_KEY = "unionops-data-adapter-mode";
