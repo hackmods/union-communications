@@ -135,11 +135,11 @@ export function HomeContent() {
           />
           <div className="mt-5 flex flex-wrap gap-3">
             <ButtonLink href="/create/brand-kit">{nav("brandKit")}</ButtonLink>
-            {!brandReady ? (
-              <p className="self-center text-sm text-slate-600">{t("foundationHint")}</p>
-            ) : (
-              <p className="self-center text-sm text-slate-600">{t("foundationReady")}</p>
-            )}
+            {hydrated ? (
+              <p className="self-center text-sm text-slate-600">
+                {brandReady ? t("foundationReady") : t("foundationHint")}
+              </p>
+            ) : null}
           </div>
         </section>
 
@@ -157,7 +157,7 @@ export function HomeContent() {
                   <Link
                     href={item.href}
                     className="absolute inset-0 z-10 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-inset"
-                    aria-label={item.cta}
+                    aria-label={`${item.title}: ${item.cta}`}
                   />
                   <CardTitle className="group-hover/card:text-opseu-blue">{item.title}</CardTitle>
                   <p className="mt-2 text-sm leading-relaxed text-slate-700">{item.body}</p>
@@ -175,7 +175,7 @@ export function HomeContent() {
         </section>
 
         <section
-          className="mt-10 rounded-xl border border-slate-200/80 bg-slate-50 bg-gradient-to-br from-opseu-blue/[0.04] to-slate-50 p-5 shadow-sm sm:p-7 md:mt-14"
+          className="mt-10 rounded-xl border border-slate-200/80 bg-gradient-to-br from-opseu-blue/[0.04] to-slate-50 p-5 shadow-sm sm:p-7 md:mt-14"
           aria-labelledby="home-platform-heading"
           data-testid="home-platform"
         >
@@ -185,7 +185,7 @@ export function HomeContent() {
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-700 sm:text-base sm:leading-[1.7]">
             {t("platformBandBody")}
           </p>
-          <ButtonLink href="/platform" className="mt-5">
+          <ButtonLink href="/platform" className="mt-5 w-full sm:w-auto">
             {t("platformBandCta")}
           </ButtonLink>
         </section>
@@ -202,7 +202,7 @@ export function HomeContent() {
               {t("guidedSetupBody")}
             </p>
           </div>
-          <ButtonLink href="/start" variant="outline" className="shrink-0">
+          <ButtonLink href="/start" variant="outline" className="w-full shrink-0 sm:w-auto">
             {t("guidedSetupCta")}
           </ButtonLink>
         </section>

@@ -33,7 +33,7 @@ export function Callout({
   return (
     <div
       className={cn(
-        "min-w-0 rounded-lg border px-4 py-3 text-sm text-gray-700",
+        "min-w-0 rounded-xl border px-4 py-3 text-sm text-gray-700",
         tones[tone],
         measure === "prose" && "max-w-prose",
         className,
