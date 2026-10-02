@@ -1,6 +1,6 @@
 # Homepage strategy
 
-Status: implementation in progress; initial narrative and direct links implemented.
+Status: implementation in progress; initial narrative and direct links implemented. Headline and first-screen copy now name concrete tasks and make clear that the platform extends beyond communications.
 
 ## Starting gap
 
@@ -8,7 +8,7 @@ Before implementation, `HomeContent` led unconfigured visitors to Brand Kit. `Ho
 
 ## Proposed narrative
 
-1. **Union work, ready to do.** A concrete headline and short premise name communications, steward preparation and local operations. Primary action opens useful public choices; secondary action explains the platform. Do not make configuration the primary anonymous action.
+1. **Union work, ready to do.** The headline names materials, workplace cases and keeping local work moving. Supporting copy names communications, agreement reference, grievance preparation and accommodation planning, then separate Officer Learning and member participation. Primary action opens useful public choices; secondary action explains the platform. Do not make configuration the primary anonymous action.
 2. **Show three real jobs.** Compose a communications output, a structured steward worksheet excerpt, and a real learning or hosted interface state. Use labelled, readable examples with direct task links. Do not build a pretend unified dashboard. On phones use one substantial example with compact access to the others, not shrunken desktop screenshots.
 3. **Choose today's work.** A short set of outcome-led links reaches canonical tools or filtered catalogs. The homepage explains the jobs; the existing catalogs own exhaustive discovery.
 4. **One local identity across applicable outputs.** Show a single identity appearing on a graphic, a document and a website where the actual engines support it. Place Brand Kit here as a useful advantage. Do not imply it sets Hub membership or automatically replaces a local's saved kit.

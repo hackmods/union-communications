@@ -41,18 +41,18 @@ const TOOL_A11Y_PAGES = [
 ] as const;
 
 test.describe("Home hero & builders smoke @smoke", () => {
-  test("home shows an immediate tool path, a real output preview, and broader union work", async ({ page }) => {
+  test("home shows concrete union work, an immediate tool path, and broader product value", async ({ page }) => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-brand")).toBeVisible();
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
     await expect(
       page
-        .getByRole("region", { name: /tools for the work your union does/i })
+        .getByRole("region", { name: /create materials\. prepare workplace cases/i })
         .getByRole("link", { name: "Explore the tools" }),
     ).toBeVisible();
     await expect(
       page
-        .getByRole("region", { name: /tools for the work your union does/i })
+        .getByRole("region", { name: /create materials\. prepare workplace cases/i })
         .getByRole("link", { name: "Explore Officer Hub & Local Portal" }),
     ).toBeVisible();
     await expect(
@@ -80,6 +80,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-brand")).toBeVisible();
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
+    await expect(page.getByText("A sample of the work you can make")).toBeVisible();
     // Raw scrollWidth vs clientWidth — do not subtract the scrollbar gutter,
     // or 100vw leftovers look like a false positive (the Windows laptop bug).
     const overflow = await page.evaluate(() => {

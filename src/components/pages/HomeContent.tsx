@@ -16,7 +16,6 @@ import {
 
 export function HomeContent() {
   const t = useTranslations("home");
-  const nav = useTranslations("nav");
   const [preview, setPreview] = useState<HeroPreviewVariant>("graphicMaker");
 
   return (

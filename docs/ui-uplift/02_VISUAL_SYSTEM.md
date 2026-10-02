@@ -1,6 +1,6 @@
 # Visual system
 
-Status: implementation direction selected on recovered baseline `fd204bb1`; token changes require rendered comparison.
+Status: implementation direction applied to Home, public catalog, shared workspace panels, builders, Portal and Officer Learning; token changes and rendered acceptance remain pending.
 
 ## Starting specifications
 
@@ -16,7 +16,7 @@ Use existing locally supplied typefaces first. Establish deliberate hierarchy th
 
 ## Colour and containment
 
-Use a stable readable application ink, white or lightly tinted working surfaces, clear rules and restrained brand accents. Home now uses a light paper field with orange emphasis, clear section rules and neutral text. Catalog results use open ruled entries; workspace panels use flat white surfaces. Brand colours in generated outputs retain their own contrast helpers. Existing `opseu-*` aliases are legacy token names, not a reason to rewrite tenant configuration in this pass.
+Use a stable readable application ink, white or lightly tinted working surfaces, clear rules and restrained brand accents. Home now uses a white paper field, blue rules and controls, and neutral text. Orange remains an available secondary accent within relevant tools and states. Catalog results use open ruled entries; workspace panels use flat white surfaces. Brand colours in generated outputs retain their own contrast helpers. Existing `opseu-*` aliases are legacy token names, not a reason to rewrite tenant configuration in this pass.
 
 Remove decorative gradient surfaces where they compete with product content. Prefer section rules and open layouts for narrative. Use bordered panels for a bounded workspace, related controls or an actual artifact. `PublicHubPanel` now uses neutral white and a smaller corner radius. Reduce large radii and nested containment where those obscure hierarchy. Do not indiscriminately flatten status, warning or permission boundaries.
 
