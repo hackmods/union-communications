@@ -11,6 +11,7 @@ Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 - Platform now uses the same two-audience editorial hierarchy. Its copy separates hosted Hub access from public Brand Kit identity according to the brand bridge contract.
 - Create/Learn result entries use open ruled groups; search/filter behavior is retained. Shared `PublicHubPanel` surfaces use flat white and a quieter border for Brand Kit and other workspace consumers.
 - Local Portal's shared panel and loading shell now use a quiet white operational surface; station, dispatch and fronts entries keep their hit areas and use restrained color-only hover states.
+- `ToolEditorLayout` now frames all shared builder forms with a flat, smaller-radius boundary; form spacing, mounted previews and mobile Edit/Preview behavior are unchanged.
 - EN/FR Home and Platform copy, responsive/focus assertions, and the affected smoke expectations were updated. No API, authorization, persistence, tenancy or export-renderer change was made.
 
 ## Verification so far
@@ -20,6 +21,7 @@ Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 - `npm run lint`: exits successfully but skips ESLint because the configured typescript-eslint does not support TypeScript 7. It is not an ESLint pass.
 - `git diff --check`: passed after the Portal operational-surface refinement.
 - After clarifying the preview sample label in both locales: TypeScript and the 4 focused copy/metadata/readability test files passed (46 tests).
+- After flattening the shared editor form boundary: `ToolEditorLayout.test.tsx` passed (11 tests).
 - `npm run build`: passed on this visual diff, including type generation and route output. Next also prints existing auth-default and dynamic snippet-filesystem tracing warnings.
 - `npm run typecheck`: passed on the final canonical-link implementation.
 - Updated Home EN/FR smoke assertions are in `e2e/builders.smoke.spec.ts` and `e2e/public-discovery.smoke.spec.ts`; browser smoke was not run because the local URL is blocked by the browser tool policy.
