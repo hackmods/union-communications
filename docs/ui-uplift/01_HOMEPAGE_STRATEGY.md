@@ -31,4 +31,4 @@ These are narrative responsibilities, not six mandatory boxed sections. Avoid re
 | Officer work | `src/components/hub/HubDashboard.tsx`, `hub-dashboard-model.ts`, `hub-tool-catalog.ts` | Role, module, MFA and tenant context determine availability |
 | Member participation | `src/components/portal/CircleWorkspace.tsx`, `docs/modules/LOCAL_PORTAL.md` | Circle membership and member-safe projections; private casework excluded |
 
-Direct Home destinations are linked to canonical routes in the shared tool catalog. This table is source evidence, not runtime verification. Operational Hub and Portal examples still need synthetic browser captures and permission-boundary review.
+Direct Home destinations are linked to canonical routes in the shared tool catalog. This table is source evidence, not runtime verification. The existing Hub audit screenshot is a real synthetic Local 777 session, but it carries development/demo and memory-only warnings; it is useful review evidence, not a suitable public capture. Operational Hub and Portal examples still need a clean synthetic browser capture and permission-boundary review.

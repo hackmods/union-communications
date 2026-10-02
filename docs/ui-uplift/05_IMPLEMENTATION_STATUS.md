@@ -35,6 +35,7 @@ Updated 2026-10-01. Branch `feat/ui-uplift`, base and prior checkpoint `fd204bb1
 - `npm run build`: passed after the real Officer Learning Home example and again after the RTW steward preview; all 569 static pages generated. Next still logs the existing auth-default, Edge deprecation and dynamic filesystem tracing warnings.
 - Updated Home EN/FR smoke assertions are in `e2e/builders.smoke.spec.ts` and `e2e/public-discovery.smoke.spec.ts`. A 320/375/768/1280/1536 width/no-overflow matrix now covers EN/FR with axe at 320px; browser smoke was not run because the local URL is blocked by the browser tool policy.
 - The browser tool previously denied this local URL under its URL policy. No viewport screenshots of the new UI or keyboard walkthrough have been captured in this checkpoint.
+- Reviewed `docs/audit/hub-after-en-1280.png` and its EN/FR companion captures. They show the real seeded Local 777 Hub and are suitable for source review, but the development badge and demo/memory-only warnings make them unsuitable as public product imagery. No Portal capture exists in the audit assets.
 
 ## Earlier rendered baseline (before this visual diff)
 
