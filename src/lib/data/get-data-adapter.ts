@@ -4,10 +4,10 @@ import type { DataAdapter } from "./adapter";
 import { dataAdapter as localStorageAdapter } from "./local-storage-adapter";
 
 /**
- * Resolves the active `DataAdapter` for the current browser. Defaults to
- * `LocalStorageAdapter` (Comms sovereignty); returns `ApiAdapter` only when
- * the user has explicitly opted in via the Hub settings preference — see
- * `DATA_ADAPTER_MODE_KEY` in `src/lib/data/adapter.ts`.
+ * Resolves the active `DataAdapter` for the current browser.
+ * Defaults to `LocalStorageAdapter` (Comms sovereignty). Authenticated sessions
+ * set `api` via `HubBrandKitSync` so Local shared + personal Brand Kit sync
+ * through `/api/brand-kit`; logged-out Comms tools stay on-device.
  */
 export function getDataAdapter(): DataAdapter {
   if (typeof window === "undefined") return localStorageAdapter;

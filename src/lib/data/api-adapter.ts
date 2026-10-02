@@ -5,6 +5,12 @@ import type { DataAdapter } from "./adapter";
 
 export type BrandKitSaveScope = "personal" | "local";
 
+export type BrandKitSyncSource = {
+  hasLocalShared: boolean;
+  hasPersonalOverlay: boolean;
+  canPublishLocal: boolean;
+};
+
 /**
  * Authenticated `DataAdapter` backed by `/api/brand-kit` and `/api/preferences`.
  * Default save scope is personal overlay; use `publishLocalBrandKit` to
@@ -12,6 +18,8 @@ export type BrandKitSaveScope = "personal" | "local";
  */
 export class ApiAdapter implements DataAdapter {
   private saveScope: BrandKitSaveScope = "personal";
+  /** Last GET `/api/brand-kit` source metadata (hybrid Local + personal). */
+  lastSyncSource: BrandKitSyncSource | null = null;
 
   setSaveScope(scope: BrandKitSaveScope): void {
     this.saveScope = scope;
@@ -19,13 +27,16 @@ export class ApiAdapter implements DataAdapter {
 
   async getBrandKit(): Promise<BrandKit | null> {
     try {
-      const res = await this.fetchJson<{ brandKit: BrandKit | null }>(
-        "/api/brand-kit",
-      );
+      const res = await this.fetchJson<{
+        brandKit: BrandKit | null;
+        source?: BrandKitSyncSource;
+      }>("/api/brand-kit");
+      this.lastSyncSource = res?.source ?? null;
       const kit = res?.brandKit ?? null;
       return kit ? normalizeBrandKit(kit) : null;
     } catch (err) {
       console.warn("[ApiAdapter] getBrandKit failed", err);
+      this.lastSyncSource = null;
       return null;
     }
   }
@@ -43,10 +54,22 @@ export class ApiAdapter implements DataAdapter {
 
   async publishLocalBrandKit(kit: BrandKit): Promise<boolean> {
     try {
-      await this.putJson("/api/brand-kit", {
-        brandKit: normalizeBrandKit(kit),
-        scope: "local",
+      const res = await fetch("/api/brand-kit", {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          brandKit: normalizeBrandKit(kit),
+          scope: "local",
+        }),
       });
+      if (!res.ok) return false;
+      const data = (await res.json()) as { source?: BrandKitSyncSource };
+      this.lastSyncSource = data.source ?? {
+        hasLocalShared: true,
+        hasPersonalOverlay: false,
+        canPublishLocal: true,
+      };
       return true;
     } catch (err) {
       console.warn("[ApiAdapter] publishLocalBrandKit failed", err);

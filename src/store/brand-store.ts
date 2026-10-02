@@ -13,6 +13,7 @@ import type { UnionBrandTheme } from "@/lib/brand/union-brand-theme";
 import { LocalStorageAdapter } from "@/lib/data/local-storage-adapter";
 import { getDataAdapter } from "@/lib/data/get-data-adapter";
 import { apiAdapter } from "@/lib/data/api-adapter";
+import type { BrandKitSyncSource } from "@/lib/data/api-adapter";
 import type { DataAdapter } from "@/lib/data/adapter";
 import { syncBrandKitProfilesFromLocal } from "@/lib/brand/collection-profiles";
 import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
@@ -33,6 +34,8 @@ interface BrandState {
   lastSavedAt: number | null;
   /** A kit was loaded from or successfully written to this browser. */
   hasStoredBrandKit: boolean;
+  /** Hybrid sync metadata from last authenticated `/api/brand-kit` GET/PUT. */
+  syncSource: BrandKitSyncSource | null;
   setBrandKit: (kit: BrandKitPatch) => void;
   /** Apply a trusted Comms preset (preserves local number when set). */
   applyUnionPresetId: (presetId: string) => boolean;
@@ -197,6 +200,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
   storageBlocked: false,
   lastSavedAt: null,
   hasStoredBrandKit: false,
+  syncSource: null,
 
   setBrandKit: (partial) => {
     if (!get().hydrated) {
@@ -323,20 +327,28 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     const kit = get().brandKit;
     const ok = await apiAdapter.publishLocalBrandKit(kit);
     if (ok) {
-      set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
+      set({
+        lastSavedAt: Date.now(),
+        hasStoredBrandKit: true,
+        syncSource: apiAdapter.lastSyncSource,
+      });
     }
     return ok;
   },
 
   hydrate: async () => {
     ensurePersistenceSubscription(set);
-    const kit = await activeAdapter().getBrandKit();
-    const onboardingComplete = await activeAdapter().isOnboardingComplete();
+    const adapter = activeAdapter();
+    const kit = await adapter.getBrandKit();
+    const onboardingComplete = await adapter.isOnboardingComplete();
+    const syncSource =
+      adapter === apiAdapter ? apiAdapter.lastSyncSource : null;
     let brandKit = kit ?? get().brandKit;
     let hasStoredBrandKit = kit != null;
 
-    // First visit: optional host-level defaults (durable overlay via API).
-    if (!kit) {
+    // First visit (anonymous / on-device only): optional host-level defaults.
+    // Authenticated ApiAdapter resolve already seeds Local shared on the server.
+    if (!kit && adapter !== apiAdapter) {
       try {
         const hostRes = await fetch("/api/host-brand", {
           signal: AbortSignal.timeout(5_000),
@@ -426,7 +438,13 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
       });
       hasStoredBrandKit = true;
     }
-    set({ brandKit, onboardingComplete, hydrated: true, hasStoredBrandKit });
+    set({
+      brandKit,
+      onboardingComplete,
+      hydrated: true,
+      hasStoredBrandKit,
+      syncSource,
+    });
   },
 }));
 
