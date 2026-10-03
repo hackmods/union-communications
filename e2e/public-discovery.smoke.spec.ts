@@ -328,6 +328,7 @@ test.describe("task-first public discovery @smoke", () => {
     expect(xml).toContain("/fr/create/");
     expect(xml).toContain("/en/utilities/");
     expect(xml).toContain("/en/platform/");
+    expect(xml).toContain("/en/local-portal/");
     expect(xml).not.toContain("/guide/");
     expect(xml).not.toContain("/tools/");
     expect(xml).not.toContain("/guides/");

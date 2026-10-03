@@ -11,7 +11,8 @@ export type QrCardPresetId =
   | "localWebsite"
   | "joinUnion"
   | "joinFullTime"
-  | "joinPartTime";
+  | "joinPartTime"
+  | "localPortal";
 
 export type QrCardBgMode = "plain" | "gradient" | "accentBar";
 
@@ -120,6 +121,15 @@ export const QR_CARD_PRESETS: readonly QrCardPreset[] = [
     descriptionKey: "localWebsiteDesc",
     taglineKey: "localWebsiteTagline",
     bgMode: "accentBar",
+  },
+  {
+    id: "localPortal",
+    defaultUrl: "",
+    titleKey: "localPortalTitle",
+    descriptionKey: "localPortalDesc",
+    taglineKey: "localPortalTagline",
+    bgMode: "gradient",
+    layoutMode: "link",
   },
 ] as const;
 

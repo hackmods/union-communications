@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "local-portal-pocket",
+    date: "2026-10-03",
+    kind: "added",
+    href: "/local-portal",
+  },
+  {
     id: "hub-home-command-center",
     date: "2026-10-03",
     kind: "improved",

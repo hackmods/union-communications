@@ -35,6 +35,7 @@ const SHELL_PATHS = [
   "/feedback",
   "/join",
   "/request-access",
+  "/local-portal",
   "/learn/library",
   "/brand-kit/showcase",
 ] as const;

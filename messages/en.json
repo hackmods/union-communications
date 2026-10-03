@@ -3611,7 +3611,10 @@
       "followUsTagline": "Scan to follow us",
       "localWebsiteTitle": "Visit our site",
       "localWebsiteDesc": "News, contacts, and resources for members.",
-      "localWebsiteTagline": "Scan for our website"
+      "localWebsiteTagline": "Scan for our website",
+      "localPortalTitle": "Local Portal",
+      "localPortalDesc": "Scan for Together, Circles, and Hall on a phone. Bring your local, or request member access.",
+      "localPortalTagline": "Scan Local Portal →"
     },
     "whenToUse": "Use for pocket cards that send members to your website, group, or support link."
   },
@@ -7839,6 +7842,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "local-portal-pocket": {
+        "title": "A Local Portal page you can keep on a phone",
+        "body": "Scan a QR or open Local Portal to see Together, Circles, and Hall in a short page. Bring your local, or request member access. Copy or share the link so the next person can scan it too."
+      },
       "hub-home-command-center": {
         "title": "Officer Hub home names your local",
         "body": "After you sign in, Officer Hub greets you with your union and local, puts assigned work first, and shows your tools as tiles."
@@ -8607,6 +8614,7 @@
       "hubLogin": "Hub login",
       "join": "Bring your local (beta access)",
       "requestAccess": "Request member access",
+      "localPortal": "Local Portal pocket page",
       "olLists": "Member Lists & Data Privacy module",
       "olAdvancedFinance": "Advanced Local Finance module",
       "olDigitalSecurity": "Digital Security & Transitions module",
@@ -17417,7 +17425,42 @@
     "portalCta": "Ask about Local Portal",
     "joinPrompt": "Ready for your local to adopt the hosted platform?",
     "joinLink": "Bring your local to UnionOps",
-    "memberAccessLink": "Request member access"
+    "memberAccessLink": "Request member access",
+    "pocketLink": "Share Local Portal on a phone"
+  },
+  "localPortalShare": {
+    "eyebrow": "Local Portal",
+    "title": "Your local, on the phone",
+    "intro": "Together is the Local Portal home on a phone. Circles keep a group talking. Hall is the whole local in one place.",
+    "bulletTogetherTitle": "Together",
+    "bulletTogether": "Open your local's home without hunting through email.",
+    "bulletCirclesTitle": "Circles and Hall",
+    "bulletCircles": "Talk in a Circle, or see everyone in Hall. Member names stay in the local.",
+    "bulletDispatchTitle": "Dispatch",
+    "bulletDispatch": "Post a short update so members see it on their phones.",
+    "bulletSafeTitle": "Member-safe",
+    "bulletSafe": "Grievance files and officer casework stay in Officer Hub. Local Portal is for members.",
+    "costNote": "Comms tools stay free on your device. A hosted Local Portal may recover hosting costs.",
+    "primaryCta": "Bring your local",
+    "secondaryCta": "Request member access",
+    "startLink": "Start with free Comms tools",
+    "platformLink": "Read how Officer Hub and Local Portal work",
+    "passAlongTitle": "Show the next person",
+    "passAlongBody": "Keep this page on your phone. Let someone scan the code, copy the link, or share it.",
+    "qrAlt": "QR code for this Local Portal page",
+    "qrLoading": "Preparing the QR…",
+    "qrError": "The QR did not load. Copy the link instead.",
+    "copyLink": "Copy link",
+    "copied": "Copied",
+    "share": "Share",
+    "shared": "Shared",
+    "shareText": "Your local, on the phone. Together, Circles, and Hall in Local Portal.",
+    "shareUnavailable": "Use Copy link if Share is not on this phone.",
+    "copyFailed": "Could not copy",
+    "copyError": "Could not copy. The link is selected below. Copy it from there.",
+    "printCard": "Print a pocket QR card",
+    "pageUrlLabel": "This page's link",
+    "pageUrlHint": "Tap the link to select it if Copy link does not work."
   },
   "joinPage": {
     "eyebrow": "Beta access",

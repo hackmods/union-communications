@@ -250,6 +250,12 @@ describe("listSavedLinks / resolve helpers", () => {
     ).toMatch(/\/en\/guide\/steward-101$/);
   });
 
+  it("resolves localPortal to the public pocket page", () => {
+    expect(
+      resolvePresetDestination("localPortal", kit, "https://hub"),
+    ).toMatch(/\/en\/local-portal$/);
+  });
+
   it("resolves membership presets from typed membershipUrls", () => {
     const withMembership = normalizeBrandKit({
       ...kit,

@@ -88,6 +88,13 @@ export default async function PlatformPage({
         >
           {t("memberAccessLink")}
         </Link>
+        {" · "}
+        <Link
+          href="/local-portal"
+          className="font-semibold text-opseu-blue underline underline-offset-2"
+        >
+          {t("pocketLink")}
+        </Link>
       </p>
     </ComposedPageLayout>
   );

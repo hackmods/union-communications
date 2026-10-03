@@ -122,6 +122,7 @@ const FOCUSED_PUBLIC_ROUTE_ROOTS = [
   "/email-preferences",
   "/feedback",
   "/join",
+  "/local-portal",
   "/meetings",
   "/outreach",
   "/poll",
