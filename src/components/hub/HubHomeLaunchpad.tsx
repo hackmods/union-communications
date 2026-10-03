@@ -162,7 +162,7 @@ export function HubHomeLaunchpad({
             />
           </div>
           <details className="rounded-xl border border-opseu-blue/20 bg-gradient-to-br from-opseu-blue/[0.07] via-white to-opseu-orange/[0.05] md:hidden">
-            <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-opseu-dark marker:text-opseu-blue focus-visible:outline-2 focus-visible:outline-offset-[-3px]">
+            <summary className="flex min-h-11 cursor-pointer items-center px-4 py-3 text-sm font-semibold text-opseu-dark marker:text-opseu-blue focus-visible:outline-2 focus-visible:outline-offset-[-3px]">
               {tHome("moreTools")}
             </summary>
             <div className="border-t border-opseu-blue/10 p-3">

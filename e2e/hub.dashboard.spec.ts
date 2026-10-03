@@ -73,8 +73,19 @@ test.describe("Officer Hub task-first home @smoke", () => {
       route.fulfill({ status: 503, json: { error: "unavailable" } }),
     );
     await page.reload();
-    await expect(page.getByText("Could not load your tasks. Open the task board or refresh to try again.")).toBeVisible();
-    await expect(page.getByText("Could not load check-ins. Open the check-ins page or refresh to try again.")).toBeVisible();
+    await expect(page.getByText("Could not load your tasks. Try again, or open the task board.")).toBeVisible();
+    await expect(page.getByText("Could not load check-ins. Try again, or open the check-ins page.")).toBeVisible();
+    await page.unrouteAll();
+    await page.route((url) => url.pathname.replace(/\/$/, "") === "/api/tasks", (route) =>
+      route.fulfill({ json: { tasks: [] } }),
+    );
+    await page.route((url) => url.pathname.replace(/\/$/, "") === "/api/checkins/mine", (route) =>
+      route.fulfill({ json: { pending: [] } }),
+    );
+    await page.getByTestId("hub-tasks-widget").getByRole("button", { name: "Try again" }).click();
+    await page.getByTestId("hub-checkins-widget").getByRole("button", { name: "Try again" }).click();
+    await expect(page.getByText("No open tasks assigned to you. New assignments will show up here.")).toBeVisible();
+    await expect(page.getByText("No unanswered check-ins right now. New questions will appear here.")).toBeVisible();
   });
 
   test("member sees an Officer Hub teaser instead of the officer board", async ({ page }) => {

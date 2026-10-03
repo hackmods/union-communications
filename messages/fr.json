@@ -11877,7 +11877,8 @@
     "widgetAll": "Tout voir",
     "widgetCount": "{count, plural, =0 {Aucun} one {# en attente} other {# en attente}}",
     "widgetEmpty": "Aucun point de suivi en attente pour le moment. Les nouvelles questions apparaîtront ici.",
-    "widgetError": "Impossible de charger les points de suivi. Ouvrez leur page ou actualisez pour réessayer."
+    "widgetError": "Impossible de charger les points de suivi. Réessayez, ou ouvrez leur page.",
+    "widgetRetry": "Réessayer"
   },
   "tasks": {
     "title": "Tableau des tâches",
@@ -11927,7 +11928,8 @@
     "widgetDesc": "Tâches ouvertes qui vous sont assignées.",
     "widgetCount": "{count, plural, =0 {Aucune} one {# ouverte} other {# ouvertes}}",
     "widgetEmpty": "Aucune tâche ouverte qui vous est assignée. Les nouvelles assignations apparaîtront ici.",
-    "widgetError": "Impossible de charger vos tâches. Ouvrez leur tableau ou actualisez pour réessayer.",
+    "widgetError": "Impossible de charger vos tâches. Réessayez, ou ouvrez leur tableau.",
+    "widgetRetry": "Réessayer",
     "widgetLink": "Ouvrir le tableau des tâches",
     "relatedPanel": {
       "title": "Tâches liées",

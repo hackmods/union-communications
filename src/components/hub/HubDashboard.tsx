@@ -3,10 +3,11 @@
 import { useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { Link, usePathname } from "@/i18n/navigation";
+import { usePathname } from "@/i18n/navigation";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { resolveHubModulesForLocal } from "@/lib/president/local-prefs";
 import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Card } from "@/components/ui/Card";
 import { HubIdentityPlate } from "@/components/hub/HubIdentityPlate";
 import { HubHomeLaunchpad } from "@/components/hub/HubHomeLaunchpad";
@@ -89,9 +90,9 @@ export function HubDashboard() {
           <Card density="compact" className="border-amber-300 bg-amber-50">
             <h3 className="font-semibold text-amber-950">{tHome("mfaTitle")}</h3>
             <p className="mt-2 text-sm leading-relaxed text-amber-950">{tHome("mfaBody")}</p>
-            <Link href={hubMfaChallengeHref()} className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-blue underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2">
+            <ButtonLink href={hubMfaChallengeHref()} variant="primary" className="mt-3 min-h-11" trailingArrow>
               {t("mfaRequired")}
-            </Link>
+            </ButtonLink>
           </Card>
         ) : !tenant ? (
           <Card density="compact" className="border-slate-200 bg-slate-50">

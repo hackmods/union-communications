@@ -11931,7 +11931,8 @@
     "widgetAll": "View all",
     "widgetCount": "{count, plural, =0 {None} one {# waiting} other {# waiting}}",
     "widgetEmpty": "No unanswered check-ins right now. New questions will appear here.",
-    "widgetError": "Could not load check-ins. Open the check-ins page or refresh to try again."
+    "widgetError": "Could not load check-ins. Try again, or open the check-ins page.",
+    "widgetRetry": "Try again"
   },
   "tasks": {
     "title": "Task board",
@@ -11981,7 +11982,8 @@
     "widgetDesc": "Open tasks assigned to you.",
     "widgetCount": "{count, plural, =0 {None} one {# open} other {# open}}",
     "widgetEmpty": "No open tasks assigned to you. New assignments will show up here.",
-    "widgetError": "Could not load your tasks. Open the task board or refresh to try again.",
+    "widgetError": "Could not load your tasks. Try again, or open the task board.",
+    "widgetRetry": "Try again",
     "widgetLink": "Open task board",
     "relatedPanel": {
       "title": "Related tasks",

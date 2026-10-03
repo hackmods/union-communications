@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
 import type { Task } from "@/types/task";
 
@@ -15,9 +16,11 @@ export function MyTasksWidget() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [count, setCount] = useState(0);
   const [state, setState] = useState<LoadState>("loading");
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
+    setState("loading");
     void fetch("/api/tasks?mine=1&status=open", { signal: controller.signal })
       .then(async (res) => {
         if (!res.ok) throw new Error(`Tasks: ${res.status}`);
@@ -31,10 +34,10 @@ export function MyTasksWidget() {
         if (!controller.signal.aborted) setState("error");
       });
     return () => controller.abort();
-  }, []);
+  }, [reloadKey]);
 
   return (
-    <Card variant="elevated" density="compact" className="h-full min-w-0">
+    <Card variant="elevated" density="compact" className="h-full min-w-0" data-testid="hub-tasks-widget">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           <CardTitle>{t("widgetTitle")}</CardTitle>
@@ -48,15 +51,32 @@ export function MyTasksWidget() {
           {t("widgetLink")}
         </Link>
       </div>
-      <div role="status" aria-live="polite" className="mt-3 text-sm leading-relaxed text-slate-700">
-        {state === "loading" ? <p>{t("loading")}</p> : null}
-        {state === "error" ? <p>{t("widgetError")}</p> : null}
-        {state === "ready" && tasks.length === 0 ? <p>{t("widgetEmpty")}</p> : null}
+      <div className="mt-3 text-sm leading-relaxed text-slate-700">
+        {state === "loading" ? <p role="status">{t("loading")}</p> : null}
+        {state === "error" ? (
+          <div>
+            <p role="status">{t("widgetError")}</p>
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-3"
+              onClick={() => setReloadKey((key) => key + 1)}
+            >
+              {t("widgetRetry")}
+            </Button>
+          </div>
+        ) : null}
+        {state === "ready" && tasks.length === 0 ? <p role="status">{t("widgetEmpty")}</p> : null}
         {state === "ready" && tasks.length > 0 ? (
           <ul className="space-y-2">
             {tasks.map((task) => (
               <li key={task.id} className="border-t border-slate-200 pt-2 first:border-0 first:pt-0">
-                <span className="font-medium text-opseu-dark">{task.title}</span>
+                <Link
+                  href="/app/tasks"
+                  className="font-medium text-opseu-dark underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
+                >
+                  {task.title}
+                </Link>
                 {task.dueAt ? <span className="ml-2 text-slate-600">{new Date(task.dueAt).toLocaleDateString(locale === "fr" ? "fr-CA" : "en-CA")}</span> : null}
               </li>
             ))}

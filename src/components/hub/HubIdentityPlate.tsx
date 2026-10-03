@@ -77,12 +77,24 @@ export function HubIdentityPlate({
         {showPortalPeer || operator ? (
           <div className="flex shrink-0 flex-col gap-2 sm:items-end">
             {showPortalPeer ? (
-              <ButtonLink href="/portal" variant="outline" size="sm" trailingArrow>
+              <ButtonLink
+                href="/portal"
+                variant="outline"
+                size="sm"
+                className="min-h-11 w-full sm:w-auto"
+                trailingArrow
+              >
                 {t("portalLink")}
               </ButtonLink>
             ) : null}
             {operator ? (
-              <ButtonLink href="/app/site-admin" variant="primary" size="sm" trailingArrow>
+              <ButtonLink
+                href="/app/site-admin"
+                variant="primary"
+                size="sm"
+                className="min-h-11 w-full sm:w-auto"
+                trailingArrow
+              >
                 {tOp("menu")}
               </ButtonLink>
             ) : null}

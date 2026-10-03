@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
 import type { CheckinPendingItem } from "@/types/checkins";
 
@@ -14,9 +15,11 @@ export function MyCheckinsWidget() {
   const [pending, setPending] = useState<CheckinPendingItem[]>([]);
   const [count, setCount] = useState(0);
   const [state, setState] = useState<LoadState>("loading");
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
+    setState("loading");
     void fetch("/api/checkins/mine?unanswered=1", { signal: controller.signal })
       .then(async (res) => {
         if (!res.ok) throw new Error(`Check-ins: ${res.status}`);
@@ -30,10 +33,10 @@ export function MyCheckinsWidget() {
         if (!controller.signal.aborted) setState("error");
       });
     return () => controller.abort();
-  }, []);
+  }, [reloadKey]);
 
   return (
-    <Card variant="elevated" density="compact" className="h-full min-w-0">
+    <Card variant="elevated" density="compact" className="h-full min-w-0" data-testid="hub-checkins-widget">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           <CardTitle>{t("widgetTitle")}</CardTitle>
@@ -47,10 +50,22 @@ export function MyCheckinsWidget() {
           {t("widgetAll")}
         </Link>
       </div>
-      <div role="status" aria-live="polite" className="mt-3 text-sm leading-relaxed text-slate-700">
-        {state === "loading" ? <p>{t("loading")}</p> : null}
-        {state === "error" ? <p>{t("widgetError")}</p> : null}
-        {state === "ready" && pending.length === 0 ? <p>{t("widgetEmpty")}</p> : null}
+      <div className="mt-3 text-sm leading-relaxed text-slate-700">
+        {state === "loading" ? <p role="status">{t("loading")}</p> : null}
+        {state === "error" ? (
+          <div>
+            <p role="status">{t("widgetError")}</p>
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-3"
+              onClick={() => setReloadKey((key) => key + 1)}
+            >
+              {t("widgetRetry")}
+            </Button>
+          </div>
+        ) : null}
+        {state === "ready" && pending.length === 0 ? <p role="status">{t("widgetEmpty")}</p> : null}
         {state === "ready" && pending.length > 0 ? (
           <ul className="space-y-2">
             {pending.map((item) => (
