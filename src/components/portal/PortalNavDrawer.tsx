@@ -137,6 +137,7 @@ export function PortalNavDrawer({
           onNavigate={onCloseAfterNav}
           heading={t("mobileSiteSection")}
           linkClassName={linkClass}
+          excludeKeys={["platform"]}
         />
       </nav>
     </MobileSheet>

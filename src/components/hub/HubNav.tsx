@@ -28,6 +28,7 @@ import {
 import { HubNavDrawer } from "@/components/hub/HubNavDrawer";
 import {
   groupHubToolLinks,
+  hubDrawerHasUnionWork,
   hubModuleActive,
   hubShowsLocalPortalPeer,
   hubToolLinkActive,
@@ -133,8 +134,13 @@ export function HubNav() {
       : toolLinks;
   const toolGroups = groupHubToolLinks(menuToolLinks);
   const toolsActive = hubToolsActive(pathname, toolLinks);
-  const showPortalPeer = hubShowsLocalPortalPeer(visibleModules, roles);
+  const showPortalPeer = hubShowsLocalPortalPeer(
+    visibleModules,
+    roles,
+    Boolean(tenant),
+  );
   const portalCurrent = pathname.startsWith("/portal");
+  const showOperatorChrome = isPlatformOperator(roles);
 
   const drawerModules = modules.map((mod) => ({
     id: mod.id,
@@ -143,6 +149,11 @@ export function HubNav() {
     emojiId: mod.emojiId,
     dimmed: Boolean(mod.requiresMfa && !mfaOk),
   }));
+  const hasUnionWork = hubDrawerHasUnionWork(
+    drawerModules.length,
+    setupLinks.length,
+    toolGroups.length,
+  );
 
   const accountLinks = [
     {
@@ -361,6 +372,9 @@ export function HubNav() {
           toolsActive={toolsActive}
           portalHref={showPortalPeer ? "/portal" : undefined}
           portalLabel={showPortalPeer ? t("portalLink") : undefined}
+          contextReady={contextReady}
+          showOperatorChrome={showOperatorChrome}
+          hasUnionWork={hasUnionWork}
           accountLinks={accountLinks}
           mfaEnabled={mfaEnabled}
           mfaOk={mfaOk}

@@ -1,3 +1,10 @@
+## 2026-10-03 — Hub phone menu for every role
+
+- Officer Hub drawer now starts with **Officer Hub** and **Local Portal** workspace peers. The empty white context card is gone when the session has no local.
+- Local presidents still see union modules and Officer tools. Host operators see **Platform admin** (Site Admin). Rank-and-file and local officers do not.
+- Public marketing **Platform** is no longer listed under Site inside Hub/Portal sheets (it collided with Platform admin). Brand Kit / Create / Worksheets / Learn stay.
+- What’s new `hub-phone-workspaces`.
+
 ## 2026-10-03 — CI Hub drawer clamp + Playwright failure artifacts
 
 - CI `e2e-smoke (4)` still failed after Tailwind `min-w-0`: Hub `MobileSheet` measured 324px on a 320px Accessibility-max phone. The sheet now pins to the smallest of `innerWidth` / `clientWidth` / `visualViewport` (not `matchMedia(480px)`, which Pixel 5 `isMobile` can disagree with) and uses `!important` inline sizes.

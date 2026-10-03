@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import {
   isPublicPrimaryNavActive,
   PUBLIC_PRIMARY_NAV,
+  type PublicPrimaryNavKey,
 } from "@/components/layout/nav/nav-config";
 import { cn } from "@/lib/utils";
 
@@ -17,13 +18,19 @@ export function MobileSiteSection({
   onNavigate,
   heading,
   linkClassName,
+  excludeKeys = [],
 }: {
   pathname: string;
   onNavigate: () => void;
   heading: string;
   linkClassName: (active: boolean) => string;
+  /** Hub/Portal sheets omit public "Platform" so it is not confused with Site Admin. */
+  excludeKeys?: readonly PublicPrimaryNavKey[];
 }) {
   const t = useTranslations("nav");
+  const items = PUBLIC_PRIMARY_NAV.filter(
+    (item) => !excludeKeys.includes(item.key),
+  );
 
   return (
     <div className="mt-4 border-t border-gray-200 pt-3" data-testid="mobile-site-section">
@@ -31,7 +38,7 @@ export function MobileSiteSection({
         {heading}
       </p>
       <div className="space-y-0.5">
-        {PUBLIC_PRIMARY_NAV.map((item) => {
+        {items.map((item) => {
           const active = isPublicPrimaryNavActive(pathname, item.href);
           return (
             <Link

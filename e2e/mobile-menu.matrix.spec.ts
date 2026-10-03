@@ -1,5 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
-import { loginAsDemoOfficer } from "./helpers/auth";
+import { loginAsDemoOfficer, loginAsPlatformAdmin } from "./helpers/auth";
 import {
   assertMobileSheetCoversScrolledPage,
   assertNoHorizontalOverflow,
@@ -160,11 +160,21 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
       const drawer = page.getByTestId("hub-nav-drawer");
       await expect(drawer).toBeVisible();
       await expect(page.getByTestId("mobile-site-section")).toBeVisible();
+      await expect(drawer.getByTestId("hub-workspace-peers")).toBeVisible();
+      await expect(
+        drawer.getByRole("link", { name: "Officer Hub", exact: true }),
+      ).toBeVisible();
       await expect(
         drawer.getByRole("link", { name: "Local Portal", exact: true }),
       ).toBeVisible();
       await expect(
-        drawer.getByTestId("platform-operator-account-link"),
+        drawer.getByRole("link", { name: "Grievances", exact: true }),
+      ).toBeVisible();
+      await expect(
+        drawer.getByRole("link", { name: "Platform", exact: true }),
+      ).toHaveCount(0);
+      await expect(
+        drawer.getByTestId("platform-operator-nav-link"),
       ).toHaveCount(0);
 
       await page.keyboard.press("Escape");
@@ -241,6 +251,12 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
       await expect(
         drawer.getByRole("link", { name: "Local Portal", exact: true }),
       ).toBeVisible();
+      await expect(
+        drawer.getByRole("link", { name: "Officer Hub", exact: true }),
+      ).toBeVisible();
+      await expect(
+        drawer.getByRole("link", { name: "Platform", exact: true }),
+      ).toHaveCount(0);
       await expect
         .poll(async () => {
           const box = await drawer.boundingBox();
@@ -307,3 +323,33 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
     await expect(drawer).toHaveCount(0);
   });
 });
+
+test.describe("Hub mobile menu — platform operator @smoke @mobile", () => {
+  test("operator drawer has Hub, Portal, and Site Admin — not the public Platform page", async ({
+    page,
+  }) => {
+    await loginAsPlatformAdmin(page);
+    await page.setViewportSize({ width: 390, height: 900 });
+    await page.goto("/en/app/");
+    await page.getByTestId("hub-nav-toggle").click();
+    const drawer = page.getByTestId("hub-nav-drawer");
+    await expect(drawer).toBeVisible();
+    await expect(
+      drawer.getByRole("link", { name: "Officer Hub", exact: true }),
+    ).toBeVisible();
+    await expect(
+      drawer.getByRole("link", { name: "Local Portal", exact: true }),
+    ).toBeVisible();
+    await expect(
+      drawer.getByRole("link", { name: "Platform admin", exact: true }),
+    ).toBeVisible();
+    await expect(
+      drawer.getByRole("link", { name: "Platform", exact: true }),
+    ).toHaveCount(0);
+    await expect(
+      drawer.getByRole("link", { name: "Grievances", exact: true }),
+    ).toBeVisible();
+    await expect(drawer.getByTestId("hub-drawer-empty-work")).toHaveCount(0);
+  });
+});
+

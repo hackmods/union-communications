@@ -43,6 +43,9 @@ test.describe("Officer Hub task-first home @smoke", () => {
     const navigation = page.getByTestId("hub-nav-drawer");
     await expect(navigation).toBeVisible();
     await expect(navigation.getByRole("link", { name: /^Platform admin$/i })).toBeVisible();
+    await expect(navigation.getByRole("link", { name: "Officer Hub", exact: true })).toBeVisible();
+    await expect(navigation.getByRole("link", { name: "Local Portal", exact: true })).toBeVisible();
+    await expect(navigation.getByRole("link", { name: "Platform", exact: true })).toHaveCount(0);
   });
 
   test("empty work and failed loads have different messages", async ({ page }) => {
