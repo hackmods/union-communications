@@ -214,19 +214,58 @@ test.describe("task-first public discovery @smoke", () => {
   test("Learn search and filters work locally over the shared catalog", async ({ page }) => {
     await page.goto("/en/learn/");
     await expect(page.getByRole("heading", { name: "Start with a common task" })).toBeVisible();
+    // Apply Privacy while the page still has more than one storage mode; a
+    // narrow search can hide the Privacy control as a singleton facet.
+    const privacy = page.getByRole("combobox", { name: "Privacy" });
+    await privacy.selectOption("on-device");
+    await expect(page.getByRole("button", { name: "Remove Privacy filter" })).toBeVisible();
     const search = page.getByRole("searchbox", { name: "Search" });
     await search.fill("accommodation");
     await expect(page.getByRole("heading", { name: /Human Rights & Accommodation/i }))
       .toBeVisible();
     await expect.poll(() => new URL(page.url()).searchParams.get("q")).toBe("accommodation");
-    await page.getByLabel("Privacy").selectOption("on-device");
-    await expect(page.getByRole("heading", { name: /Human Rights & Accommodation/i }))
-      .toBeVisible();
     await expect(page.getByRole("status").first()).toContainText(/result/i);
-    await expect(page.getByRole("button", { name: "Remove Privacy filter" })).toBeVisible();
     await page.getByRole("button", { name: "Remove Privacy filter" }).click();
-    await expect(page.getByLabel("Privacy")).toHaveValue("");
+    await expect(page.getByRole("button", { name: "Remove Privacy filter" })).toHaveCount(0);
     await expectNoSeriousA11yViolations(page);
+  });
+
+  test("Create and Learn Topic options each return results alone", async ({ page }) => {
+    for (const path of ["/en/create/", "/en/learn/"] as const) {
+      await page.goto(path);
+      const topic = page.getByRole("combobox", { name: "Topic" });
+      await expect(topic).toBeVisible();
+      const values = await topic.locator("option").evaluateAll((options) =>
+        options
+          .map((option) => (option as HTMLOptionElement).value)
+          .filter((value) => value.length > 0),
+      );
+      expect(values.length).toBeGreaterThan(1);
+      if (path.includes("/create/")) {
+        expect(values).toContain("boards");
+        expect(values).toContain("print");
+        expect(values).not.toContain("training");
+        await expect(page.getByRole("combobox", { name: "Format" })).toHaveCount(0);
+        await expect(page.getByRole("combobox", { name: "Privacy" })).toHaveCount(0);
+      } else {
+        expect(values).not.toContain("boards");
+        expect(values).not.toContain("print");
+        const format = page.getByRole("combobox", { name: "Format" });
+        const formats = await format.locator("option").evaluateAll((options) =>
+          options
+            .map((option) => (option as HTMLOptionElement).value)
+            .filter((value) => value.length > 0),
+        );
+        expect(formats).not.toContain("maker");
+        expect(formats).not.toContain("worksheet");
+      }
+      for (const value of values) {
+        await topic.selectOption(value);
+        await expect(page.getByRole("status").first()).not.toContainText(/^No results/);
+        await expect.poll(() => new URL(page.url()).searchParams.get("topic")).toBe(value);
+      }
+      await page.getByRole("button", { name: "Clear filters" }).last().click();
+    }
   });
 
   test("localized search terms forgive accents and add task vocabulary", async ({ page }) => {
@@ -241,15 +280,21 @@ test.describe("task-first public discovery @smoke", () => {
   for (const locale of ["en", "fr"] as const) {
     test(`${locale} catalog restores no-results state after clearing filters and using Back`, async ({ page }) => {
       await page.goto(`/${locale}/create/`);
+      const forLabel = locale === "en" ? "For" : "Pour";
+      // Choose a facet while options are still on the page; an empty search hides
+      // singleton/empty facet controls.
+      await page.getByRole("combobox", { name: forLabel }).selectOption("comms");
+      await expect.poll(() => new URL(page.url()).searchParams.get("audience")).toBe("comms");
       const query = page.getByRole("searchbox", { name: locale === "en" ? "Search" : "Rechercher" });
       await query.fill("nothing-matches-this-union-task-987");
       await expect(page.getByRole("heading", { name: locale === "en" ? "No matching resources" : "Aucune ressource correspondante" })).toBeVisible();
-      await page.getByRole("combobox").nth(0).selectOption("comms");
-      await expect.poll(() => new URL(page.url()).searchParams.get("audience")).toBe("comms");
-      await expect(page.getByRole("heading", { name: locale === "en" ? "No matching resources" : "Aucune ressource correspondante" })).toBeVisible();
+      // Wait for debounced URL replace so Back can restore the no-results query.
+      await expect.poll(() => new URL(page.url()).searchParams.get("q"))
+        .toBe("nothing-matches-this-union-task-987");
       const clearFilters = page.getByRole("button", { name: locale === "en" ? "Clear filters" : "Effacer les filtres" });
       await clearFilters.last().click();
       await expect(query).toHaveValue("");
+      await expect(page.getByRole("combobox", { name: forLabel })).toHaveValue("");
       await expect(page.getByRole("status").first()).toContainText(/results|résultats/i);
       await page.goBack();
       await expect(query).toHaveValue("nothing-matches-this-union-task-987");

@@ -7788,6 +7788,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "catalog-filters-page-fit": {
+        "title": "Les filtres Créer et Apprendre n’offrent que ce qui est sur la page",
+        "body": "Dans Créer, Feuilles de travail et Apprendre, le sujet et les autres filtres retirent les choix qui ne donneraient aucun résultat. Sur téléphone, les filtres se rangent derrière Afficher les filtres pour laisser la recherche en avant."
+      },
       "poster-adaptive-type": {
         "title": "Le texte et les logos des affiches s’adaptent à la taille du texte",
         "body": "Dans le Créateur d’affiches solidarité et le Créateur graphique, les longs titres et la taille Affichage n’écrasent plus le logo ni ne coupent l’amorce. Les formats impression et fond d’écran gardent texte et logos dans la feuille."
@@ -17159,6 +17163,9 @@
     "backToSection": "Retour à {section}",
     "breadcrumbNav": "Fil d’Ariane",
     "filtersTitle": "Rechercher et filtrer le catalogue",
+    "filtersToggle": "Afficher les filtres",
+    "filtersToggleCount": "Afficher les filtres ({count})",
+    "filtersToggleHide": "Masquer les filtres",
     "searchLabel": "Rechercher",
     "searchPlaceholder": "Essayez grief, réunion, affiche ou site Web",
     "audienceFilter": "Pour",

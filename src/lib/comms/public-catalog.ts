@@ -132,6 +132,38 @@ const TOOL_TOPIC: Record<string, PublicCatalogTopic> = {
   toolsGroupStewardWorksheets: "workplace",
 };
 
+/** Per-tool topics so Create/Utilities filters list real jobs, not one group default. */
+const TOOL_TOPIC_BY_SLUG: Record<string, PublicCatalogTopic> = {
+  "logo-builder": "brand",
+  "local-pack": "brand",
+  resizer: "brand",
+  "board-banner": "boards",
+  "board-notice": "boards",
+  "qr-board": "boards",
+  "org-chart": "boards",
+  "flyer-maker": "print",
+  "solidarity-poster": "print",
+  "document-generator": "print",
+  "graphic-maker": "social",
+  "action-card": "social",
+  "quote-card": "social",
+  "qr-card": "social",
+  "meeting-background": "social",
+  "pulse-poll": "social",
+  "website-template": "web",
+  "alt-text": "web",
+  "letter-generator": "workplace",
+  "steward-quick-log": "workplace",
+  "pre-disciplinary-log": "workplace",
+  "ca-snippets": "workplace",
+  "grievance-form-builder": "grievances",
+  "complaint-vs-grievance": "grievances",
+  "bylaw-builder": "governance",
+  "proposal-tracker": "governance",
+  "rules-of-order": "governance",
+  "rtw-accommodation": "accessibility",
+};
+
 const TOOL_AUDIENCE: Record<string, readonly PublicCatalogAudience[]> = {
   toolsGroupCreation: ["comms", "steward", "officer"],
   toolsGroupUtility: ["steward", "officer"],
@@ -251,7 +283,9 @@ function toolItems(): PublicCatalogItem[] {
           ? { searchTermsKey: TOOL_SEARCH_TERMS[slug] }
           : {}),
         audiences: TOOL_AUDIENCE[group.labelKey] ?? ["comms"],
-        topics: [TOOL_TOPIC[group.labelKey] ?? "workplace"],
+        topics: [
+          TOOL_TOPIC_BY_SLUG[slug] ?? TOOL_TOPIC[group.labelKey] ?? "workplace",
+        ],
         formats: [format],
         estimatedMinutes: gated ? 10 : format === "worksheet" ? 12 : 8,
         storageMode: gated
