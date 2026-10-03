@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { getFocusable } from "./focusables";
 import { lockBodyScroll } from "@/lib/layout/lock-body-scroll";
+import {
+  MOBILE_SHEET_SIDE_PANEL_MQ,
+  clampMobileSheetToViewport,
+} from "@/lib/layout/mobile-sheet-geometry";
 import { cn } from "@/lib/utils";
 
 type MobileSheetProps = {
@@ -62,9 +66,35 @@ export function MobileSheet({
     onCloseRef.current = onClose;
   }, [onClose]);
 
+  useLayoutEffect(() => {
+    const panel = drawerRef.current;
+    if (!panel || typeof window === "undefined") return;
+    const clamp = () =>
+      clampMobileSheetToViewport(
+        panel,
+        window.innerWidth,
+        window.matchMedia(MOBILE_SHEET_SIDE_PANEL_MQ).matches,
+      );
+    clamp();
+    window.addEventListener("resize", clamp);
+    const mq = window.matchMedia(MOBILE_SHEET_SIDE_PANEL_MQ);
+    mq.addEventListener("change", clamp);
+    return () => {
+      window.removeEventListener("resize", clamp);
+      mq.removeEventListener("change", clamp);
+    };
+  }, []);
+
   useEffect(() => {
     const unlock = lockBodyScroll();
     const panel = drawerRef.current;
+    if (panel) {
+      clampMobileSheetToViewport(
+        panel,
+        window.innerWidth,
+        window.matchMedia(MOBILE_SHEET_SIDE_PANEL_MQ).matches,
+      );
+    }
     const focusTimer = window.setTimeout(() => {
       if (panel) getFocusable(panel)[0]?.focus();
     }, 0);

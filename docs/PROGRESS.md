@@ -1,3 +1,8 @@
+## 2026-10-03 — CI Hub drawer clamp + Playwright failure artifacts
+
+- CI `e2e-smoke (4)` still failed after Tailwind `min-w-0`: Hub `MobileSheet` measured 324px on a 320px Accessibility-max phone. The sheet now pins to `window.innerWidth` with `box-sizing: border-box` below 480px.
+- e2e shards upload `playwright-report` / `test-results` when a shard fails so the next red run is inspectable.
+
 ## 2026-10-03 — Access-request burst + Local MFA opt-in
 
 - Hall / workshop NAT: access-request limiter is 500 successful submits per IP and 1,500 on `"unknown"` per 10 minutes, plus 8 per hashed email so one bot cannot fill the hall burst.

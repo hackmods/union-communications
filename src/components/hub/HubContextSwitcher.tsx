@@ -114,7 +114,7 @@ export function HubContextSwitcher({
     <div
       className={cn(
         stacked
-          ? "flex min-w-0 flex-col items-stretch gap-2"
+          ? "flex min-w-0 flex-col items-stretch gap-2 overflow-hidden"
           : "flex min-w-0 shrink-0 flex-wrap items-center gap-1.5",
         "text-gray-600",
       )}
@@ -128,7 +128,7 @@ export function HubContextSwitcher({
         </span>
       )}
       {canSwitchLocal ? (
-        <label className={stacked ? "block" : "inline-flex items-center gap-1"}>
+        <label className={stacked ? "block min-w-0 overflow-hidden" : "inline-flex items-center gap-1"}>
           <span className={stacked ? "mb-1 block text-xs font-medium text-gray-500" : "sr-only"}>
             {t("contextLocal")}
           </span>
@@ -158,7 +158,7 @@ export function HubContextSwitcher({
         )
       )}
       {collections.length > 0 && (
-        <label className={stacked ? "block" : "inline-flex items-center gap-1"}>
+        <label className={stacked ? "block min-w-0 overflow-hidden" : "inline-flex items-center gap-1"}>
           <span className={stacked ? "mb-1 block text-xs font-medium text-gray-500" : "sr-only"}>
             {t("contextCollection")}
           </span>

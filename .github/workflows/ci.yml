@@ -242,6 +242,18 @@ jobs:
           NEXT_PUBLIC_OFFICER_HUB_PUBLIC: "true"
         run: npx playwright test --grep @smoke --shard=${{ matrix.shard }}/4
 
+      - name: Upload Playwright failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-e2e-shard-${{ matrix.shard }}
+          path: |
+            playwright-report
+            test-results
+          include-hidden-files: true
+          retention-days: 7
+          if-no-files-found: ignore
+
   # Thin gate so deploy (and branch protection) wait on one job name whether
   # the full belt ran or a docs-only PR intentionally skipped it.
   test-gate:
