@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { accessRequestStore } from "@/lib/access-requests/store";
 import { accessRequestSchema } from "@/lib/access-requests/validation";
+import {
+  ACCESS_REQUEST_RETRY_AFTER_SECONDS,
+  checkAccessRequestRateLimit,
+  extractAccessRequestClientIp,
+} from "@/lib/access-requests/rate-limit";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { auditLog } from "@/lib/audit/store";
 import { sendTransactionalEmail } from "@/lib/email/send";
@@ -11,20 +16,6 @@ import { decideCapability } from "@/lib/authorization/model";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { accessRequestMemberView } from "@/types/access-request";
 
-const buckets = new Map<string, number[]>();
-
-function allowed(ip: string) {
-  const now = Date.now();
-  const recent = (buckets.get(ip) ?? []).filter((v) => now - v < 600000);
-  if (recent.length >= 5) {
-    buckets.set(ip, recent);
-    return false;
-  }
-  recent.push(now);
-  buckets.set(ip, recent);
-  return true;
-}
-
 function operatorInboxHint(locale = "en"): string {
   const origin = process.env.AUTH_URL?.replace(/\/$/, "") ?? "";
   const loc = locale === "fr" ? "fr" : "en";
@@ -34,14 +25,7 @@ function operatorInboxHint(locale = "en"): string {
 }
 
 export async function POST(request: Request) {
-  const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  if (!allowed(ip)) {
-    return NextResponse.json(
-      { error: "Too many submissions. Try again later." },
-      { status: 429 },
-    );
-  }
+  const ip = extractAccessRequestClientIp(request);
 
   let raw: unknown;
   try {
@@ -59,6 +43,16 @@ export async function POST(request: Request) {
   }
   if (parsed.data.website?.trim()) {
     return NextResponse.json({ ok: true });
+  }
+
+  if (!checkAccessRequestRateLimit(ip)) {
+    return NextResponse.json(
+      { error: "Too many submissions. Try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(ACCESS_REQUEST_RETRY_AFTER_SECONDS) },
+      },
+    );
   }
 
   const row = await accessRequestStore.create(parsed.data);

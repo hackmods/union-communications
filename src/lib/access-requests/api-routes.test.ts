@@ -33,6 +33,10 @@ import { GET as listSiteAdminAccess } from "@/app/api/site-admin/access-requests
 import { PATCH as patchSiteAdminAccess } from "@/app/api/site-admin/access-requests/[id]/route";
 import { accessRequestStore } from "@/lib/access-requests/store";
 import { resetMemoryAccessRequestStore } from "@/lib/access-requests/memory-adapter";
+import {
+  ACCESS_REQUEST_MAX_PER_IP,
+  resetAccessRequestRateLimit,
+} from "@/lib/access-requests/rate-limit";
 
 function session(input?: {
   id?: string;
@@ -123,6 +127,7 @@ async function seedRoutedRequest(input?: {
 describe("access request HTTP", () => {
   beforeEach(() => {
     resetMemoryAccessRequestStore();
+    resetAccessRequestRateLimit();
     authMock.mockReset();
     resolveActorMock.mockReset();
     sendEmailMock.mockReset();
@@ -135,6 +140,7 @@ describe("access request HTTP", () => {
 
   afterEach(() => {
     resetMemoryAccessRequestStore();
+    resetAccessRequestRateLimit();
     vi.unstubAllEnvs();
   });
 
@@ -225,7 +231,7 @@ describe("access request HTTP", () => {
         "inbox=https://unionops.org/en/app/site-admin/access-requests",
       );
 
-      for (let i = 0; i < 4; i += 1) {
+      for (let i = 0; i < ACCESS_REQUEST_MAX_PER_IP - 1; i += 1) {
         const again = await submitAccessRequest(
           jsonRequest(
             validSubmit({
@@ -249,7 +255,81 @@ describe("access request HTTP", () => {
         ),
       );
       expect(limited.status).toBe(429);
-      expect(await accessRequestStore.list()).toHaveLength(5);
+      expect(limited.headers.get("Retry-After")).toBe("600");
+      expect(await accessRequestStore.list()).toHaveLength(ACCESS_REQUEST_MAX_PER_IP);
+    });
+
+    it("does not spend the rate-limit quota on invalid JSON or honeypot bots", async () => {
+      const ip = "203.0.113.80";
+      for (let i = 0; i < ACCESS_REQUEST_MAX_PER_IP; i += 1) {
+        const honeypot = await submitAccessRequest(
+          jsonRequest(
+            validSubmit({
+              submissionKey: `honey-${i}-xxxxxxxx`,
+              website: "https://spam.example",
+            }),
+            undefined,
+            ip,
+          ),
+        );
+        expect(honeypot.status).toBe(200);
+      }
+      const invalid = await submitAccessRequest(
+        jsonRequest("{", "http://localhost/api/access-requests", ip),
+      );
+      expect(invalid.status).toBe(400);
+
+      const ok = await submitAccessRequest(
+        jsonRequest(
+          validSubmit({
+            submissionKey: "after-junk-xxxxxxxx",
+            email: "after-junk@example.test",
+          }),
+          undefined,
+          ip,
+        ),
+      );
+      expect(ok.status).toBe(201);
+      expect(await accessRequestStore.list()).toHaveLength(1);
+    });
+
+    it("uses x-real-ip when x-forwarded-for is missing", async () => {
+      const make = (email: string) =>
+        new Request("http://localhost/api/access-requests", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            "x-real-ip": "198.51.100.44",
+          },
+          body: JSON.stringify(
+            validSubmit({
+              submissionKey: `${email}-xxxxxxxx`,
+              email,
+            }),
+          ),
+        });
+      for (let i = 0; i < ACCESS_REQUEST_MAX_PER_IP; i += 1) {
+        expect(
+          (await submitAccessRequest(make(`realip${i}@example.test`))).status,
+        ).toBe(201);
+      }
+      expect((await submitAccessRequest(make("realip-block@example.test"))).status).toBe(
+        429,
+      );
+      const other = new Request("http://localhost/api/access-requests", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "x-real-ip": "198.51.100.45",
+        },
+        body: JSON.stringify(
+          validSubmit({
+            submissionKey: "other-real-ip-xxxx",
+            email: "other-real@example.test",
+          }),
+        ),
+      });
+      expect((await submitAccessRequest(other)).status).toBe(201);
     });
   });
 

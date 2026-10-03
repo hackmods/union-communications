@@ -80,7 +80,9 @@ export function InvitesBoard() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [roles, setRoles] = useState<InviteRoleOption[]>(["local_steward"]);
-  const [sendEmailOnCreate, setSendEmailOnCreate] = useState(emailUiEnabled);
+  const [sendEmailOnCreate, setSendEmailOnCreate] = useState(
+    () => emailUiEnabled || Boolean(readRequestId()),
+  );
   const [error, setError] = useState<string | null>(null);
   const [created, setCreated] = useState<CreateInviteResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -344,7 +346,9 @@ export function InvitesBoard() {
           name,
           roles,
           ...scopePayload(teamLocal, teamStepUpRequired ? mfaCode : undefined),
-          ...(emailUiEnabled && sendEmailOnCreate ? { sendEmail: true } : {}),
+          ...(requestId || (emailUiEnabled && sendEmailOnCreate)
+            ? { sendEmail: true }
+            : {}),
         }),
       });
       if (!res.ok) {
@@ -438,7 +442,7 @@ export function InvitesBoard() {
                 collectionName: presidentCollectionName.trim(),
               }
             : {}),
-          ...(emailUiEnabled ? { sendEmail: true } : {}),
+          ...(requestId || emailUiEnabled ? { sendEmail: true } : {}),
         }),
       });
       if (!res.ok) {

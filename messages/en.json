@@ -9284,7 +9284,7 @@
       "accessRequestsSave": "Save review",
       "accessRequestsSaving": "Saving…",
       "accessRequestsUnionRequired": "Enter a union name before saving an Other / new union review.",
-      "accessRequestsOpenInvites": "Open invitations",
+      "accessRequestsOpenInvites": "Invite and send email",
       "accessRequestStatus": {
         "new": "New",
         "reviewing": "Reviewing",
@@ -11143,14 +11143,14 @@
     "localUnknown": "Local not listed",
     "pendingTitle": "Invites on this union",
     "pendingEmpty": "No invites yet. Create one to send a link.",
-    "fulfillingRequest": "Fulfilling access request for {name} ({email}). Saving an invite marks that request Invited.",
+    "fulfillingRequest": "Fulfilling access request for {name} ({email}). Saving an invite emails them the accept link and marks that request Invited.",
     "status": {
       "pending": "Waiting",
       "accepted": "Accepted",
       "revoked": "Revoked",
       "expired": "Expired"
     },
-    "fulfillingRequestFallback": "Fulfilling access request {id}. Saving an invite marks that request Invited.",
+    "fulfillingRequestFallback": "Fulfilling access request {id}. Saving an invite emails them the accept link and marks that request Invited.",
     "fulfillingRequestLoadFailed": "Could not load that access request. You can still create an invite manually.",
     "pendingLoading": "Loading invites…",
     "pendingRetry": "Try again",

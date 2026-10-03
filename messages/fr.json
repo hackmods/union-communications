@@ -9230,7 +9230,7 @@
       "accessRequestsSave": "Enregistrer l’examen",
       "accessRequestsSaving": "Enregistrement…",
       "accessRequestsUnionRequired": "Entrez un nom de syndicat avant d’enregistrer un examen Autre / nouveau syndicat.",
-      "accessRequestsOpenInvites": "Ouvrir les invitations",
+      "accessRequestsOpenInvites": "Inviter et envoyer le courriel",
       "accessRequestStatus": {
         "new": "Nouvelle",
         "reviewing": "En examen",
@@ -11089,14 +11089,14 @@
     "localUnknown": "Section non listée",
     "pendingTitle": "Invitations de ce syndicat",
     "pendingEmpty": "Aucune invitation pour le moment. Créez-en une pour envoyer un lien.",
-    "fulfillingRequest": "Traitement de la demande d’accès pour {name} ({email}). Enregistrer une invitation marque cette demande comme Invitée.",
+    "fulfillingRequest": "Traitement de la demande d’accès pour {name} ({email}). Enregistrer une invitation leur envoie le lien d’acceptation et marque cette demande comme Invitée.",
     "status": {
       "pending": "En attente",
       "accepted": "Acceptée",
       "revoked": "Révoquée",
       "expired": "Expirée"
     },
-    "fulfillingRequestFallback": "Traitement de la demande d’accès {id}. Enregistrer une invitation marque cette demande comme Invitée.",
+    "fulfillingRequestFallback": "Traitement de la demande d’accès {id}. Enregistrer une invitation leur envoie le lien d’acceptation et marque cette demande comme Invitée.",
     "fulfillingRequestLoadFailed": "Impossible de charger cette demande d’accès. Vous pouvez encore créer une invitation manuellement.",
     "pendingLoading": "Chargement des invitations…",
     "pendingRetry": "Réessayer",

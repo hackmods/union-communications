@@ -617,8 +617,12 @@ export async function POST(req: Request) {
   const acceptPath = `/app/invite/${invite.token}`;
   let emailSent: boolean | undefined;
   let emailReason: string | undefined;
+  // Fulfilling a /join or /request-access row always attempts the accept email.
+  // Copy-link invites without requestId stay opt-in via sendEmail.
+  const shouldSendEmail =
+    parsed.data.sendEmail === true || Boolean(parsed.data.requestId);
 
-  if (parsed.data.sendEmail === true) {
+  if (shouldSendEmail) {
     try {
       const origin = new URL(req.url).origin;
       const acceptUrl = `${emailAppBaseUrl(origin)}${acceptPath}`;
@@ -679,8 +683,6 @@ export async function POST(req: Request) {
     acceptPath,
     token: invite.token,
     localId: invite.localId,
-    ...(parsed.data.sendEmail === true
-      ? { emailSent, emailReason }
-      : {}),
+    ...(shouldSendEmail ? { emailSent, emailReason } : {}),
   });
 }
