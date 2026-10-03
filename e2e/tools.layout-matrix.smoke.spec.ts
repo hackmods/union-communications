@@ -397,6 +397,16 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       slots: 1,
     });
     expectPreviewFitsColumn(await measurePreviewFit(page), "solidarity-16-9");
+    expectCanvasProportions(await measureCanvasProportions(page), {
+      label: "solidarity-16-9-logo",
+      maxLogoPct: 55,
+      expectedAspect: 16 / 9,
+      aspectTolerance: 0.05,
+    });
+    expectTypeMetaClear(
+      await measureTypeMetaOverlap(page),
+      "solidarity-16-9-type/footer",
+    );
 
     // Default stack + lockup: type must not paint over lead/logo or footer/QR.
     await page.goto("/en/tools/solidarity-poster/?preset=solidarity-forever");
@@ -423,6 +433,24 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       await measureMetaSupport(page),
       "solidarity-forever-meta",
     );
+
+    // Display Brand Kit + long multi-line FR-length headline must still fit.
+    await page.getByLabel(/Headline/i).fill(
+      "RIEN SUR NOUS\nSANS NOUS\nSOLIDARITÉ",
+    );
+    await waitForQrPreview(page);
+    expectTypeMetaClear(
+      await measureTypeMetaOverlap(page),
+      "solidarity-fr-long-type/footer",
+    );
+    expectTypeMetaClear(
+      await measureLeadTypeOverlap(page),
+      "solidarity-fr-long-lead/type",
+    );
+    expectCanvasProportions(await measureCanvasProportions(page), {
+      label: "solidarity-fr-long-logo",
+      maxLogoPct: 55,
+    });
   });
 
   test("meeting background bold then minimal", async ({ page }) => {

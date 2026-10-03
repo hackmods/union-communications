@@ -33,7 +33,7 @@ import {
   exportPixelRatio,
   formatsForMedium,
   isLandscapeFormat,
-  solidarityPosterPreviewHeightPx,
+  solidarityPosterDesignHeightPx,
   supportsPdf,
   type OutputMedium,
   type PosterFormatId,
@@ -85,6 +85,7 @@ import {
   CanvasQrPlate,
   CanvasSafeZoneOverlay,
   CanvasStackSlot,
+  WalletCopyBlock,
 } from "@/components/tools/canvas";
 import { CanvasWrapper } from "@/components/canvas-core";
 import { PRINT_PAGE_LEGACY_REFERENCE_PX } from "@/lib/comms/print-page-formats";
@@ -130,40 +131,38 @@ function layoutChrome(format: SolidarityPosterFormat) {
   if (isLandscapeFormat(format)) {
     const ultraWide = format.id === "wide";
     return {
-      padFooterOuter: ultraWide
-        ? "box-border px-6 pb-3 pt-1.5 md:px-8"
-        : "box-border px-8 pb-3.5 pt-1.5 md:px-10",
       headlineStackFactor: ultraWide ? 0.9 : 1.1,
       headlineSplitFactor: ultraWide ? 0.8 : 1,
       closerFactor: ultraWide ? 0.32 : 0.36,
       minHeadlinePx: 12,
       qrPx: ultraWide ? 40 : 48,
-      footerGap: "gap-2 pt-1.5",
+      footerGapPx: ultraWide ? 8 : 10,
+      footerPadYPx: ultraWide ? 10 : 12,
       isLandscape: true as const,
     };
   }
 
   if (format.id === "vertical") {
     return {
-      padFooterOuter: "px-5 pb-6 md:px-6",
       headlineStackFactor: 1.55,
       headlineSplitFactor: 1.35,
       closerFactor: 0.42,
       minHeadlinePx: 14,
       qrPx: 64,
-      footerGap: "gap-3 pt-3",
+      footerGapPx: 12,
+      footerPadYPx: 20,
       isLandscape: false as const,
     };
   }
 
   return {
-    padFooterOuter: "px-6 pb-6",
     headlineStackFactor: 1.7,
     headlineSplitFactor: 1.45,
     closerFactor: 0.45,
     minHeadlinePx: 14,
     qrPx: 72,
-    footerGap: "gap-3 pt-3",
+    footerGapPx: 12,
+    footerPadYPx: 20,
     isLandscape: false as const,
   };
 }
@@ -286,24 +285,18 @@ function SolidarityPosterPageContent() {
     state.canvasOverrides,
   );
   const printReferenceWidth = PRINT_PAGE_LEGACY_REFERENCE_PX;
-  const isPrintCanvas =
-    format.medium === "print" && typeof format.previewWidthPx === "number";
-  const designWidthPx = isPrintCanvas ? format.previewWidthPx! : undefined;
-  const designHeightPx =
-    isPrintCanvas &&
-    designWidthPx &&
-    format.widthInches &&
-    format.heightInches
-      ? solidarityPosterPreviewHeightPx({
-          previewWidthPx: designWidthPx,
-          widthInches: format.widthInches,
-          heightInches: format.heightInches,
-        })
+  const designWidthPx =
+    typeof format.previewWidthPx === "number"
+      ? format.previewWidthPx
       : undefined;
+  const designHeightPx = solidarityPosterDesignHeightPx(format);
+  const isFixedCanvas =
+    typeof designWidthPx === "number" && typeof designHeightPx === "number";
   const tokens =
-    isPrintCanvas && designWidthPx
+    isFixedCanvas && designWidthPx
       ? printPageScaledTokens(baseTokens, designWidthPx, printReferenceWidth)
       : baseTokens;
+  const scaleFactor = typeScaleFactor(tokens);
   const treated = resolveTreatmentSurface(state.treatment, { primary: state.primaryColor, secondary: state.secondaryColor, accent: state.accentColor || state.secondaryColor }, "print");
   const treatedPrimary = treated.primary;
   const surfaceStyle = canvasSurfaceStyle(tokens, {
@@ -328,14 +321,18 @@ function SolidarityPosterPageContent() {
     factor: isLandscape ? 0.55 : 0.75,
   });
   const support = designWidthPx
-    ? solidaritySupportChrome(designWidthPx)
+    ? solidaritySupportChrome(designWidthPx, {
+        typeScale: scaleFactor,
+        headlineLineCount: lines.length,
+        designHeightPx,
+      })
     : null;
   const qrPx = support
     ? support.qrPx
     : Math.round(
         chrome.qrPx *
           (tokens.density === "tight" ? 0.92 : 1) *
-          typeScaleFactor(tokens),
+          scaleFactor,
       );
   const headlineStackPx = Math.round(
     tokens.titleFontSizePx * chrome.headlineStackFactor,
@@ -349,7 +346,7 @@ function SolidarityPosterPageContent() {
   );
   const leadPx =
     support?.leadPx ??
-    Math.max(14, Math.round(tokens.subtitleFontSizePx * (isLandscape ? 0.85 : 1)));
+    Math.max(14, Math.round(tokens.subtitleFontSizePx * (isLandscape ? 0.85 : 1) * scaleFactor));
   const ctaPx =
     support?.ctaPx ?? Math.max(13, Math.round(tokens.subtitleFontSizePx * 0.9));
   const urlPx =
@@ -358,6 +355,10 @@ function SolidarityPosterPageContent() {
     support?.localPx ?? Math.max(12, Math.round(tokens.subtitleFontSizePx * 0.75));
   const minHeadlinePx = support?.minHeadlinePx ?? Math.max(22, chrome.minHeadlinePx);
   const logoMaxHeightPx = support?.logoMaxHeightPx;
+  const footerOuterPadPx = Math.max(
+    chrome.footerPadYPx,
+    Math.round(contentPaddingPx(tokens, { factor: isLandscape ? 0.35 : 0.55 })),
+  );
   const displayUrl = state.supportUrl.trim() || SITE_URL;
   const showLocalInFooter =
     state.showLocalNumber &&
@@ -446,11 +447,12 @@ function SolidarityPosterPageContent() {
     <div
       data-canvas-footer=""
       data-canvas-meta=""
-      className={cn(
-        "relative z-[3] flex shrink-0 items-end justify-between",
-        chrome.footerGap,
-      )}
-      style={{ borderTop: `1px solid ${mutedInk30}` }}
+      className="relative z-[3] flex shrink-0 items-end justify-between"
+      style={{
+        borderTop: `1px solid ${mutedInk30}`,
+        gap: chrome.footerGapPx,
+        paddingTop: chrome.footerGapPx,
+      }}
     >
       <div className="min-w-0 flex-1 overflow-hidden pr-3 text-left">
         {state.showCta ? (
@@ -504,13 +506,13 @@ function SolidarityPosterPageContent() {
       data-export-root=""
       className={cn(
         "relative flex flex-col overflow-hidden",
-        isPrintCanvas ? "shrink-0" : "w-full",
-        !isPrintCanvas && format.aspect,
+        isFixedCanvas ? "shrink-0" : "w-full",
+        !isFixedCanvas && format.aspect,
       )}
       style={{
         ...surfaceStyle,
         ...(state.treatment === "full" ? {} : { backgroundColor: "#FFFFFF", backgroundImage: "none", ...treatmentTopBandStyle(state.treatment, state.primaryColor) }),
-        ...(isPrintCanvas && designWidthPx && designHeightPx
+        ...(isFixedCanvas && designWidthPx && designHeightPx
           ? {
               width: designWidthPx,
               height: designHeightPx,
@@ -592,7 +594,7 @@ function SolidarityPosterPageContent() {
               <div
                 data-canvas-lead=""
                 className={cn(
-                  "flex min-h-0 flex-col justify-between overflow-hidden",
+                  "flex min-h-0 flex-col overflow-hidden",
                   !isLandscape && "col-span-2",
                 )}
                 style={{
@@ -601,24 +603,24 @@ function SolidarityPosterPageContent() {
                   padding: splitSidePadPx,
                 }}
               >
-                <p
-                  className="font-bold uppercase tracking-[0.14em]"
-                  style={{
-                    color: splitSideInk,
-                    letterSpacing: leadLetterSpacing,
-                    fontWeight: tokens.titleFontWeight,
-                    fontSize: leadPx,
-                    lineHeight: 1.2,
-                  }}
-                >
-                  {state.leadIn}
-                </p>
-                <p
-                  className="font-semibold leading-snug"
-                  style={{ color: splitSideInk, fontSize: closerPx }}
-                >
-                  {state.closer}
-                </p>
+                <div className="relative z-[2] min-h-0 flex-1 overflow-hidden">
+                  <WalletCopyBlock
+                    fit
+                    title={state.leadIn}
+                    body={state.closer}
+                    titleFontPx={leadPx}
+                    bodyFontPx={closerPx}
+                    titleColor={splitSideInk}
+                    bodyColor={splitSideInk}
+                    headlineFontFamily={tokens.headlineFontFamily}
+                    bodyFontFamily={tokens.bodyFontFamily}
+                    titleFontWeight={tokens.titleFontWeight}
+                    titleLetterSpacing={leadLetterSpacing}
+                    titleTextTransform="uppercase"
+                    textAlign="left"
+                    className="h-full"
+                  />
+                </div>
               </div>
               <div
                 data-canvas-stack-slot=""
@@ -640,7 +642,15 @@ function SolidarityPosterPageContent() {
               </div>
             </div>
             {footer ? (
-              <div className={cn("shrink-0", chrome.padFooterOuter)}>
+              <div
+                className="shrink-0"
+                style={{
+                  paddingLeft: footerOuterPadPx,
+                  paddingRight: footerOuterPadPx,
+                  paddingBottom: footerOuterPadPx,
+                  paddingTop: Math.round(footerOuterPadPx * 0.35),
+                }}
+              >
                 {footer}
               </div>
             ) : null}
@@ -704,7 +714,15 @@ function SolidarityPosterPageContent() {
               </div>
             </CanvasStackSlot>
             {footer ? (
-              <div className={cn("shrink-0", chrome.padFooterOuter)}>
+              <div
+                className="shrink-0"
+                style={{
+                  paddingLeft: footerOuterPadPx,
+                  paddingRight: footerOuterPadPx,
+                  paddingBottom: footerOuterPadPx,
+                  paddingTop: Math.round(footerOuterPadPx * 0.35),
+                }}
+              >
                 {footer}
               </div>
             ) : null}
@@ -963,7 +981,7 @@ function SolidarityPosterPageContent() {
       preview={
         /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
         <div className="relative w-full max-w-full">
-          {isPrintCanvas && designWidthPx && designHeightPx ? (
+          {isFixedCanvas && designWidthPx && designHeightPx ? (
             <CanvasWrapper
               designWidth={designWidthPx}
               designHeight={designHeightPx}

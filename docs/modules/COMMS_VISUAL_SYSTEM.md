@@ -59,7 +59,7 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 
 - `CanvasBrandHeader` / `CanvasTypeBlock` / `CanvasFitStackedHeadline` / `CanvasQrPlate`
 - `CanvasGrainOverlay` / `CanvasDuotonePhoto`
-- `FitWidthFrame` (`src/components/tools/FitWidthFrame.tsx`) — uniform preview scale on a **parent** of `[data-export-root]`; used by QR Board, QR Card, Action Card, Solidarity Poster (print), Org Chart. Export stays full design size (`capture.ts` zeros transform on the clone).
+- `FitWidthFrame` / `CanvasWrapper` — uniform preview scale on a **parent** of `[data-export-root]`; used by QR Board, QR Card, Action Card, Solidarity Poster (print + digital design-px), Org Chart. Export stays full design size (`capture.ts` zeros transform on the clone).
 
 ## Migration register
 
@@ -129,7 +129,7 @@ Pick **one** fit strategy per geometry class — do not invent a fourth scaling 
 | Layout class | Tools | Strategy |
 |--------------|-------|----------|
 | **Fixed-height print stack** | Flyer, Board Notice, Brand Kit canvas panel | `CanvasStackSlot` + `CanvasTypeBlock fit` |
-| **HD / social display** | Meeting Background, Solidarity Poster, Graphic Maker headlines | Design-width chrome (`meeting*Px`, `graphicLayoutChrome`) + `CanvasFitStackedHeadline` when height is tight |
+| **HD / social display** | Meeting Background, Solidarity Poster, Graphic Maker headlines | Design-width chrome (`meeting*Px`, `solidaritySupportChrome`, `graphicLayoutChrome`) + `CanvasFitStackedHeadline` / `WalletCopyBlock fit` when height is tight |
 | **Dense multi-cell** | QR Board | Tabulated px + `typeScale` cap (`qrBoardChrome`) — never Brand Kit display titles |
 | **Wallet / pocket** | QR Card, Action Card, Pulse Poll | `wallet*` helpers + `WalletCopyBlock` (vertical pack, fit before clamp) |
 | **Fluid strip** | Board Banner | `clampTypeRem` / `vmin` only in this class |
@@ -146,7 +146,7 @@ Pick **one** fit strategy per geometry class — do not invent a fourth scaling 
 ### Solidarity stacked headlines (2026-09-06)
 
 - `CanvasFitStackedHeadline` — Keep-Calm multi-line posters shrink (width + height) into `CanvasStackSlot`; Brand Kit title × layout density is preferred, not raw Tailwind `text-6xl`.
-- Solidarity Poster print sheets use `FitWidthFrame` (no `maxWidth: 100%` on the export root). Footer tagged `[data-canvas-meta]` / `[data-canvas-footer]` for overlap guards.
+- Solidarity Poster print **and digital** sheets use `CanvasWrapper` design px (no `maxWidth: 100%` on the export root). `solidaritySupportChrome` multiplies lead by type scale and compresses logo under Display / multi-line pressure. Footer tagged `[data-canvas-meta]` / `[data-canvas-footer]` for overlap guards.
 
 ### Stop-gap pass 2 (2026-08-06)
 

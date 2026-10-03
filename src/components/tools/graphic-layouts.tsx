@@ -8,6 +8,7 @@ import { showCanvasLogo } from "@/lib/comms/canvas-logo-mode";
 import {
   CanvasDuotonePhoto,
   CanvasGrainOverlay,
+  WalletCopyBlock,
 } from "@/components/tools/canvas";
 import { cn } from "@/lib/utils";
 import { localLabel } from "@/lib/utils/local";
@@ -52,6 +53,50 @@ function socialChrome(
 
 function socialLogoMaxHeightPx(aspect: ExampleAspect = "square") {
   return Math.round(exampleAspectDesignSize(aspect).height * 0.12);
+}
+
+/**
+ * Bottom-band / notice type that shrinks into a bounded slot instead of
+ * overflowing the design-px sheet when Brand Kit display scale or long copy
+ * exceeds the preferred chrome sizes.
+ */
+function FittedSocialCopy({
+  headline,
+  body,
+  ink,
+  bodyInk,
+  chrome,
+  italicBody = false,
+  className,
+}: {
+  headline: string;
+  body: string;
+  ink: string;
+  bodyInk: string;
+  chrome: ReturnType<typeof socialChrome>;
+  italicBody?: boolean;
+  className?: string;
+}) {
+  const titlePx = chrome.titlePx ?? 28;
+  const bodyPx = chrome.bodyPx ?? 16;
+  return (
+    <WalletCopyBlock
+      fit
+      title={headline}
+      body={body}
+      titleFontPx={titlePx}
+      bodyFontPx={bodyPx}
+      titleColor={ink}
+      bodyColor={bodyInk}
+      headlineFontFamily={chrome.headlineFontFamily ?? "inherit"}
+      bodyFontFamily={chrome.bodyFontFamily ?? "inherit"}
+      titleFontWeight={chrome.titleWeight ?? 700}
+      titleLetterSpacing={chrome.titleTracking}
+      titleTextTransform={chrome.titleTransform}
+      textAlign={chrome.textAlign ?? "left"}
+      className={cn(italicBody && "[&_[data-wallet-body]]:italic", className)}
+    />
+  );
 }
 
 export type GraphicLayoutId = Exclude<ExampleLayout, "quote">;
@@ -500,7 +545,7 @@ function SolidarityLayout({
         style={brandFieldBottomLiftStyle("solidarity")}
       />
       <div
-        className="absolute bottom-0 left-0 right-0"
+        className="absolute bottom-0 left-0 right-0 flex max-h-[48%] flex-col"
         style={{
           padding: chrome.pad,
           textAlign: chrome.textAlign,
@@ -510,40 +555,23 @@ function SolidarityLayout({
           logoMode={logoMode}
           size={exportMode ? "md" : "sm"}
           backgroundColor={footerBg}
-          className="mb-2"
+          className="mb-2 shrink-0"
           maxHeightPx={socialLogoMaxHeightPx(aspect)}
         />
-        <h3
-          className={cn(
-            "font-bold leading-tight",
-            !chrome.titlePx && (exportMode ? "text-3xl" : "text-base sm:text-lg"),
-          )}
-          style={{
-            color: ink.full,
-            fontSize: chrome.titlePx,
-            fontWeight: chrome.titleWeight,
-            letterSpacing: chrome.titleTracking,
-            textTransform: chrome.titleTransform,
-            fontFamily: chrome.headlineFontFamily,
-          }}
-        >
-          {copy.headline}
-        </h3>
-        <p
-          className={cn(
-            "mt-1",
-            !chrome.bodyPx && (exportMode ? "text-lg" : "text-xs sm:text-sm"),
-          )}
-          style={{ color: ink.a90, fontSize: chrome.bodyPx, fontFamily: chrome.bodyFontFamily,
-            fontWeight: chrome.bodyFontWeight,
-            lineHeight: chrome.bodyLineHeight }}
-        >
-          {copy.body}
-        </p>
+        <div className="relative z-[2] min-h-0 flex-1 overflow-hidden">
+          <FittedSocialCopy
+            headline={copy.headline}
+            body={copy.body}
+            ink={ink.full}
+            bodyInk={ink.a90}
+            chrome={chrome}
+          />
+        </div>
         {copy.detail ? (
           <p
+            data-canvas-meta=""
             className={cn(
-              "mt-2 font-semibold uppercase tracking-wide",
+              "mt-2 shrink-0 font-semibold uppercase tracking-wide",
               !chrome.metaPx && (exportMode ? "text-sm" : "text-[10px]"),
             )}
             style={{ color: ink.a80, fontSize: chrome.metaPx, fontFamily: chrome.bodyFontFamily,
@@ -636,7 +664,7 @@ function SpotlightLayout({
         style={brandFieldBottomLiftStyle("spotlight")}
       />
       <div
-        className="absolute bottom-0 left-0 right-0"
+        className="absolute bottom-0 left-0 right-0 flex max-h-[48%] flex-col"
         style={{
           padding: chrome.pad,
           textAlign: chrome.textAlign,
@@ -646,36 +674,19 @@ function SpotlightLayout({
           logoMode={logoMode}
           size={exportMode ? "md" : "sm"}
           backgroundColor={footerBg}
-          className="mb-2"
+          className="mb-2 shrink-0"
           maxHeightPx={socialLogoMaxHeightPx(aspect)}
         />
-        <h3
-          className={cn(
-            "font-bold",
-            !chrome.titlePx && (exportMode ? "text-3xl" : "text-base sm:text-lg"),
-          )}
-          style={{
-            color: ink.full,
-            fontSize: chrome.titlePx,
-            fontWeight: chrome.titleWeight,
-            letterSpacing: chrome.titleTracking,
-            textTransform: chrome.titleTransform,
-            fontFamily: chrome.headlineFontFamily,
-          }}
-        >
-          {copy.headline}
-        </h3>
-        <p
-          className={cn(
-            "mt-1 italic",
-            !chrome.bodyPx && (exportMode ? "text-lg" : "text-xs sm:text-sm"),
-          )}
-          style={{ color: ink.a90, fontSize: chrome.bodyPx, fontFamily: chrome.bodyFontFamily,
-            fontWeight: chrome.bodyFontWeight,
-            lineHeight: chrome.bodyLineHeight }}
-        >
-          &ldquo;{copy.body}&rdquo;
-        </p>
+        <div className="relative z-[2] min-h-0 flex-1 overflow-hidden">
+          <FittedSocialCopy
+            headline={copy.headline}
+            body={`\u201C${copy.body}\u201D`}
+            ink={ink.full}
+            bodyInk={ink.a90}
+            chrome={chrome}
+            italicBody
+          />
+        </div>
         <LocalFooter
           localNumber={localNumber}
           subText={subText}
@@ -785,35 +796,20 @@ function NoticeLayout({
             {copy.detail ?? "Notice"}
           </span>
         </div>
-        <div className="relative z-[2] min-h-0 flex-1 overflow-hidden">
-          <h3
-            className={cn("font-bold", !titlePx && (exportMode ? "text-4xl" : "text-base sm:text-xl"))}
-            style={{
-              color: ink.full,
-              fontSize: titlePx,
-              fontWeight: chrome.titleWeight,
-              letterSpacing: chrome.titleTracking,
-              textTransform: chrome.titleTransform,
-              fontFamily: chrome.headlineFontFamily,
-            }}
-          >
-            {copy.headline}
-          </h3>
-          <p
-            className={cn(
-              "mt-2",
-              !bodyPx && (exportMode ? "text-lg" : "text-xs sm:text-sm"),
-            )}
-            style={{
-              color: ink.a90,
-              fontSize: bodyPx,
-              fontFamily: chrome.bodyFontFamily,
-            fontWeight: chrome.bodyFontWeight,
-            lineHeight: chrome.bodyLineHeight,
-            }}
-          >
-            {copy.body}
-          </p>
+        <div className="relative z-[2] flex min-h-0 flex-1 flex-col overflow-hidden">
+          <div className="relative z-[2] min-h-0 flex-1 overflow-hidden">
+            <FittedSocialCopy
+              headline={copy.headline}
+              body={copy.body}
+              ink={ink.full}
+              bodyInk={ink.a90}
+              chrome={{
+                ...chrome,
+                titlePx: titlePx ?? chrome.titlePx,
+                bodyPx,
+              }}
+            />
+          </div>
           <LocalFooter
             localNumber={localNumber}
             subText={subText}

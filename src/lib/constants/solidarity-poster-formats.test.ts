@@ -42,17 +42,21 @@ describe("solidarity-poster-formats", () => {
     expect(supportsPdf(SOLIDARITY_POSTER_FORMATS.vertical)).toBe(false);
   });
 
-  it("scales digital export from preview width to target pixels", () => {
+  it("scales digital export from fixed design width to target pixels", () => {
     const node = { offsetWidth: 480 } as HTMLElement;
     expect(exportPixelRatio(node, SOLIDARITY_POSTER_FORMATS.horizontal)).toBe(
-      3840 / 480,
+      3840 / 1920,
     );
     expect(exportPixelRatio(node, SOLIDARITY_POSTER_FORMATS.wide)).toBe(
-      2340 / 480,
+      2340 / 1950,
     );
     expect(exportPixelRatio(node, SOLIDARITY_POSTER_FORMATS.vertical)).toBe(
-      1080 / 480,
+      1080 / 1080,
     );
+    // Design width is authoritative once set — fluid offsetWidth is ignored.
+    expect(SOLIDARITY_POSTER_FORMATS.horizontal.previewWidthPx).toBe(1920);
+    expect(SOLIDARITY_POSTER_FORMATS.horizontal.previewHeightPx).toBe(1080);
+    void node;
   });
 
   it("uses fixed print design width for letter export ratio", () => {
