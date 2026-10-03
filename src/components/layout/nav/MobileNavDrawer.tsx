@@ -49,7 +49,7 @@ export function MobileNavDrawer({
       onClose={onClose}
     >
       <nav
-        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4"
+        className="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-4 py-4"
         aria-label={t("mainNav")}
       >
         <div className="space-y-1">

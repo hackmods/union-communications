@@ -13,7 +13,10 @@ test.describe("Access request forms @smoke", () => {
     ).toBeVisible();
     await page.getByLabel("Your name").fill("Alex Rivera");
     await page.getByLabel("Email").fill("alex.smoke@example.test");
-    await page.getByLabel("Union").fill("CAAT");
+    await page
+      .locator("#access-request-form")
+      .getByRole("textbox", { name: "Union", exact: true })
+      .fill("CAAT");
     await page.getByLabel("Local name or number").fill("243");
     await page.getByLabel(/I agree that UnionOps/).check();
     await page.getByRole("button", { name: "Send request" }).click();
@@ -35,7 +38,10 @@ test.describe("Access request forms @smoke", () => {
 
     await page.getByLabel("Your name").fill("Jordan Lee");
     await page.getByLabel("Email").fill("jordan.smoke@example.test");
-    await page.getByLabel("Union").fill("CAAT");
+    await page
+      .locator("#access-request-form")
+      .getByRole("textbox", { name: "Union", exact: true })
+      .fill("CAAT");
     await page.getByLabel("Local name or number").fill("243");
     await page.getByLabel("Officer Hub").check();
     await page.getByLabel(/I agree that UnionOps/).check();

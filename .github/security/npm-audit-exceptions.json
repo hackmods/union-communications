@@ -1,1 +1,27 @@
-{}
+{
+  "braces|1240992": {
+    "approvedBy": "UnionOps steward",
+    "expires": "2026-11-03",
+    "justification": "No patched braces release exists for CVE-2026-93687 / GHSA-vfj7-8cjw-p6xm (uncontrolled recursion on deeply nested brace patterns). The lockfile stays on 3.0.3 because Snyk and the GitHub advisory list no fixed version. Exposure here is transitive through eslint-config-next → @next/eslint-plugin-next → fast-glob → micromatch, used in lint CI, not the hosted request path. Revisit when micromatch/braces ships a depth-guarded release."
+  },
+  "@next/eslint-plugin-next|1240992": {
+    "approvedBy": "UnionOps steward",
+    "expires": "2026-11-03",
+    "justification": "Inherited high from braces advisory 1240992 via the Next ESLint plugin. No application request path; lint-time globbing only. Same expiry as braces|1240992."
+  },
+  "eslint-config-next|1240992": {
+    "approvedBy": "UnionOps steward",
+    "expires": "2026-11-03",
+    "justification": "Inherited high from braces advisory 1240992 via eslint-config-next. No application request path; lint-time globbing only. Same expiry as braces|1240992."
+  },
+  "fast-glob|1240992": {
+    "approvedBy": "UnionOps steward",
+    "expires": "2026-11-03",
+    "justification": "Inherited high from braces advisory 1240992 via fast-glob → micromatch. No application request path; lint-time globbing only. Same expiry as braces|1240992."
+  },
+  "micromatch|1240992": {
+    "approvedBy": "UnionOps steward",
+    "expires": "2026-11-03",
+    "justification": "Inherited high from braces advisory 1240992 via micromatch. No application request path; lint-time globbing only. Same expiry as braces|1240992."
+  }
+}

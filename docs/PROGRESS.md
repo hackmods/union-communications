@@ -3,6 +3,7 @@
 - Hall / workshop NAT: access-request limiter is 500 successful submits per IP and 1,500 on `"unknown"` per 10 minutes, plus 8 per hashed email so one bot cannot fill the hall burst.
 - Hosted MFA is **Local opt-in** (`locals.mfa_required`, default off, migration `0097`). Presidents and stewards are not sent to authenticator setup on first Hub sign-in. Host operators (platform / union / division admin) still need MFA. Site Admin can require it per Local after launch.
 - Member `/request-access` now accepts the JSON a browser form actually sends (`role: null`, empty message). Create only persists NewAccessRequest fields. Durable Postgres insert no longer uses `RETURNING` (no SELECT policy on unassigned rows). Side effects after a successful save cannot turn the form red. What’s new `request-access-open` and an on-form note tell people to retry the same link.
+- CI unblock on the same PR: request-access smoke uses an exact Union textbox (Playwright `getByLabel("Union")` also matched the UnionOps wordmark and consent copy); Hub/Portal `MobileSheet` now clamps with `min-w-0` so Accessibility 1.5× text cannot grow past a 320px viewport; braces advisory 1240992 (CVE-2026-93687, no patched release) has time-boxed lint-transitive exceptions through 2026-11-03.
 
 ## 2026-10-03 — Mobile menu stays intact after scroll
 

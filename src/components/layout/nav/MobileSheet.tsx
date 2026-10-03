@@ -135,8 +135,10 @@ export function MobileSheet({
         data-testid={testId}
         style={panelStyle}
         className={cn(
-          "fixed inset-x-0 z-[70] isolate flex w-full max-w-full flex-col overflow-hidden border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] shadow-xl",
-          "min-[480px]:inset-x-auto min-[480px]:right-0 min-[480px]:max-w-[min(100vw,23rem)] min-[480px]:border-l",
+          // min-w-0: flex min-content (Hub context select, module labels) cannot
+          // grow past the viewport at Accessibility 1.5× text on a 320px phone.
+          "fixed inset-x-0 z-[70] isolate flex min-w-0 max-w-full flex-col overflow-hidden border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] shadow-xl",
+          "min-[480px]:inset-x-auto min-[480px]:right-0 min-[480px]:w-full min-[480px]:max-w-[min(100%,23rem)] min-[480px]:border-l",
           panelClassName,
         )}
       >
