@@ -12,7 +12,10 @@ import {
 import type { UserRole } from "@/types/tenant";
 import type { StationPayload } from "@/types/portal";
 import { cn } from "@/lib/utils";
-import { observeStickyHeight } from "@/lib/layout/observe-sticky-height";
+import {
+  observeLiveChromeBottom,
+  observeStickyHeight,
+} from "@/lib/layout/observe-sticky-height";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { preferredHubToolsMenuWidth } from "@/lib/utils/flyout-geometry";
 import { NavDropdown } from "@/components/layout/nav/NavDropdown";
@@ -53,27 +56,17 @@ export function PortalNav() {
   useLayoutEffect(() => {
     const el = barRef.current;
     if (!el) return;
-    const update = () => {
-      const bottom = Math.ceil(el.getBoundingClientRect().bottom);
-      setDrawerTop(bottom);
-      document.documentElement.style.setProperty(
-        "--app-chrome-bottom",
-        `${bottom}px`,
-      );
-    };
-    const stopMeasure = observeStickyHeight(el, "--portal-nav-height", update);
     const siteHeader = document.querySelector("header");
-    const headerObserver =
-      siteHeader && typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(update)
-        : null;
-    if (siteHeader) headerObserver?.observe(siteHeader);
-    window.addEventListener("scroll", update, true);
+    const stopHeight = observeStickyHeight(el, "--portal-nav-height");
+    const stopBottom = observeLiveChromeBottom(
+      el,
+      "--app-chrome-bottom",
+      setDrawerTop,
+      siteHeader ? [siteHeader] : [],
+    );
     return () => {
-      stopMeasure();
-      headerObserver?.disconnect();
-      window.removeEventListener("scroll", update, true);
-      document.documentElement.style.removeProperty("--app-chrome-bottom");
+      stopHeight();
+      stopBottom();
     };
   }, [drawerOpen, pathname]);
 
@@ -156,7 +149,7 @@ export function PortalNav() {
       className={cn(
         "sticky z-40 border-b border-gray-200 bg-gray-50",
         "top-[var(--site-header-height,3.5rem)]",
-        drawerOpen && "z-[80]",
+        drawerOpen && "z-[80] bg-gray-50",
       )}
       aria-label={t("navLabel")}
     >

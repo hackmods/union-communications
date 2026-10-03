@@ -14,14 +14,14 @@ import {
 } from "./nav-config";
 
 export function MobileNavDrawer({
-  headerHeight,
+  drawerTop,
   pathname,
   shellContext,
   onClose,
   onCloseAfterNav,
   drawerId,
 }: {
-  headerHeight: number;
+  drawerTop: number;
   pathname: string;
   shellContext: ShellContext;
   onClose: () => void;
@@ -40,7 +40,7 @@ export function MobileNavDrawer({
 
   return (
     <MobileSheet
-      top={headerHeight}
+      top={drawerTop}
       drawerId={drawerId}
       label={t("mainNav")}
       closeLabel={t("closeMenu")}
@@ -49,7 +49,7 @@ export function MobileNavDrawer({
       onClose={onClose}
     >
       <nav
-        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 [-webkit-overflow-scrolling:touch]"
+        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4"
         aria-label={t("mainNav")}
       >
         <div className="space-y-1">

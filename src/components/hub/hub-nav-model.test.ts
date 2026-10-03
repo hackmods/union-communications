@@ -98,7 +98,9 @@ describe("HubNav chrome contract", () => {
       "utf8",
     );
     expect(header).toContain("--site-header-height");
+    expect(header).toContain("observeLiveChromeBottom");
     expect(hubNav).toContain("--site-header-height");
+    expect(hubNav).toContain("observeLiveChromeBottom");
     expect(hubNav).toContain("--hub-banner-stack-height");
     expect(hubNav).toContain("--app-chrome-bottom");
     expect(bannerStack).toContain("--hub-banner-stack-height");
