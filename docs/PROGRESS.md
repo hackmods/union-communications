@@ -12,7 +12,7 @@
 ## 2026-10-03 — Production access-request 429 + invite email
 
 - Public `/join` and `/request-access` were returning 429 after five POSTs because the limiter keyed only on the first `X-Forwarded-For` hop (often `"unknown"` behind CapRover) and counted invalid/honeypot traffic.
-- Rate limit now uses `cf-connecting-ip` → `X-Forwarded-For` → `X-Real-IP`, hashed keys, 10 successful submits per IP / 10 minutes, a higher unknown-IP backstop, and `Retry-After`. Junk bodies no longer spend quota.
+- Rate limit now uses `cf-connecting-ip` → `X-Forwarded-For` → `X-Real-IP`, hashed keys, workshop-sized IP caps with a higher unknown-IP backstop, per-email cap, and `Retry-After`. Junk bodies no longer spend quota.
 - Creating an invite with `requestId` always attempts the accept email (Hub “Invite and send email”), even if the client omitted `sendEmail`. Copy-link invites stay opt-in.
 
 ## 2026-10-02 — Ops lifecycle emails (deploy / restart)

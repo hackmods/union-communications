@@ -34,6 +34,7 @@ import { PATCH as patchSiteAdminAccess } from "@/app/api/site-admin/access-reque
 import { accessRequestStore } from "@/lib/access-requests/store";
 import { resetMemoryAccessRequestStore } from "@/lib/access-requests/memory-adapter";
 import {
+  ACCESS_REQUEST_MAX_PER_IP,
   resetAccessRequestRateLimit,
 } from "@/lib/access-requests/rate-limit";
 
@@ -262,7 +263,7 @@ describe("access request HTTP", () => {
       expect(sendEmailMock).not.toHaveBeenCalled();
     });
 
-    it("creates a request without tenant stamps, notifies the configured operator, and rate-limits the same IP", async () => {
+    it("creates a request without tenant stamps and notifies the configured operator", async () => {
       vi.stubEnv("ACCESS_REQUEST_NOTIFY_EMAIL", "ryan@ryanmorris.ca");
       vi.stubEnv("AUTH_URL", "https://unionops.org");
       sendEmailMock.mockResolvedValue({ ok: true, messageId: "msg-1" });
@@ -388,14 +389,14 @@ describe("access request HTTP", () => {
             }),
           ),
         });
-      for (let i = 0; i < 2; i += 1) {
+      for (let i = 0; i < ACCESS_REQUEST_MAX_PER_IP; i += 1) {
         expect(
           (await submitAccessRequest(make(`realip${i}@example.test`))).status,
         ).toBe(201);
       }
-      expect((await submitAccessRequest(make("realip-block@example.test"))).status).toBe(
-        201,
-      );
+      const blocked = await submitAccessRequest(make("realip-block@example.test"));
+      expect(blocked.status).toBe(429);
+      expect(blocked.headers.get("Retry-After")).toBe("600");
       const other = new Request("http://localhost/api/access-requests", {
         method: "POST",
         headers: {
