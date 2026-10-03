@@ -22,7 +22,15 @@ Filters now:
 - Hiding singleton facets (Create Format = only `maker`) saves more chrome than restyling the four-dropdown grid.
 - Stale URL facet values stay clearable via active chips even when the select is hidden.
 
+## Flush-out (same change)
+
+- Singleton facets stay hidden even when selected in the URL (Create Format/Privacy) — they cannot narrow the page; non-narrowing values clear automatically.
+- Stale facet cleanup uses mode items (other facets only), not search — a mistyped query must not wipe For/Topic choices.
+- Filter-card **Clear filters** only appears when something is active; empty-state Clear remains.
+- Mobile toggle shows an active facet count when collapsed; Back/forward re-opens the disclosure when facet params are present.
+- Empty search hides facet selects (no options left); apply facets before searching in tests and journeys.
+
 ## Guards
 
-- Unit: `public-catalog-facets.test.ts` (no alone-empty options; Create topics multi-valued).
-- Smoke: Create/Learn Topic options each yield `count > 0` when chosen alone.
+- Unit: `public-catalog-facets.test.ts` (no alone-empty options; Create topics multi-valued; stale singleton detection).
+- Smoke: Create/Learn Topic options each yield `count > 0` when chosen alone; Create hides Format/Privacy.

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { PUBLIC_CATALOG, visiblePublicCatalog } from "./public-catalog";
 import {
+  isStaleFacetValue,
   itemsMatchingFilters,
   modeScopedItems,
   optionsForFacet,
@@ -62,7 +63,22 @@ describe("public-catalog-facets", () => {
     expect(topics).toEqual(expect.arrayContaining(["brand", "boards", "print", "social", "web"]));
     expect(topics).not.toContain("training");
     expect(optionsForFacet(create, "format", emptyState)).toEqual(["maker"]);
-    expect(shouldShowFacet(optionsForFacet(create, "format", emptyState), "")).toBe(false);
+    expect(shouldShowFacet(optionsForFacet(create, "format", emptyState))).toBe(false);
+    expect(optionsForFacet(create, "privacy", emptyState)).toEqual(["on-device"]);
+    expect(shouldShowFacet(optionsForFacet(create, "privacy", emptyState))).toBe(false);
+  });
+
+  it("offers only Utilities facet values that match at least one worksheet alone", () => {
+    const utilities = modeScopedItems(available, "utilities");
+    for (const facet of ["audience", "topic", "format", "privacy"] as const) {
+      for (const value of optionsForFacet(utilities, facet, emptyState)) {
+        expect(aloneYieldsResults("utilities", facet, value), `utilities ${facet}=${value}`).toBe(true);
+      }
+    }
+    expect(optionsForFacet(utilities, "topic", emptyState)).toEqual(
+      expect.arrayContaining(["workplace", "grievances", "governance", "accessibility"]),
+    );
+    expect(shouldShowFacet(optionsForFacet(utilities, "format", emptyState))).toBe(false);
   });
 
   it("offers only Learn facet values that match at least one Learn item alone", () => {
@@ -94,10 +110,14 @@ describe("public-catalog-facets", () => {
     }
   });
 
-  it("keeps a selected singleton facet visible so the chip can still clear", () => {
-    expect(shouldShowFacet(["maker"], "maker")).toBe(true);
-    expect(shouldShowFacet(["maker"], "")).toBe(false);
-    expect(shouldShowFacet([], "maker")).toBe(false);
+  it("hides singleton facets and flags non-narrowing or unreachable selections as stale", () => {
+    expect(shouldShowFacet(["maker", "worksheet"])).toBe(true);
+    expect(shouldShowFacet(["maker"])).toBe(false);
+    expect(shouldShowFacet([])).toBe(false);
+    expect(isStaleFacetValue("maker", ["maker"], ["maker"])).toBe(true);
+    expect(isStaleFacetValue("boards", ["print", "social"], ["boards", "print", "social"])).toBe(true);
+    expect(isStaleFacetValue("print", ["print", "social"], ["boards", "print", "social"])).toBe(false);
+    expect(isStaleFacetValue("", ["print"], ["print", "social"])).toBe(false);
   });
 
   it("marks incompatible facet values as missing from cascaded options", () => {

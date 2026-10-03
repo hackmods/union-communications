@@ -17164,6 +17164,7 @@
     "breadcrumbNav": "Breadcrumb",
     "filtersTitle": "Search and filter the catalog",
     "filtersToggle": "Show filters",
+    "filtersToggleCount": "Show filters ({count})",
     "filtersToggleHide": "Hide filters",
     "searchLabel": "Search",
     "searchPlaceholder": "Try grievance, meeting, poster, or website",

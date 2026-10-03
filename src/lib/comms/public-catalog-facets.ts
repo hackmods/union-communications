@@ -145,12 +145,21 @@ export function optionsForFacet(
   );
 }
 
-/** True when the facet control should render (2+ choices, or 1 while selected). */
-export function shouldShowFacet(
-  options: readonly string[],
+/**
+ * True when the facet control should render.
+ * Singleton facets never narrow results on this page — hide them and clear via chips/URL cleanup.
+ */
+export function shouldShowFacet(options: readonly string[]): boolean {
+  return options.length >= 2;
+}
+
+/** Facet values that cannot narrow the page (unreachable or only one page-level choice). */
+export function isStaleFacetValue(
   selected: string,
+  cascadedOptions: readonly string[],
+  pageOptions: readonly string[],
 ): boolean {
-  if (options.length >= 2) return true;
-  if (selected && options.includes(selected)) return true;
-  return false;
+  if (!selected) return false;
+  if (pageOptions.length < 2) return true;
+  return !cascadedOptions.includes(selected);
 }

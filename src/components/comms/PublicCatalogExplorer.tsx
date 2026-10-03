@@ -16,6 +16,7 @@ import {
   relatedCatalogItems,
 } from "@/lib/comms/public-catalog";
 import {
+  isStaleFacetValue,
   modeScopedItems,
   optionsForFacet,
   shouldShowFacet,
@@ -172,6 +173,9 @@ export function PublicCatalogExplorer({
       setTopic(parsed.topic);
       setFormat(parsed.format);
       setStorage(parsed.privacy);
+      setMobileFiltersOpen(
+        Boolean(parsed.audience || parsed.topic || parsed.format || parsed.privacy),
+      );
     };
     window.addEventListener("popstate", syncStateFromLocation);
     return () => window.removeEventListener("popstate", syncStateFromLocation);
@@ -249,34 +253,64 @@ export function PublicCatalogExplorer({
     [filterState, searchScopedItems],
   );
 
-  const showAudience = shouldShowFacet(audienceOptions, audience);
-  const showTopic = shouldShowFacet(topicOptions, topic);
-  const showFormat = shouldShowFacet(formatOptions, format);
-  const showPrivacy = shouldShowFacet(privacyOptions, storage);
+  const emptyFacetState = useMemo(
+    () => catalogState("", "", "", "", ""),
+    [],
+  );
+  const pageAudienceOptions = useMemo(
+    () => optionsForFacet(modeItems, "audience", emptyFacetState),
+    [emptyFacetState, modeItems],
+  );
+  const pageTopicOptions = useMemo(
+    () => optionsForFacet(modeItems, "topic", emptyFacetState),
+    [emptyFacetState, modeItems],
+  );
+  const pageFormatOptions = useMemo(
+    () => optionsForFacet(modeItems, "format", emptyFacetState),
+    [emptyFacetState, modeItems],
+  );
+  const pagePrivacyOptions = useMemo(
+    () => optionsForFacet(modeItems, "privacy", emptyFacetState),
+    [emptyFacetState, modeItems],
+  );
+
+  const showAudience = shouldShowFacet(audienceOptions);
+  const showTopic = shouldShowFacet(topicOptions);
+  const showFormat = shouldShowFacet(formatOptions);
+  const showPrivacy = shouldShowFacet(privacyOptions);
   const visibleFacetCount =
     Number(showAudience) + Number(showTopic) + Number(showFormat) + Number(showPrivacy);
+  const activeFacetCount =
+    Number(Boolean(audience)) +
+    Number(Boolean(topic)) +
+    Number(Boolean(format)) +
+    Number(Boolean(storage));
 
-  // Drop facet values that cascading options can no longer reach (stale URL or
-  // incompatible combo), so the page does not stick on a guaranteed empty set.
+  // Drop facet values that cannot narrow this page or conflict with other
+  // facets. Ignore search text here so a mistyped query does not wipe facets.
   useEffect(() => {
     const next = catalogState(query, audience, topic, format, storage);
+    const reachableAudience = optionsForFacet(modeItems, "audience", next);
+    const reachableTopic = optionsForFacet(modeItems, "topic", next);
+    const reachableFormat = optionsForFacet(modeItems, "format", next);
+    const reachablePrivacy = optionsForFacet(modeItems, "privacy", next);
     let changed = false;
-    if (audience && !audienceOptions.includes(audience)) {
+    if (isStaleFacetValue(audience, reachableAudience, pageAudienceOptions)) {
       next.audience = "";
       setAudience("");
       changed = true;
     }
-    if (topic && !topicOptions.includes(topic)) {
+    if (isStaleFacetValue(topic, reachableTopic, pageTopicOptions)) {
       next.topic = "";
       setTopic("");
       changed = true;
     }
-    if (format && !formatOptions.includes(format)) {
+    if (isStaleFacetValue(format, reachableFormat, pageFormatOptions)) {
       next.format = "";
       setFormat("");
       changed = true;
     }
-    if (storage && !privacyOptions.includes(storage)) {
+    if (isStaleFacetValue(storage, reachablePrivacy, pagePrivacyOptions)) {
       next.privacy = "";
       setStorage("");
       changed = true;
@@ -286,14 +320,15 @@ export function PublicCatalogExplorer({
     }
   }, [
     audience,
-    audienceOptions,
     format,
-    formatOptions,
-    privacyOptions,
+    modeItems,
+    pageAudienceOptions,
+    pageFormatOptions,
+    pagePrivacyOptions,
+    pageTopicOptions,
     query,
     storage,
     topic,
-    topicOptions,
     writeStateToLocation,
   ]);
 
@@ -432,7 +467,11 @@ export function PublicCatalogExplorer({
                   className="inline-flex min-h-11 w-full items-center justify-between rounded-lg border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-800 outline-none transition-colors hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
                 >
                   <span>
-                    {mobileFiltersOpen ? t("filtersToggleHide") : t("filtersToggle")}
+                    {mobileFiltersOpen
+                      ? t("filtersToggleHide")
+                      : activeFacetCount > 0
+                        ? t("filtersToggleCount", { count: activeFacetCount })
+                        : t("filtersToggle")}
                   </span>
                   <span aria-hidden="true">{mobileFiltersOpen ? "−" : "+"}</span>
                 </button>
@@ -503,13 +542,15 @@ export function PublicCatalogExplorer({
                   )
                 : t("resultCount", { count: items.length })}
             </p>
-            <button
-              type="button"
-              onClick={resetFilters}
-              className="inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-semibold text-opseu-blue underline underline-offset-2 transition-colors hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
-            >
-              {t("clearFilters")}
-            </button>
+            {activeFilters.length > 0 ? (
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-semibold text-opseu-blue underline underline-offset-2 transition-colors hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+              >
+                {t("clearFilters")}
+              </button>
+            ) : null}
           </div>
           {activeFilters.length ? (
             <div className="mt-3 border-t border-slate-200 pt-3">

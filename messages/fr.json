@@ -17164,6 +17164,7 @@
     "breadcrumbNav": "Fil d’Ariane",
     "filtersTitle": "Rechercher et filtrer le catalogue",
     "filtersToggle": "Afficher les filtres",
+    "filtersToggleCount": "Afficher les filtres ({count})",
     "filtersToggleHide": "Masquer les filtres",
     "searchLabel": "Rechercher",
     "searchPlaceholder": "Essayez grief, réunion, affiche ou site Web",
