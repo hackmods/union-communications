@@ -1,3 +1,15 @@
+## 2026-10-03 — Sticky Brand Kit across deploy and login
+
+- Signed-in Brand Kit Local shared + personal overlays now honor
+  `HUB_SETTINGS_DB_BACKEND=postgres` (Drizzle + RLS on `/api/brand-kit`). Memory
+  Maps remain the demo default.
+- Empty Local no longer persists an auto-seed; `hasLocalShared` is true only after
+  **Save as Local default**. Ephemeral union seed still paints chrome.
+- Login promotes a differing browser kit into the personal overlay once when Hub
+  Local/personal are empty; Api hydrate/save mirrors into `unionops-brand-kit`.
+- Brand Kit status names chrome source. What’s new `hub-brand-local-sync` refreshed.
+- Session: `docs/audit/session-knowledge-2026-10-03-sticky-brand-kit.md`.
+
 ## 2026-10-03 — Public catalog filters match the page
 
 - Create / Utilities / Learn / Search derive For / Topic / Format / Privacy options from items on that page and cascade so a choice cannot guarantee zero results.

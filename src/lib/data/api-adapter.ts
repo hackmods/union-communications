@@ -2,6 +2,7 @@ import type { BrandKit } from "@/types/entities";
 import { normalizeBrandKit } from "@/lib/utils/local-links";
 import type { UserPreferences } from "@/types/preferences";
 import type { DataAdapter } from "./adapter";
+import { mirrorBrandKitToLocalStorage } from "./mirror-brand-kit";
 
 export type BrandKitSaveScope = "personal" | "local";
 
@@ -11,10 +12,17 @@ export type BrandKitSyncSource = {
   canPublishLocal: boolean;
 };
 
+type BrandKitApiRecord = {
+  brandKit: BrandKit | null;
+  onboardingComplete?: boolean;
+  source?: BrandKitSyncSource;
+};
+
 /**
  * Authenticated `DataAdapter` backed by `/api/brand-kit` and `/api/preferences`.
  * Default save scope is personal overlay; use `publishLocalBrandKit` to
  * publish Local shared defaults (requires officer role server-side).
+ * Successful Hub kits are mirrored to localStorage for FOUC / logout continuity.
  */
 export class ApiAdapter implements DataAdapter {
   private saveScope: BrandKitSaveScope = "personal";
@@ -27,13 +35,14 @@ export class ApiAdapter implements DataAdapter {
 
   async getBrandKit(): Promise<BrandKit | null> {
     try {
-      const res = await this.fetchJson<{
-        brandKit: BrandKit | null;
-        source?: BrandKitSyncSource;
-      }>("/api/brand-kit");
+      const res = await this.fetchJson<BrandKitApiRecord>("/api/brand-kit");
       this.lastSyncSource = res?.source ?? null;
       const kit = res?.brandKit ?? null;
-      return kit ? normalizeBrandKit(kit) : null;
+      const normalized = kit ? normalizeBrandKit(kit) : null;
+      if (normalized) {
+        await mirrorBrandKitToLocalStorage(normalized);
+      }
+      return normalized;
     } catch (err) {
       console.warn("[ApiAdapter] getBrandKit failed", err);
       this.lastSyncSource = null;
@@ -42,13 +51,29 @@ export class ApiAdapter implements DataAdapter {
   }
 
   async saveBrandKit(kit: BrandKit): Promise<void> {
+    await this.trySaveBrandKit(kit);
+  }
+
+  /**
+   * Persist personal (or current save-scope) kit; returns false on network/API failure.
+   * Used by login browser→personal promotion so the UI can recover.
+   */
+  async trySaveBrandKit(kit: BrandKit): Promise<boolean> {
     try {
-      await this.putJson("/api/brand-kit", {
+      const res = await this.putJsonRecord("/api/brand-kit", {
         brandKit: normalizeBrandKit(kit),
         scope: this.saveScope,
       });
+      if (!res) return false;
+      if (res.source) this.lastSyncSource = res.source;
+      const effective = res.brandKit
+        ? normalizeBrandKit(res.brandKit)
+        : normalizeBrandKit(kit);
+      await mirrorBrandKitToLocalStorage(effective);
+      return true;
     } catch (err) {
       console.warn("[ApiAdapter] saveBrandKit failed", err);
+      return false;
     }
   }
 
@@ -64,12 +89,16 @@ export class ApiAdapter implements DataAdapter {
         }),
       });
       if (!res.ok) return false;
-      const data = (await res.json()) as { source?: BrandKitSyncSource };
+      const data = (await res.json()) as BrandKitApiRecord;
       this.lastSyncSource = data.source ?? {
         hasLocalShared: true,
         hasPersonalOverlay: false,
         canPublishLocal: true,
       };
+      const effective = data.brandKit
+        ? normalizeBrandKit(data.brandKit)
+        : normalizeBrandKit(kit);
+      await mirrorBrandKitToLocalStorage(effective);
       return true;
     } catch (err) {
       console.warn("[ApiAdapter] publishLocalBrandKit failed", err);
@@ -102,7 +131,9 @@ export class ApiAdapter implements DataAdapter {
 
   async setOnboardingComplete(complete: boolean): Promise<void> {
     try {
-      await this.putJson("/api/brand-kit", { onboardingComplete: complete });
+      await this.putJsonRecord("/api/brand-kit", {
+        onboardingComplete: complete,
+      });
     } catch (err) {
       console.warn("[ApiAdapter] setOnboardingComplete failed", err);
     }
@@ -122,7 +153,7 @@ export class ApiAdapter implements DataAdapter {
 
   async saveUserPreferences(prefs: UserPreferences): Promise<void> {
     try {
-      await this.putJson("/api/preferences", { preferences: prefs });
+      await this.putJsonRecord("/api/preferences", { preferences: prefs });
     } catch (err) {
       console.warn("[ApiAdapter] saveUserPreferences failed", err);
     }
@@ -134,7 +165,10 @@ export class ApiAdapter implements DataAdapter {
     return (await res.json()) as T;
   }
 
-  private async putJson(url: string, body: unknown): Promise<void> {
+  private async putJsonRecord(
+    url: string,
+    body: unknown,
+  ): Promise<BrandKitApiRecord | null> {
     const res = await fetch(url, {
       method: "PUT",
       credentials: "include",
@@ -143,6 +177,11 @@ export class ApiAdapter implements DataAdapter {
     });
     if (!res.ok) {
       throw new Error(`PUT ${url} failed with ${res.status}`);
+    }
+    try {
+      return (await res.json()) as BrandKitApiRecord;
+    } catch {
+      return null;
     }
   }
 }

@@ -69,8 +69,8 @@ export const UPDATES: readonly UpdateEntry[] = [
   },
   {
     id: "hub-brand-local-sync",
-    date: "2026-10-02",
-    kind: "added",
+    date: "2026-10-03",
+    kind: "improved",
     audience: "hub",
     href: "/brand-kit",
   },

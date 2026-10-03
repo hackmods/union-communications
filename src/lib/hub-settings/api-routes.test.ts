@@ -1,12 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { UserRole } from "@/types/tenant";
 
-const { authMock } = vi.hoisted(() => ({
+const { authMock, rlsContextMock } = vi.hoisted(() => ({
   authMock: vi.fn(),
+  rlsContextMock: vi.fn(),
 }));
 
 vi.mock("@/auth", () => ({
   auth: authMock,
+}));
+
+vi.mock("@/lib/auth/rls-scope", () => ({
+  rlsContextForSession: rlsContextMock,
 }));
 
 import {
@@ -70,6 +75,12 @@ const validKit = {
 describe("GET/PUT/DELETE /api/brand-kit (hybrid)", () => {
   beforeEach(() => {
     authMock.mockReset();
+    rlsContextMock.mockReset();
+    rlsContextMock.mockResolvedValue({
+      unionId: "union-b7p",
+      localId: "local-7",
+      userId: "user-president-7",
+    });
     resetHubSettingsStoreForTests();
     resetPreferredSnippetLibrariesForTests();
   });
@@ -114,12 +125,17 @@ describe("GET/PUT/DELETE /api/brand-kit (hybrid)", () => {
     const body = (await saved.json()) as {
       brandKit: { primaryColor: string; local: { bargainingUnitCode?: string } };
       onboardingComplete: boolean;
-      source?: { hasPersonalOverlay: boolean; canPublishLocal: boolean };
+      source?: {
+        hasPersonalOverlay: boolean;
+        canPublishLocal: boolean;
+        hasLocalShared: boolean;
+      };
     };
     expect(body.brandKit.primaryColor).toBe("#111111");
     expect(body.onboardingComplete).toBe(false);
     expect(body.source?.hasPersonalOverlay).toBe(true);
     expect(body.source?.canPublishLocal).toBe(true);
+    expect(body.source?.hasLocalShared).toBe(false);
     expect(
       getPreferredSnippetLibrary("union-b7p", "local-7", "bu-pt"),
     ).toBe("caat-s-pt");
@@ -129,14 +145,19 @@ describe("GET/PUT/DELETE /api/brand-kit (hybrid)", () => {
     authMock.mockResolvedValue(
       session({ id: "user-sister", localId: "local-1337" }),
     );
+    rlsContextMock.mockResolvedValue({
+      unionId: "union-b7p",
+      localId: "local-1337",
+      userId: "user-sister",
+    });
     const other = await getBrandKit();
     expect(other.status).toBe(200);
     const otherBody = (await other.json()) as {
       brandKit: { primaryColor?: string } | null;
       source?: { hasLocalShared: boolean };
     };
-    // Sister local gets its own seeded Local shared kit — not the personal overlay.
-    expect(otherBody.source?.hasLocalShared).toBe(true);
+    // Sister local gets an ephemeral seed — not a published Local row.
+    expect(otherBody.source?.hasLocalShared).toBe(false);
     expect(otherBody.brandKit?.primaryColor).not.toBe("#111111");
     expect(getPreferredSnippetLibrary("union-b7p", "local-1337")).toBeNull();
   });
@@ -151,6 +172,11 @@ describe("GET/PUT/DELETE /api/brand-kit (hybrid)", () => {
     );
 
     authMock.mockResolvedValue(session({ id: "user-other-officer" }));
+    rlsContextMock.mockResolvedValue({
+      unionId: "union-b7p",
+      localId: "local-7",
+      userId: "user-other-officer",
+    });
     const peek = await getBrandKit();
     const peekBody = (await peek.json()) as {
       brandKit: { signatureName?: string; primaryColor?: string } | null;
@@ -160,7 +186,7 @@ describe("GET/PUT/DELETE /api/brand-kit (hybrid)", () => {
     const cleared = await deleteBrandKit();
     expect(cleared.status).toBe(200);
     expect(
-      getPersonalBrandRecord("user-president-7", "union-b7p").overlay,
+      (await getPersonalBrandRecord("user-president-7", "union-b7p")).overlay,
     ).toMatchObject({
       signatureName: "President Only",
     });
@@ -172,9 +198,9 @@ describe("GET/PUT/DELETE /api/brand-kit (hybrid)", () => {
       jsonRequest({ brandKit: validKit, scope: "local" }),
     );
     expect(published.status).toBe(200);
-    expect(getLocalBrandKit("union-b7p", "local-7")?.primaryColor).toBe(
-      "#111111",
-    );
+    expect(
+      (await getLocalBrandKit("union-b7p", "local-7"))?.primaryColor,
+    ).toBe("#111111");
 
     authMock.mockResolvedValue(
       session({ id: "steward-1", roles: ["local_steward"] }),
@@ -201,12 +227,20 @@ describe("GET/PUT/DELETE /api/brand-kit (hybrid)", () => {
     expect(cleared.status).toBe(200);
     const body = (await cleared.json()) as {
       brandKit: { signatureName?: string; primaryColor?: string } | null;
+      source?: { hasLocalShared: boolean };
     };
     expect(body.brandKit?.signatureName).toBeUndefined();
     expect(body.brandKit?.primaryColor).toBe("#111111");
-    expect(getLocalBrandKit("union-b7p", "local-7")?.primaryColor).toBe(
-      "#111111",
-    );
+    expect(body.source?.hasLocalShared).toBe(true);
+    expect(
+      (await getLocalBrandKit("union-b7p", "local-7"))?.primaryColor,
+    ).toBe("#111111");
+  });
+
+  it("wraps resolve in RLS context from the session", async () => {
+    authMock.mockResolvedValue(session());
+    await getBrandKit();
+    expect(rlsContextMock).toHaveBeenCalled();
   });
 });
 
