@@ -73,6 +73,13 @@ export function BrandKitLocalPublishPanel() {
             {hasStoredBrandKit ? t("statusReady") : t("statusEmpty")}
           </p>
           <p className="text-sm text-gray-600">
+            {hasLocalShared
+              ? t("chromeFromLocal")
+              : hasPersonalOverlay
+                ? t("chromeFromPersonal")
+                : t("chromeFromSeed")}
+          </p>
+          <p className="text-sm text-gray-600">
             {hasLocalShared ? t("localSharedReady") : t("localSharedMissing")}
             {hasPersonalOverlay ? ` ${t("personalOverridesOn")}` : ""}
           </p>

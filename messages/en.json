@@ -4705,6 +4705,9 @@
       "loading": "Loading Local branding…",
       "statusReady": "Your Brand Kit is saved with your account while you are signed in.",
       "statusEmpty": "Sign in so this Local can keep shared branding ready on every device.",
+      "chromeFromLocal": "Site colours follow this Local’s published Hub defaults.",
+      "chromeFromPersonal": "Site colours follow your personal Brand Kit. They are not the Local default until an officer publishes.",
+      "chromeFromSeed": "Showing starter colours for your union until you save or an officer publishes Local defaults.",
       "localSharedReady": "This Local already has shared defaults.",
       "localSharedMissing": "This Local does not have published defaults yet.",
       "personalOverridesOn": "You also have personal overrides on top.",
@@ -8547,8 +8550,8 @@
         "body": "Choose communications, workplace preparation, or learning from the homepage, with guided setup close at hand and clearer information about shared workspaces."
       },
       "hub-brand-local-sync": {
-        "title": "Local branding that follows signed-in accounts",
-        "body": "Officers can save Brand Kit colours and logos as Local defaults. Personal signatures stay private, and the Local kit loads again when you sign in on another device."
+        "title": "Local branding that sticks after you sign in",
+        "body": "Officers can save Brand Kit colours and logos as Local defaults. Personal signatures stay private. Your Local kit loads again when you sign in — including after a site update."
       }
     }
   },

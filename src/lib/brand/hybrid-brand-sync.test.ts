@@ -130,18 +130,18 @@ describe("hybrid hub brand resolve", () => {
     resetBaselineEmptySeedForTests();
   });
 
-  it("seeds local shared once and keeps personal overlay private", () => {
-    const first = resolveHubBrandKit({
+  it("returns ephemeral seed without persisting Local shared", async () => {
+    const first = await resolveHubBrandKit({
       userId: "president",
       unionId: "union-b7p",
       localId: "local-7",
       roles: ["local_president"],
     });
     expect(first.brandKit).not.toBeNull();
-    expect(first.source?.hasLocalShared).toBe(true);
-    expect(getLocalBrandKit("union-b7p", "local-7")).not.toBeNull();
+    expect(first.source?.hasLocalShared).toBe(false);
+    expect(await getLocalBrandKit("union-b7p", "local-7")).toBeNull();
 
-    writeHubBrandKit(
+    await writeHubBrandKit(
       {
         userId: "president",
         unionId: "union-b7p",
@@ -158,7 +158,7 @@ describe("hybrid hub brand resolve", () => {
       },
     );
 
-    const steward = resolveHubBrandKit({
+    const steward = await resolveHubBrandKit({
       userId: "steward",
       unionId: "union-b7p",
       localId: "local-7",
@@ -166,8 +166,9 @@ describe("hybrid hub brand resolve", () => {
     });
     expect(steward.brandKit?.signatureName).toBeUndefined();
     expect(steward.brandKit?.primaryColor).not.toBe("#FF00AA");
+    expect(steward.source?.hasLocalShared).toBe(false);
 
-    writeHubBrandKit(
+    await writeHubBrandKit(
       {
         userId: "president",
         unionId: "union-b7p",
@@ -184,17 +185,20 @@ describe("hybrid hub brand resolve", () => {
       },
     );
 
-    const stewardAfterPublish = resolveHubBrandKit({
+    expect(await getLocalBrandKit("union-b7p", "local-7")).not.toBeNull();
+
+    const stewardAfterPublish = await resolveHubBrandKit({
       userId: "steward",
       unionId: "union-b7p",
       localId: "local-7",
       roles: ["local_steward"],
     });
     expect(stewardAfterPublish.brandKit?.primaryColor).toBe("#00AAFF");
+    expect(stewardAfterPublish.source?.hasLocalShared).toBe(true);
   });
 
-  it("rejects local publish for stewards", () => {
-    expect(() =>
+  it("rejects local publish for stewards", async () => {
+    await expect(
       writeHubBrandKit(
         {
           userId: "steward",
@@ -210,6 +214,6 @@ describe("hybrid hub brand resolve", () => {
           }),
         },
       ),
-    ).toThrow("forbidden_local_write");
+    ).rejects.toThrow("forbidden_local_write");
   });
 });

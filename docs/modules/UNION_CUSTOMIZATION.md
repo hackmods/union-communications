@@ -18,9 +18,9 @@ Implementation boundary: `src/lib/customization/` provides schemas, resolver, au
 - Compiled Print manifest remains empty; TSX/system fallback until Root publishes union overlays.
 - Sector-binding and durable preset-catalog **APIs** shipped 2026-10-02 (memory-backed admin); richer Brand Styles matrix UI and Postgres write-through for bindings/catalog remain follow-up polish.
 
-### Hybrid Brand Kit (Hub accounts) — 2026-10-02
+## Hybrid Brand Kit (Hub accounts) — 2026-10-02 / sticky 2026-10-03
 
-Signed-in Brand Kit persistence is hybrid: one Local shared kit per `(unionId, localId)` plus a personal overlay per `(unionId, userId)`. Officers publish Local defaults explicitly; personal signatures auto-save. Empty Local rows seed from union preset/theme (optional baseline via `BRAND_BASELINE_AUTO_SEED`). See `src/lib/hub-settings/store.ts` and `/api/brand-kit`.
+Signed-in Brand Kit persistence is hybrid: one Local shared kit per `(unionId, localId)` plus a personal overlay per `(unionId, userId)`. Officers publish Local defaults explicitly; personal signatures auto-save. Empty Local returns an ephemeral union seed (optional baseline via `BRAND_BASELINE_AUTO_SEED`) without writing a row. Durable Postgres when `HUB_SETTINGS_DB_BACKEND=postgres` (migration `0095`). See `src/lib/hub-settings/store.ts` and `/api/brand-kit`.
 
 ## 1. Recommendation and review of the requirements
 

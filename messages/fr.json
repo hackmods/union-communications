@@ -4703,6 +4703,9 @@
       "loading": "Chargement de la marque de la section locale…",
       "statusReady": "Votre Trousse de marque est enregistrée avec votre compte lorsque vous êtes connecté.",
       "statusEmpty": "Connectez-vous pour que cette section locale conserve la marque partagée sur chaque appareil.",
+      "chromeFromLocal": "Les couleurs du site suivent les défauts publiés de cette section locale dans le Hub.",
+      "chromeFromPersonal": "Les couleurs du site suivent votre Trousse de marque personnelle. Ce n’est pas le défaut de la section locale tant qu’un dirigeant ne publie pas.",
+      "chromeFromSeed": "Couleurs de départ de votre syndicat jusqu’à ce que vous enregistriez ou qu’un dirigeant publie les défauts de la section locale.",
       "localSharedReady": "Cette section locale a déjà des défauts partagés.",
       "localSharedMissing": "Cette section locale n’a pas encore de défauts publiés.",
       "personalOverridesOn": "Vous avez aussi des ajustements personnels par-dessus.",
@@ -8493,8 +8496,8 @@
         "body": "Choisissez les communications, la préparation des interventions ou la formation dès l’accueil, avec un parcours guidé à portée de main et des explications plus claires sur les espaces partagés."
       },
       "hub-brand-local-sync": {
-        "title": "Marque de la section locale qui suit les comptes connectés",
-        "body": "Les dirigeants peuvent enregistrer les couleurs et logos de la Trousse de marque comme défauts de la section locale. Les signatures personnelles restent privées, et la trousse locale se recharge lorsque vous vous connectez sur un autre appareil."
+        "title": "Marque de la section locale qui reste après la connexion",
+        "body": "Les dirigeants peuvent enregistrer les couleurs et logos de la Trousse de marque comme défauts de la section locale. Les signatures personnelles restent privées. Votre trousse locale se recharge à la connexion — y compris après une mise à jour du site."
       }
     }
   },

@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
+import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { withRlsContext } from "@/lib/db/rls-context";
 import {
   clearPersonalBrandKit,
   resolveHubBrandKit,
@@ -22,12 +24,18 @@ export async function GET() {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const record = resolveHubBrandKit({
+  const ctx = {
     userId: session.user.id,
     unionId: session.user.unionId,
     localId: session.user.localId,
     roles: session.user.roles as UserRole[] | undefined,
-  });
+  };
+  const rlsCtx = (await rlsContextForSession(session)) ?? {
+    userId: session.user.id,
+    unionId: session.user.unionId,
+    localId: session.user.localId,
+  };
+  const record = await withRlsContext(rlsCtx, () => resolveHubBrandKit(ctx));
   return NextResponse.json(record);
 }
 
@@ -53,16 +61,21 @@ export async function PUT(request: Request) {
   }
 
   const scope = (parsed.data.scope ?? "personal") as BrandKitWriteScope;
+  const ctx = {
+    userId: session.user.id,
+    unionId: session.user.unionId,
+    localId: session.user.localId,
+    roles: session.user.roles as UserRole[] | undefined,
+  };
+  const rlsCtx = (await rlsContextForSession(session)) ?? {
+    userId: session.user.id,
+    unionId: session.user.unionId,
+    localId: session.user.localId,
+  };
 
   try {
-    const record = writeHubBrandKit(
-      {
-        userId: session.user.id,
-        unionId: session.user.unionId,
-        localId: session.user.localId,
-        roles: session.user.roles as UserRole[] | undefined,
-      },
-      {
+    const record = await withRlsContext(rlsCtx, () =>
+      writeHubBrandKit(ctx, {
         scope,
         ...(parsed.data.brandKit !== undefined
           ? { brandKit: parsed.data.brandKit as BrandKit | null }
@@ -70,7 +83,7 @@ export async function PUT(request: Request) {
         ...(parsed.data.onboardingComplete !== undefined
           ? { onboardingComplete: parsed.data.onboardingComplete }
           : {}),
-      },
+      }),
     );
 
     const unionId = session.user.unionId;
@@ -104,12 +117,20 @@ export async function DELETE() {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  // Clear personal overlay only — never wipe Local shared defaults.
-  const record = clearPersonalBrandKit({
+  const ctx = {
     userId: session.user.id,
     unionId: session.user.unionId,
     localId: session.user.localId,
     roles: session.user.roles as UserRole[] | undefined,
-  });
+  };
+  const rlsCtx = (await rlsContextForSession(session)) ?? {
+    userId: session.user.id,
+    unionId: session.user.unionId,
+    localId: session.user.localId,
+  };
+  // Clear personal overlay only — never wipe Local shared defaults.
+  const record = await withRlsContext(rlsCtx, () =>
+    clearPersonalBrandKit(ctx),
+  );
   return NextResponse.json(record);
 }

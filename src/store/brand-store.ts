@@ -15,6 +15,8 @@ import { getDataAdapter } from "@/lib/data/get-data-adapter";
 import { apiAdapter } from "@/lib/data/api-adapter";
 import type { BrandKitSyncSource } from "@/lib/data/api-adapter";
 import type { DataAdapter } from "@/lib/data/adapter";
+import { readBrowserBrandKit } from "@/lib/data/mirror-brand-kit";
+import { brandKitsMeaningfullyDiffer } from "@/lib/brand/brand-kit-diff";
 import { syncBrandKitProfilesFromLocal } from "@/lib/brand/collection-profiles";
 import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
 import { normalizeBrandKit } from "@/lib/utils/local-links";
@@ -339,10 +341,32 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
   hydrate: async () => {
     ensurePersistenceSubscription(set);
     const adapter = activeAdapter();
-    const kit = await adapter.getBrandKit();
+    // Capture on-device kit before Api GET mirrors Hub seed into localStorage.
+    const browserKitBefore =
+      adapter === apiAdapter ? await readBrowserBrandKit() : null;
+    let kit = await adapter.getBrandKit();
     const onboardingComplete = await adapter.isOnboardingComplete();
-    const syncSource =
+    let syncSource =
       adapter === apiAdapter ? apiAdapter.lastSyncSource : null;
+
+    // One-time: empty Hub Local + empty personal → promote browser kit.
+    if (
+      adapter === apiAdapter &&
+      syncSource &&
+      !syncSource.hasLocalShared &&
+      !syncSource.hasPersonalOverlay
+    ) {
+      const hubKit = kit ?? get().brandKit;
+      if (
+        browserKitBefore &&
+        brandKitsMeaningfullyDiffer(browserKitBefore, hubKit)
+      ) {
+        await apiAdapter.saveBrandKit(browserKitBefore);
+        kit = await apiAdapter.getBrandKit();
+        syncSource = apiAdapter.lastSyncSource;
+      }
+    }
+
     let brandKit = kit ?? get().brandKit;
     let hasStoredBrandKit = kit != null;
 
