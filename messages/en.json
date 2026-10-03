@@ -17425,7 +17425,8 @@
     "portalCta": "Ask about Local Portal",
     "joinPrompt": "Ready for your local to adopt the hosted platform?",
     "joinLink": "Bring your local to UnionOps",
-    "memberAccessLink": "Request member access"
+    "memberAccessLink": "Request member access",
+    "pocketLink": "Share Local Portal on a phone"
   },
   "localPortalShare": {
     "eyebrow": "Local Portal",
@@ -17455,8 +17456,11 @@
     "shared": "Shared",
     "shareText": "Your local, on the phone. Together, Circles, and Hall in Local Portal.",
     "shareUnavailable": "Use Copy link if Share is not on this phone.",
-    "copyError": "Could not copy. Select the address bar and copy from there.",
-    "printCard": "Print a pocket QR card"
+    "copyFailed": "Could not copy",
+    "copyError": "Could not copy. The link is selected below. Copy it from there.",
+    "printCard": "Print a pocket QR card",
+    "pageUrlLabel": "This page's link",
+    "pageUrlHint": "Tap the link to select it if Copy link does not work."
   },
   "joinPage": {
     "eyebrow": "Beta access",

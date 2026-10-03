@@ -17425,7 +17425,8 @@
     "portalCta": "S’informer sur le Portail local",
     "joinPrompt": "Prêt pour que votre section adopte la plateforme hébergée ?",
     "joinLink": "Amener votre section à UnionOps",
-    "memberAccessLink": "Demander l’accès membre"
+    "memberAccessLink": "Demander l’accès membre",
+    "pocketLink": "Partager le Portail local sur un téléphone"
   },
   "localPortalShare": {
     "eyebrow": "Portail local",
@@ -17455,8 +17456,11 @@
     "shared": "Partagé",
     "shareText": "Votre section, sur le téléphone. Ensemble, Cercles et Salle dans le Portail local.",
     "shareUnavailable": "Utilisez Copier le lien si Partager n’est pas sur ce téléphone.",
-    "copyError": "Impossible de copier. Sélectionnez la barre d’adresse et copiez depuis là.",
-    "printCard": "Imprimer une carte QR de poche"
+    "copyFailed": "Impossible de copier",
+    "copyError": "Impossible de copier. Le lien est sélectionné ci-dessous. Copiez-le depuis là.",
+    "printCard": "Imprimer une carte QR de poche",
+    "pageUrlLabel": "Le lien de cette page",
+    "pageUrlHint": "Touchez le lien pour le sélectionner si Copier le lien ne fonctionne pas."
   },
   "joinPage": {
     "eyebrow": "Accès bêta",

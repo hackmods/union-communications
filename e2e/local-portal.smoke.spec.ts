@@ -22,11 +22,18 @@ test.describe("Local Portal pocket share @smoke", () => {
     await expect(page.getByTestId("local-portal-qr")).toBeVisible({
       timeout: 15_000,
     });
-    await expect(
-      page.getByRole("button", { name: "Copy link" }),
-    ).toBeVisible();
+    await expect(page.getByTestId("local-portal-url")).toHaveValue(
+      /\/en\/local-portal\/?/,
+    );
+    await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.getByRole("button", { name: "Copy link" }).click();
+    await expect(page.getByRole("button", { name: "Copied" })).toBeVisible();
     await assertNoHorizontalOverflow(page);
     await expectNoSeriousA11yViolationsWithContrast(page);
+
+    await page.setViewportSize({ width: 320, height: 700 });
+    await assertNoHorizontalOverflow(page);
+    await expect(page.getByTestId("local-portal-qr")).toBeVisible();
   });
 
   test("FR phone pitch keeps locked names and both CTAs", async ({ page }) => {
@@ -62,5 +69,12 @@ test.describe("Local Portal pocket share @smoke", () => {
     await expect(page.getByLabel(/Link or text to encode/i)).toHaveValue(
       /\/en\/local-portal\/?$/,
     );
+  });
+
+  test("Platform points officers at the phone page", async ({ page }) => {
+    await page.goto("/en/platform/");
+    await expect(
+      page.getByRole("link", { name: "Share Local Portal on a phone" }),
+    ).toHaveAttribute("href", "/en/local-portal/");
   });
 });

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
 import { qrDataUrl } from "@/lib/export/qr";
 import { PUBLIC_SECTION_TITLE_CLASS } from "@/lib/constants/public-type";
 
@@ -20,6 +21,7 @@ export function LocalPortalPassAlong() {
   );
   const [status, setStatus] = useState<Status>("idle");
   const statusTimer = useRef<number | null>(null);
+  const urlInputId = "local-portal-page-url";
 
   useEffect(() => {
     const url = window.location.href;
@@ -47,11 +49,24 @@ export function LocalPortalPassAlong() {
     statusTimer.current = window.setTimeout(() => setStatus("idle"), 2500);
   }
 
+  function selectPageUrl() {
+    const field = document.getElementById(urlInputId);
+    if (field instanceof HTMLInputElement) {
+      field.focus();
+      field.select();
+    }
+  }
+
   async function copyLink() {
+    const url = pageUrl || window.location.href;
     try {
-      await navigator.clipboard.writeText(pageUrl || window.location.href);
+      if (!navigator.clipboard?.writeText) {
+        throw new Error("clipboard-unavailable");
+      }
+      await navigator.clipboard.writeText(url);
       flash("copied");
     } catch {
+      selectPageUrl();
       flash("copyError");
     }
   }
@@ -73,14 +88,12 @@ export function LocalPortalPassAlong() {
     }
   }
 
-  const statusMessage =
+  const copyLabel =
     status === "copied"
       ? t("copied")
-      : status === "shared"
-        ? t("shared")
-        : status === "copyError"
-          ? t("copyError")
-          : null;
+      : status === "copyError"
+        ? t("copyFailed")
+        : t("copyLink");
 
   return (
     <Card variant="elevated" className="mt-10" data-testid="local-portal-pass-along">
@@ -98,11 +111,11 @@ export function LocalPortalPassAlong() {
             width={220}
             height={220}
             data-testid="local-portal-qr"
-            className="h-[220px] w-[220px]"
+            className="h-auto w-full max-w-[220px]"
           />
         ) : (
           <div
-            className="flex h-[220px] w-[220px] items-center justify-center bg-slate-50 text-center text-sm text-slate-600"
+            className="flex aspect-square w-full max-w-[220px] items-center justify-center bg-slate-50 p-3 text-center text-sm text-slate-600"
             data-testid="local-portal-qr-placeholder"
             aria-live="polite"
           >
@@ -111,17 +124,34 @@ export function LocalPortalPassAlong() {
         )}
       </div>
 
+      {pageUrl ? (
+        <div className="mt-4">
+          <Input
+            id={urlInputId}
+            label={t("pageUrlLabel")}
+            hint={t("pageUrlHint")}
+            error={status === "copyError" ? t("copyError") : undefined}
+            readOnly
+            value={pageUrl}
+            className="break-all font-mono text-sm"
+            onFocus={(event) => event.currentTarget.select()}
+            data-testid="local-portal-url"
+          />
+        </div>
+      ) : null}
+
       <div className="mt-5 grid gap-3">
         <Button
           type="button"
           size="lg"
           variant="outline"
           className="w-full"
+          aria-live="polite"
           onClick={() => {
             void copyLink();
           }}
         >
-          {status === "copied" ? t("copied") : t("copyLink")}
+          {copyLabel}
         </Button>
         {shareMode === "native" ? (
           <Button
@@ -129,11 +159,12 @@ export function LocalPortalPassAlong() {
             size="lg"
             variant="outline"
             className="w-full"
+            aria-live="polite"
             onClick={() => {
               void shareLink();
             }}
           >
-            {t("share")}
+            {status === "shared" ? t("shared") : t("share")}
           </Button>
         ) : null}
         {shareMode === "copy-only" ? (
@@ -148,10 +179,6 @@ export function LocalPortalPassAlong() {
           {t("printCard")}
         </ButtonLink>
       </div>
-
-      <p className="sr-only" aria-live="polite">
-        {statusMessage}
-      </p>
     </Card>
   );
 }
