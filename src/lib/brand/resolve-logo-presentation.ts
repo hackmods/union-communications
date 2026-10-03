@@ -202,5 +202,20 @@ export function resolveBrandLogoPresentation(
     return { src: customSrc };
   }
 
+  // Platform UnionOps mark — match BrandLogo / UnionOpsMark: light ink on
+  // brand bands (letterhead orange) must not keep the dark interlock PNG.
+  return resolveUnionOpsPresentation(ink);
+}
+
+/** Default / Brand Kit UnionOps mark for Office embeds and CSS mocks. */
+function resolveUnionOpsPresentation(
+  ink: InkTone | null,
+): BrandLogoPresentation {
+  if (ink && isLightInk(ink)) {
+    return {
+      src: UNIONOPS_LOGOS.markInterlock,
+      cssFilter: logoRasterFilter(ink),
+    };
+  }
   return { src: UNIONOPS_LOGOS.markInterlock };
 }

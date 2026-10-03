@@ -13,6 +13,7 @@ import {
   Paragraph,
   ShadingType,
   Table,
+  TableBorders,
   TableCell,
   TableLayoutType,
   TableRow,
@@ -116,6 +117,8 @@ function letterheadBandTable(opts: DocxBuildInput): Table {
   const widths = letterheadBandWidths();
   const [logoW, logoH] = opts.logo ? letterheadLogoSlotPx(opts.logo) : [0, 0];
   const none = NONE_BORDER(primary);
+  const bandShading = { type: ShadingType.CLEAR, fill: primary } as const;
+  const noBorders = { top: none, bottom: none, left: none, right: none };
 
   const logoCellChildren = opts.logo
     ? [
@@ -146,9 +149,14 @@ function letterheadBandTable(opts: DocxBuildInput): Table {
         }),
       ];
 
-  return new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE },
+  // Inner logo | identity row. Absolute DXA widths — never pct (iOS Quick Look
+  // ignores w:type="pct" and collapses FIXED tables to content).
+  // TableBorders.NONE kills the library default single grid (hairlines between
+  // logo/text columns and around the band that the CSS preview never shows).
+  const innerBand = new Table({
+    width: { size: widths.contentTwips, type: WidthType.DXA },
     layout: TableLayoutType.FIXED,
+    borders: TableBorders.NONE,
     columnWidths: [widths.logoColTwips, widths.textColTwips],
     rows: [
       new TableRow({
@@ -157,8 +165,8 @@ function letterheadBandTable(opts: DocxBuildInput): Table {
           new TableCell({
             width: { size: widths.logoColTwips, type: WidthType.DXA },
             verticalAlign: VerticalAlign.CENTER,
-            shading: { type: ShadingType.CLEAR, fill: primary },
-            borders: { top: none, bottom: none, left: none, right: none },
+            shading: bandShading,
+            borders: noBorders,
             margins: {
               top: widths.cellPadYTwips,
               bottom: widths.cellPadYTwips,
@@ -170,8 +178,8 @@ function letterheadBandTable(opts: DocxBuildInput): Table {
           new TableCell({
             width: { size: widths.textColTwips, type: WidthType.DXA },
             verticalAlign: VerticalAlign.CENTER,
-            shading: { type: ShadingType.CLEAR, fill: primary },
-            borders: { top: none, bottom: none, left: none, right: none },
+            shading: bandShading,
+            borders: noBorders,
             margins: {
               top: widths.cellPadYTwips,
               bottom: widths.cellPadYTwips,
@@ -208,6 +216,29 @@ function letterheadBandTable(opts: DocxBuildInput): Table {
                   ]
                 : []),
             ],
+          }),
+        ],
+      }),
+    ],
+  });
+
+  // Outer single-cell wrapper at full content DXA width so viewers that still
+  // shrink multi-column tables cannot collapse the band to a logo stamp.
+  return new Table({
+    width: { size: widths.contentTwips, type: WidthType.DXA },
+    layout: TableLayoutType.FIXED,
+    borders: TableBorders.NONE,
+    columnWidths: [widths.contentTwips],
+    rows: [
+      new TableRow({
+        cantSplit: true,
+        children: [
+          new TableCell({
+            width: { size: widths.contentTwips, type: WidthType.DXA },
+            shading: bandShading,
+            borders: noBorders,
+            margins: { top: 0, bottom: 0, left: 0, right: 0 },
+            children: [innerBand],
           }),
         ],
       }),

@@ -138,4 +138,19 @@ describe("resolveBrandLogoPresentation", () => {
     expect(onPaper.plate).toBeUndefined();
     expect(onPaper.cssFilter).toBeUndefined();
   });
+
+  it("inverts the default UnionOps interlock on brand orange letterhead bands", () => {
+    const kit: BrandKit = {
+      ...DEFAULT_BRAND_KIT,
+      useOfficialLogo: false,
+    };
+    const onOrange = resolveBrandLogoPresentation(kit, "#C2410C");
+    expect(onOrange.src).toContain("logo-mark-interlock");
+    expect(onOrange.cssFilter).toBe("brightness(0) invert(1)");
+    expect(onOrange.plate).toBeUndefined();
+
+    const onPaper = resolveBrandLogoPresentation(kit, "#FFFFFF");
+    expect(onPaper.src).toContain("logo-mark-interlock");
+    expect(onPaper.cssFilter).toBeUndefined();
+  });
 });
