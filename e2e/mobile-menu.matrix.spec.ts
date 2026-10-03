@@ -160,6 +160,12 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
       const drawer = page.getByTestId("hub-nav-drawer");
       await expect(drawer).toBeVisible();
       await expect(page.getByTestId("mobile-site-section")).toBeVisible();
+      await expect(
+        drawer.getByRole("link", { name: "Local Portal", exact: true }),
+      ).toBeVisible();
+      await expect(
+        drawer.getByTestId("platform-operator-account-link"),
+      ).toHaveCount(0);
 
       await page.keyboard.press("Escape");
       await expect(toggle).toHaveAttribute("aria-expanded", "false");
@@ -232,6 +238,15 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
       await expect(
         drawer.getByRole("link", { name: "Brand Kit", exact: true }),
       ).toBeVisible();
+      await expect(
+        drawer.getByRole("link", { name: "Local Portal", exact: true }),
+      ).toBeVisible();
+      await expect
+        .poll(async () => {
+          const box = await drawer.boundingBox();
+          return box ? Math.round(box.x + box.width) : Infinity;
+        })
+        .toBeLessThanOrEqual(width + 1);
       const drawerBox = await drawer.boundingBox();
       const toggleAfterOpen = await toggle.boundingBox();
       expect(drawerBox).toBeTruthy();
@@ -241,7 +256,18 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
         expect(drawerBox.y).toBeGreaterThanOrEqual(
           toggleAfterOpen.y + toggleAfterOpen.height - 2,
         );
-        expect(drawerBox.x + drawerBox.width).toBeLessThanOrEqual(width + 1);
+        const live = await page.evaluate(() => ({
+          innerWidth: window.innerWidth,
+          clientWidth: document.documentElement.clientWidth,
+          visualWidth: window.visualViewport?.width ?? null,
+          mq480: window.matchMedia("(min-width: 480px)").matches,
+          styleWidth: document.querySelector("[data-testid='hub-nav-drawer']")
+            ?.getAttribute("style"),
+        }));
+        expect(
+          drawerBox.x + drawerBox.width,
+          `drawer right=${drawerBox.x + drawerBox.width} requested=${width} live=${JSON.stringify(live)}`,
+        ).toBeLessThanOrEqual(width + 1);
       }
       await assertNoHorizontalOverflow(page);
 

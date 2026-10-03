@@ -29,6 +29,7 @@ import { HubNavDrawer } from "@/components/hub/HubNavDrawer";
 import {
   groupHubToolLinks,
   hubModuleActive,
+  hubShowsLocalPortalPeer,
   hubToolLinkActive,
   hubToolsActive,
 } from "@/components/hub/hub-nav-model";
@@ -132,6 +133,8 @@ export function HubNav() {
       : toolLinks;
   const toolGroups = groupHubToolLinks(menuToolLinks);
   const toolsActive = hubToolsActive(pathname, toolLinks);
+  const showPortalPeer = hubShowsLocalPortalPeer(visibleModules, roles);
+  const portalCurrent = pathname.startsWith("/portal");
 
   const drawerModules = modules.map((mod) => ({
     id: mod.id,
@@ -202,6 +205,20 @@ export function HubNav() {
           {isPlatformOperator(roles) && (
             <PlatformOperatorNavDropdown variant="hub" />
           )}
+          {showPortalPeer ? (
+            <Link
+              href="/portal"
+              aria-current={portalCurrent ? "page" : undefined}
+              className={linkClass(
+                cn(
+                  "xl:hidden text-opseu-blue",
+                  portalCurrent && "bg-white font-semibold text-opseu-dark",
+                ),
+              )}
+            >
+              {t("portalLink")}
+            </Link>
+          ) : null}
           {toolGroups.length > 0 && (
             <NavDropdown
               label={t("toolsMenu")}
@@ -342,6 +359,8 @@ export function HubNav() {
           setupLinks={setupLinks}
           toolGroups={toolGroups}
           toolsActive={toolsActive}
+          portalHref={showPortalPeer ? "/portal" : undefined}
+          portalLabel={showPortalPeer ? t("portalLink") : undefined}
           accountLinks={accountLinks}
           mfaEnabled={mfaEnabled}
           mfaOk={mfaOk}

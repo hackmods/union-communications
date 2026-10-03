@@ -76,6 +76,11 @@ assert.match(ci, /\n  build-app:\n/, "CI must include a build-app job that produ
 assert.match(ci, /\n  e2e-smoke:\n/, "CI must include a sharded e2e-smoke job.");
 assert.match(ci, /\n  test-gate:\n/, "CI must include a test-gate job for deploy.");
 assert.match(ci, /--shard=\$\{\{\s*matrix\.shard\s*\}\}\/4/, "E2E smoke must shard across 4 runners.");
+assert.match(
+  ci,
+  /name: Upload Playwright failure artifacts[\s\S]*?if:\s*failure\(\)[\s\S]*?playwright-report[\s\S]*?test-results/,
+  "E2E shards must retain Playwright reports when a shard fails.",
+);
 assert.match(ci, /\n  detect-changes:\n/, "CI must detect docs-only PRs before skipping the test belt.");
 assert.match(
   ci,
