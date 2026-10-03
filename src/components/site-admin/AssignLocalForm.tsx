@@ -17,6 +17,12 @@ import {
   type UnionLocalSelectValue,
   type UnionOption,
 } from "@/components/tenant/UnionLocalSelect";
+import {
+  canEditAssignLocal,
+  canSubmitAssignLocal,
+  type AssignLocalFormGateState,
+  type AssignLocalOptionsLoadState,
+} from "@/components/site-admin/assign-local-form-gates";
 
 type Props = {
   userId: string;
@@ -27,8 +33,6 @@ type Props = {
   /** When true, assignment writes are blocked (account is locked). */
   locked?: boolean;
 };
-
-type OptionsLoadState = "loading" | "ready" | "error";
 
 function selectionComplete(value: UnionLocalSelectValue): boolean {
   if (value.unionId === UNION_LOCAL_SELECT_OTHER) {
@@ -56,7 +60,7 @@ export function AssignLocalForm({
   const [collectives, setCollectives] = useState<CollectiveOption[]>([]);
   const [subGroups, setSubGroups] = useState<SubGroupOption[]>([]);
   const [optionsLoadState, setOptionsLoadState] =
-    useState<OptionsLoadState>("loading");
+    useState<AssignLocalOptionsLoadState>("loading");
   const [optionsReloadToken, setOptionsReloadToken] = useState(0);
   const [value, setValue] = useState<UnionLocalSelectValue>(() => ({
     ...emptyUnionLocalSelectValue(),
@@ -105,16 +109,17 @@ export function AssignLocalForm({
     };
   }, [loadOptions, optionsReloadToken]);
 
-  const canEdit =
-    !accountBlocked &&
-    !busy &&
-    !stepUpRequired &&
-    !resultUnconfirmed &&
-    optionsLoadState === "ready";
-  const canSubmit =
-    canEdit &&
-    selectionComplete(value) &&
-    !(stepUpRequired && !mfaCode.trim());
+  const gateState: AssignLocalFormGateState = {
+    accountBlocked,
+    busy,
+    stepUpRequired,
+    resultUnconfirmed,
+    optionsLoadState,
+    selectionComplete: selectionComplete(value),
+    mfaCode,
+  };
+  const canEdit = canEditAssignLocal(gateState);
+  const canSubmit = canSubmitAssignLocal(gateState);
 
   async function submitAssign(options?: { replace?: boolean }) {
     if (accountBlocked) {
@@ -166,8 +171,10 @@ export function AssignLocalForm({
       };
       if (!res.ok) {
         if (data.code === "mfa_step_up_required") {
+          // Prompt for a code — not an assignment failure. Keep the MFA panel
+          // calm so operators do not think Hub auth itself is broken.
           setStepUpRequired(true);
-          setError(t("assignLocalStepUpRequired"));
+          setError(null);
         } else if (data.code === "mfa_step_up_failed") {
           setStepUpRequired(true);
           setMfaCode("");
@@ -319,22 +326,34 @@ export function AssignLocalForm({
 
       {stepUpRequired ? (
         <div className="space-y-2">
+          <Callout tone="warning">
+            <p className="font-semibold">{t("assignLocalStepUpTitle")}</p>
+            <p className="mt-1">{t("assignLocalStepUpRequired")}</p>
+          </Callout>
           <Input
             label={t("assignLocalMfaCode")}
             value={mfaCode}
-            onChange={(event) => setMfaCode(event.target.value)}
+            onChange={(event) => {
+              setMfaCode(event.target.value);
+              if (error) setError(null);
+            }}
             autoComplete="one-time-code"
             maxLength={32}
             autoFocus
             required
             disabled={busy || accountBlocked}
+            aria-describedby="assign-local-mfa-help"
           />
-          <p className="text-xs text-opseu-gray-dark">
+          <p
+            id="assign-local-mfa-help"
+            className="text-xs text-opseu-gray-dark"
+          >
             {t("assignLocalStepUpHelp")}
           </p>
           <Button
             type="button"
             variant="outline"
+            className="min-h-11"
             disabled={busy}
             onClick={() => {
               setMfaCode("");
@@ -348,13 +367,14 @@ export function AssignLocalForm({
       ) : null}
 
       {error ? (
-        <Callout tone="danger">
+        <Callout tone="danger" role="alert">
           <p className="font-semibold">{t("assignLocalErrorTitle")}</p>
           <p className="mt-1">{error}</p>
           {needsReplace ? (
             <div className="mt-3">
               <Button
                 type="button"
+                className="min-h-11"
                 disabled={!canSubmit}
                 onClick={() => void submitAssign({ replace: true })}
               >
@@ -365,14 +385,18 @@ export function AssignLocalForm({
         </Callout>
       ) : null}
       {success ? (
-        <Callout tone="success">
+        <Callout tone="success" role="status">
           <p className="font-semibold">{t("assignLocalSuccessTitle")}</p>
           <p className="mt-1">{success}</p>
         </Callout>
       ) : null}
 
-      <Button type="submit" disabled={!canSubmit}>
-        {busy ? t("assignLocalSaving") : t("assignLocalSubmit")}
+      <Button type="submit" className="min-h-11" disabled={!canSubmit}>
+        {busy
+          ? t("assignLocalSaving")
+          : stepUpRequired
+            ? t("assignLocalVerifySubmit")
+            : t("assignLocalSubmit")}
       </Button>
     </form>
   );

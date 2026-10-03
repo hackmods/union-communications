@@ -9,6 +9,8 @@
 - Flush-out: tenant-options load/retry, incomplete-selection guard, archived/locked
   block, network errors no longer lock the form as “maybe wrote”, Postgres-off and
   inactive-account bilingual mapping.
+- Step-up resume: Save enables with a filled code; first MFA prompt is a calm
+  “Verification needed” panel (not “Assignment failed”), with Verify and save.
 
 ## 2026-10-03 — Poster adaptive text and logo sizing
 
