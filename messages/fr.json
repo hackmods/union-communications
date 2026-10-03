@@ -7785,6 +7785,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "request-access-open": {
+        "title": "Demandez l’accès de nouveau",
+        "body": "Le formulaire de demande accepte de nouveau les noms. Envoyez votre syndicat, votre section et votre courriel. Nous recevrons la demande et ferons un suivi. Cela ne crée pas de compte sur-le-champ."
+      },
       "home-union-work": {
         "title": "Trouvez des outils pour votre travail syndical",
         "body": "L’accueil relie les visuels, la préparation en milieu de travail, la formation et les activités locales avec des liens directs, les couleurs réutilisables de la Trousse de marque et des exemples réels du Hub des dirigeants et du Portail local."

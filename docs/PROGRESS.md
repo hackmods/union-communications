@@ -2,6 +2,7 @@
 
 - Hall / workshop NAT: access-request limiter is 500 successful submits per IP and 1,500 on `"unknown"` per 10 minutes, plus 8 per hashed email so one bot cannot fill the hall burst.
 - Hosted MFA is **Local opt-in** (`locals.mfa_required`, default off, migration `0097`). Presidents and stewards are not sent to authenticator setup on first Hub sign-in. Host operators (platform / union / division admin) still need MFA. Site Admin can require it per Local after launch.
+- Member `/request-access` now accepts the JSON a browser form actually sends (`role: null`, empty message). Create only persists NewAccessRequest fields. What’s new `request-access-open` points people back to the form.
 
 ## 2026-10-03 — Mobile menu stays intact after scroll
 

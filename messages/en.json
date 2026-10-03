@@ -7839,6 +7839,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "request-access-open": {
+        "title": "Ask for access again",
+        "body": "The request form is taking names again. Send your union, local, and email. We will receive it and follow up. This does not create an account on the spot."
+      },
       "home-union-work": {
         "title": "Find tools for the union work in front of you",
         "body": "Home now connects graphics, workplace preparation, learning and local operations with direct tool links, reusable Brand Kit colours and real Officer Hub and Local Portal examples."

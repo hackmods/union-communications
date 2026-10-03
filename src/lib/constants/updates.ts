@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "request-access-open",
+    date: "2026-10-03",
+    kind: "improved",
+    href: "/request-access",
+  },
+  {
     id: "hub-brand-local-sync",
     date: "2026-10-02",
     kind: "added",

@@ -14,6 +14,13 @@ type Props = {
   locale: string;
 };
 
+function formLine(fd: FormData, name: string): string | undefined {
+  const value = fd.get(name);
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
 export function AccessRequestForm({ kind, locale }: Props) {
   const t = useTranslations("accessRequestForm");
   const [busy, setBusy] = useState(false);
@@ -45,16 +52,16 @@ export function AccessRequestForm({ kind, locale }: Props) {
         body: JSON.stringify({
           submissionKey: crypto.randomUUID(),
           kind,
-          name: fd.get("name"),
-          email: fd.get("email"),
-          unionName: fd.get("unionName"),
-          localName: fd.get("localName"),
-          role: fd.get("role"),
-          message: fd.get("message"),
+          name: formLine(fd, "name"),
+          email: formLine(fd, "email"),
+          unionName: formLine(fd, "unionName"),
+          localName: formLine(fd, "localName"),
+          role: formLine(fd, "role"),
+          message: formLine(fd, "message"),
           offerings,
           locale: language,
           consentAccepted: true,
-          website: fd.get("website"),
+          website: formLine(fd, "website"),
         }),
       });
       if (!res.ok) {

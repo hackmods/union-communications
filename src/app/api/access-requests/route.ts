@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { accessRequestStore } from "@/lib/access-requests/store";
-import { accessRequestSchema } from "@/lib/access-requests/validation";
+import { accessRequestSchema, toNewAccessRequest } from "@/lib/access-requests/validation";
 import {
   ACCESS_REQUEST_RETRY_AFTER_SECONDS,
   checkAccessRequestEmailRateLimit,
@@ -16,6 +16,7 @@ import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
 import { decideCapability } from "@/lib/authorization/model";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { accessRequestMemberView } from "@/types/access-request";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 function operatorInboxHint(locale = "en"): string {
   const origin = process.env.AUTH_URL?.replace(/\/$/, "") ?? "";
@@ -65,7 +66,19 @@ export async function POST(request: Request) {
     );
   }
 
-  const row = await accessRequestStore.create(parsed.data);
+  let row;
+  try {
+    row = await accessRequestStore.create(toNewAccessRequest(parsed.data));
+  } catch (error) {
+    reportApiFailure(error, "POST /api/access-requests");
+    return NextResponse.json(
+      {
+        error:
+          "We could not save your request. Try again in a moment. If it keeps failing, use the Support page.",
+      },
+      { status: 503 },
+    );
+  }
   await auditLog.log({
     userId: "anonymous",
     action: "access_request.submit",

@@ -153,6 +153,37 @@ describe("access request HTTP", () => {
       expect(await accessRequestStore.list()).toHaveLength(1);
     });
 
+    it("accepts the JSON a browser member-access form actually sends", async () => {
+      const res = await submitAccessRequest(
+        jsonRequest(
+          {
+            submissionKey: "browser-form-key-16x",
+            kind: "member_access",
+            name: "Alex Rivera",
+            email: "alex@example.test",
+            unionName: "CAAT",
+            localName: "243",
+            role: null,
+            message: "",
+            offerings: ["local_portal"],
+            locale: "en",
+            consentAccepted: true,
+            website: "",
+          },
+          undefined,
+          "203.0.113.41",
+        ),
+      );
+      expect(res.status).toBe(201);
+      const rows = await accessRequestStore.list();
+      expect(rows).toHaveLength(1);
+      expect(rows[0]?.kind).toBe("member_access");
+      expect(rows[0]?.unionName).toBe("CAAT");
+      expect(rows[0]?.localName).toBe("243");
+      expect(rows[0]).not.toHaveProperty("website");
+      expect(rows[0]?.role).toBeUndefined();
+    });
+
     it("rejects invalid JSON, extra keys, and missing consent before writing", async () => {
       const invalidJson = await submitAccessRequest(
         jsonRequest("{", "http://localhost/api/access-requests", "203.0.113.2"),
