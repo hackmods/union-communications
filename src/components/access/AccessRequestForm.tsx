@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -32,6 +32,11 @@ export function AccessRequestForm({ kind, locale }: Props) {
   );
   const [language, setLanguage] = useState(locale === "fr" ? "fr" : "en");
   const successRef = useRef<HTMLDivElement>(null);
+  const errorRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    if (error) errorRef.current?.focus();
+  }, [error]);
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -98,6 +103,17 @@ export function AccessRequestForm({ kind, locale }: Props) {
         >
           <p className="text-lg font-semibold text-opseu-dark">{t("success")}</p>
           <p className="mt-2 text-gray-700">{t("next")}</p>
+          <Button
+            type="button"
+            variant="outline"
+            className="mt-4 min-h-11 w-full"
+            onClick={() => {
+              setDone(false);
+              setError("");
+            }}
+          >
+            {t("another")}
+          </Button>
         </div>
       </Card>
     );
@@ -202,11 +218,16 @@ export function AccessRequestForm({ kind, locale }: Props) {
         </p>
       </div>
       {error ? (
-        <p role="alert" className="text-sm text-red-700">
+        <p
+          ref={errorRef}
+          role="alert"
+          tabIndex={-1}
+          className="text-sm text-red-700 outline-none"
+        >
           {error}
         </p>
       ) : null}
-      <Button type="submit" disabled={busy} className="min-h-11 w-full">
+      <Button type="submit" disabled={busy} aria-busy={busy} className="min-h-11 w-full">
         {busy ? t("sending") : t("submit")}
       </Button>
     </form>

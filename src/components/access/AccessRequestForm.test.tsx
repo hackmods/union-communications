@@ -167,5 +167,11 @@ describe("AccessRequestForm", () => {
     expect(body.kind).toBe("member_access");
     expect(body.role).toBeUndefined();
     expect(body.offerings).toEqual(["local_portal"]);
+
+    fireEvent.click(screen.getByRole("button", { name: "Send another request" }));
+    expect(screen.getByRole("button", { name: "Send request" })).toBeVisible();
+    expect(
+      screen.getByText("If an earlier try failed, send it again"),
+    ).toBeVisible();
   });
 });
