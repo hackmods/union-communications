@@ -253,4 +253,22 @@ describe("RLS policy contract (no live DB)", () => {
     expect(sql).toContain("CREATE POLICY officer_roster_manage_insert ON officer_roster");
     expect(sql).toContain("app_org_manage(union_id, local_id, 'officers.manage')");
   });
+
+  it("lets MFA-verified platform admins manage memberships across home unions", () => {
+    const sql = readMigration("0098_platform_admin_membership_manage.sql");
+    expect(sql).toContain("CREATE OR REPLACE FUNCTION app_org_manage(target_union text, target_local text, capability text)");
+    expect(sql).toContain("CREATE OR REPLACE FUNCTION app_sync_local_portal_membership(target_union text, target_local text, target_user text)");
+    expect(sql).toContain("CREATE OR REPLACE FUNCTION app_revoke_local_portal_membership(target_union text, target_local text, target_user text)");
+    expect(sql).toContain("app.current_platform_admin");
+    expect(sql).toContain("app.current_mfa_verified");
+    expect(sql).toContain("u.roles ? 'platform_admin'");
+    expect(sql).toContain("host_platform_admin");
+    expect(sql).toContain("membership management authority required");
+    expect(sql).toContain("membership authority denied");
+    // Cross-tenant Site Admin must not require actor.users.union_id = target
+    // on the host-admin branch (same-union admin path still does).
+    expect(sql).toMatch(
+      /current_setting\('app\.current_platform_admin',\s*true\) = 'true'[\s\S]*?u\.roles \? 'platform_admin'/,
+    );
+  });
 });

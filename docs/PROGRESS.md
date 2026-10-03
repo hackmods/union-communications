@@ -1,3 +1,12 @@
+## 2026-10-03 — Site Admin Assign local cross-tenant
+
+- Account support Assign local no longer 500s when a platform admin’s home union
+  differs from the target (demo B7P → OPSEU 243). Migration
+  `0098_platform_admin_membership_manage` lets MFA-verified platform-admin GUCs
+  manage memberships / portal sync without a matching home `users.union_id`.
+- Assign path always binds those GUCs (including owner DB). Known RLS / sync
+  raises become coded bilingual errors instead of “Assign local failed”.
+
 ## 2026-10-03 — Poster adaptive text and logo sizing
 
 - Solidarity Poster Maker: digital wallpapers author at fixed design px (`CanvasWrapper`) with `solidaritySupportChrome` for all media. Brand Kit type scale multiplies lead and compresses logo under Display / multi-line pressure; split lead/closer fit via `WalletCopyBlock`.

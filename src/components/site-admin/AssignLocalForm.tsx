@@ -148,10 +148,29 @@ export function AssignLocalForm({
           setNeedsReplace(true);
           setReplaceActive(true);
           setError(t("assignLocalSingleConflict"));
+        } else if (
+          data.code === "membership_authority_denied" ||
+          data.code === "membership_write_blocked"
+        ) {
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("assignLocalAuthorityDenied"));
+        } else if (data.code === "membership_scope_denied") {
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("assignLocalScopeDenied"));
+        } else if (data.code === "membership_sync_required") {
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("assignLocalSyncRequired"));
         } else {
           setStepUpRequired(false);
           setMfaCode("");
-          setError(data.error ?? t("assignLocalFailed"));
+          setError(
+            data.code === "assignment_failed"
+              ? t("assignLocalFailed")
+              : (data.error ?? t("assignLocalFailed")),
+          );
         }
         return;
       }

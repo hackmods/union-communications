@@ -687,6 +687,13 @@
       "when": 1794300000000,
       "tag": "0097_local_mfa_opt_in",
       "breakpoints": true
+    },
+    {
+      "idx": 98,
+      "version": "7",
+      "when": 1794400000000,
+      "tag": "0098_platform_admin_membership_manage",
+      "breakpoints": true
     }
   ]
 }

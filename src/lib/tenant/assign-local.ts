@@ -48,6 +48,13 @@ export type AssignLocalInput = {
   replaceActiveMembership?: boolean;
 };
 
+export type AssignLocalErrorCode =
+  | "single_local_conflict"
+  | "membership_authority_denied"
+  | "membership_scope_denied"
+  | "membership_sync_required"
+  | "membership_write_blocked";
+
 export type AssignLocalResult =
   | {
       ok: true;
@@ -61,11 +68,67 @@ export type AssignLocalResult =
     }
   | {
       ok: false;
-      status: 400 | 404 | 409;
+      status: 400 | 403 | 404 | 409;
       error: string;
-      code?: "single_local_conflict";
+      code?: AssignLocalErrorCode;
       conflictingLocalIds?: string[];
     };
+
+/** Map Postgres / SECURITY DEFINER raises into operator-safe assign results. */
+export function classifyAssignLocalFailure(error: unknown): AssignLocalResult | null {
+  const message =
+    error instanceof Error
+      ? error.message
+      : typeof error === "string"
+        ? error
+        : "";
+  const normalized = message.toLowerCase();
+
+  if (
+    normalized.includes("membership management authority required") ||
+    normalized.includes("membership authority denied")
+  ) {
+    return {
+      ok: false,
+      status: 403,
+      error:
+        "This host account cannot manage memberships for that union yet. Confirm Site Admin MFA and retry.",
+      code: "membership_authority_denied",
+    };
+  }
+  if (normalized.includes("membership scope denied")) {
+    return {
+      ok: false,
+      status: 403,
+      error:
+        "Membership scope did not bind to the selected union and local. Refresh Account support and try again.",
+      code: "membership_scope_denied",
+    };
+  }
+  if (normalized.includes("active local membership required")) {
+    return {
+      ok: false,
+      status: 409,
+      error:
+        "The membership row was not ready for portal sync. Refresh the account and try the assignment again.",
+      code: "membership_sync_required",
+    };
+  }
+  if (
+    normalized.includes("membership write blocked") ||
+    normalized.includes("violates row-level security") ||
+    normalized.includes("new row violates row-level security")
+  ) {
+    return {
+      ok: false,
+      status: 403,
+      error:
+        "Postgres blocked the membership write. Confirm durable Site Admin authority and try again.",
+      code: "membership_write_blocked",
+    };
+  }
+  return null;
+}
 
 async function resolveUnion(input: AssignLocalInput): Promise<
   | { ok: true; unionId: string; policy: MembershipPolicy; createdUnion: boolean }
@@ -201,7 +264,6 @@ export async function assignUserLocal(
   input: AssignLocalInput,
 ): Promise<AssignLocalResult> {
   const db = getAssignDb();
-  const usingOwnerDb = isOwnerDbConfigured();
   const [target] = await db
     .select({
       id: users.id,
@@ -287,125 +349,141 @@ export async function assignUserLocal(
   const replacedMembershipIds: string[] = [];
   const now = new Date();
 
-  const membershipId = await db.transaction(async (tx) => {
-    // App-role fallback: bind RLS GUCs so same-union platform_admin can insert.
-    // Cross-union / new-union still needs MIGRATE_DATABASE_URL (owner) above.
-    if (!usingOwnerDb) {
+  let membershipId: string;
+  try {
+    membershipId = await db.transaction(async (tx) => {
+      // Always bind GUCs — SECURITY DEFINER sync/revoke checks them even on the
+      // owner role. platformAdmin + mfaVerified unlocks cross-tenant Site Admin
+      // assign after migration 0098 (home union no longer must match target).
       await applyRlsContext(tx, {
         unionId: union.unionId,
         localId: local.localId,
         userId: input.actorUserId,
         crossLocal: true,
         mfaVerified: true,
+        platformAdmin: true,
       });
-    }
-    if (union.policy === "single_local" && activeOthers.length > 0) {
-      for (const other of activeOthers) {
+
+      if (union.policy === "single_local" && activeOthers.length > 0) {
+        for (const other of activeOthers) {
+          await tx
+            .update(localMemberships)
+            .set({
+              status: "inactive",
+              endedAt: now,
+              isPrimary: false,
+            })
+            .where(eq(localMemberships.id, other.id));
+          replacedMembershipIds.push(other.id);
+          await tx.execute(
+            sql`SELECT app_revoke_local_portal_membership(${union.unionId}, ${other.localId}, ${target.id})`,
+          );
+        }
+      }
+
+      if (setPrimary) {
         await tx
           .update(localMemberships)
-          .set({
-            status: "inactive",
-            endedAt: now,
-            isPrimary: false,
-          })
-          .where(eq(localMemberships.id, other.id));
-        replacedMembershipIds.push(other.id);
-        await tx.execute(
-          sql`SELECT app_revoke_local_portal_membership(${union.unionId}, ${other.localId}, ${target.id})`,
-        );
+          .set({ isPrimary: false })
+          .where(
+            and(
+              eq(localMemberships.unionId, union.unionId),
+              eq(localMemberships.userId, target.id),
+            ),
+          );
       }
-    }
 
-    if (setPrimary) {
-      await tx
-        .update(localMemberships)
-        .set({ isPrimary: false })
+      const [existing] = await tx
+        .select()
+        .from(localMemberships)
         .where(
           and(
-            eq(localMemberships.unionId, union.unionId),
             eq(localMemberships.userId, target.id),
+            eq(localMemberships.localId, local.localId),
+            eq(localMemberships.unionId, union.unionId),
           ),
-        );
-    }
+        )
+        .limit(1);
 
-    const [existing] = await tx
-      .select()
-      .from(localMemberships)
-      .where(
-        and(
-          eq(localMemberships.userId, target.id),
-          eq(localMemberships.localId, local.localId),
-          eq(localMemberships.unionId, union.unionId),
-        ),
-      )
-      .limit(1);
-
-    let membershipRowId: string;
-    if (existing) {
-      const [updated] = await tx
-        .update(localMemberships)
-        .set({
+      let membershipRowId: string;
+      if (existing) {
+        const updatedRows = await tx
+          .update(localMemberships)
+          .set({
+            status: "active",
+            startedAt: now,
+            endedAt: null,
+            isPrimary: setPrimary,
+            bargainingUnitId: input.bargainingUnitId ?? existing.bargainingUnitId,
+          })
+          .where(eq(localMemberships.id, existing.id))
+          .returning({ id: localMemberships.id });
+        const updated = updatedRows[0];
+        if (!updated?.id) {
+          throw new Error("membership write blocked");
+        }
+        membershipRowId = updated.id;
+      } else {
+        const id = randomUUID();
+        await tx.insert(localMemberships).values({
+          id,
+          unionId: union.unionId,
+          localId: local.localId,
+          userId: target.id,
+          bargainingUnitId: input.bargainingUnitId ?? null,
           status: "active",
-          startedAt: now,
-          endedAt: null,
           isPrimary: setPrimary,
-          bargainingUnitId: input.bargainingUnitId ?? existing.bargainingUnitId,
+          startedAt: now,
+          createdById: input.actorUserId,
+        });
+        membershipRowId = id;
+      }
+
+      const accessible = Array.isArray(target.accessibleLocalIds)
+        ? target.accessibleLocalIds
+        : [];
+      const nextAccessible = [
+        ...new Set([
+          ...accessible.filter((id) =>
+            union.policy === "single_local"
+              ? id === local.localId ||
+                !activeOthers.some((o) => o.localId === id)
+              : true,
+          ),
+          local.localId,
+        ]),
+      ];
+
+      const userUpdated = await tx
+        .update(users)
+        .set({
+          unionId: union.unionId,
+          localId: setPrimary ? local.localId : target.localId ?? local.localId,
+          ...(input.bargainingUnitId !== undefined
+            ? { bargainingUnitId: input.bargainingUnitId }
+            : {}),
+          accessibleLocalIds: nextAccessible,
         })
-        .where(eq(localMemberships.id, existing.id))
-        .returning({ id: localMemberships.id });
-      membershipRowId = updated.id;
-    } else {
-      const id = randomUUID();
-      await tx.insert(localMemberships).values({
-        id,
-        unionId: union.unionId,
-        localId: local.localId,
-        userId: target.id,
-        bargainingUnitId: input.bargainingUnitId ?? null,
-        status: "active",
-        isPrimary: setPrimary,
-        startedAt: now,
-        createdById: input.actorUserId,
-      });
-      membershipRowId = id;
-    }
+        .where(eq(users.id, target.id))
+        .returning({ id: users.id });
+      if (!userUpdated[0]?.id) {
+        throw new Error("membership write blocked");
+      }
+      await tx.execute(
+        sql`UPDATE users SET session_version = session_version + 1 WHERE id = ${target.id}`,
+      );
 
-    const accessible = Array.isArray(target.accessibleLocalIds)
-      ? target.accessibleLocalIds
-      : [];
-    const nextAccessible = [
-      ...new Set([
-        ...accessible.filter((id) =>
-          union.policy === "single_local"
-            ? id === local.localId ||
-              !activeOthers.some((o) => o.localId === id)
-            : true,
-        ),
-        local.localId,
-      ]),
-    ];
+      await tx.execute(
+        sql`SELECT app_sync_local_portal_membership(${union.unionId}, ${local.localId}, ${target.id})`,
+      );
 
-    await tx
-      .update(users)
-      .set({
-        unionId: union.unionId,
-        localId: setPrimary ? local.localId : target.localId ?? local.localId,
-        ...(input.bargainingUnitId !== undefined
-          ? { bargainingUnitId: input.bargainingUnitId }
-          : {}),
-        accessibleLocalIds: nextAccessible,
-      })
-      .where(eq(users.id, target.id));
-    await tx.execute(
-      sql`UPDATE users SET session_version = session_version + 1 WHERE id = ${target.id}`,
-    );
-
-    await tx.execute(
-      sql`SELECT app_sync_local_portal_membership(${union.unionId}, ${local.localId}, ${target.id})`,
-    );
-
-    return membershipRowId;
-  });
+      return membershipRowId;
+    });
+  } catch (error) {
+    const classified = classifyAssignLocalFailure(error);
+    if (classified) return classified;
+    throw error;
+  }
 
   return {
     ok: true,
