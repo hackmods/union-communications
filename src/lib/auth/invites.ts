@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
 import type { UserRole } from "@/types/tenant";
 import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
-import { rolesRequireHostedMfa } from "@/lib/auth/mfa-requirements";
+import { accountRequiresMfaForLocal } from "@/lib/auth/local-mfa-opt-in";
 import { getLocalById } from "@/lib/tenant/loader";
 import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
 import { portalStore } from "@/lib/portal/memory-adapter";
@@ -193,7 +193,14 @@ async function acceptInviteMemory(
     divisionId: invite.divisionId,
     bargainingUnitId: invite.bargainingUnitId,
     roles: invite.roles,
-    requiresMfa: true,
+    requiresMfa: await accountRequiresMfaForLocal({
+      email: invite.email,
+      roles: invite.roles,
+      localId: invite.localId,
+      explicitMfaEnabled: false,
+      legacyRequiresMfa: false,
+      hostedCustomerMode: isHostedCustomerMode(),
+    }),
     createdAt: new Date().toISOString(),
   };
   invitedUsers.push(user);
@@ -240,7 +247,14 @@ export async function acceptInvite(
         divisionId: invite.divisionId,
         bargainingUnitId: invite.bargainingUnitId,
         roles: invite.roles,
-        requiresMfa: true,
+        requiresMfa: await accountRequiresMfaForLocal({
+          email: invite.email,
+          roles: invite.roles,
+          localId: invite.localId,
+          explicitMfaEnabled: false,
+          legacyRequiresMfa: false,
+          hostedCustomerMode: isHostedCustomerMode(),
+        }),
         createdAt: invite.acceptedAt ?? new Date().toISOString(),
       },
     };
@@ -261,7 +275,17 @@ export async function findInvitedUser(
   const ok = await verifyPassword(password, user.passwordHash);
   if (!ok) return null;
   return isHostedCustomerMode()
-    ? { ...user, requiresMfa: rolesRequireHostedMfa(user.roles) }
+    ? {
+        ...user,
+        requiresMfa: await accountRequiresMfaForLocal({
+          email: user.email,
+          roles: user.roles,
+          localId: user.localId,
+          explicitMfaEnabled: false,
+          legacyRequiresMfa: false,
+          hostedCustomerMode: true,
+        }),
+      }
     : user;
 }
 

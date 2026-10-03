@@ -83,17 +83,17 @@ export function HubContextSwitcher({
 
   const stacked = variant === "drawer";
   const selectClass = stacked
-    ? "min-h-11 w-full rounded-md border border-gray-300 bg-white px-2 text-base"
+    ? "min-h-11 w-full min-w-0 max-w-full rounded-md border border-gray-300 bg-white px-2 text-base"
     : "max-w-[9rem] rounded border border-gray-300 bg-white px-1.5 py-0.5 text-sm";
   const collectionSelectClass = stacked
-    ? "min-h-11 w-full rounded-md border border-gray-300 bg-white px-2 text-base"
+    ? "min-h-11 w-full min-w-0 max-w-full rounded-md border border-gray-300 bg-white px-2 text-base"
     : "max-w-[11rem] rounded border border-gray-300 bg-white px-1.5 py-0.5 text-sm";
 
   if (!canSwitchLocal && collections.length <= 1) {
     return (
       <span
         className={cn(
-          stacked ? "block text-sm leading-relaxed" : "shrink-0 whitespace-nowrap",
+          stacked ? "block min-w-0 break-words text-sm leading-relaxed" : "shrink-0 whitespace-nowrap",
           "text-gray-600",
         )}
       >
@@ -114,12 +114,12 @@ export function HubContextSwitcher({
     <div
       className={cn(
         stacked
-          ? "flex flex-col items-stretch gap-2"
+          ? "flex min-w-0 flex-col items-stretch gap-2"
           : "flex min-w-0 shrink-0 flex-wrap items-center gap-1.5",
         "text-gray-600",
       )}
     >
-      <span className={stacked ? "font-medium text-opseu-dark" : "whitespace-nowrap"}>
+      <span className={stacked ? "min-w-0 break-words font-medium text-opseu-dark" : "whitespace-nowrap"}>
         {tenant.union.name}
       </span>
       {tenant.division && (

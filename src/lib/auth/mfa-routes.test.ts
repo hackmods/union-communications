@@ -209,6 +209,27 @@ describe("MFA API routes", () => {
       });
     });
 
+    it("does not require TOTP enrollment for a Local president until MFA is required on the session", async () => {
+      (process.env as Record<string, string | undefined>).NODE_ENV = "production";
+      process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
+      process.env.AUTH_MFA_MODE = "totp";
+      authMock.mockResolvedValue(session({
+        id: "user-president-first-login",
+        roles: ["local_president"],
+        mfaVerified: true,
+        mfaRequired: false,
+      }));
+      const res = await mfaStatus();
+      expect(await res.json()).toMatchObject({
+        enabled: true,
+        required: false,
+        mode: "totp",
+        enrolled: false,
+        needsEnrollment: false,
+        mfaVerified: true,
+      });
+    });
+
     it("requires enrollment for a privileged hosted role without TOTP", async () => {
       (process.env as Record<string, string | undefined>).NODE_ENV = "production";
       process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";

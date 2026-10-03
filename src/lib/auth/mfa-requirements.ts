@@ -9,10 +9,10 @@ export function hostedCustomerProfileEnabled(
 }
 
 /**
- * Current hosted capability mapping. Every account role except local_member
- * can reach at least one Hub module marked requiresMfa or administer tenant,
- * officer, or confidential casework capabilities. Unknown/missing roles fail
- * closed so a new role cannot silently bypass hosted MFA.
+ * Current hosted capability mapping. Privileged roles *can* require MFA.
+ * Local officers are not forced at first Hub login — a Local opts in, or the
+ * person enrolls an authenticator. Host operators stay on MFA immediately.
+ * Unknown/missing roles fail closed so a new role cannot silently bypass.
  */
 const HOSTED_MFA_ROLES = new Set<UserRole>([
   "platform_admin",
@@ -25,6 +25,12 @@ const HOSTED_MFA_ROLES = new Set<UserRole>([
   "solo_account",
 ]);
 
+const HOST_OPERATOR_MFA_ROLES = new Set<UserRole>([
+  "platform_admin",
+  "union_admin",
+  "division_admin",
+]);
+
 export function rolesRequireHostedMfa(
   roles: readonly string[] | null | undefined,
 ): boolean {
@@ -33,6 +39,17 @@ export function rolesRequireHostedMfa(
     role === "local_member"
       ? false
       : HOSTED_MFA_ROLES.has(role as UserRole) || !isKnownRole(role),
+  );
+}
+
+/** Site / union operators — MFA from the first session, not a Local opt-in. */
+export function rolesRequireHostOperatorMfa(
+  roles: readonly string[] | null | undefined,
+): boolean {
+  if (!roles?.length) return true;
+  return roles.some(
+    (role) =>
+      HOST_OPERATOR_MFA_ROLES.has(role as UserRole) || !isKnownRole(role),
   );
 }
 
@@ -63,7 +80,8 @@ export function sessionRequiresMfa(
   if (!mfaEnabled) return false;
   if (isMfaOperatorBypassEmail(user?.email, env)) return false;
   if (hostedCustomerMode) {
-    return rolesRequireHostedMfa(user?.roles) || user?.mfaRequired === true;
+    if (rolesRequireHostOperatorMfa(user?.roles)) return true;
+    return user?.mfaRequired === true;
   }
   if (typeof user?.mfaRequired === "boolean") return user.mfaRequired;
   return true;
@@ -75,11 +93,17 @@ export function accountRequiresMfa(input: {
   explicitMfaEnabled: boolean;
   legacyRequiresMfa: boolean;
   hostedCustomerMode: boolean;
+  /** True when this Local has opted into officer MFA (default off). */
+  localMfaRequired?: boolean;
   env?: Record<string, string | undefined>;
 }): boolean {
   if (isMfaOperatorBypassEmail(input.email, input.env ?? process.env)) {
     return false;
   }
   if (!input.hostedCustomerMode) return input.legacyRequiresMfa;
-  return rolesRequireHostedMfa(input.roles) || input.explicitMfaEnabled;
+  if (rolesRequireHostOperatorMfa(input.roles)) return true;
+  if (input.localMfaRequired) {
+    return rolesRequireHostedMfa(input.roles) || input.explicitMfaEnabled;
+  }
+  return input.explicitMfaEnabled;
 }

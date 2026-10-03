@@ -1,7 +1,20 @@
+## 2026-10-03 — Access-request burst + Local MFA opt-in
+
+- Hall / workshop NAT: access-request limiter is 500 successful submits per IP and 1,500 on `"unknown"` per 10 minutes, plus 8 per hashed email so one bot cannot fill the hall burst.
+- Hosted MFA is **Local opt-in** (`locals.mfa_required`, default off, migration `0097`). Presidents and stewards are not sent to authenticator setup on first Hub sign-in. Host operators (platform / union / division admin) still need MFA. Site Admin can require it per Local after launch.
+- Member `/request-access` now accepts the JSON a browser form actually sends (`role: null`, empty message). Create only persists NewAccessRequest fields. Durable Postgres insert no longer uses `RETURNING` (no SELECT policy on unassigned rows). Side effects after a successful save cannot turn the form red. What’s new `request-access-open` and an on-form note tell people to retry the same link.
+- CI unblock on the same PR: request-access smoke uses an exact Union textbox (Playwright `getByLabel("Union")` also matched the UnionOps wordmark and consent copy); Hub/Portal `MobileSheet` now clamps with `min-w-0` so Accessibility 1.5× text cannot grow past a 320px viewport; braces advisory 1240992 (CVE-2026-93687, no patched release) has time-boxed lint-transitive exceptions through 2026-11-03.
+
 ## 2026-10-03 — Mobile menu stays intact after scroll
 
 - Opening Menu mid-page no longer unsticks the header or ghosts Home copy through the labels. The sheet locks the document scroller only (not `body` overflow), pins under the live chrome bottom, and uses a full-viewport scrim.
 - Covers Accessibility maximum text and phone/tablet widths. Matrix e2e now scrolls Home before opening the drawer.
+
+## 2026-10-03 — Production access-request 429 + invite email
+
+- Public `/join` and `/request-access` were returning 429 after five POSTs because the limiter keyed only on the first `X-Forwarded-For` hop (often `"unknown"` behind CapRover) and counted invalid/honeypot traffic.
+- Rate limit now uses `cf-connecting-ip` → `X-Forwarded-For` → `X-Real-IP`, hashed keys, workshop-sized IP caps with a higher unknown-IP backstop, per-email cap, and `Retry-After`. Junk bodies no longer spend quota.
+- Creating an invite with `requestId` always attempts the accept email (Hub “Invite and send email”), even if the client omitted `sendEmail`. Copy-link invites stay opt-in.
 
 ## 2026-10-02 — Ops lifecycle emails (deploy / restart)
 

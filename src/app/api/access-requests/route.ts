@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { accessRequestStore } from "@/lib/access-requests/store";
-import { accessRequestSchema } from "@/lib/access-requests/validation";
+import { accessRequestSchema, toNewAccessRequest } from "@/lib/access-requests/validation";
+import {
+  ACCESS_REQUEST_RETRY_AFTER_SECONDS,
+  checkAccessRequestEmailRateLimit,
+  checkAccessRequestRateLimit,
+  extractAccessRequestClientIp,
+} from "@/lib/access-requests/rate-limit";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { auditLog } from "@/lib/audit/store";
 import { sendTransactionalEmail } from "@/lib/email/send";
@@ -10,20 +16,7 @@ import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
 import { decideCapability } from "@/lib/authorization/model";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { accessRequestMemberView } from "@/types/access-request";
-
-const buckets = new Map<string, number[]>();
-
-function allowed(ip: string) {
-  const now = Date.now();
-  const recent = (buckets.get(ip) ?? []).filter((v) => now - v < 600000);
-  if (recent.length >= 5) {
-    buckets.set(ip, recent);
-    return false;
-  }
-  recent.push(now);
-  buckets.set(ip, recent);
-  return true;
-}
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 function operatorInboxHint(locale = "en"): string {
   const origin = process.env.AUTH_URL?.replace(/\/$/, "") ?? "";
@@ -34,14 +27,7 @@ function operatorInboxHint(locale = "en"): string {
 }
 
 export async function POST(request: Request) {
-  const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  if (!allowed(ip)) {
-    return NextResponse.json(
-      { error: "Too many submissions. Try again later." },
-      { status: 429 },
-    );
-  }
+  const ip = extractAccessRequestClientIp(request);
 
   let raw: unknown;
   try {
@@ -61,56 +47,106 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const row = await accessRequestStore.create(parsed.data);
-  await auditLog.log({
-    userId: "anonymous",
-    action: "access_request.submit",
-    resourceType: "access_request",
-    resourceId: row.id,
-    metadata: { kind: row.kind, locale: row.locale },
-  });
-
-  const notify = process.env.ACCESS_REQUEST_NOTIFY_EMAIL?.trim();
-  if (notify) {
-    const sent = await sendTransactionalEmail({
-      to: notify,
-      subject: `UnionOps beta access request (${row.kind})`,
-      text: [
-        "A new UnionOps beta access request is ready in the platform inbox.",
-        `id=${row.id}`,
-        `kind=${row.kind}`,
-        `name=${row.name}`,
-        `email=${row.email}`,
-        `union=${row.unionName}`,
-        `local=${row.localName}`,
-        row.role ? `role=${row.role}` : null,
-        `offerings=${row.offerings.join(",")}`,
-        row.message ? `message=${row.message}` : null,
-        `inbox=${operatorInboxHint(row.locale)}`,
-      ]
-        .filter(Boolean)
-        .join("\n"),
-    });
-    if (sent.ok) {
-      await accessRequestStore.update(row.id, {
-        notifySentAt: new Date().toISOString(),
-      });
-    } else {
-      await accessRequestStore.update(row.id, {
-        notificationError: sent.reason,
-      });
-    }
+  if (!checkAccessRequestRateLimit(ip)) {
+    return NextResponse.json(
+      { error: "Too many submissions. Try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(ACCESS_REQUEST_RETRY_AFTER_SECONDS) },
+      },
+    );
+  }
+  if (!checkAccessRequestEmailRateLimit(parsed.data.email)) {
+    return NextResponse.json(
+      { error: "Too many submissions. Try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(ACCESS_REQUEST_RETRY_AFTER_SECONDS) },
+      },
+    );
   }
 
-  const receipt = await sendTransactionalEmail({
-    to: row.email,
-    subject: "UnionOps beta access request received",
-    text: "We received your UnionOps beta access request. We’ll review the details and follow up. This message does not create an account or enroll anyone in a union.",
-  });
-  if (receipt.ok) {
-    await accessRequestStore.update(row.id, {
-      receiptSentAt: new Date().toISOString(),
+  let row;
+  try {
+    row = await accessRequestStore.create(toNewAccessRequest(parsed.data));
+  } catch (error) {
+    reportApiFailure(error, "POST /api/access-requests");
+    return NextResponse.json(
+      {
+        error:
+          "We could not save your request. Try again in a moment. If it keeps failing, use the Support page.",
+      },
+      { status: 503 },
+    );
+  }
+
+  // The row is already stored. Receipt mail, operator notify, and RLS-blocked
+  // stamp updates must not turn a successful submit into an error page.
+  try {
+    await auditLog.log({
+      userId: "anonymous",
+      action: "access_request.submit",
+      resourceType: "access_request",
+      resourceId: row.id,
+      metadata: { kind: row.kind, locale: row.locale },
     });
+  } catch (error) {
+    reportApiFailure(error, "POST /api/access-requests audit");
+  }
+
+  try {
+    const notify = process.env.ACCESS_REQUEST_NOTIFY_EMAIL?.trim();
+    if (notify) {
+      const sent = await sendTransactionalEmail({
+        to: notify,
+        subject: `UnionOps beta access request (${row.kind})`,
+        text: [
+          "A new UnionOps beta access request is ready in the platform inbox.",
+          `id=${row.id}`,
+          `kind=${row.kind}`,
+          `name=${row.name}`,
+          `email=${row.email}`,
+          `union=${row.unionName}`,
+          `local=${row.localName}`,
+          row.role ? `role=${row.role}` : null,
+          `offerings=${row.offerings.join(",")}`,
+          row.message ? `message=${row.message}` : null,
+          `inbox=${operatorInboxHint(row.locale)}`,
+        ]
+          .filter(Boolean)
+          .join("\n"),
+      });
+      try {
+        if (sent.ok) {
+          await accessRequestStore.update(row.id, {
+            notifySentAt: new Date().toISOString(),
+          });
+        } else {
+          await accessRequestStore.update(row.id, {
+            notificationError: sent.reason,
+          });
+        }
+      } catch (error) {
+        reportApiFailure(error, "POST /api/access-requests notify stamp");
+      }
+    }
+
+    const receipt = await sendTransactionalEmail({
+      to: row.email,
+      subject: "UnionOps beta access request received",
+      text: "We received your UnionOps beta access request. We’ll review the details and follow up. This message does not create an account or enroll anyone in a union.",
+    });
+    if (receipt.ok) {
+      try {
+        await accessRequestStore.update(row.id, {
+          receiptSentAt: new Date().toISOString(),
+        });
+      } catch (error) {
+        reportApiFailure(error, "POST /api/access-requests receipt stamp");
+      }
+    }
+  } catch (error) {
+    reportApiFailure(error, "POST /api/access-requests notify");
   }
 
   return NextResponse.json({ ok: true }, { status: 201 });

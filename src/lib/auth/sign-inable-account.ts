@@ -15,7 +15,7 @@ import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { users } from "@/lib/db/schema/tenant";
 import type { UserRole } from "@/types/tenant";
 import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
-import { accountRequiresMfa, rolesRequireHostedMfa } from "@/lib/auth/mfa-requirements";
+import { accountRequiresMfaForLocal } from "@/lib/auth/local-mfa-opt-in";
 
 export type SignInableAccount = {
   id: string;
@@ -112,12 +112,14 @@ export async function loadAuthAccountById(
         bargainingUnitId: row.bargainingUnitId ?? undefined,
         accessibleLocalIds: row.accessibleLocalIds ?? undefined,
         roles,
-        requiresMfa: accountRequiresMfa({
+        requiresMfa: await accountRequiresMfaForLocal({
           email: row.email,
           roles,
+          localId: row.localId,
           explicitMfaEnabled,
           legacyRequiresMfa: explicitMfaEnabled,
           hostedCustomerMode: isHostedCustomerMode(env),
+          env,
         }),
         sessionVersion: row.sessionVersion,
         totpSecret: row.totpSecret,
@@ -136,9 +138,15 @@ export async function loadAuthAccountById(
       localId: invited.localId,
       bargainingUnitId: invited.bargainingUnitId,
       roles: invited.roles,
-      requiresMfa: isHostedCustomerMode(env)
-        ? rolesRequireHostedMfa(invited.roles)
-        : invited.requiresMfa,
+      requiresMfa: await accountRequiresMfaForLocal({
+        email: invited.email,
+        roles: invited.roles,
+        localId: invited.localId,
+        explicitMfaEnabled: false,
+        legacyRequiresMfa: invited.requiresMfa,
+        hostedCustomerMode: isHostedCustomerMode(env),
+        env,
+      }),
     };
   }
 
@@ -154,9 +162,15 @@ export async function loadAuthAccountById(
       bargainingUnitId: demo.bargainingUnitId,
       accessibleLocalIds: demo.accessibleLocalIds,
       roles: demo.roles,
-      requiresMfa: isHostedCustomerMode(env)
-        ? rolesRequireHostedMfa(demo.roles) || Boolean(demo.totpSecret)
-        : demo.requiresMfa,
+      requiresMfa: await accountRequiresMfaForLocal({
+        email: demo.email,
+        roles: demo.roles,
+        localId: demo.localId,
+        explicitMfaEnabled: Boolean(demo.totpSecret),
+        legacyRequiresMfa: demo.requiresMfa,
+        hostedCustomerMode: isHostedCustomerMode(env),
+        env,
+      }),
       totpSecret: demo.totpSecret,
     };
   }

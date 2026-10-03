@@ -121,6 +121,9 @@ export function AccessRequestsInbox() {
           {error}
         </p>
       ) : null}
+      {loading ? (
+        <p className="text-gray-600">{t("accessRequestsLoading")}</p>
+      ) : null}
       <ul className="space-y-4">
         {rows.map((row) => (
           <li key={row.id}>
@@ -128,7 +131,12 @@ export function AccessRequestsInbox() {
           </li>
         ))}
       </ul>
-      {!loading && !rows.length ? (
+      {!loading && error ? (
+        <Button variant="outline" onClick={() => void load()}>
+          {t("accessRequestsRetry")}
+        </Button>
+      ) : null}
+      {!loading && !rows.length && !error ? (
         <p className="text-gray-600">
           {status
             ? t("accessRequestsEmptyFiltered")
@@ -355,22 +363,29 @@ function RequestCard({
           ) : null}
           {draft.offerings?.length ? (
             <p className="mt-1 text-sm text-gray-700">
-              {t("accessRequestsOfferings")}: {draft.offerings.join(", ")}
+              {t("accessRequestsOfferings")}:{" "}
+              {draft.offerings
+                .map((offering) =>
+                  offering === "officer_hub" || offering === "local_portal"
+                    ? t(`accessRequestOffering.${offering}`)
+                    : offering,
+                )
+                .join(", ")}
             </p>
           ) : null}
           <p className="mt-2 text-sm text-gray-700">
             {draft.message || t("accessRequestsNoMessage")}
           </p>
           <ul className="mt-2 space-y-0.5 text-xs text-gray-600">
-            <li>
-              {draft.notifySentAt
-                ? t("accessRequestsNotifySent")
-                : draft.notificationError
-                  ? t("accessRequestsNotifyFailed", {
-                      reason: draft.notificationError,
-                    })
-                  : t("accessRequestsNotifyPending")}
-            </li>
+            {draft.notifySentAt ? (
+              <li>{t("accessRequestsNotifySent")}</li>
+            ) : draft.notificationError ? (
+              <li>
+                {t("accessRequestsNotifyFailed", {
+                  reason: draft.notificationError,
+                })}
+              </li>
+            ) : null}
             {draft.receiptSentAt ? (
               <li>{t("accessRequestsReceiptSent")}</li>
             ) : null}

@@ -66,7 +66,7 @@ describe("refreshJwtTenancyIfStale", () => {
     expect(next.roles).toEqual(["local_steward"]);
   });
 
-  it("requires a fresh MFA challenge when hosted roles are elevated", async () => {
+  it("does not force MFA on a hosted steward promotion until the Local opts in", async () => {
     process.env.AUTH_USERS_BACKEND = "postgres";
     process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
     selectLimit.mockResolvedValue([
@@ -84,6 +84,44 @@ describe("refreshJwtTenancyIfStale", () => {
         lockedAt: null,
       },
     ]);
+    const { refreshJwtTenancyIfStale } = await import(
+      "@/lib/auth/refresh-jwt-tenancy"
+    );
+    const token = {
+      sub: "u1",
+      unionId: "union-a",
+      localId: "local-1",
+      sessionVersion: 1,
+      roles: ["local_member"],
+      mfaRequired: false,
+      mfaVerified: true,
+    } as JWT;
+    const next = await refreshJwtTenancyIfStale(token);
+    expect(next.roles).toEqual(["local_steward"]);
+    expect(next.mfaRequired).toBe(false);
+  });
+
+  it("requires a fresh MFA challenge when a Local has opted into officer MFA", async () => {
+    process.env.AUTH_USERS_BACKEND = "postgres";
+    process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
+    selectLimit
+      .mockResolvedValueOnce([
+        {
+          email: "steward@example.test",
+          unionId: "union-a",
+          divisionId: null,
+          localId: "local-1",
+          bargainingUnitId: null,
+          accessibleLocalIds: ["local-1"],
+          roles: ["local_steward"],
+          mfaEnabled: false,
+          totpSecret: null,
+          sessionVersion: 2,
+          archivedAt: null,
+          lockedAt: null,
+        },
+      ])
+      .mockResolvedValueOnce([{ mfaRequired: true }]);
     const { refreshJwtTenancyIfStale } = await import(
       "@/lib/auth/refresh-jwt-tenancy"
     );

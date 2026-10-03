@@ -40,8 +40,8 @@ export type MfaPolicyResult =
     };
 
 /**
- * Hosted customer mode enables the TOTP policy. Protected access is required
- * for users whose account or current hosted role has privileged capabilities.
+ * Hosted customer mode enables the TOTP policy. Host operators always need it.
+ * Local officers need it only when their Local opts in or they enroll.
  * Outside that profile, AUTH_MFA_ENABLED retains the existing host-level policy.
  */
 export function isMfaEnabled(

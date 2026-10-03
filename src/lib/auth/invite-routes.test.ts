@@ -33,6 +33,8 @@ import {
   resetInviteStoreForTests,
 } from "@/lib/auth/invites";
 import { resetTenantOverlayForTests } from "@/lib/tenant/overlay";
+import { accessRequestStore } from "@/lib/access-requests/store";
+import { resetMemoryAccessRequestStore } from "@/lib/access-requests/memory-adapter";
 
 function session(input?: {
   id?: string;
@@ -97,6 +99,7 @@ describe("invite API routes", () => {
   beforeEach(() => {
     resetInviteStoreForTests();
     resetTenantOverlayForTests();
+    resetMemoryAccessRequestStore();
     authMock.mockReset();
     resolveActorMock.mockReset();
     currentInviteTermsMock.mockReset().mockResolvedValue(null);
@@ -109,6 +112,7 @@ describe("invite API routes", () => {
     vi.unstubAllEnvs();
     resetInviteStoreForTests();
     resetTenantOverlayForTests();
+    resetMemoryAccessRequestStore();
   });
 
   describe("GET /api/invites", () => {
@@ -362,6 +366,38 @@ describe("invite API routes", () => {
       expect(body.emailReason).toBe("not_configured");
       expect(body.smtpHost).toBeUndefined();
       expect(body.SMTP_PASS).toBeUndefined();
+    });
+
+    it("emails the applicant when fulfilling an access request even without sendEmail", async () => {
+      const request = await accessRequestStore.create({
+        submissionKey: "fulfill-request-xxxx",
+        kind: "member_access",
+        name: "Alex Rivera",
+        email: "new.steward@example.test",
+        unionName: "Behind 7 Proxies",
+        localName: "Local 7",
+        offerings: ["officer_hub"],
+        locale: "en",
+      });
+      await accessRequestStore.update(request.id, {
+        unionId: "union-b7p",
+        localId: "local-7",
+      });
+      authMock.mockResolvedValue(session());
+      const res = await createInviteRoute(
+        jsonRequest({ ...validCreate, requestId: request.id }),
+      );
+      expect(res.status).toBe(200);
+      const body = (await res.json()) as {
+        id: string;
+        emailSent?: boolean;
+        emailReason?: string;
+      };
+      expect(body.emailSent).toBe(false);
+      expect(body.emailReason).toBe("not_configured");
+      const stored = await accessRequestStore.getById(request.id);
+      expect(stored?.status).toBe("invited");
+      expect(stored?.inviteId).toBe(body.id);
     });
   });
 

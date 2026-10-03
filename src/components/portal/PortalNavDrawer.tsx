@@ -47,7 +47,7 @@ export function PortalNavDrawer({
 
   const linkClass = (active: boolean) =>
     cn(
-      "flex min-h-11 items-center rounded-md px-3 py-2 hover:bg-white",
+      "flex min-h-11 min-w-0 items-center rounded-md px-3 py-2 hover:bg-white",
       active && "bg-white font-semibold text-opseu-dark",
     );
 
@@ -59,11 +59,11 @@ export function PortalNavDrawer({
       closeLabel={t("closePortalMenu")}
       testId="portal-nav-drawer"
       visibilityClassName="lg:hidden"
-      panelClassName="w-full max-w-full min-[480px]:max-w-[min(100vw,20rem)] border-gray-200 bg-gray-50"
+      panelClassName="min-w-0 w-full max-w-full min-[480px]:max-w-[min(100%,20rem)] border-gray-200 bg-gray-50"
       onClose={onClose}
     >
       <nav
-        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-3 text-base"
+        className="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-3 py-3 text-base"
         aria-label={t("mobileNav")}
       >
         {links.map((link) => {

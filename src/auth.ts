@@ -8,7 +8,7 @@ import { findInvitedUser } from "@/lib/auth/invites";
 import { consumeSignInGrant } from "@/lib/auth/sign-in-grants";
 import { loadAuthAccountById } from "@/lib/auth/sign-inable-account";
 import { auditLog } from "@/lib/audit/store";
-import { isHostedCustomerMode, isMfaEnabled } from "@/lib/auth/mfa-policy";
+import { isMfaEnabled } from "@/lib/auth/mfa-policy";
 import { isMfaOperatorBypassEmail } from "@/lib/auth/mfa-operator-bypass";
 import { reportServerError } from "@/lib/observability/report-server-error";
 
@@ -51,7 +51,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const mfaVerified =
             !isMfaEnabled() ||
             isMfaOperatorBypassEmail(account.email) ||
-            (!isHostedCustomerMode() && !account.requiresMfa);
+            !account.requiresMfa;
           return {
             id: account.id,
             name: account.name,
@@ -100,7 +100,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const mfaVerified =
           !isMfaEnabled() ||
           isMfaOperatorBypassEmail(account.email) ||
-          (!isHostedCustomerMode() && !account.requiresMfa);
+          !account.requiresMfa;
 
         return {
           id: account.id,

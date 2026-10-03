@@ -49,10 +49,12 @@ describe("sessionMfaOk", () => {
     expect(sessionMfaOk({ user: { mfaVerified: true } }, env)).toBe(true);
   });
 
-  it("requires hosted MFA for privileged roles but not basic local members", () => {
+  it("does not force hosted MFA on Local officers until the session marks it required", () => {
     const env = { NODE_ENV: "production", UNIONOPS_HOSTED_CUSTOMER_MODE: "true" };
-    expect(sessionMfaOk({ user: { roles: ["local_steward"], mfaVerified: false } }, env)).toBe(false);
-    expect(sessionMfaOk({ user: { roles: ["local_steward"], mfaVerified: true } }, env)).toBe(true);
+    expect(sessionMfaOk({ user: { roles: ["local_steward"], mfaVerified: false } }, env)).toBe(true);
+    expect(sessionMfaOk({ user: { roles: ["local_steward"], mfaRequired: true, mfaVerified: false } }, env)).toBe(false);
+    expect(sessionMfaOk({ user: { roles: ["local_steward"], mfaRequired: true, mfaVerified: true } }, env)).toBe(true);
+    expect(sessionMfaOk({ user: { roles: ["platform_admin"], mfaVerified: false } }, env)).toBe(false);
     expect(sessionMfaOk({ user: { roles: ["local_member"], mfaVerified: false } }, env)).toBe(true);
   });
 });

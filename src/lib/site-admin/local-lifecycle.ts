@@ -118,12 +118,14 @@ export async function updateLocalFields(
     localNumber?: string;
     subText?: string;
     divisionId?: string | null;
+    mfaRequired?: boolean;
   },
 ): Promise<
   LifecycleResult<{
     localNumber: string;
     subText: string;
     divisionId: string | null;
+    mfaRequired: boolean;
   }>
 > {
   const gate = requirePostgres();
@@ -137,6 +139,7 @@ export async function updateLocalFields(
       subText: locals.subText,
       divisionId: locals.divisionId,
       archivedAt: locals.archivedAt,
+      mfaRequired: locals.mfaRequired,
     })
     .from(locals)
     .where(eq(locals.id, localId))
@@ -163,6 +166,10 @@ export async function updateLocalFields(
     patch.divisionId !== undefined
       ? patch.divisionId
       : (existing.divisionId ?? null);
+  const mfaRequired =
+    patch.mfaRequired !== undefined
+      ? patch.mfaRequired
+      : Boolean(existing.mfaRequired);
 
   if (localNumber !== existing.localNumber && !existing.archivedAt) {
     const [collision] = await db
@@ -193,6 +200,7 @@ export async function updateLocalFields(
       localNumber,
       subText,
       divisionId,
+      mfaRequired,
     })
     .where(eq(locals.id, localId));
 
@@ -204,7 +212,7 @@ export async function updateLocalFields(
 
   return {
     ok: true,
-    data: { localNumber, subText, divisionId },
+    data: { localNumber, subText, divisionId, mfaRequired },
   };
 }
 

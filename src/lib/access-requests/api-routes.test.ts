@@ -33,6 +33,10 @@ import { GET as listSiteAdminAccess } from "@/app/api/site-admin/access-requests
 import { PATCH as patchSiteAdminAccess } from "@/app/api/site-admin/access-requests/[id]/route";
 import { accessRequestStore } from "@/lib/access-requests/store";
 import { resetMemoryAccessRequestStore } from "@/lib/access-requests/memory-adapter";
+import {
+  ACCESS_REQUEST_MAX_PER_IP,
+  resetAccessRequestRateLimit,
+} from "@/lib/access-requests/rate-limit";
 
 function session(input?: {
   id?: string;
@@ -123,6 +127,7 @@ async function seedRoutedRequest(input?: {
 describe("access request HTTP", () => {
   beforeEach(() => {
     resetMemoryAccessRequestStore();
+    resetAccessRequestRateLimit();
     authMock.mockReset();
     resolveActorMock.mockReset();
     sendEmailMock.mockReset();
@@ -135,6 +140,7 @@ describe("access request HTTP", () => {
 
   afterEach(() => {
     resetMemoryAccessRequestStore();
+    resetAccessRequestRateLimit();
     vi.unstubAllEnvs();
   });
 
@@ -145,6 +151,73 @@ describe("access request HTTP", () => {
       );
       expect(res.status).toBe(201);
       expect(await res.json()).toEqual({ ok: true });
+      expect(await accessRequestStore.list()).toHaveLength(1);
+    });
+
+    it("accepts the JSON a browser member-access form actually sends", async () => {
+      const res = await submitAccessRequest(
+        jsonRequest(
+          {
+            submissionKey: "browser-form-key-16x",
+            kind: "member_access",
+            name: "Alex Rivera",
+            email: "alex@example.test",
+            unionName: "CAAT",
+            localName: "243",
+            role: null,
+            message: "",
+            offerings: ["local_portal"],
+            locale: "en",
+            consentAccepted: true,
+            website: "",
+          },
+          undefined,
+          "203.0.113.41",
+        ),
+      );
+      expect(res.status).toBe(201);
+      const rows = await accessRequestStore.list();
+      expect(rows).toHaveLength(1);
+      expect(rows[0]?.kind).toBe("member_access");
+      expect(rows[0]?.unionName).toBe("CAAT");
+      expect(rows[0]?.localName).toBe("243");
+      expect(rows[0]).not.toHaveProperty("website");
+      expect(rows[0]?.role).toBeUndefined();
+    });
+
+    it("accepts a form payload that omits empty optional fields", async () => {
+      const res = await submitAccessRequest(
+        jsonRequest(
+          {
+            submissionKey: "omitted-optionals-16x",
+            kind: "member_access",
+            name: "Alex Rivera",
+            email: "omit@example.test",
+            unionName: "CAAT",
+            localName: "243",
+            offerings: ["local_portal"],
+            locale: "en",
+            consentAccepted: true,
+          },
+          undefined,
+          "203.0.113.42",
+        ),
+      );
+      expect(res.status).toBe(201);
+      expect(await accessRequestStore.list()).toHaveLength(1);
+    });
+
+    it("still returns 201 when notify email throws after the row is saved", async () => {
+      vi.stubEnv("ACCESS_REQUEST_NOTIFY_EMAIL", "ryan@ryanmorris.ca");
+      sendEmailMock.mockRejectedValue(new Error("smtp down"));
+      const res = await submitAccessRequest(
+        jsonRequest(
+          validSubmit({ email: "after-smtp@example.test" }),
+          undefined,
+          "203.0.113.77",
+        ),
+      );
+      expect(res.status).toBe(201);
       expect(await accessRequestStore.list()).toHaveLength(1);
     });
 
@@ -190,7 +263,7 @@ describe("access request HTTP", () => {
       expect(sendEmailMock).not.toHaveBeenCalled();
     });
 
-    it("creates a request without tenant stamps, notifies the configured operator, and rate-limits the same IP", async () => {
+    it("creates a request without tenant stamps and notifies the configured operator", async () => {
       vi.stubEnv("ACCESS_REQUEST_NOTIFY_EMAIL", "ryan@ryanmorris.ca");
       vi.stubEnv("AUTH_URL", "https://unionops.org");
       sendEmailMock.mockResolvedValue({ ok: true, messageId: "msg-1" });
@@ -225,31 +298,119 @@ describe("access request HTTP", () => {
         "inbox=https://unionops.org/en/app/site-admin/access-requests",
       );
 
-      for (let i = 0; i < 4; i += 1) {
-        const again = await submitAccessRequest(
-          jsonRequest(
-            validSubmit({
-              submissionKey: `submission-key-${i}-xxxx`,
-              email: `alex${i}@example.test`,
-            }),
-            undefined,
-            "203.0.113.6",
-          ),
-        );
-        expect(again.status).toBe(201);
-      }
-      const limited = await submitAccessRequest(
+      const second = await submitAccessRequest(
         jsonRequest(
           validSubmit({
-            submissionKey: "submission-key-limit",
-            email: "limited@example.test",
+            submissionKey: "submission-key-second-xx",
+            email: "jordan@example.test",
           }),
           undefined,
           "203.0.113.6",
         ),
       );
+      expect(second.status).toBe(201);
+      expect(await accessRequestStore.list()).toHaveLength(2);
+    });
+
+    it("caps the same email even when each submit uses a different IP", async () => {
+      for (let i = 0; i < 8; i += 1) {
+        const res = await submitAccessRequest(
+          jsonRequest(
+            validSubmit({
+              submissionKey: `same-email-${i}-xxxxxxxx`,
+              email: "repeat@example.test",
+            }),
+            undefined,
+            `198.51.100.${10 + i}`,
+          ),
+        );
+        expect(res.status).toBe(201);
+      }
+      const limited = await submitAccessRequest(
+        jsonRequest(
+          validSubmit({
+            submissionKey: "same-email-block-xxxx",
+            email: "Repeat@Example.test",
+          }),
+          undefined,
+          "203.0.113.90",
+        ),
+      );
       expect(limited.status).toBe(429);
-      expect(await accessRequestStore.list()).toHaveLength(5);
+      expect(limited.headers.get("Retry-After")).toBe("600");
+    });
+
+    it("does not spend the rate-limit quota on invalid JSON or honeypot bots", async () => {
+      const ip = "203.0.113.80";
+      for (let i = 0; i < 20; i += 1) {
+        const honeypot = await submitAccessRequest(
+          jsonRequest(
+            validSubmit({
+              submissionKey: `honey-${i}-xxxxxxxx`,
+              website: "https://spam.example",
+            }),
+            undefined,
+            ip,
+          ),
+        );
+        expect(honeypot.status).toBe(200);
+      }
+      const invalid = await submitAccessRequest(
+        jsonRequest("{", "http://localhost/api/access-requests", ip),
+      );
+      expect(invalid.status).toBe(400);
+
+      const ok = await submitAccessRequest(
+        jsonRequest(
+          validSubmit({
+            submissionKey: "after-junk-xxxxxxxx",
+            email: "after-junk@example.test",
+          }),
+          undefined,
+          ip,
+        ),
+      );
+      expect(ok.status).toBe(201);
+      expect(await accessRequestStore.list()).toHaveLength(1);
+    });
+
+    it("uses x-real-ip when x-forwarded-for is missing", async () => {
+      const make = (email: string) =>
+        new Request("http://localhost/api/access-requests", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            "x-real-ip": "198.51.100.44",
+          },
+          body: JSON.stringify(
+            validSubmit({
+              submissionKey: `${email}-xxxxxxxx`,
+              email,
+            }),
+          ),
+        });
+      for (let i = 0; i < ACCESS_REQUEST_MAX_PER_IP; i += 1) {
+        expect(
+          (await submitAccessRequest(make(`realip${i}@example.test`))).status,
+        ).toBe(201);
+      }
+      const blocked = await submitAccessRequest(make("realip-block@example.test"));
+      expect(blocked.status).toBe(429);
+      expect(blocked.headers.get("Retry-After")).toBe("600");
+      const other = new Request("http://localhost/api/access-requests", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "x-real-ip": "198.51.100.45",
+        },
+        body: JSON.stringify(
+          validSubmit({
+            submissionKey: "other-real-ip-xxxx",
+            email: "other-real@example.test",
+          }),
+        ),
+      });
+      expect((await submitAccessRequest(other)).status).toBe(201);
     });
   });
 

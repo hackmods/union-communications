@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -8,11 +8,19 @@ import { Select } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { Callout } from "@/components/ui/Callout";
 
 type Props = {
   kind: "local_interest" | "member_access";
   locale: string;
 };
+
+function formLine(fd: FormData, name: string): string | undefined {
+  const value = fd.get(name);
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
 
 export function AccessRequestForm({ kind, locale }: Props) {
   const t = useTranslations("accessRequestForm");
@@ -24,6 +32,11 @@ export function AccessRequestForm({ kind, locale }: Props) {
   );
   const [language, setLanguage] = useState(locale === "fr" ? "fr" : "en");
   const successRef = useRef<HTMLDivElement>(null);
+  const errorRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    if (error) errorRef.current?.focus();
+  }, [error]);
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -45,16 +58,16 @@ export function AccessRequestForm({ kind, locale }: Props) {
         body: JSON.stringify({
           submissionKey: crypto.randomUUID(),
           kind,
-          name: fd.get("name"),
-          email: fd.get("email"),
-          unionName: fd.get("unionName"),
-          localName: fd.get("localName"),
-          role: fd.get("role"),
-          message: fd.get("message"),
+          name: formLine(fd, "name"),
+          email: formLine(fd, "email"),
+          unionName: formLine(fd, "unionName"),
+          localName: formLine(fd, "localName"),
+          role: formLine(fd, "role"),
+          message: formLine(fd, "message"),
           offerings,
           locale: language,
           consentAccepted: true,
-          website: fd.get("website"),
+          website: formLine(fd, "website"),
         }),
       });
       if (!res.ok) {
@@ -90,6 +103,17 @@ export function AccessRequestForm({ kind, locale }: Props) {
         >
           <p className="text-lg font-semibold text-opseu-dark">{t("success")}</p>
           <p className="mt-2 text-gray-700">{t("next")}</p>
+          <Button
+            type="button"
+            variant="outline"
+            className="mt-4 min-h-11 w-full"
+            onClick={() => {
+              setDone(false);
+              setError("");
+            }}
+          >
+            {t("another")}
+          </Button>
         </div>
       </Card>
     );
@@ -97,6 +121,10 @@ export function AccessRequestForm({ kind, locale }: Props) {
 
   return (
     <form onSubmit={submit} className="space-y-4" id="access-request-form">
+      <Callout tone="brand">
+        <p className="font-semibold text-opseu-dark">{t("retryNoteTitle")}</p>
+        <p className="mt-1">{t("retryNote")}</p>
+      </Callout>
       <h2 className="text-xl font-bold text-opseu-dark">
         {kind === "local_interest" ? t("localTitle") : t("memberTitle")}
       </h2>
@@ -190,11 +218,16 @@ export function AccessRequestForm({ kind, locale }: Props) {
         </p>
       </div>
       {error ? (
-        <p role="alert" className="text-sm text-red-700">
+        <p
+          ref={errorRef}
+          role="alert"
+          tabIndex={-1}
+          className="text-sm text-red-700 outline-none"
+        >
           {error}
         </p>
       ) : null}
-      <Button type="submit" disabled={busy} className="min-h-11 w-full">
+      <Button type="submit" disabled={busy} aria-busy={busy} className="min-h-11 w-full">
         {busy ? t("sending") : t("submit")}
       </Button>
     </form>

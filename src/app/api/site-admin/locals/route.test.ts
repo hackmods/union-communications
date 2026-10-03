@@ -134,7 +134,7 @@ describe("POST /api/site-admin/locals", () => {
       2,
       expect.objectContaining({
         action: "site_admin.local.create",
-        metadata: { phase: "provision_result", created: "true", collectionCreated: "true" },
+        metadata: { phase: "provision_result", created: "true", collectionCreated: "true", mfaRequired: "false" },
         requestId: response.headers.get("X-Request-ID"),
       }),
     );

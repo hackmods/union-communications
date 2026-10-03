@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -17,13 +17,24 @@ type Row = {
   createdAt: string;
 };
 
+const STATUSES = [
+  "new",
+  "reviewing",
+  "approved",
+  "invited",
+  "completed",
+  "declined",
+] as const;
+
 export function MemberAccessRequests() {
   const t = useTranslations("hub.memberAccessRequests");
+  const tStatus = useTranslations("hub.platformOperator.accessRequestStatus");
   const [rows, setRows] = useState<Row[]>([]);
   const [error, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
+  const load = useCallback(() => {
+    setLoaded(false);
     void fetch("/api/access-requests")
       .then(async (r) => {
         if (!r.ok) throw new Error("load");
@@ -33,6 +44,10 @@ export function MemberAccessRequests() {
       .catch(() => setError(t("loadFailed")))
       .finally(() => setLoaded(true));
   }, [t]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   async function update(id: string, status: string) {
     const r = await fetch(`/api/access-requests/${id}`, {
@@ -45,6 +60,12 @@ export function MemberAccessRequests() {
     }
   }
 
+  function statusLabel(status: string) {
+    return (STATUSES as readonly string[]).includes(status)
+      ? tStatus(status as (typeof STATUSES)[number])
+      : status;
+  }
+
   if (!loaded && !error) return null;
 
   return (
@@ -52,9 +73,14 @@ export function MemberAccessRequests() {
       <h2 className="text-xl font-bold text-opseu-dark">{t("title")}</h2>
       <p className="mt-1 text-sm text-gray-700">{t("body")}</p>
       {error ? (
-        <p role="alert" className="mt-3 text-sm text-red-700">
-          {error}
-        </p>
+        <div className="mt-3 space-y-2">
+          <p role="alert" className="text-sm text-red-700">
+            {error}
+          </p>
+          <Button size="sm" variant="outline" onClick={load}>
+            {t("retry")}
+          </Button>
+        </div>
       ) : null}
       {rows.length ? (
         <ul className="mt-4 space-y-3">
@@ -62,7 +88,7 @@ export function MemberAccessRequests() {
             <li key={row.id}>
               <Card density="compact">
                 <p className="font-semibold text-opseu-dark">
-                  {row.name} · {row.status}
+                  {row.name} · {statusLabel(row.status)}
                 </p>
                 <p className="text-sm text-gray-700">
                   {row.email} · {row.unionName} · {row.localName}
@@ -93,7 +119,10 @@ export function MemberAccessRequests() {
           ))}
         </ul>
       ) : !error ? (
-        <p className="mt-3 text-sm text-gray-600">{t("empty")}</p>
+        <div className="mt-3 text-sm text-gray-600">
+          <p>{t("empty")}</p>
+          <p className="mt-1">{t("emptyHint")}</p>
+        </div>
       ) : null}
     </section>
   );

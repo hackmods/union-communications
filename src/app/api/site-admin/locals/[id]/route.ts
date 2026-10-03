@@ -19,6 +19,7 @@ const patchSchema = z
     localNumber: z.string().min(1).max(32).optional(),
     subText: z.string().max(200).optional(),
     divisionId: z.union([z.string().min(1).max(64), z.null()]).optional(),
+    mfaRequired: z.boolean().optional(),
     mfaCode: z.string().max(32).optional(),
   })
   .strict()
@@ -26,8 +27,9 @@ const patchSchema = z
     (data) =>
       data.localNumber !== undefined ||
       data.subText !== undefined ||
-      data.divisionId !== undefined,
-    { message: "Provide localNumber, subText, and/or divisionId" },
+      data.divisionId !== undefined ||
+      data.mfaRequired !== undefined,
+    { message: "Provide localNumber, subText, divisionId, and/or mfaRequired" },
   );
 
 const deleteSchema = z
@@ -157,6 +159,7 @@ export async function PATCH(req: Request, { params }: Params) {
       localNumber: parsed.data.localNumber,
       subText: parsed.data.subText,
       divisionId: parsed.data.divisionId,
+      mfaRequired: parsed.data.mfaRequired,
     });
     if (!result.ok) {
       await recordOutcome("denied", {
@@ -172,6 +175,7 @@ export async function PATCH(req: Request, { params }: Params) {
       await recordOutcome("success", {
         phase: "update_result",
         localNumber: result.data.localNumber,
+        mfaRequired: String(result.data.mfaRequired),
       });
     } catch {
       return respond(

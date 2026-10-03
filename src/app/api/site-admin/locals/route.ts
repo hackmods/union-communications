@@ -7,7 +7,7 @@ import { auditLog } from "@/lib/audit/store";
 import { auditDbBackend } from "@/lib/db/backend";
 import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
-import { divisions } from "@/lib/db/schema/tenant";
+import { divisions, locals } from "@/lib/db/schema/tenant";
 import { and, eq, isNull } from "drizzle-orm";
 import {
   createCollectionDurable,
@@ -23,6 +23,7 @@ const bodySchema = z.object({
   collectionCode: z.string().min(1).max(32).optional(),
   collectionName: z.string().min(1).max(200).optional(),
   divisionId: z.string().optional(),
+  mfaRequired: z.boolean().optional(),
   mfaCode: z.string().max(32).optional(),
 }).strict();
 
@@ -130,6 +131,12 @@ export async function POST(req: Request) {
       subText: parsed.data.localSubText,
       divisionId: parsed.data.divisionId,
     });
+    if (created && parsed.data.mfaRequired) {
+      await getDb()
+        .update(locals)
+        .set({ mfaRequired: true })
+        .where(eq(locals.id, local.id));
+    }
 
     let collectionId: string | undefined;
     if (parsed.data.collectionCode && parsed.data.collectionName) {
@@ -155,6 +162,7 @@ export async function POST(req: Request) {
         phase: "provision_result",
         created: String(created),
         collectionCreated: String(Boolean(collectionId)),
+        mfaRequired: String(Boolean(created && parsed.data.mfaRequired)),
       },
       outcome: "success",
       requestId: correlation.requestId,

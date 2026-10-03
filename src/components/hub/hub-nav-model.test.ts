@@ -119,6 +119,13 @@ describe("HubNav chrome contract", () => {
     expect(header).toContain("hidePublicHamburger");
     expect(hubDrawer).toContain("MobileSheet");
     expect(hubDrawer).toContain("MobileSiteSection");
+    const sheet = readFileSync(
+      join(srcRoot, "components/layout/nav/MobileSheet.tsx"),
+      "utf8",
+    );
+    expect(sheet).toContain("min-w-0");
+    expect(sheet).toContain("max-w-full");
+    expect(sheet).not.toContain("100vw");
   });
 
   it("does not put Send feedback on the hub bar (footer / Support still have it)", () => {

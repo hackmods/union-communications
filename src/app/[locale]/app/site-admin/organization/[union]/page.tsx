@@ -94,6 +94,7 @@ export default async function SiteAdminOrganizationUnionPage({
     archivedAt: Date | null;
     isDemo: boolean;
     empty: boolean;
+    mfaRequired: boolean;
   }> = [];
 
   if (isPostgresConfigured()) {
@@ -113,6 +114,7 @@ export default async function SiteAdminOrganizationUnionPage({
             divisionId: locals.divisionId,
             archivedAt: locals.archivedAt,
             isDemo: locals.isDemo,
+            mfaRequired: locals.mfaRequired,
           })
           .from(locals)
           .where(and(...conditions))

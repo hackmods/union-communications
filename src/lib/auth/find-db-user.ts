@@ -4,7 +4,7 @@ import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { users } from "@/lib/db/schema/tenant";
 import { verifyPassword } from "@/lib/auth/password";
 import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
-import { accountRequiresMfa } from "@/lib/auth/mfa-requirements";
+import { accountRequiresMfaForLocal } from "@/lib/auth/local-mfa-opt-in";
 
 export type AuthAccount = {
   id: string;
@@ -58,9 +58,10 @@ export async function findDbUser(
     bargainingUnitId: row.bargainingUnitId ?? undefined,
     accessibleLocalIds: row.accessibleLocalIds ?? undefined,
     roles,
-    requiresMfa: accountRequiresMfa({
+    requiresMfa: await accountRequiresMfaForLocal({
       email: row.email,
       roles,
+      localId: row.localId,
       explicitMfaEnabled,
       legacyRequiresMfa: explicitMfaEnabled,
       hostedCustomerMode: isHostedCustomerMode(),
