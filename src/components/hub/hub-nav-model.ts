@@ -154,3 +154,21 @@ export function hubDrawerHasUnionWork(
 ): boolean {
   return moduleCount + setupCount + toolGroupCount > 0;
 }
+
+export type HubDrawerEmptyKind = "none" | "noTenant" | "memberHome" | "modulesOff";
+
+/**
+ * Why the Hub drawer has no union destinations. Members already assigned to a
+ * local must not be told to “get a local”; host operators without tenancy
+ * still need that assignment hint.
+ */
+export function hubDrawerEmptyKind(input: {
+  hasUnionWork: boolean;
+  tenantKnown: boolean;
+  prefersPortalHome: boolean;
+}): HubDrawerEmptyKind {
+  if (input.hasUnionWork) return "none";
+  if (!input.tenantKnown) return "noTenant";
+  if (input.prefersPortalHome) return "memberHome";
+  return "modulesOff";
+}

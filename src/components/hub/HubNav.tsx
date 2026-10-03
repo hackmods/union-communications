@@ -28,6 +28,7 @@ import {
 import { HubNavDrawer } from "@/components/hub/HubNavDrawer";
 import {
   groupHubToolLinks,
+  hubDrawerEmptyKind,
   hubDrawerHasUnionWork,
   hubModuleActive,
   hubShowsLocalPortalPeer,
@@ -42,6 +43,7 @@ import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { NavDropdown } from "@/components/layout/nav/NavDropdown";
 import { PlatformOperatorNavDropdown } from "@/components/platform/PlatformOperatorNavDropdown";
 import { isPlatformOperator } from "@/lib/platform/operator-nav";
+import { prefersPortalHome } from "@/lib/portal/access";
 
 export function HubNav() {
   const { session, authenticated } = useHubAuthenticated();
@@ -154,6 +156,11 @@ export function HubNav() {
     setupLinks.length,
     toolGroups.length,
   );
+  const emptyKind = hubDrawerEmptyKind({
+    hasUnionWork,
+    tenantKnown: Boolean(tenant),
+    prefersPortalHome: prefersPortalHome(roles),
+  });
 
   const accountLinks = [
     {
@@ -374,7 +381,7 @@ export function HubNav() {
           portalLabel={showPortalPeer ? t("portalLink") : undefined}
           contextReady={contextReady}
           showOperatorChrome={showOperatorChrome}
-          hasUnionWork={hasUnionWork}
+          emptyKind={emptyKind}
           accountLinks={accountLinks}
           mfaEnabled={mfaEnabled}
           mfaOk={mfaOk}

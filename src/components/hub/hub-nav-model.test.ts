@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import {
   HUB_TOOL_GROUPS,
   groupHubToolLinks,
+  hubDrawerEmptyKind,
   hubDrawerHasUnionWork,
   hubShowsLocalPortalPeer,
   hubToolsActive,
@@ -98,6 +99,48 @@ describe("hubDrawerHasUnionWork", () => {
   });
 });
 
+describe("hubDrawerEmptyKind", () => {
+  it("stays quiet when union destinations exist", () => {
+    expect(
+      hubDrawerEmptyKind({
+        hasUnionWork: true,
+        tenantKnown: false,
+        prefersPortalHome: true,
+      }),
+    ).toBe("none");
+  });
+
+  it("asks host operators without a local to get an assignment", () => {
+    expect(
+      hubDrawerEmptyKind({
+        hasUnionWork: false,
+        tenantKnown: false,
+        prefersPortalHome: false,
+      }),
+    ).toBe("noTenant");
+  });
+
+  it("sends members to Local Portal instead of promising a local assignment", () => {
+    expect(
+      hubDrawerEmptyKind({
+        hasUnionWork: false,
+        tenantKnown: true,
+        prefersPortalHome: true,
+      }),
+    ).toBe("memberHome");
+  });
+
+  it("tells officers when modules are off for their role", () => {
+    expect(
+      hubDrawerEmptyKind({
+        hasUnionWork: false,
+        tenantKnown: true,
+        prefersPortalHome: false,
+      }),
+    ).toBe("modulesOff");
+  });
+});
+
 describe("HubNav chrome contract", () => {
   it("does not hide items behind overflow-x-auto + hidden scrollbars", () => {
     const source = readFileSync(
@@ -165,6 +208,8 @@ describe("HubNav chrome contract", () => {
     expect(hubDrawer).toContain("hub-portal-peer");
     expect(hubDrawer).toContain("showOperatorChrome");
     expect(hubDrawer).toContain("contextReady");
+    expect(hubDrawer).toContain("emptyKind");
+    expect(hubDrawer).toContain("hub-operator-peer");
     expect(hubDrawer).toContain('excludeKeys={["platform"]}');
     expect(hubDrawer).not.toContain("PlatformOperatorAccountLinks");
     const sheet = readFileSync(
@@ -204,7 +249,8 @@ describe("HubNav chrome contract", () => {
     expect(source).toContain("Boolean(tenant)");
     expect(source).toContain("contextReady");
     expect(source).toContain("showOperatorChrome");
-    expect(source).toContain("hasUnionWork");
+    expect(source).toContain("emptyKind");
+    expect(source).toContain("prefersPortalHome");
     expect(source).toContain('t("portalLink")');
     expect(source).toContain("isPlatformOperator");
     expect(source).toContain("PlatformOperatorNavDropdown");

@@ -66,6 +66,19 @@ export function PortalNavDrawer({
         className="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-3 py-3 text-base"
         aria-label={t("mobileNav")}
       >
+        {hubHref && hubLabel ? (
+          <div className="mb-3 min-w-0" data-testid="portal-workspace-peers">
+            <Link
+              href={hubHref}
+              onClick={onCloseAfterNav}
+              className={cn(linkClass(false), "text-opseu-blue")}
+              data-testid="portal-hub-peer"
+            >
+              {hubLabel}
+            </Link>
+          </div>
+        ) : null}
+
         {links.map((link) => {
           const active = portalNavLinkActive(pathname, link.href);
           return (
@@ -119,18 +132,6 @@ export function PortalNavDrawer({
             })
           )}
         </PortalAccordion>
-
-        {hubHref && hubLabel ? (
-          <div className="mt-4 border-t border-gray-200 pt-3">
-            <Link
-              href={hubHref}
-              onClick={onCloseAfterNav}
-              className={linkClass(false)}
-            >
-              {hubLabel}
-            </Link>
-          </div>
-        ) : null}
 
         <MobileSiteSection
           pathname={pathname}

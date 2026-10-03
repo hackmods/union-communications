@@ -11,6 +11,7 @@ import { HubContextSwitcher } from "@/components/hub/HubContextSwitcher";
 import {
   hubModuleActive,
   hubToolLinkActive,
+  type HubDrawerEmptyKind,
   type HubToolGroup,
   type HubToolLink,
 } from "@/components/hub/hub-nav-model";
@@ -47,7 +48,7 @@ type HubNavDrawerProps = {
   contextReady?: boolean;
   /** Site Admin — `platform_admin` only. */
   showOperatorChrome?: boolean;
-  hasUnionWork?: boolean;
+  emptyKind?: HubDrawerEmptyKind;
   accountLinks: HubDrawerAccountLink[];
   mfaEnabled?: boolean;
   mfaOk?: boolean;
@@ -68,7 +69,7 @@ export function HubNavDrawer({
   portalLabel,
   contextReady = false,
   showOperatorChrome = false,
-  hasUnionWork = true,
+  emptyKind = "none",
   accountLinks,
   mfaEnabled = false,
   mfaOk = false,
@@ -141,7 +142,7 @@ export function HubNavDrawer({
               onClick={onCloseAfterNav}
               aria-current={operatorCurrent ? "page" : undefined}
               className={linkClass(operatorCurrent)}
-              data-testid="platform-operator-nav-link"
+              data-testid="hub-operator-peer"
             >
               {tOp("menu")}
             </Link>
@@ -212,14 +213,18 @@ export function HubNavDrawer({
           </HubAccordion>
         ) : null}
 
-        {!hasUnionWork ? (
+        {!emptyKind || emptyKind === "none" ? null : (
           <p
             className="mb-3 px-3 text-sm leading-relaxed text-gray-600"
             data-testid="hub-drawer-empty-work"
           >
-            {t("drawerNoUnionWork")}
+            {emptyKind === "memberHome"
+              ? t("drawerMemberHome")
+              : emptyKind === "modulesOff"
+                ? t("dashboardHome.noNextSteps")
+                : t("drawerNoUnionWork")}
           </p>
-        ) : null}
+        )}
 
         <div className="mt-4 border-t border-gray-200 pt-3">
           {mfaEnabled ? (

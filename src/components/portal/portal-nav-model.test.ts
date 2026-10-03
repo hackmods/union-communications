@@ -181,6 +181,19 @@ describe("PortalNav chrome contract", () => {
     expect(source).toContain("preferredHubToolsMenuWidth");
   });
 
+  it("puts Officer Hub at the top of the phone Portal drawer", () => {
+    const drawer = readFileSync(
+      join(srcRoot, "components/portal/PortalNavDrawer.tsx"),
+      "utf8",
+    );
+    const hubIdx = drawer.indexOf("portal-hub-peer");
+    const linksIdx = drawer.indexOf("{links.map((link) => {");
+    expect(hubIdx).toBeGreaterThan(-1);
+    expect(linksIdx).toBeGreaterThan(-1);
+    expect(hubIdx).toBeLessThan(linksIdx);
+    expect(drawer).toContain('excludeKeys={["platform"]}');
+  });
+
   it("sticks the portal bar below the public header height token", () => {
     const header = readFileSync(
       join(srcRoot, "components/layout/Header.tsx"),
