@@ -9,6 +9,7 @@
 - Word letters put the Brand Kit band in the document body (full-width fixed table) so iOS Quick Look and Google Docs no longer collapse it to a logo stamp. Page 2 keeps a slim running header.
 - PowerPoint letters are a letter facsimile (band + greeting + body) with aspect-correct logos. Event decks keep the title-slide metaphor.
 - `OfficePresetMock` shows the letter body for accommodation / grievance-notice / representation / meeting-follow-up. PNG embeds read IHDR size. What’s new `office-letterhead-fidelity`.
+- Follow-up: letterhead tables use absolute DXA content width (not `pct`) plus an outer single-cell wrapper; default UnionOps mark inverts on brand-band fills for preview/Office embeds.
 
 ## 2026-10-03 — Local Portal pocket share page
 
