@@ -79,6 +79,28 @@ describe("ApiAdapter", () => {
     expect(body.brandKit.profiles).toHaveLength(1);
   });
 
+  it("trySaveBrandKit returns false when PUT fails", async () => {
+    fetchMock.mockResolvedValueOnce(
+      jsonResponse({ error: "Unauthorized" }, false, 401),
+    );
+    await expect(adapter.trySaveBrandKit(brandKit)).resolves.toBe(false);
+  });
+
+  it("trySaveBrandKit returns true and updates sync source on success", async () => {
+    fetchMock.mockResolvedValueOnce(
+      jsonResponse({
+        brandKit,
+        source: {
+          hasLocalShared: false,
+          hasPersonalOverlay: true,
+          canPublishLocal: true,
+        },
+      }),
+    );
+    await expect(adapter.trySaveBrandKit(brandKit)).resolves.toBe(true);
+    expect(adapter.lastSyncSource?.hasPersonalOverlay).toBe(true);
+  });
+
   it("clears a brand kit via DELETE /api/brand-kit", async () => {
     fetchMock.mockResolvedValueOnce(jsonResponse({ brandKit: null, onboardingComplete: false }));
     await adapter.clearBrandKit();

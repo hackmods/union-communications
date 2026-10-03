@@ -15,7 +15,7 @@ import { getDataAdapter } from "@/lib/data/get-data-adapter";
 import { apiAdapter } from "@/lib/data/api-adapter";
 import type { BrandKitSyncSource } from "@/lib/data/api-adapter";
 import type { DataAdapter } from "@/lib/data/adapter";
-import { readBrowserBrandKit } from "@/lib/data/mirror-brand-kit";
+import { readBrowserBrandKit, mirrorBrandKitToLocalStorage } from "@/lib/data/mirror-brand-kit";
 import { brandKitsMeaningfullyDiffer } from "@/lib/brand/brand-kit-diff";
 import { syncBrandKitProfilesFromLocal } from "@/lib/brand/collection-profiles";
 import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
@@ -38,6 +38,11 @@ interface BrandState {
   hasStoredBrandKit: boolean;
   /** Hybrid sync metadata from last authenticated `/api/brand-kit` GET/PUT. */
   syncSource: BrandKitSyncSource | null;
+  /**
+   * One-shot notice after login promoted (or failed to promote) the on-device kit.
+   * Cleared when dismissed or on the next hydrate that does not import.
+   */
+  browserImportNotice: "imported" | "failed" | null;
   setBrandKit: (kit: BrandKitPatch) => void;
   /** Apply a trusted Comms preset (preserves local number when set). */
   applyUnionPresetId: (presetId: string) => boolean;
@@ -55,6 +60,7 @@ interface BrandState {
   dismissStorageBlocked: () => void;
   /** Publish current kit as Local shared defaults (ApiAdapter only). */
   publishLocalBrandKit: () => Promise<boolean>;
+  dismissBrowserImportNotice: () => void;
   hydrate: () => Promise<void>;
 }
 
@@ -203,6 +209,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
   lastSavedAt: null,
   hasStoredBrandKit: false,
   syncSource: null,
+  browserImportNotice: null,
 
   setBrandKit: (partial) => {
     if (!get().hydrated) {
@@ -338,6 +345,10 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     return ok;
   },
 
+  dismissBrowserImportNotice: () => {
+    set({ browserImportNotice: null });
+  },
+
   hydrate: async () => {
     ensurePersistenceSubscription(set);
     const adapter = activeAdapter();
@@ -348,6 +359,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     const onboardingComplete = await adapter.isOnboardingComplete();
     let syncSource =
       adapter === apiAdapter ? apiAdapter.lastSyncSource : null;
+    let browserImportNotice: "imported" | "failed" | null = null;
 
     // One-time: empty Hub Local + empty personal → promote browser kit.
     if (
@@ -361,14 +373,29 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
         browserKitBefore &&
         brandKitsMeaningfullyDiffer(browserKitBefore, hubKit)
       ) {
-        await apiAdapter.saveBrandKit(browserKitBefore);
-        kit = await apiAdapter.getBrandKit();
-        syncSource = apiAdapter.lastSyncSource;
+        const saved = await apiAdapter.trySaveBrandKit(browserKitBefore);
+        if (saved) {
+          kit = await apiAdapter.getBrandKit();
+          syncSource = apiAdapter.lastSyncSource;
+          browserImportNotice = "imported";
+        } else {
+          // Keep the steward's on-device kit visible; restore localStorage
+          // after the failed Hub write (GET may have mirrored the seed).
+          kit = browserKitBefore;
+          await mirrorBrandKitToLocalStorage(browserKitBefore);
+          browserImportNotice = "failed";
+        }
       }
     }
 
     let brandKit = kit ?? get().brandKit;
-    let hasStoredBrandKit = kit != null;
+    // Authenticated: "stored with account" only when Local or personal exists.
+    let hasStoredBrandKit =
+      adapter === apiAdapter
+        ? Boolean(
+            syncSource?.hasLocalShared || syncSource?.hasPersonalOverlay,
+          )
+        : kit != null;
 
     // First visit (anonymous / on-device only): optional host-level defaults.
     // Authenticated ApiAdapter resolve already seeds Local shared on the server.
@@ -468,6 +495,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
       hydrated: true,
       hasStoredBrandKit,
       syncSource,
+      browserImportNotice,
     });
   },
 }));

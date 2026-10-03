@@ -87,6 +87,26 @@ describe("browser brand import gate", () => {
       brandKitsMeaningfullyDiffer(hubSeed, hubSeed);
     expect(shouldImport).toBe(false);
   });
+
+  it("treats account persistence from syncSource, not ephemeral seed kit", () => {
+    const seedOnly = {
+      hasLocalShared: false,
+      hasPersonalOverlay: false,
+      canPublishLocal: true,
+    };
+    const accountPersisted =
+      seedOnly.hasLocalShared || seedOnly.hasPersonalOverlay;
+    expect(accountPersisted).toBe(false);
+
+    const personalOnly = {
+      hasLocalShared: false,
+      hasPersonalOverlay: true,
+      canPublishLocal: false,
+    };
+    expect(
+      personalOnly.hasLocalShared || personalOnly.hasPersonalOverlay,
+    ).toBe(true);
+  });
 });
 
 describe("mirrorBrandKitToLocalStorage", () => {

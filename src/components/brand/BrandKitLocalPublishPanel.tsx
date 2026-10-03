@@ -19,8 +19,11 @@ export function BrandKitLocalPublishPanel() {
   const { data: session, status } = useSession();
   const brandKit = useBrandStore((s) => s.brandKit);
   const publishLocalBrandKit = useBrandStore((s) => s.publishLocalBrandKit);
-  const hasStoredBrandKit = useBrandStore((s) => s.hasStoredBrandKit);
   const syncSource = useBrandStore((s) => s.syncSource);
+  const browserImportNotice = useBrandStore((s) => s.browserImportNotice);
+  const dismissBrowserImportNotice = useBrandStore(
+    (s) => s.dismissBrowserImportNotice,
+  );
   const hydrated = useBrandStore((s) => s.hydrated);
   const [busy, setBusy] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -44,6 +47,7 @@ export function BrandKitLocalPublishPanel() {
   const hasLocalId = Boolean(session.user.localId);
   const hasLocalShared = syncSource?.hasLocalShared ?? false;
   const hasPersonalOverlay = syncSource?.hasPersonalOverlay ?? false;
+  const accountPersisted = hasLocalShared || hasPersonalOverlay;
 
   async function onConfirmPublish() {
     setBusy(true);
@@ -69,21 +73,51 @@ export function BrandKitLocalPublishPanel() {
         <Callout tone="warning">{t("noLocalAssigned")}</Callout>
       ) : (
         <>
+          {browserImportNotice === "imported" ? (
+            <Callout tone="success">
+              <p>{t("browserImportSuccess")}</p>
+              <Button
+                type="button"
+                variant="secondary"
+                className="mt-2"
+                onClick={() => dismissBrowserImportNotice()}
+              >
+                {t("browserImportDismiss")}
+              </Button>
+            </Callout>
+          ) : null}
+          {browserImportNotice === "failed" ? (
+            <Callout tone="warning">
+              <p>{t("browserImportFailed")}</p>
+              <Button
+                type="button"
+                variant="secondary"
+                className="mt-2"
+                onClick={() => dismissBrowserImportNotice()}
+              >
+                {t("browserImportDismiss")}
+              </Button>
+            </Callout>
+          ) : null}
           <p className="text-sm text-gray-600">
-            {hasStoredBrandKit ? t("statusReady") : t("statusEmpty")}
+            {accountPersisted ? t("statusReady") : t("statusStarter")}
           </p>
           <p className="text-sm text-gray-600">
             {hasLocalShared
               ? t("chromeFromLocal")
               : hasPersonalOverlay
                 ? t("chromeFromPersonal")
-                : t("chromeFromSeed")}
-          </p>
-          <p className="text-sm text-gray-600">
-            {hasLocalShared ? t("localSharedReady") : t("localSharedMissing")}
-            {hasPersonalOverlay ? ` ${t("personalOverridesOn")}` : ""}
+                : browserImportNotice === "failed"
+                  ? t("chromeFromDevice")
+                  : t("chromeFromSeed")}
+            {hasLocalShared && hasPersonalOverlay
+              ? ` ${t("personalOverridesOn")}`
+              : ""}
           </p>
           <p className="text-sm text-gray-600">{t("personalHint")}</p>
+          {canPublish && !hasLocalShared ? (
+            <Callout tone="brand">{t("publishNeeded")}</Callout>
+          ) : null}
           {canPublish ? (
             <div className="flex flex-wrap items-center gap-3">
               <Button

@@ -51,18 +51,29 @@ export class ApiAdapter implements DataAdapter {
   }
 
   async saveBrandKit(kit: BrandKit): Promise<void> {
+    await this.trySaveBrandKit(kit);
+  }
+
+  /**
+   * Persist personal (or current save-scope) kit; returns false on network/API failure.
+   * Used by login browser→personal promotion so the UI can recover.
+   */
+  async trySaveBrandKit(kit: BrandKit): Promise<boolean> {
     try {
       const res = await this.putJsonRecord("/api/brand-kit", {
         brandKit: normalizeBrandKit(kit),
         scope: this.saveScope,
       });
-      if (res?.source) this.lastSyncSource = res.source;
-      const effective = res?.brandKit
+      if (!res) return false;
+      if (res.source) this.lastSyncSource = res.source;
+      const effective = res.brandKit
         ? normalizeBrandKit(res.brandKit)
         : normalizeBrandKit(kit);
       await mirrorBrandKitToLocalStorage(effective);
+      return true;
     } catch (err) {
       console.warn("[ApiAdapter] saveBrandKit failed", err);
+      return false;
     }
   }
 
