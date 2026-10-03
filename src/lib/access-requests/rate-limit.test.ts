@@ -1,7 +1,9 @@
 import { afterEach, describe, expect, it } from "vitest";
 import {
+  ACCESS_REQUEST_MAX_PER_EMAIL,
   ACCESS_REQUEST_MAX_PER_IP,
   ACCESS_REQUEST_MAX_UNKNOWN,
+  checkAccessRequestEmailRateLimit,
   checkAccessRequestRateLimit,
   extractAccessRequestClientIp,
   hashAccessRequestClientIp,
@@ -44,7 +46,7 @@ describe("access request rate limit", () => {
     );
   });
 
-  it("hashes the IP rather than storing it, and trips after 10 submits", () => {
+  it("hashes the IP rather than storing it, and allows a hall-sized burst per IP", () => {
     const hash = hashAccessRequestClientIp("203.0.113.10", "test-salt");
     expect(hash).not.toBe("203.0.113.10");
     expect(hash).toHaveLength(64);
@@ -59,17 +61,29 @@ describe("access request rate limit", () => {
     expect(checkAccessRequestRateLimit("203.0.113.10")).toBe(true);
   });
 
-  it("keeps unknown on a separate higher cap so missing headers cannot lock the site", () => {
+  it("keeps unknown on a separate higher cap so missing headers cannot lock a workshop", () => {
     for (let i = 0; i < ACCESS_REQUEST_MAX_PER_IP; i += 1) {
       expect(checkAccessRequestRateLimit("unknown")).toBe(true);
     }
     expect(checkAccessRequestRateLimit("unknown")).toBe(true);
     expect(checkAccessRequestRateLimit("203.0.113.77")).toBe(true);
 
-    for (let i = ACCESS_REQUEST_MAX_PER_IP + 1; i < ACCESS_REQUEST_MAX_UNKNOWN; i += 1) {
+    for (
+      let i = ACCESS_REQUEST_MAX_PER_IP + 1;
+      i < ACCESS_REQUEST_MAX_UNKNOWN;
+      i += 1
+    ) {
       expect(checkAccessRequestRateLimit("unknown")).toBe(true);
     }
     expect(checkAccessRequestRateLimit("unknown")).toBe(false);
     expect(checkAccessRequestRateLimit("203.0.113.77")).toBe(true);
+  });
+
+  it("caps the same email separately so one person cannot fill the hall burst", () => {
+    for (let i = 0; i < ACCESS_REQUEST_MAX_PER_EMAIL; i += 1) {
+      expect(checkAccessRequestEmailRateLimit("Alex@Example.test")).toBe(true);
+    }
+    expect(checkAccessRequestEmailRateLimit("alex@example.test")).toBe(false);
+    expect(checkAccessRequestEmailRateLimit("other@example.test")).toBe(true);
   });
 });

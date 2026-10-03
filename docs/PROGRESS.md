@@ -1,3 +1,8 @@
+## 2026-10-03 — Access-request burst + Local MFA opt-in
+
+- Hall / workshop NAT: access-request limiter is 500 successful submits per IP and 1,500 on `"unknown"` per 10 minutes, plus 8 per hashed email so one bot cannot fill the hall burst.
+- Hosted MFA is **Local opt-in** (`locals.mfa_required`, default off, migration `0097`). Presidents and stewards are not sent to authenticator setup on first Hub sign-in. Host operators (platform / union / division admin) still need MFA. Site Admin can require it per Local after launch.
+
 ## 2026-10-03 — Mobile menu stays intact after scroll
 
 - Opening Menu mid-page no longer unsticks the header or ghosts Home copy through the labels. The sheet locks the document scroller only (not `body` overflow), pins under the live chrome bottom, and uses a full-viewport scrim.

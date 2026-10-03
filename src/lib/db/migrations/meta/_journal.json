@@ -680,6 +680,13 @@
       "when": 1794200000000,
       "tag": "0096_ops_boot_notify_state",
       "breakpoints": true
+    },
+    {
+      "idx": 97,
+      "version": "7",
+      "when": 1794300000000,
+      "tag": "0097_local_mfa_opt_in",
+      "breakpoints": true
     }
   ]
 }

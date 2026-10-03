@@ -3,7 +3,8 @@ import type { JWT } from "next-auth/jwt";
 import type { UserRole } from "@/types/tenant";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { users } from "@/lib/db/schema/tenant";
-import { accountRequiresMfa, hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
+import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
+import { accountRequiresMfaForLocal } from "@/lib/auth/local-mfa-opt-in";
 
 function usersBackendEnabled(
   env: NodeJS.ProcessEnv = process.env,
@@ -86,15 +87,21 @@ export async function refreshJwtTenancyIfStale(token: JWT): Promise<JWT> {
         ["true", "1", "yes"].includes(
           process.env.AUTH_MFA_ENABLED?.trim().toLowerCase() ?? "",
         ));
-    const mfaRequired = accountRequiresMfa({
+    const mfaRequired = await accountRequiresMfaForLocal({
       email: row.email,
       roles,
+      localId: row.localId,
       explicitMfaEnabled,
       legacyRequiresMfa,
       hostedCustomerMode,
     });
     const mfaRequirementIncreased = mfaRequired && token.mfaRequired !== true;
-    if (!versionAhead && !rolesDrift && !tenancyDrift && token.mfaRequired === mfaRequired) return token;
+    if (!mfaRequired) {
+      token.mfaVerified = true;
+    }
+    if (!versionAhead && !rolesDrift && !tenancyDrift && token.mfaRequired === mfaRequired) {
+      return token;
+    }
 
     token.email = row.email;
     token.unionId = row.unionId ?? undefined;
@@ -105,7 +112,7 @@ export async function refreshJwtTenancyIfStale(token: JWT): Promise<JWT> {
     token.roles = roles;
     token.sessionVersion = row.sessionVersion;
     token.mfaRequired = mfaRequired;
-    if (versionAhead || rolesDrift || mfaRequirementIncreased) {
+    if (mfaRequired && (versionAhead || rolesDrift || mfaRequirementIncreased)) {
       token.mfaVerified = false;
     }
   } catch {

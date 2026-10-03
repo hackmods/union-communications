@@ -3,6 +3,7 @@ import { accessRequestStore } from "@/lib/access-requests/store";
 import { accessRequestSchema } from "@/lib/access-requests/validation";
 import {
   ACCESS_REQUEST_RETRY_AFTER_SECONDS,
+  checkAccessRequestEmailRateLimit,
   checkAccessRequestRateLimit,
   extractAccessRequestClientIp,
 } from "@/lib/access-requests/rate-limit";
@@ -46,6 +47,15 @@ export async function POST(request: Request) {
   }
 
   if (!checkAccessRequestRateLimit(ip)) {
+    return NextResponse.json(
+      { error: "Too many submissions. Try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(ACCESS_REQUEST_RETRY_AFTER_SECONDS) },
+      },
+    );
+  }
+  if (!checkAccessRequestEmailRateLimit(parsed.data.email)) {
     return NextResponse.json(
       { error: "Too many submissions. Try again later." },
       {

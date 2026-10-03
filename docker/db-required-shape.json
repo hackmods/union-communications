@@ -4022,6 +4022,11 @@
           "notNull": true
         },
         {
+          "name": "mfa_required",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
           "name": "sub_text",
           "dataType": "text",
           "notNull": true

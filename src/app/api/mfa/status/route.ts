@@ -62,7 +62,9 @@ export async function GET() {
     );
     if (isHostedCustomerMode() && !operatorBypass && !reenrollGraceActive) {
       const actor = await resolveAuthorizationActor(session);
-      required = required || actorHasHostedMfaCapability(actor);
+      if (session.user.mfaRequired) {
+        required = required || actorHasHostedMfaCapability(actor);
+      }
       if (!required) {
         required = await actorHasActiveCircleAdminAuthority(actor);
       }

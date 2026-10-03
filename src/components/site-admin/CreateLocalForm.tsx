@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Callout } from "@/components/ui/Callout";
+import { Checkbox } from "@/components/ui/Checkbox";
 import type { MembershipPolicy } from "@/lib/db/schema/tenant";
 import type { BrandStructureOption } from "@/lib/site-admin/brand-structure-options";
 
@@ -34,6 +35,7 @@ export function CreateLocalForm({
   const [collectionCatalogKey, setCollectionCatalogKey] = useState("");
   const [collectionCode, setCollectionCode] = useState("");
   const [collectionName, setCollectionName] = useState("");
+  const [officerMfaRequired, setOfficerMfaRequired] = useState(false);
   const [policy, setPolicy] = useState<MembershipPolicy>(membershipPolicy);
   const [busy, setBusy] = useState(false);
   const [mfaCode, setMfaCode] = useState("");
@@ -153,6 +155,7 @@ export function CreateLocalForm({
                 collectionName: collectionName.trim(),
               }
             : {}),
+          mfaRequired: officerMfaRequired,
           ...(localStepUpRequired ? { mfaCode: localMfaCode } : {}),
         }),
       });
@@ -203,6 +206,7 @@ export function CreateLocalForm({
       setCollectionCatalogKey("");
       setCollectionCode("");
       setCollectionName("");
+      setOfficerMfaRequired(false);
       router.refresh();
     } catch {
       setError(t("createLocalFailed"));
@@ -364,6 +368,13 @@ export function CreateLocalForm({
             }}
           />
         </div>
+        <Checkbox
+          label={t("createLocalOfficerMfa")}
+          description={t("createLocalOfficerMfaHelp")}
+          checked={officerMfaRequired}
+          disabled={busy}
+          onChange={(event) => setOfficerMfaRequired(event.target.checked)}
+        />
         {localStepUpRequired ? (
           <div className="space-y-2">
             <Input

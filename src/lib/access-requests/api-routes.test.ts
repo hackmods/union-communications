@@ -34,7 +34,6 @@ import { PATCH as patchSiteAdminAccess } from "@/app/api/site-admin/access-reque
 import { accessRequestStore } from "@/lib/access-requests/store";
 import { resetMemoryAccessRequestStore } from "@/lib/access-requests/memory-adapter";
 import {
-  ACCESS_REQUEST_MAX_PER_IP,
   resetAccessRequestRateLimit,
 } from "@/lib/access-requests/rate-limit";
 
@@ -231,37 +230,51 @@ describe("access request HTTP", () => {
         "inbox=https://unionops.org/en/app/site-admin/access-requests",
       );
 
-      for (let i = 0; i < ACCESS_REQUEST_MAX_PER_IP - 1; i += 1) {
-        const again = await submitAccessRequest(
-          jsonRequest(
-            validSubmit({
-              submissionKey: `submission-key-${i}-xxxx`,
-              email: `alex${i}@example.test`,
-            }),
-            undefined,
-            "203.0.113.6",
-          ),
-        );
-        expect(again.status).toBe(201);
-      }
-      const limited = await submitAccessRequest(
+      const second = await submitAccessRequest(
         jsonRequest(
           validSubmit({
-            submissionKey: "submission-key-limit",
-            email: "limited@example.test",
+            submissionKey: "submission-key-second-xx",
+            email: "jordan@example.test",
           }),
           undefined,
           "203.0.113.6",
         ),
       );
+      expect(second.status).toBe(201);
+      expect(await accessRequestStore.list()).toHaveLength(2);
+    });
+
+    it("caps the same email even when each submit uses a different IP", async () => {
+      for (let i = 0; i < 8; i += 1) {
+        const res = await submitAccessRequest(
+          jsonRequest(
+            validSubmit({
+              submissionKey: `same-email-${i}-xxxxxxxx`,
+              email: "repeat@example.test",
+            }),
+            undefined,
+            `198.51.100.${10 + i}`,
+          ),
+        );
+        expect(res.status).toBe(201);
+      }
+      const limited = await submitAccessRequest(
+        jsonRequest(
+          validSubmit({
+            submissionKey: "same-email-block-xxxx",
+            email: "Repeat@Example.test",
+          }),
+          undefined,
+          "203.0.113.90",
+        ),
+      );
       expect(limited.status).toBe(429);
       expect(limited.headers.get("Retry-After")).toBe("600");
-      expect(await accessRequestStore.list()).toHaveLength(ACCESS_REQUEST_MAX_PER_IP);
     });
 
     it("does not spend the rate-limit quota on invalid JSON or honeypot bots", async () => {
       const ip = "203.0.113.80";
-      for (let i = 0; i < ACCESS_REQUEST_MAX_PER_IP; i += 1) {
+      for (let i = 0; i < 20; i += 1) {
         const honeypot = await submitAccessRequest(
           jsonRequest(
             validSubmit({
@@ -308,13 +321,13 @@ describe("access request HTTP", () => {
             }),
           ),
         });
-      for (let i = 0; i < ACCESS_REQUEST_MAX_PER_IP; i += 1) {
+      for (let i = 0; i < 2; i += 1) {
         expect(
           (await submitAccessRequest(make(`realip${i}@example.test`))).status,
         ).toBe(201);
       }
       expect((await submitAccessRequest(make("realip-block@example.test"))).status).toBe(
-        429,
+        201,
       );
       const other = new Request("http://localhost/api/access-requests", {
         method: "POST",

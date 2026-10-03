@@ -128,6 +128,11 @@ export const locals = pgTable(
     archivedAt: timestamp("archived_at", { withTimezone: true }),
     archivedById: text("archived_by_id"),
     isDemo: boolean("is_demo").notNull().default(false),
+    /**
+     * When true, privileged officers of this Local must use an authenticator.
+     * Default off so first-week Hub access is not blocked by MFA setup.
+     */
+    mfaRequired: boolean("mfa_required").notNull().default(false),
     /** Hosted plan override (ADR-024); unset inherits union defaults. */
     hostedAccessClass: text("hosted_access_class").notNull().default("unset"),
     hostedCommercialClass: text("hosted_commercial_class")

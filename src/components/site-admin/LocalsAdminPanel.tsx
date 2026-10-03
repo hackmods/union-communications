@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { LocalLifecycleActions } from "@/components/site-admin/LocalLifecycleActions";
+import { LocalOfficerMfaToggle } from "@/components/site-admin/LocalOfficerMfaToggle";
 import { MoveLocalPanel } from "@/components/site-admin/MoveLocalPanel";
 import {
   OrganizationStatusFilter,
@@ -17,6 +18,7 @@ export type LocalAdminRow = {
   archivedAt: Date | null;
   isDemo: boolean;
   empty: boolean;
+  mfaRequired: boolean;
 };
 
 type CollectiveOption = { id: string; name: string };
@@ -169,6 +171,18 @@ export function LocalsAdminPanel({
                           </dt>
                           <dd className="inline">{collectiveName ?? "—"}</dd>
                         </div>
+                        <div>
+                          <dt className="inline font-medium text-opseu-dark">
+                            {t("localsColOfficerMfa")}:{" "}
+                          </dt>
+                          <dd className="mt-1 block">
+                            <LocalOfficerMfaToggle
+                              localId={row.id}
+                              mfaRequired={row.mfaRequired}
+                              archived={Boolean(row.archivedAt)}
+                            />
+                          </dd>
+                        </div>
                         {row.isDemo ? (
                           <div>
                             <span className="rounded bg-opseu-orange/20 px-2 py-0.5 text-xs text-opseu-orange-dark">
@@ -194,6 +208,7 @@ export function LocalsAdminPanel({
                       <th className="px-3 py-2">{t("localsColNumber")}</th>
                       <th className="px-3 py-2">{t("localsColSubline")}</th>
                       <th className="px-3 py-2">{t("localsColCollective")}</th>
+                      <th className="px-3 py-2">{t("localsColOfficerMfa")}</th>
                       <th className="px-3 py-2">{t("localsColDemo")}</th>
                       <th className="px-3 py-2">{t("localsColArchived")}</th>
                       <th className="px-3 py-2" />
@@ -226,6 +241,13 @@ export function LocalsAdminPanel({
                           </td>
                           <td className="px-3 py-2 text-xs text-opseu-gray-dark">
                             {collectiveName ?? "—"}
+                          </td>
+                          <td className="px-3 py-2">
+                            <LocalOfficerMfaToggle
+                              localId={row.id}
+                              mfaRequired={row.mfaRequired}
+                              archived={Boolean(row.archivedAt)}
+                            />
                           </td>
                           <td className="px-3 py-2 text-xs">
                             {row.isDemo ? (
