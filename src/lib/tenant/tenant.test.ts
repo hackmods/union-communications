@@ -30,7 +30,7 @@ describe("module registry", () => {
     expect(mods.map((m) => m.id)).toContain("grievance");
   });
 
-  it("omits comms and portal from HubNav (public header peers)", () => {
+  it("omits comms and portal from HubNav module strip (workspace peer is separate)", () => {
     const nav = getHubNavModules(
       ["comms", "grievance", "portal"],
       ["local_president"],

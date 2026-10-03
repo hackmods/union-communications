@@ -160,6 +160,12 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
       const drawer = page.getByTestId("hub-nav-drawer");
       await expect(drawer).toBeVisible();
       await expect(page.getByTestId("mobile-site-section")).toBeVisible();
+      await expect(
+        drawer.getByRole("link", { name: "Local Portal", exact: true }),
+      ).toBeVisible();
+      await expect(
+        drawer.getByTestId("platform-operator-account-link"),
+      ).toHaveCount(0);
 
       await page.keyboard.press("Escape");
       await expect(toggle).toHaveAttribute("aria-expanded", "false");
@@ -231,6 +237,9 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
       await expect(page.getByTestId("mobile-site-section")).toBeVisible();
       await expect(
         drawer.getByRole("link", { name: "Brand Kit", exact: true }),
+      ).toBeVisible();
+      await expect(
+        drawer.getByRole("link", { name: "Local Portal", exact: true }),
       ).toBeVisible();
       await expect
         .poll(async () => {

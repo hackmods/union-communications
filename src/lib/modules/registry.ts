@@ -277,9 +277,10 @@ export function getVisibleModules(
 }
 
 /**
- * HubNav omits `comms` (public shell) and `portal` (top-level Local Portal
- * peer in the site header). Listing Portal again under Officer Hub and marking
- * every `/portal` visit from Hub chrome was redundant.
+ * HubNav omits `comms` (public shell) and `portal` from the module strip.
+ * Local Portal is a workspace peer (`hubShowsLocalPortalPeer`), not an Officer
+ * Hub module — phones still need that peer in Hub chrome because the public
+ * hamburger is hidden on `/app`.
  */
 export function getHubNavModules(
   enabledModules: HubModule[],

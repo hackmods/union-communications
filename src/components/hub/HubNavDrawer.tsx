@@ -40,6 +40,9 @@ type HubNavDrawerProps = {
   setupLinks?: HubToolLink[];
   toolGroups: HubToolGroup[];
   toolsActive: boolean;
+  /** Local Portal workspace peer — omitted when the module or role gate fails. */
+  portalHref?: string;
+  portalLabel?: string;
   accountLinks: HubDrawerAccountLink[];
   mfaEnabled?: boolean;
   mfaOk?: boolean;
@@ -56,6 +59,8 @@ export function HubNavDrawer({
   setupLinks = [],
   toolGroups,
   toolsActive,
+  portalHref,
+  portalLabel,
   accountLinks,
   mfaEnabled = false,
   mfaOk = false,
@@ -92,6 +97,23 @@ export function HubNavDrawer({
         <div className="mb-3 min-w-0 rounded-md bg-white px-3 py-3">
           <HubContextSwitcher variant="drawer" />
         </div>
+
+        {portalHref && portalLabel ? (
+          <Link
+            href={portalHref}
+            onClick={onCloseAfterNav}
+            aria-current={
+              pathname.startsWith("/portal") ? "page" : undefined
+            }
+            className={cn(
+              linkClass(pathname.startsWith("/portal")),
+              "text-opseu-blue",
+            )}
+            data-testid="hub-portal-peer"
+          >
+            {portalLabel}
+          </Link>
+        ) : null}
 
         {modules.map((mod) => {
           const active = hubModuleActive(pathname, mod.href);

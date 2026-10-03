@@ -3,6 +3,12 @@
  * under Officer tools. Viewport chrome (drawer vs bar) must not drop links.
  */
 
+import type { HubModule, UserRole } from "@/types/tenant";
+import {
+  canAccessPortal,
+  isPortalModuleEnabled,
+} from "@/lib/portal/access";
+
 export type HubToolGroupId = "casework" | "records" | "funds" | "admin";
 
 export type HubToolGroupDef = {
@@ -116,4 +122,19 @@ export function hubToolsActive(
 
 export function hubModuleActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+/**
+ * Local Portal stays out of the Hub module strip (it is a workspace peer, not
+ * an Officer Hub module). Phone Hub chrome still needs the peer: the public
+ * header hides its hamburger on `/app`, and Officer Hub / Local Portal live
+ * in the `xl` site nav that phones never see.
+ *
+ * Site Admin / platform operator chrome is a different gate (`platform_admin`).
+ */
+export function hubShowsLocalPortalPeer(
+  enabledModules: readonly HubModule[] | undefined,
+  roles: readonly UserRole[],
+): boolean {
+  return isPortalModuleEnabled(enabledModules) && canAccessPortal([...roles]);
 }

@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import {
   HUB_TOOL_GROUPS,
   groupHubToolLinks,
+  hubShowsLocalPortalPeer,
   hubToolsActive,
 } from "./hub-nav-model";
 
@@ -55,6 +56,26 @@ describe("groupHubToolLinks", () => {
     const links = [{ href: "/app/officers", label: "Officers" }];
     expect(hubToolsActive("/app/officers/123", links)).toBe(true);
     expect(hubToolsActive("/app/grievances", links)).toBe(false);
+  });
+});
+
+describe("hubShowsLocalPortalPeer", () => {
+  it("shows Local Portal for officers when the module is on", () => {
+    expect(
+      hubShowsLocalPortalPeer(["portal", "grievance"], ["local_president"]),
+    ).toBe(true);
+  });
+
+  it("hides Local Portal when the union has not enabled the module", () => {
+    expect(hubShowsLocalPortalPeer(["grievance"], ["local_president"])).toBe(
+      false,
+    );
+  });
+
+  it("still shows Local Portal for members and officers — Site Admin is a separate gate", () => {
+    expect(hubShowsLocalPortalPeer(["portal"], ["local_member"])).toBe(true);
+    expect(hubShowsLocalPortalPeer(["portal"], ["local_president"])).toBe(true);
+    expect(hubShowsLocalPortalPeer(["portal"], ["platform_admin"])).toBe(true);
   });
 });
 
@@ -119,6 +140,9 @@ describe("HubNav chrome contract", () => {
     expect(header).toContain("hidePublicHamburger");
     expect(hubDrawer).toContain("MobileSheet");
     expect(hubDrawer).toContain("MobileSiteSection");
+    expect(hubDrawer).toContain("portalHref");
+    expect(hubDrawer).toContain("hub-portal-peer");
+    expect(hubDrawer).toContain("PlatformOperatorAccountLinks");
     const sheet = readFileSync(
       join(srcRoot, "components/layout/nav/MobileSheet.tsx"),
       "utf8",
@@ -152,5 +176,9 @@ describe("HubNav chrome contract", () => {
     expect(source).toContain("isHubSetupToolHref");
     expect(source).toContain("setupLinks");
     expect(source).toContain("menuToolLinks");
+    expect(source).toContain("hubShowsLocalPortalPeer");
+    expect(source).toContain('t("portalLink")');
+    expect(source).toContain("isPlatformOperator");
+    expect(source).toContain("PlatformOperatorNavDropdown");
   });
 });
