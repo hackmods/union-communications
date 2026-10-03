@@ -7839,6 +7839,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "hub-phone-workspaces": {
+        "title": "Officer Hub phone menu keeps Hub and Local Portal together",
+        "body": "Open the Officer Hub menu on a phone to switch between Officer Hub and Local Portal. Local officers still see their union tools. Only platform operators see host admin. Brand Kit and Create stay under Site."
+      },
       "request-access-open": {
         "title": "Ask for access again",
         "body": "The request form was failing, so many people never got through. Try the same link again. Send your union, local, and email. We will receive it and follow up. This does not create an account on the spot."
@@ -10411,6 +10415,9 @@
     "closeHubMenu": "Close hub menu",
     "mobileNav": "Hub menu",
     "mobileSiteSection": "Site",
+    "workspaceSection": "Officer Hub and Local Portal",
+    "drawerNoUnionWork": "Union casework appears here after this account is assigned to a local.",
+    "drawerMemberHome": "Officer Hub tools are for stewards and officers. Open Local Portal for Together and Circles.",
     "toolsGroupCasework": "Casework",
     "toolsGroupRecords": "Records",
     "toolsGroupFunds": "Funds",

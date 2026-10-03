@@ -130,11 +130,45 @@ export function hubModuleActive(pathname: string, href: string): boolean {
  * header hides its hamburger on `/app`, and Officer Hub / Local Portal live
  * in the `xl` site nav that phones never see.
  *
+ * When the session has no tenant yet (host operator, JWT still refreshing),
+ * keep the peer for portal-eligible roles so the drawer is not empty. Once
+ * tenant settings load, honour the union's portal module flag.
+ *
  * Site Admin / platform operator chrome is a different gate (`platform_admin`).
  */
 export function hubShowsLocalPortalPeer(
   enabledModules: readonly HubModule[] | undefined,
   roles: readonly UserRole[],
+  tenantKnown = true,
 ): boolean {
-  return isPortalModuleEnabled(enabledModules) && canAccessPortal([...roles]);
+  if (!canAccessPortal([...roles])) return false;
+  if (!tenantKnown) return true;
+  return isPortalModuleEnabled(enabledModules);
+}
+
+/** Union destinations in the Hub drawer — modules, setup, or Officer tools. */
+export function hubDrawerHasUnionWork(
+  moduleCount: number,
+  setupCount: number,
+  toolGroupCount: number,
+): boolean {
+  return moduleCount + setupCount + toolGroupCount > 0;
+}
+
+export type HubDrawerEmptyKind = "none" | "noTenant" | "memberHome" | "modulesOff";
+
+/**
+ * Why the Hub drawer has no union destinations. Members already assigned to a
+ * local must not be told to “get a local”; host operators without tenancy
+ * still need that assignment hint.
+ */
+export function hubDrawerEmptyKind(input: {
+  hasUnionWork: boolean;
+  tenantKnown: boolean;
+  prefersPortalHome: boolean;
+}): HubDrawerEmptyKind {
+  if (input.hasUnionWork) return "none";
+  if (!input.tenantKnown) return "noTenant";
+  if (input.prefersPortalHome) return "memberHome";
+  return "modulesOff";
 }

@@ -7785,6 +7785,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "hub-phone-workspaces": {
+        "title": "Le menu téléphone du Hub des dirigeants relie le Hub des dirigeants et le Portail local",
+        "body": "Ouvrez le menu du Hub des dirigeants sur un téléphone pour passer du Hub des dirigeants au Portail local. Les dirigeantes et dirigeants locaux voient encore leurs outils syndicaux. Seules les personnes qui administrent la plateforme voient l’admin de l’hôte. La Trousse de marque et Créer restent sous Site."
+      },
       "request-access-open": {
         "title": "Demandez l’accès de nouveau",
         "body": "Le formulaire de demande échouait, alors plusieurs personnes n’ont pas pu passer. Réessayez le même lien. Envoyez votre syndicat, votre section et votre courriel. Nous recevrons la demande et ferons un suivi. Cela ne crée pas de compte sur-le-champ."
@@ -10139,6 +10143,9 @@
     "closeHubMenu": "Fermer le menu du hub",
     "mobileNav": "Menu du hub",
     "mobileSiteSection": "Site",
+    "workspaceSection": "Hub des dirigeants et Portail local",
+    "drawerNoUnionWork": "Les dossiers syndicaux apparaissent ici une fois ce compte rattaché à une section locale.",
+    "drawerMemberHome": "Les outils du Hub des dirigeants sont destinés aux délégués et aux dirigeants. Ouvrez le Portail local pour Ensemble et les Cercles.",
     "toolsGroupCasework": "Dossiers",
     "toolsGroupRecords": "Registres",
     "toolsGroupFunds": "Fonds",

@@ -4,6 +4,8 @@ import { describe, expect, it } from "vitest";
 import {
   HUB_TOOL_GROUPS,
   groupHubToolLinks,
+  hubDrawerEmptyKind,
+  hubDrawerHasUnionWork,
   hubShowsLocalPortalPeer,
   hubToolsActive,
 } from "./hub-nav-model";
@@ -77,6 +79,66 @@ describe("hubShowsLocalPortalPeer", () => {
     expect(hubShowsLocalPortalPeer(["portal"], ["local_president"])).toBe(true);
     expect(hubShowsLocalPortalPeer(["portal"], ["platform_admin"])).toBe(true);
   });
+
+  it("keeps Local Portal while tenant settings have not loaded", () => {
+    expect(
+      hubShowsLocalPortalPeer([], ["platform_admin"], false),
+    ).toBe(true);
+    expect(
+      hubShowsLocalPortalPeer([], ["local_president"], false),
+    ).toBe(true);
+  });
+});
+
+describe("hubDrawerHasUnionWork", () => {
+  it("is empty for a host operator with no modules or tools", () => {
+    expect(hubDrawerHasUnionWork(0, 0, 0)).toBe(false);
+    expect(hubDrawerHasUnionWork(1, 0, 0)).toBe(true);
+    expect(hubDrawerHasUnionWork(0, 1, 0)).toBe(true);
+    expect(hubDrawerHasUnionWork(0, 0, 1)).toBe(true);
+  });
+});
+
+describe("hubDrawerEmptyKind", () => {
+  it("stays quiet when union destinations exist", () => {
+    expect(
+      hubDrawerEmptyKind({
+        hasUnionWork: true,
+        tenantKnown: false,
+        prefersPortalHome: true,
+      }),
+    ).toBe("none");
+  });
+
+  it("asks host operators without a local to get an assignment", () => {
+    expect(
+      hubDrawerEmptyKind({
+        hasUnionWork: false,
+        tenantKnown: false,
+        prefersPortalHome: false,
+      }),
+    ).toBe("noTenant");
+  });
+
+  it("sends members to Local Portal instead of promising a local assignment", () => {
+    expect(
+      hubDrawerEmptyKind({
+        hasUnionWork: false,
+        tenantKnown: true,
+        prefersPortalHome: true,
+      }),
+    ).toBe("memberHome");
+  });
+
+  it("tells officers when modules are off for their role", () => {
+    expect(
+      hubDrawerEmptyKind({
+        hasUnionWork: false,
+        tenantKnown: true,
+        prefersPortalHome: false,
+      }),
+    ).toBe("modulesOff");
+  });
 });
 
 describe("HubNav chrome contract", () => {
@@ -141,8 +203,15 @@ describe("HubNav chrome contract", () => {
     expect(hubDrawer).toContain("MobileSheet");
     expect(hubDrawer).toContain("MobileSiteSection");
     expect(hubDrawer).toContain("portalHref");
+    expect(hubDrawer).toContain("hub-workspace-peers");
+    expect(hubDrawer).toContain("hub-home-peer");
     expect(hubDrawer).toContain("hub-portal-peer");
-    expect(hubDrawer).toContain("PlatformOperatorAccountLinks");
+    expect(hubDrawer).toContain("showOperatorChrome");
+    expect(hubDrawer).toContain("contextReady");
+    expect(hubDrawer).toContain("emptyKind");
+    expect(hubDrawer).toContain("hub-operator-peer");
+    expect(hubDrawer).toContain('excludeKeys={["platform"]}');
+    expect(hubDrawer).not.toContain("PlatformOperatorAccountLinks");
     const sheet = readFileSync(
       join(srcRoot, "components/layout/nav/MobileSheet.tsx"),
       "utf8",
@@ -177,6 +246,11 @@ describe("HubNav chrome contract", () => {
     expect(source).toContain("setupLinks");
     expect(source).toContain("menuToolLinks");
     expect(source).toContain("hubShowsLocalPortalPeer");
+    expect(source).toContain("Boolean(tenant)");
+    expect(source).toContain("contextReady");
+    expect(source).toContain("showOperatorChrome");
+    expect(source).toContain("emptyKind");
+    expect(source).toContain("prefersPortalHome");
     expect(source).toContain('t("portalLink")');
     expect(source).toContain("isPlatformOperator");
     expect(source).toContain("PlatformOperatorNavDropdown");

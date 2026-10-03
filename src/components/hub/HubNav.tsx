@@ -28,6 +28,8 @@ import {
 import { HubNavDrawer } from "@/components/hub/HubNavDrawer";
 import {
   groupHubToolLinks,
+  hubDrawerEmptyKind,
+  hubDrawerHasUnionWork,
   hubModuleActive,
   hubShowsLocalPortalPeer,
   hubToolLinkActive,
@@ -41,6 +43,7 @@ import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { NavDropdown } from "@/components/layout/nav/NavDropdown";
 import { PlatformOperatorNavDropdown } from "@/components/platform/PlatformOperatorNavDropdown";
 import { isPlatformOperator } from "@/lib/platform/operator-nav";
+import { prefersPortalHome } from "@/lib/portal/access";
 
 export function HubNav() {
   const { session, authenticated } = useHubAuthenticated();
@@ -133,8 +136,13 @@ export function HubNav() {
       : toolLinks;
   const toolGroups = groupHubToolLinks(menuToolLinks);
   const toolsActive = hubToolsActive(pathname, toolLinks);
-  const showPortalPeer = hubShowsLocalPortalPeer(visibleModules, roles);
+  const showPortalPeer = hubShowsLocalPortalPeer(
+    visibleModules,
+    roles,
+    Boolean(tenant),
+  );
   const portalCurrent = pathname.startsWith("/portal");
+  const showOperatorChrome = isPlatformOperator(roles);
 
   const drawerModules = modules.map((mod) => ({
     id: mod.id,
@@ -143,6 +151,16 @@ export function HubNav() {
     emojiId: mod.emojiId,
     dimmed: Boolean(mod.requiresMfa && !mfaOk),
   }));
+  const hasUnionWork = hubDrawerHasUnionWork(
+    drawerModules.length,
+    setupLinks.length,
+    toolGroups.length,
+  );
+  const emptyKind = hubDrawerEmptyKind({
+    hasUnionWork,
+    tenantKnown: Boolean(tenant),
+    prefersPortalHome: prefersPortalHome(roles),
+  });
 
   const accountLinks = [
     {
@@ -361,6 +379,9 @@ export function HubNav() {
           toolsActive={toolsActive}
           portalHref={showPortalPeer ? "/portal" : undefined}
           portalLabel={showPortalPeer ? t("portalLink") : undefined}
+          contextReady={contextReady}
+          showOperatorChrome={showOperatorChrome}
+          emptyKind={emptyKind}
           accountLinks={accountLinks}
           mfaEnabled={mfaEnabled}
           mfaOk={mfaOk}

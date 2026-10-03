@@ -11,12 +11,13 @@ import { HubContextSwitcher } from "@/components/hub/HubContextSwitcher";
 import {
   hubModuleActive,
   hubToolLinkActive,
+  type HubDrawerEmptyKind,
   type HubToolGroup,
   type HubToolLink,
 } from "@/components/hub/hub-nav-model";
 import { Emoji } from "@/components/ui/Emoji";
 import type { EmojiId } from "@/lib/constants/emoji";
-import { PlatformOperatorAccountLinks } from "@/components/platform/PlatformOperatorAccountLinks";
+import { PLATFORM_OPERATOR_NAV } from "@/lib/platform/operator-nav";
 
 export type HubDrawerModule = {
   id: string;
@@ -43,6 +44,11 @@ type HubNavDrawerProps = {
   /** Local Portal workspace peer — omitted when the module or role gate fails. */
   portalHref?: string;
   portalLabel?: string;
+  /** Local/collection switcher — omit the card when the session has no tenant. */
+  contextReady?: boolean;
+  /** Site Admin — `platform_admin` only. */
+  showOperatorChrome?: boolean;
+  emptyKind?: HubDrawerEmptyKind;
   accountLinks: HubDrawerAccountLink[];
   mfaEnabled?: boolean;
   mfaOk?: boolean;
@@ -61,6 +67,9 @@ export function HubNavDrawer({
   toolsActive,
   portalHref,
   portalLabel,
+  contextReady = false,
+  showOperatorChrome = false,
+  emptyKind = "none",
   accountLinks,
   mfaEnabled = false,
   mfaOk = false,
@@ -70,8 +79,17 @@ export function HubNavDrawer({
   compactDashboard = false,
 }: HubNavDrawerProps) {
   const t = useTranslations("hub");
+  const tOp = useTranslations("hub.platformOperator");
   const toolsPanelId = useId();
   const [toolsOpen, setToolsOpen] = useState(toolsActive);
+  const operatorItem = PLATFORM_OPERATOR_NAV[0];
+  const hubHomeCurrent = pathname === "/app" || pathname === "/app/";
+  const portalCurrent = pathname.startsWith("/portal");
+  const operatorCurrent = Boolean(
+    operatorItem &&
+      (pathname === operatorItem.href ||
+        pathname.startsWith(`${operatorItem.href}/`)),
+  );
 
   const linkClass = (active: boolean) =>
     cn(
@@ -94,25 +112,47 @@ export function HubNavDrawer({
         className="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-3 py-3 text-base"
         aria-label={t("mobileNav")}
       >
-        <div className="mb-3 min-w-0 rounded-md bg-white px-3 py-3">
-          <HubContextSwitcher variant="drawer" />
+        <div className="mb-3 min-w-0" data-testid="hub-workspace-peers">
+          <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+            {t("workspaceSection")}
+          </p>
+          <Link
+            href="/app"
+            onClick={onCloseAfterNav}
+            aria-current={hubHomeCurrent ? "page" : undefined}
+            className={linkClass(hubHomeCurrent)}
+            data-testid="hub-home-peer"
+          >
+            {t("hubLink")}
+          </Link>
+          {portalHref && portalLabel ? (
+            <Link
+              href={portalHref}
+              onClick={onCloseAfterNav}
+              aria-current={portalCurrent ? "page" : undefined}
+              className={cn(linkClass(portalCurrent), "text-opseu-blue")}
+              data-testid="hub-portal-peer"
+            >
+              {portalLabel}
+            </Link>
+          ) : null}
+          {showOperatorChrome && operatorItem ? (
+            <Link
+              href={operatorItem.href}
+              onClick={onCloseAfterNav}
+              aria-current={operatorCurrent ? "page" : undefined}
+              className={linkClass(operatorCurrent)}
+              data-testid="hub-operator-peer"
+            >
+              {tOp("menu")}
+            </Link>
+          ) : null}
         </div>
 
-        {portalHref && portalLabel ? (
-          <Link
-            href={portalHref}
-            onClick={onCloseAfterNav}
-            aria-current={
-              pathname.startsWith("/portal") ? "page" : undefined
-            }
-            className={cn(
-              linkClass(pathname.startsWith("/portal")),
-              "text-opseu-blue",
-            )}
-            data-testid="hub-portal-peer"
-          >
-            {portalLabel}
-          </Link>
+        {contextReady ? (
+          <div className="mb-3 min-w-0 rounded-md bg-white px-3 py-3">
+            <HubContextSwitcher variant="drawer" />
+          </div>
         ) : null}
 
         {modules.map((mod) => {
@@ -173,6 +213,19 @@ export function HubNavDrawer({
           </HubAccordion>
         ) : null}
 
+        {!emptyKind || emptyKind === "none" ? null : (
+          <p
+            className="mb-3 px-3 text-sm leading-relaxed text-gray-600"
+            data-testid="hub-drawer-empty-work"
+          >
+            {emptyKind === "memberHome"
+              ? t("drawerMemberHome")
+              : emptyKind === "modulesOff"
+                ? t("dashboardHome.noNextSteps")
+                : t("drawerNoUnionWork")}
+          </p>
+        )}
+
         <div className="mt-4 border-t border-gray-200 pt-3">
           {mfaEnabled ? (
             <Link
@@ -194,22 +247,15 @@ export function HubNavDrawer({
           {accountLinks.map((link) => {
             const active = hubModuleActive(pathname, link.href);
             return (
-              <div key={link.href}>
-                <Link
-                  href={link.href}
-                  onClick={onCloseAfterNav}
-                  aria-current={active ? "page" : undefined}
-                  className={cn(linkClass(active), link.className)}
-                >
-                  {link.label}
-                </Link>
-                {link.href === "/app/profile" ? (
-                  <PlatformOperatorAccountLinks
-                    layout="stack"
-                    onNavigate={onCloseAfterNav}
-                  />
-                ) : null}
-              </div>
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={onCloseAfterNav}
+                aria-current={active ? "page" : undefined}
+                className={cn(linkClass(active), link.className)}
+              >
+                {link.label}
+              </Link>
             );
           })}
           <button
@@ -229,6 +275,7 @@ export function HubNavDrawer({
           onNavigate={onCloseAfterNav}
           heading={t("mobileSiteSection")}
           linkClassName={linkClass}
+          excludeKeys={["platform"]}
         />
       </nav>
     </MobileSheet>

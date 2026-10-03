@@ -43,6 +43,9 @@ test.describe("Officer Hub task-first home @smoke", () => {
     const navigation = page.getByTestId("hub-nav-drawer");
     await expect(navigation).toBeVisible();
     await expect(navigation.getByRole("link", { name: /^Platform admin$/i })).toBeVisible();
+    await expect(navigation.getByRole("link", { name: "Officer Hub", exact: true })).toBeVisible();
+    await expect(navigation.getByRole("link", { name: "Local Portal", exact: true })).toBeVisible();
+    await expect(navigation.getByRole("link", { name: "Platform", exact: true })).toHaveCount(0);
   });
 
   test("empty work and failed loads have different messages", async ({ page }) => {
@@ -80,6 +83,16 @@ test.describe("Officer Hub task-first home @smoke", () => {
     await expect(
       page.getByRole("link", { name: "Open Local Portal" }),
     ).toBeVisible();
+    await page.setViewportSize({ width: 390, height: 900 });
+    await page.getByTestId("hub-nav-toggle").click();
+    const drawer = page.getByTestId("hub-nav-drawer");
+    await expect(
+      drawer.getByRole("link", { name: "Local Portal", exact: true }),
+    ).toBeVisible();
+    await expect(drawer.getByTestId("hub-drawer-empty-work")).toContainText(
+      /stewards and officers/i,
+    );
+    await expect(drawer.getByTestId("hub-operator-peer")).toHaveCount(0);
   });
 
   test("the first work area and responsive navigation fit five widths", async ({ page }) => {
