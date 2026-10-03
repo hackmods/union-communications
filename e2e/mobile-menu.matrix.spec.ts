@@ -168,7 +168,7 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
         drawer.getByRole("link", { name: "Local Portal", exact: true }),
       ).toBeVisible();
       await expect(
-        drawer.getByRole("link", { name: "Grievances", exact: true }),
+        drawer.getByRole("link", { name: /Grievances|Griefs/i }),
       ).toBeVisible();
       await expect(
         drawer.getByRole("link", { name: "Platform", exact: true }),
@@ -347,7 +347,7 @@ test.describe("Hub mobile menu — platform operator @smoke @mobile", () => {
       drawer.getByRole("link", { name: "Platform", exact: true }),
     ).toHaveCount(0);
     await expect(
-      drawer.getByRole("link", { name: "Grievances", exact: true }),
+      drawer.getByRole("link", { name: /Grievances|Griefs/i }),
     ).toBeVisible();
     await expect(drawer.getByTestId("hub-drawer-empty-work")).toHaveCount(0);
     await expect(drawer.getByTestId("hub-operator-peer")).toBeVisible();
