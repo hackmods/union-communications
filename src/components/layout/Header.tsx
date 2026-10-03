@@ -15,7 +15,10 @@ import { OfficerHubNavLink } from "./OfficerHubNavLink";
 import { LocalPortalNavLink } from "./LocalPortalNavLink";
 import { PlatformOperatorNavDropdown } from "@/components/platform/PlatformOperatorNavDropdown";
 import { MobileNavDrawer } from "./nav/MobileNavDrawer";
-import { observeStickyHeight } from "@/lib/layout/observe-sticky-height";
+import {
+  observeLiveChromeBottom,
+  observeStickyHeight,
+} from "@/lib/layout/observe-sticky-height";
 import {
   isPublicPrimaryNavActive,
   PUBLIC_PRIMARY_NAV,
@@ -35,7 +38,7 @@ export function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const drawerId = useId();
-  const [headerHeight, setHeaderHeight] = useState(0);
+  const [headerBottom, setHeaderBottom] = useState(0);
   const drawerOpen = !hidePublicHamburger && drawer?.path === pathname;
   const brandKit = useBrandStore((state) => state.brandKit);
   const hydrated = useBrandStore((state) => state.hydrated);
@@ -64,7 +67,16 @@ export function Header() {
   useLayoutEffect(() => {
     const element = headerRef.current;
     if (!element) return;
-    return observeStickyHeight(element, "--site-header-height", setHeaderHeight);
+    const stopHeight = observeStickyHeight(element, "--site-header-height");
+    const stopBottom = observeLiveChromeBottom(
+      element,
+      "--site-header-bottom",
+      setHeaderBottom,
+    );
+    return () => {
+      stopHeight();
+      stopBottom();
+    };
   }, [drawerOpen]);
 
   const closeDrawer = useCallback(() => {
@@ -81,8 +93,10 @@ export function Header() {
     <header
       ref={headerRef}
       className={cn(
-        "sticky top-0 min-w-0 border-b border-slate-200 bg-white/95 backdrop-blur",
-        drawerOpen ? "z-[80]" : "z-50",
+        "sticky top-0 min-w-0 border-b border-slate-200",
+        drawerOpen
+          ? "z-[80] bg-white"
+          : "z-50 bg-white/95 backdrop-blur",
       )}
     >
       <div
@@ -172,7 +186,7 @@ export function Header() {
 
       {drawerOpen ? (
         <MobileNavDrawer
-          headerHeight={headerHeight}
+          drawerTop={headerBottom}
           pathname={pathname}
           shellContext={shellContext}
           onClose={closeDrawer}

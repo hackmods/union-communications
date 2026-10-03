@@ -22,6 +22,24 @@ type MobileSheetProps = {
   children: ReactNode;
 };
 
+function isInsideSheetScroller(panel: HTMLElement, target: EventTarget | null) {
+  if (!(target instanceof Node)) return false;
+  let node: Node | null = target;
+  while (node && node !== panel) {
+    if (node instanceof HTMLElement) {
+      const overflowY = getComputedStyle(node).overflowY;
+      if (
+        (overflowY === "auto" || overflowY === "scroll") &&
+        node.scrollHeight > node.clientHeight
+      ) {
+        return true;
+      }
+    }
+    node = node.parentNode;
+  }
+  return false;
+}
+
 /**
  * Shared mobile navigation sheet: portal, overlay, focus trap, Escape,
  * and scroll lock that preserves sticky chrome geometry.
@@ -73,23 +91,38 @@ export function MobileSheet({
         first.focus();
       }
     };
+    const blockBackgroundScroll = (event: WheelEvent | TouchEvent) => {
+      if (panel && isInsideSheetScroller(panel, event.target)) return;
+      event.preventDefault();
+    };
     document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("wheel", blockBackgroundScroll, { passive: false });
+    document.addEventListener("touchmove", blockBackgroundScroll, {
+      passive: false,
+    });
     return () => {
       window.clearTimeout(focusTimer);
       unlock();
       document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("wheel", blockBackgroundScroll);
+      document.removeEventListener("touchmove", blockBackgroundScroll);
     };
   }, []);
 
-  const topStyle = { top: Math.max(0, top) };
+  const safeTop = Math.max(0, top);
+  const panelStyle = {
+    top: safeTop,
+    height: `calc(100dvh - ${safeTop}px)`,
+    maxHeight: `calc(100dvh - ${safeTop}px)`,
+  };
 
   return createPortal(
     <div className={visibilityClassName} role="presentation">
       <button
         type="button"
-        className="fixed inset-x-0 bottom-0 z-[60] bg-black/40"
-        style={topStyle}
+        className="fixed inset-0 z-[60] bg-slate-900/55 touch-none"
         aria-label={closeLabel}
+        data-testid="mobile-sheet-scrim"
         onClick={onClose}
       />
       <div
@@ -100,9 +133,10 @@ export function MobileSheet({
         aria-label={labelledBy ? undefined : label}
         aria-labelledby={labelledBy}
         data-testid={testId}
-        style={topStyle}
+        style={panelStyle}
         className={cn(
-          "fixed bottom-0 right-0 z-[70] flex w-full max-w-[min(100vw,23rem)] flex-col border-l border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] shadow-xl",
+          "fixed inset-x-0 z-[70] isolate flex w-full max-w-full flex-col overflow-hidden border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] shadow-xl",
+          "min-[480px]:inset-x-auto min-[480px]:right-0 min-[480px]:max-w-[min(100vw,23rem)] min-[480px]:border-l",
           panelClassName,
         )}
       >

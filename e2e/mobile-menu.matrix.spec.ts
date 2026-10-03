@@ -1,6 +1,9 @@
 import { test, expect } from "@playwright/test";
 import { loginAsDemoOfficer } from "./helpers/auth";
-import { assertNoHorizontalOverflow } from "./helpers/layout";
+import {
+  assertMobileSheetCoversScrolledPage,
+  assertNoHorizontalOverflow,
+} from "./helpers/layout";
 
 /**
  * Mobile menu layout-state matrix from the 2026-09-25 mobile nav audit
@@ -75,6 +78,45 @@ test.describe("Public mobile menu matrix @smoke @mobile", () => {
       await assertNoHorizontalOverflow(page);
       await page.keyboard.press("Escape");
       await expect(page.getByTestId("mobile-nav-drawer")).toHaveCount(0);
+    });
+  }
+
+  for (const width of [...PUBLIC_WIDTHS, ...LARGE_TEXT_WIDTHS]) {
+    const largeText = width <= 360;
+    test(`public menu covers scrolled Home at ${width}px${largeText ? " with maximum text" : ""}`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 812 });
+      await page.goto("/en/");
+      if (largeText) {
+        await page.evaluate(() => {
+          document.documentElement.dataset.fontSize = "maximum";
+          document.documentElement.style.setProperty("--text-scale", "1.5");
+        });
+      }
+
+      const scrolledCopy = page.getByText("What stays free?", { exact: true });
+      await scrolledCopy.scrollIntoViewIfNeeded();
+
+      const toggle = page.getByTestId("mobile-nav-toggle");
+      await toggle.click();
+      const drawer = page.getByTestId("mobile-nav-drawer");
+      await expect(drawer).toBeVisible();
+      for (const label of ["Brand Kit", "Create", "Worksheets", "Learn", "Platform"]) {
+        await expect(
+          drawer.getByRole("link", { name: label, exact: true }),
+        ).toBeVisible();
+      }
+
+      await assertMobileSheetCoversScrolledPage(page, {
+        drawer,
+        chrome: toggle,
+        covered: scrolledCopy,
+      });
+      await assertNoHorizontalOverflow(page);
+
+      await page.keyboard.press("Escape");
+      await expect(drawer).toHaveCount(0);
     });
   }
 });
@@ -190,4 +232,34 @@ test.describe("Hub mobile menu matrix @smoke @mobile", () => {
       await expect(toggle).toHaveAttribute("aria-expanded", "false");
     });
   }
+
+  test("hub menu stays under chrome after scroll with maximum text", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 900 });
+    await page.goto("/en/app/");
+    await page.evaluate(() => {
+      document.documentElement.dataset.fontSize = "maximum";
+      document.documentElement.style.setProperty("--text-scale", "1.5");
+      window.scrollTo(0, 480);
+    });
+    const toggle = page.getByTestId("hub-nav-toggle");
+    await toggle.click();
+    const drawer = page.getByTestId("hub-nav-drawer");
+    await expect(drawer).toBeVisible();
+    await expect(
+      drawer.getByRole("link", { name: "Brand Kit", exact: true }),
+    ).toBeVisible();
+    const toggleBox = await toggle.boundingBox();
+    const drawerBox = await drawer.boundingBox();
+    expect(toggleBox).toBeTruthy();
+    expect(drawerBox).toBeTruthy();
+    expect(toggleBox!.y).toBeGreaterThanOrEqual(-1);
+    expect(drawerBox!.y).toBeGreaterThanOrEqual(
+      toggleBox!.y + toggleBox!.height - 2,
+    );
+    await expect(page.getByTestId("mobile-sheet-scrim")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(drawer).toHaveCount(0);
+  });
 });

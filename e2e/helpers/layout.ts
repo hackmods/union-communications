@@ -42,6 +42,41 @@ export async function assertDesktopComposition(
   expect(measureBox!.width).toBeLessThanOrEqual(opts.maxMeasurePx ?? 720);
 }
 
+/**
+ * After a mid-page open, the sheet must cover scrolled copy and keep chrome
+ * in view so labels cannot ghost against the page (Home trust band).
+ */
+export async function assertMobileSheetCoversScrolledPage(
+  page: Page,
+  opts: {
+    drawer: { boundingBox: () => Promise<{ x: number; y: number; width: number; height: number } | null> };
+    chrome: { boundingBox: () => Promise<{ x: number; y: number; width: number; height: number } | null> };
+    covered: { boundingBox: () => Promise<{ x: number; y: number; width: number; height: number } | null> };
+  },
+) {
+  const viewport = page.viewportSize();
+  expect(viewport).toBeTruthy();
+  const drawerBox = await opts.drawer.boundingBox();
+  const chromeBox = await opts.chrome.boundingBox();
+  const coveredBox = await opts.covered.boundingBox();
+  const scrimBox = await page.getByTestId("mobile-sheet-scrim").boundingBox();
+  expect(drawerBox).toBeTruthy();
+  expect(chromeBox).toBeTruthy();
+  expect(coveredBox).toBeTruthy();
+  expect(scrimBox).toBeTruthy();
+  expect(chromeBox!.y).toBeGreaterThanOrEqual(-1);
+  expect(chromeBox!.y + chromeBox!.height).toBeLessThanOrEqual(viewport!.height + 1);
+  expect(drawerBox!.y).toBeGreaterThanOrEqual(chromeBox!.y + chromeBox!.height - 2);
+  expect(drawerBox!.x).toBeGreaterThanOrEqual(-1);
+  expect(drawerBox!.x + drawerBox!.width).toBeLessThanOrEqual(viewport!.width + 1);
+  expect(scrimBox!.y).toBeLessThanOrEqual(1);
+  expect(scrimBox!.height).toBeGreaterThanOrEqual(viewport!.height - 2);
+  expect(scrimBox!.y).toBeLessThanOrEqual(coveredBox!.y + 1);
+  expect(scrimBox!.y + scrimBox!.height).toBeGreaterThanOrEqual(
+    coveredBox!.y + coveredBox!.height - 1,
+  );
+}
+
 /** Element's border box must sit inside the layout viewport (1px slack). */
 export async function assertFitsViewport(
   page: Page,

@@ -1,3 +1,8 @@
+## 2026-10-03 — Mobile menu stays intact after scroll
+
+- Opening Menu mid-page no longer unsticks the header or ghosts Home copy through the labels. The sheet locks the document scroller only (not `body` overflow), pins under the live chrome bottom, and uses a full-viewport scrim.
+- Covers Accessibility maximum text and phone/tablet widths. Matrix e2e now scrolls Home before opening the drawer.
+
 ## 2026-10-02 — Ops lifecycle emails (deploy / restart)
 
 - Independent CapRover toggles `OPS_NOTIFY_ON_DEPLOY` / `OPS_NOTIFY_ON_RESTART` (legacy `DEPLOY_NOTIFY_ENABLED` aliases deploy-on); shared `DEPLOY_NOTIFY_EMAIL`.

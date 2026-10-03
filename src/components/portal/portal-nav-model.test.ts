@@ -191,6 +191,8 @@ describe("PortalNav chrome contract", () => {
       "utf8",
     );
     expect(header).toContain("--site-header-height");
+    expect(header).toContain("observeLiveChromeBottom");
     expect(portalNav).toContain("--site-header-height");
+    expect(portalNav).toContain("observeLiveChromeBottom");
   });
 });

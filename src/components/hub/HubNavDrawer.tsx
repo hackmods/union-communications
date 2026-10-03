@@ -82,11 +82,11 @@ export function HubNavDrawer({
       closeLabel={t("closeHubMenu")}
       testId="hub-nav-drawer"
       visibilityClassName={compactDashboard ? "2xl:hidden" : "lg:hidden"}
-      panelClassName="max-w-[min(100vw,20rem)] border-gray-200 bg-gray-50"
+      panelClassName="max-w-full min-[480px]:max-w-[min(100vw,20rem)] border-gray-200 bg-gray-50"
       onClose={onClose}
     >
       <nav
-        className="min-h-0 flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-3 py-3 text-base"
+        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-3 text-base"
         aria-label={t("mobileNav")}
       >
         <div className="mb-3 rounded-md bg-white px-3 py-3">

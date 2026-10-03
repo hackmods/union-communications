@@ -84,6 +84,19 @@ body {
   outline-offset: 2px;
 }
 
+/* Sheet open: freeze overscroll and drop header backdrop-blur so Safari
+   cannot composite a ghost copy of page text through sticky chrome. */
+html.nav-sheet-open,
+html.nav-sheet-open body {
+  overscroll-behavior: none;
+}
+
+html.nav-sheet-open header {
+  background-color: #ffffff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 html[data-high-contrast] {
   --background: #ffffff;
   --foreground: #000000;
