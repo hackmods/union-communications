@@ -7788,6 +7788,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "office-letterhead-fidelity": {
+        "title": "Les lettres gardent un en-tête complet de la Trousse de marque dans Word et PowerPoint",
+        "body": "Téléchargez une lettre : la bande de couleur, le logo et le nom de la section s’étendent maintenant sur la page comme dans l’outil. Ouvrez le fichier sur un téléphone ou dans Word : l’en-tête devrait correspondre à l’aperçu."
+      },
       "local-portal-pocket": {
         "title": "Une page Portail local à garder sur un téléphone",
         "body": "Scannez un code QR ou ouvrez Portail local pour voir Ensemble, les Cercles et la Salle en une courte page. Amenez votre section, ou demandez l’accès membre. Copiez ou partagez le lien pour que la personne suivante puisse aussi le scanner."

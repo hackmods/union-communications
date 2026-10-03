@@ -14,14 +14,21 @@ import {
   ShadingType,
   Table,
   TableCell,
+  TableLayoutType,
   TableRow,
   TextRun,
+  VerticalAlign,
   WidthType,
 } from "docx";
 import { createOfficeDesignTokens, createWordStyles } from "@/lib/export/office-design-tokens";
 import type { BrandPalette } from "@/lib/constants/office-templates";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { logoDisplaySizePx } from "@/lib/export/brand-logo-bytes";
+import {
+  composeLetterheadContact,
+  letterheadBandWidths,
+  letterheadLogoSlotPx,
+} from "@/lib/export/office-letterhead-layout";
 import {
   canvasFontOfficeName,
   DEFAULT_BODY_FONT,
@@ -93,24 +100,22 @@ function bodyParagraphs(text: string, font: string): Paragraph[] {
   );
 }
 
-function letterheadHeader(opts: DocxBuildInput): Header {
+const NONE_BORDER = (color: string) => ({
+  style: BorderStyle.NONE,
+  size: 0,
+  color,
+});
+
+function letterheadBandTable(opts: DocxBuildInput): Table {
   const band = officeBandColor(opts.palette.primary, opts.treatment);
   const primary = hexNoHash(band);
   const ink = hexNoHash(pickContrastingInk(band));
-  const contact =
-    opts.fields.contactName?.trim() ||
-    [
-      opts.fields.officeEmail?.trim(),
-      opts.fields.officePhone?.trim(),
-      opts.fields.officeAddress?.trim(),
-    ]
-      .filter(Boolean)
-      .join(" · ");
+  const contact = composeLetterheadContact(opts.fields);
   const hFont = headlineFace(opts);
   const bFont = bodyFace(opts);
-  const [logoW, logoH] = opts.logo
-    ? logoDisplaySizePx(opts.logo, 140, 56)
-    : [0, 0];
+  const widths = letterheadBandWidths();
+  const [logoW, logoH] = opts.logo ? letterheadLogoSlotPx(opts.logo) : [0, 0];
+  const none = NONE_BORDER(primary);
 
   const logoCellChildren = opts.logo
     ? [
@@ -141,34 +146,38 @@ function letterheadHeader(opts: DocxBuildInput): Header {
         }),
       ];
 
-  const table = new Table({
-    width: { size: 9360, type: WidthType.DXA },
-    columnWidths: [2200, 7160],
+  return new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE },
+    layout: TableLayoutType.FIXED,
+    columnWidths: [widths.logoColTwips, widths.textColTwips],
     rows: [
       new TableRow({
+        cantSplit: true,
         children: [
           new TableCell({
-            width: { size: 2200, type: WidthType.DXA },
+            width: { size: widths.logoColTwips, type: WidthType.DXA },
+            verticalAlign: VerticalAlign.CENTER,
             shading: { type: ShadingType.CLEAR, fill: primary },
-            borders: {
-              top: { style: BorderStyle.NONE, size: 0, color: primary },
-              bottom: { style: BorderStyle.NONE, size: 0, color: primary },
-              left: { style: BorderStyle.NONE, size: 0, color: primary },
-              right: { style: BorderStyle.NONE, size: 0, color: primary },
+            borders: { top: none, bottom: none, left: none, right: none },
+            margins: {
+              top: widths.cellPadYTwips,
+              bottom: widths.cellPadYTwips,
+              left: widths.cellPadXTwips,
+              right: 120,
             },
-            margins: { top: 80, bottom: 80, left: 120, right: 80 },
             children: logoCellChildren,
           }),
           new TableCell({
-            width: { size: 7160, type: WidthType.DXA },
+            width: { size: widths.textColTwips, type: WidthType.DXA },
+            verticalAlign: VerticalAlign.CENTER,
             shading: { type: ShadingType.CLEAR, fill: primary },
-            borders: {
-              top: { style: BorderStyle.NONE, size: 0, color: primary },
-              bottom: { style: BorderStyle.NONE, size: 0, color: primary },
-              left: { style: BorderStyle.NONE, size: 0, color: primary },
-              right: { style: BorderStyle.NONE, size: 0, color: primary },
+            borders: { top: none, bottom: none, left: none, right: none },
+            margins: {
+              top: widths.cellPadYTwips,
+              bottom: widths.cellPadYTwips,
+              left: 120,
+              right: widths.cellPadXTwips,
             },
-            margins: { top: 100, bottom: 100, left: 120, right: 160 },
             children: [
               new Paragraph({
                 children: [
@@ -204,10 +213,12 @@ function letterheadHeader(opts: DocxBuildInput): Header {
       }),
     ],
   });
+}
 
+function letterheadHeader(opts: DocxBuildInput): Header {
   return new Header({
     children: [
-      table,
+      letterheadBandTable(opts),
       new Paragraph({
         spacing: { after: 200 },
         children: [],
@@ -216,34 +227,86 @@ function letterheadHeader(opts: DocxBuildInput): Header {
   });
 }
 
+function emptyHeader(): Header {
+  return new Header({
+    children: [new Paragraph({ children: [] })],
+  });
+}
+
+function slimRunningHeader(opts: DocxBuildInput): Header {
+  return new Header({
+    children: [
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: opts.localLabel,
+            font: headlineFace(opts),
+            size: 16,
+            color: hexNoHash(
+              officeHeadingColorOnWhite(
+                opts.palette.primary,
+                opts.palette.secondary,
+                opts.treatment,
+              ),
+            ),
+          }),
+        ],
+      }),
+    ],
+  });
+}
+
+type LetterheadChrome = "body" | "header";
+
 function baseDocument(
   opts: DocxBuildInput,
   children: (Paragraph | Table)[],
+  chrome: LetterheadChrome = "header",
 ): Document {
   const tokens = createOfficeDesignTokens({
     palette: opts.palette,
     headlineFont: headlineFace(opts),
     bodyFont: bodyFace(opts),
   });
+  const bodyChildren: (Paragraph | Table)[] =
+    chrome === "body"
+      ? [
+          letterheadBandTable(opts),
+          new Paragraph({
+            spacing: { after: 280 },
+            children: [],
+          }),
+          ...children,
+        ]
+      : children;
+
   return new Document({
     styles: createWordStyles(tokens),
     sections: [
       {
         properties: {
+          titlePage: chrome === "body",
           page: {
             margin: {
               top: opts.topMarginTwips ?? 720,
               right: tokens.word.marginTwips,
               bottom: tokens.word.marginTwips,
               left: tokens.word.marginTwips,
+              header: 144,
             },
             size: { width: tokens.word.pageWidthTwips, height: tokens.word.pageHeightTwips },
           },
         },
-        headers: {
-          default: letterheadHeader(opts),
-        },
-        children,
+        headers:
+          chrome === "body"
+            ? {
+                first: emptyHeader(),
+                default: slimRunningHeader(opts),
+              }
+            : {
+                default: letterheadHeader(opts),
+              },
+        children: bodyChildren,
       },
     ],
   });
@@ -549,7 +612,7 @@ export async function buildSimpleLetterDocx(
     ...letterQrParagraphs(opts),
   ];
 
-  return Packer.toBlob(baseDocument(opts, children));
+  return Packer.toBlob(baseDocument(opts, children, "body"));
 }
 
 export async function buildWelcomeLetterDocx(
@@ -675,7 +738,7 @@ export async function buildWelcomeLetterDocx(
     ...letterQrParagraphs(opts),
   ];
 
-  return Packer.toBlob(baseDocument(opts, children));
+  return Packer.toBlob(baseDocument(opts, children, "body"));
 }
 
 export async function buildLetterheadDocx(
@@ -759,7 +822,7 @@ export async function buildLetterheadDocx(
     }),
   ];
 
-  return Packer.toBlob(baseDocument(opts, children));
+  return Packer.toBlob(baseDocument(opts, children, "body"));
 }
 
 export async function buildEventNoticeDocx(

@@ -81,15 +81,14 @@ describe("office-export", () => {
       };
       const docx = await renderDocxFromPreset(common);
       const docxZip = await JSZip.loadAsync(await docx.arrayBuffer());
-      const header = await docxZip.file("word/header1.xml")!.async("string");
-      expect(header.toUpperCase()).toContain(band);
       const documentXml = await docxZip.file("word/document.xml")!.async("string");
+      expect(documentXml.toUpperCase()).toContain(band);
       expect(documentXml).toContain("Assemblée générale annuelle");
       expect(documentXml).toMatch(/garde d(?:'|\&apos;)enfants/);
 
       const dotx = await renderDotxFromPreset(common);
       const dotxZip = await JSZip.loadAsync(await dotx.arrayBuffer());
-      expect((await dotxZip.file("word/header1.xml")!.async("string")).toUpperCase()).toContain(band);
+      expect((await dotxZip.file("word/document.xml")!.async("string")).toUpperCase()).toContain(band);
       expect(await dotxZip.file("word/document.xml")!.async("string")).toContain(
         "Assemblée générale annuelle",
       );
@@ -500,9 +499,8 @@ describe("office-export", () => {
     });
     const JSZip = (await import("jszip")).default;
     const zip = await JSZip.loadAsync(await blob.arrayBuffer());
-    const headerXml = await zip.file("word/header1.xml")!.async("string");
     const docXml = await zip.file("word/document.xml")!.async("string");
-    expect(headerXml).toContain("Oswald");
+    expect(docXml).toContain("Oswald");
     expect(docXml).toContain("Source Sans 3");
     expect(docXml).not.toContain("Calibri");
   });
@@ -559,6 +557,49 @@ describe("office-export", () => {
     });
     expect(event.size).toBeGreaterThan(1000);
     expect(letter.size).toBeGreaterThan(500);
+  });
+
+  it("renderPptx letter slides keep a full-width band and logo aspect", async () => {
+    const JSZip = (await import("jszip")).default;
+    const logo = {
+      bytes: transparentPngBytes(),
+      extension: "png" as const,
+      widthPx: 200,
+      heightPx: 80,
+      src: "data:image/png;base64,x",
+    };
+    const blob = await renderPptx({
+      presetId: "accommodation-letter",
+      title: "",
+      localLabel: "Local 110",
+      palette: {
+        primary: "#003366",
+        secondary: "#001a33",
+        accent: "#c45c26",
+      },
+      fields: {
+        memberName: "Alex",
+        body: "Please confirm a meeting time.",
+        stewardName: "Jordan",
+        contactName: "Chief steward",
+      },
+      logo,
+    });
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const slide = await zip.file("ppt/slides/slide1.xml")!.async("string");
+    expect(slide.toUpperCase()).toContain("003366");
+    expect(slide).toContain("Local 110");
+    expect(slide).toContain("Chief steward");
+    expect(slide).toContain("Please confirm a meeting time");
+    const extents = [...slide.matchAll(/\bcx="(\d+)"[^>]*\bcy="(\d+)"/g)].map(
+      (m) => [Number(m[1]), Number(m[2])] as const,
+    );
+    const target = 200 / 80;
+    const logoExtent = extents
+      .filter(([cx, cy]) => cx > 0 && cy > 0)
+      .sort((a, b) => Math.abs(a[0] / a[1] - target) - Math.abs(b[0] / b[1] - target))[0];
+    expect(logoExtent).toBeTruthy();
+    expect(logoExtent![0] / logoExtent![1]).toBeCloseTo(target, 1);
   });
 
   it("exportOfficeBundle zips files", async () => {

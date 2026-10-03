@@ -7842,6 +7842,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "office-letterhead-fidelity": {
+        "title": "Letters keep a full Brand Kit header in Word and PowerPoint",
+        "body": "Download a letter and the colour band, logo, and local name now span the page the way they do in the tool. Open the file on a phone or in Word: the header should match what you previewed."
+      },
       "local-portal-pocket": {
         "title": "A Local Portal page you can keep on a phone",
         "body": "Scan a QR or open Local Portal to see Together, Circles, and Hall in a short page. Bring your local, or request member access. Copy or share the link so the next person can scan it too."

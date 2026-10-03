@@ -12,6 +12,8 @@ import {
 } from "@/lib/utils/canvas-tokens";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { officeBandColor } from "@/lib/export/office-brand-styles";
+import { composeLetterheadContact } from "@/lib/export/office-letterhead-layout";
+import { isLetterBodyPreset } from "@/lib/comms/document-generator-draft";
 import type { DesignTreatment } from "@/types/entities";
 import { cn } from "@/lib/utils";
 
@@ -73,6 +75,50 @@ const FALLBACK_TYPE = {
   labelPx: 12,
 } as const;
 
+function MockLetterheadBand({
+  bandColor,
+  ink,
+  logoSrc,
+  localLabel,
+  contact,
+  titlePx,
+  labelPx,
+}: {
+  bandColor: string;
+  ink: string;
+  logoSrc?: string | null;
+  localLabel: string;
+  contact: string;
+  titlePx: number;
+  labelPx: number;
+}) {
+  return (
+    <div
+      className="flex items-center gap-3 px-4 py-3"
+      style={{ backgroundColor: bandColor, color: ink }}
+    >
+      {logoSrc ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={logoSrc}
+          alt=""
+          className="h-9 w-auto max-w-[110px] object-contain"
+        />
+      ) : null}
+      <div className="min-w-0">
+        <p className="truncate font-bold" style={{ fontSize: titlePx }}>
+          {localLabel}
+        </p>
+        {contact ? (
+          <p className="truncate" style={{ fontSize: labelPx }}>
+            {contact}
+          </p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 export function OfficePresetMock({
   treatment = "full",
   presetId,
@@ -97,6 +143,7 @@ export function OfficePresetMock({
   const greeting =
     salutationLine?.trim() ||
     `Dear ${fields.memberName || "Member"},`;
+  const contact = composeLetterheadContact(fields);
 
   if (presetId === "grievance-intake") {
     const wRows = [
@@ -360,36 +407,20 @@ export function OfficePresetMock({
     );
   }
 
-  // simple-letter + letterhead
+  // Letters + letterhead stationery
+  const showLetterBody = isLetterBodyPreset(presetId);
   return (
     <div className={cn("min-w-0 space-y-3", className)}>
       <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-        <div
-          className="flex items-center gap-3 px-4 py-3"
-          style={{ backgroundColor: bandColor, color: ink }}
-        >
-          {logoSrc ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={logoSrc}
-              alt=""
-              className="h-9 w-auto max-w-[110px] object-contain"
-            />
-          ) : null}
-          <div className="min-w-0">
-            <p
-              className="truncate font-bold"
-              style={{ fontSize: type.headerTitlePx }}
-            >
-              {localLabel}
-            </p>
-            {fields.contactName ? (
-              <p className="truncate" style={{ fontSize: type.labelPx }}>
-                {fields.contactName}
-              </p>
-            ) : null}
-          </div>
-        </div>
+        <MockLetterheadBand
+          bandColor={bandColor}
+          ink={ink}
+          logoSrc={logoSrc}
+          localLabel={localLabel}
+          contact={contact}
+          titlePx={type.headerTitlePx}
+          labelPx={type.labelPx}
+        />
         <div
           className="space-y-3 text-gray-800"
           style={{
@@ -399,7 +430,7 @@ export function OfficePresetMock({
             letterSpacing,
           }}
         >
-          {presetId === "simple-letter" || presetId === "welcome-letter" ? (
+          {showLetterBody ? (
             <>
               {fields.date ? (
                 <p className="text-gray-600">{fields.date}</p>
@@ -422,6 +453,12 @@ export function OfficePresetMock({
                 {presetId === "welcome-letter"
                   ? fields.presidentName || "Local president"
                   : fields.stewardName || "Steward"}
+              </p>
+              <p className="text-gray-500" style={{ fontSize: type.labelPx }}>
+                {fields.signatureTitle?.trim() ||
+                  (presetId === "welcome-letter"
+                    ? `Local president · ${localLabel}`
+                    : `Steward · ${localLabel}`)}
               </p>
               {qrSrc ? (
                 // eslint-disable-next-line @next/next/no-img-element -- data URL preview

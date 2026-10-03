@@ -59,8 +59,9 @@ describe("office-docx-builders", () => {
     const zip = await JSZip.loadAsync(await blob.arrayBuffer());
     const headerXml = await zip.file("word/header1.xml")!.async("string");
     const docXml = await zip.file("word/document.xml")!.async("string");
-    expect(headerXml).toContain("Oswald");
+    expect(docXml).toContain("Oswald");
     expect(docXml).toContain("Source Sans 3");
+    expect(headerXml).toBeTruthy();
   });
 
   it("builds letterhead without logo", async () => {
@@ -207,4 +208,57 @@ describe("office-docx-builders", () => {
     expect(docXml).toContain("Brand Kit colours");
   });
 
+  it("puts a full-width fixed letterhead in the letter body for mobile viewers", async () => {
+    const largeLogo = {
+      ...logo,
+      widthPx: 400,
+      heightPx: 160,
+    };
+    const blob = await buildSimpleLetterDocx({
+      palette,
+      localLabel: "Local 110",
+      logo: largeLogo,
+      fields: {
+        date: "July 15, 2026",
+        memberName: "Alex",
+        body: "I am writing on behalf of the member named above regarding return-to-work and/or accommodation.",
+        stewardName: "Jordan",
+        contactName: "Chief steward",
+      },
+    });
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const docXml = await zip.file("word/document.xml")!.async("string");
+    expect(docXml).toMatch(/w:tblLayout[^>]*w:type="fixed"/);
+    expect(docXml).toMatch(/w:tblW[^>]*w:type="pct"/);
+    expect(docXml).toContain("003366");
+    expect(docXml).toContain("Local 110");
+    expect(docXml).toContain("Chief steward");
+    expect(docXml).toContain("return-to-work");
+    const extents = [...docXml.matchAll(/cx="(\d+)" cy="(\d+)"/g)].map((m) => [
+      Number(m[1]),
+      Number(m[2]),
+    ]);
+    expect(extents.length).toBeGreaterThan(0);
+    const [cx, cy] = extents[0]!;
+    expect(Math.max(cx, cy)).toBeGreaterThan(56 * 9525);
+    expect(cx / cy).toBeCloseTo(400 / 160, 2);
+
+    const event = await buildEventNoticeDocx({
+      palette,
+      localLabel: "Local 110",
+      logo: largeLogo,
+      fields: {
+        title: "Membership meeting",
+        date: "Aug 12",
+        time: "Noon",
+        location: "Cafeteria",
+        contactName: "LEC",
+      },
+    });
+    const eventZip = await JSZip.loadAsync(await event.arrayBuffer());
+    const headerXml = await eventZip.file("word/header1.xml")!.async("string");
+    expect(headerXml).toMatch(/w:tblLayout[^>]*w:type="fixed"/);
+    expect(headerXml).toMatch(/w:tblW[^>]*w:type="pct"/);
+  });
 });

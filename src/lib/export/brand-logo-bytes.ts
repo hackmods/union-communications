@@ -44,6 +44,50 @@ function bytesToPngDataUrl(bytes: Uint8Array): string {
   return `data:image/png;base64,${btoa(binary)}`;
 }
 
+function u32be(bytes: Uint8Array, offset: number): number {
+  return (
+    ((bytes[offset]! << 24) |
+      (bytes[offset + 1]! << 16) |
+      (bytes[offset + 2]! << 8) |
+      bytes[offset + 3]!) >>>
+    0
+  );
+}
+
+/** Read pixel size from a PNG IHDR chunk. Returns null when bytes are not PNG. */
+export function readPngSizeFromIhdr(
+  bytes: Uint8Array,
+): { widthPx: number; heightPx: number } | null {
+  if (bytes.length < 24) return null;
+  const sig = [137, 80, 78, 71, 13, 10, 26, 10];
+  for (let i = 0; i < 8; i++) {
+    if (bytes[i] !== sig[i]) return null;
+  }
+  if (u32be(bytes, 8) !== 13) return null;
+  if (
+    bytes[12] !== 0x49 ||
+    bytes[13] !== 0x48 ||
+    bytes[14] !== 0x44 ||
+    bytes[15] !== 0x52
+  ) {
+    return null;
+  }
+  const widthPx = u32be(bytes, 16);
+  const heightPx = u32be(bytes, 20);
+  if (widthPx < 1 || heightPx < 1) return null;
+  return { widthPx, heightPx };
+}
+
+function guessedPublicPngSize(src: string): { widthPx: number; heightPx: number } {
+  return src.includes("lockup") || src.includes("primary")
+    ? { widthPx: 200, heightPx: 80 }
+    : { widthPx: 96, heightPx: 96 };
+}
+
+function isReverseLogoSrc(src: string): boolean {
+  return /on-dark|mark-white|lockup-reverse|knockout/i.test(src);
+}
+
 async function fetchBytes(url: string): Promise<Uint8Array | null> {
   // Root-relative public assets: prefer disk (API routes + Vitest/jsdom).
   // Do not gate on `typeof window` — jsdom defines window but has no HTTP for /assets.
@@ -187,10 +231,20 @@ export async function resolveBrandLogoBytes(
 ): Promise<BrandLogoBytes | null> {
   if (opts?.includeLogo === false) return null;
 
-  const { src, cssFilter, plate } = resolveBrandLogoPresentation(
+  const presentation = resolveBrandLogoPresentation(
     brandKit,
     opts?.backgroundColor,
   );
+  const src = presentation.src;
+  const cssFilter = presentation.cssFilter;
+  // Reverse/on-dark marks already contrast on a brand band — a paper plate
+  // nested inside the letterhead reads as a broken lockup stamp.
+  const plate =
+    presentation.plate &&
+    !isReverseLogoSrc(src) &&
+    !cssFilter
+      ? presentation.plate
+      : undefined;
   if (!src) return null;
 
   // Filtered or plated logos must rasterize so Office headers match canvas.
@@ -210,11 +264,12 @@ export async function resolveBrandLogoBytes(
   if (src.startsWith("data:image/png")) {
     const bytes = dataUrlToBytes(src);
     if (!bytes) return null;
+    const size = readPngSizeFromIhdr(bytes) ?? { widthPx: 180, heightPx: 72 };
     return {
       bytes,
       extension: "png",
-      widthPx: 180,
-      heightPx: 72,
+      widthPx: size.widthPx,
+      heightPx: size.heightPx,
       src,
     };
   }
@@ -224,11 +279,12 @@ export async function resolveBrandLogoBytes(
   if (!src.startsWith("data:") && src.toLowerCase().endsWith(".png")) {
     const bytes = await fetchBytes(src);
     if (bytes) {
+      const size = readPngSizeFromIhdr(bytes) ?? guessedPublicPngSize(src);
       return {
         bytes,
         extension: "png",
-        widthPx: src.includes("lockup") || src.includes("primary") ? 200 : 96,
-        heightPx: src.includes("lockup") || src.includes("primary") ? 80 : 96,
+        widthPx: size.widthPx,
+        heightPx: size.heightPx,
         src,
       };
     }
