@@ -83,9 +83,10 @@ export function solidaritySupportChrome(
     urlPx: Math.max(14, Math.min(20, urlBase)),
     localPx: Math.max(14, Math.min(20, localBase)),
     qrPx: Math.max(72, Math.min(qrFromWidth, qrFromHeight)),
+    // Preferred readable size hint — live fit floors lower for wide Keep-Calm words.
     minHeadlinePx: Math.max(
-      landscape ? 28 : 32,
-      Math.round(designWidthPx * (landscape ? 0.032 : 0.044)),
+      landscape ? 22 : 24,
+      Math.round(designWidthPx * (landscape ? 0.024 : 0.032)),
     ),
     logoMaxHeightPx: Math.max(
       48,

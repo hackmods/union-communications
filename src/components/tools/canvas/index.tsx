@@ -12,7 +12,9 @@ import { LogoContainer } from "@/components/canvas-core/LogoContainer";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
   CANVAS_TYPE_FIT_MAX_ITERS,
+  CANVAS_TYPE_FIT_MAX_SCALE,
   CANVAS_TYPE_FIT_MIN_SCALE,
+  CANVAS_TYPE_FIT_STEP,
   fittedFontSizePx,
   nextTypeFitScale,
   typeFitOverflows,
@@ -384,13 +386,19 @@ export function WalletCopyBlock({
     >
       <h2
         data-wallet-title=""
-        className="font-black uppercase leading-tight"
+        className={cn(
+          "font-black leading-tight",
+          // Only force uppercase when the caller asks — social layouts may use Brand Kit "none".
+          (titleTextTransform === undefined ||
+            titleTextTransform === "uppercase") &&
+            "uppercase",
+        )}
         style={{
           color: titleColor,
           fontSize: titlePx,
           fontWeight: titleFontWeight,
           letterSpacing: titleLetterSpacing,
-          textTransform: titleTextTransform,
+          textTransform: titleTextTransform ?? "none",
           margin: 0,
           fontFamily: headlineFontFamily,
           ...(titleMaxLines != null
@@ -612,6 +620,12 @@ export function CanvasFitStackedHeadline({
   tokens,
   baseFontSizePx,
   minFontSizePx = 14,
+  /**
+   * Uniform shrink floor. Keep-Calm single words in narrow split/banner
+   * columns often need below the default 0.42 when the preferred size is
+   * print-scaled (~150px).
+   */
+  minScale = CANVAS_TYPE_FIT_MIN_SCALE,
   subtitle,
   subtitleColor,
   subtitleBaseFontSizePx,
@@ -628,6 +642,7 @@ export function CanvasFitStackedHeadline({
   /** Preferred size before fit (Brand Kit title × layout density). */
   baseFontSizePx: number;
   minFontSizePx?: number;
+  minScale?: number;
   /** Optional closer under the stack — scales with the same fit factor. */
   subtitle?: string;
   subtitleColor?: string;
@@ -652,20 +667,50 @@ export function CanvasFitStackedHeadline({
         : "flex-start";
   const linesKey = lines.join("\n");
   const subBase = subtitleBaseFontSizePx ?? Math.round(baseFontSizePx * 0.28);
+  const scaleFloor = Math.min(
+    CANVAS_TYPE_FIT_MAX_SCALE,
+    Math.max(0.18, minScale),
+  );
 
   useLayoutEffect(() => {
     if (!fit) return;
     const el = wrapRef.current;
     if (!el) return;
 
+    const measureCtx = document.createElement("canvas").getContext("2d");
+
     let raf = 0;
     const measure = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         const parent = el.parentElement;
-        const budgetW = parent?.clientWidth || el.clientWidth;
-        const budgetH = parent?.clientHeight || el.clientHeight;
-        if (!(budgetW > 0) || !(budgetH > 0)) return;
+        const parentContentBox = (node: HTMLElement | null) => {
+          if (!node) return { w: 0, h: 0 };
+          const pcs = getComputedStyle(node);
+          return {
+            w:
+              node.clientWidth -
+              (Number.parseFloat(pcs.paddingLeft) || 0) -
+              (Number.parseFloat(pcs.paddingRight) || 0),
+            h:
+              node.clientHeight -
+              (Number.parseFloat(pcs.paddingTop) || 0) -
+              (Number.parseFloat(pcs.paddingBottom) || 0),
+          };
+        };
+        // Width: wrap is w-full inside the padded slot — its clientWidth is the
+        // ink budget. Parent.clientWidth includes padding and was ~90px too wide
+        // (SOLIDARITY→SOLIDARIT clip on banner/split).
+        const parentBox = parentContentBox(parent);
+        const budgetW = el.clientWidth > 0 ? el.clientWidth : parentBox.w;
+        // Height: use the slot content box, not the wrap (wrap grows with type).
+        const budgetH = fitHeight
+          ? parentBox.h > 0
+            ? parentBox.h
+            : parent?.clientHeight || el.clientHeight
+          : el.clientHeight;
+        if (!(budgetW > 0)) return;
+        if (fitHeight && !(budgetH > 0)) return;
 
         let next = 1;
         for (let i = 0; i < CANVAS_TYPE_FIT_MAX_ITERS; i++) {
@@ -682,12 +727,32 @@ export function CanvasFitStackedHeadline({
             subEl.style.fontSize = `${fittedFontSizePx(subBase, next, 10)}px`;
             subEl.style.marginTop = `${Math.max(4, Math.round(size * 0.18))}px`;
           }
-          // Measure lines directly — overflow:hidden on the wrap (and on
-          // nowrap lines) can make wrap.scrollWidth === clientWidth even when
-          // glyphs are clipped mid-word.
-          const lineOverflow = Array.from(lineNodes).some(
-            (line) => line.scrollWidth > budgetW + 0.5,
-          );
+          // Prefer canvas measureText — scrollWidth is unreliable for single
+          // Keep-Calm words under overflow:hidden ancestors (clips SOLIDARITY→SOLIDARIT
+          // while the fit loop thinks width is fine).
+          let worstWidthRatio = 1;
+          for (const line of lineNodes) {
+            const text = line.textContent ?? "";
+            let sw = 0;
+            if (measureCtx && text) {
+              const cs = getComputedStyle(line);
+              measureCtx.font = `${cs.fontWeight} ${size}px ${cs.fontFamily}`;
+              sw = measureCtx.measureText(text).width;
+              const ls = Number.parseFloat(cs.letterSpacing);
+              if (Number.isFinite(ls) && text.length > 1) {
+                sw += ls * (text.length - 1);
+              }
+            } else {
+              const prevWs = line.style.whiteSpace;
+              line.style.whiteSpace = "nowrap";
+              sw = line.scrollWidth;
+              line.style.whiteSpace = prevWs;
+            }
+            if (budgetW > 0) {
+              worstWidthRatio = Math.max(worstWidthRatio, sw / budgetW);
+            }
+          }
+          const lineOverflow = worstWidthRatio > 1.01;
           const boxOverflow =
             fitHeight &&
             typeFitOverflows(
@@ -696,10 +761,19 @@ export function CanvasFitStackedHeadline({
               budgetW,
               budgetH,
             );
-          if ((!lineOverflow && !boxOverflow) || next <= CANVAS_TYPE_FIT_MIN_SCALE) {
+          if ((!lineOverflow && !boxOverflow) || next <= scaleFloor) {
             break;
           }
-          next = nextTypeFitScale(next, true);
+          if (lineOverflow && worstWidthRatio > 1) {
+            // Jump toward a fitting scale instead of inching by 0.04 when a
+            // single Keep-Calm word is far wider than the slot.
+            next = Math.max(
+              scaleFloor,
+              Math.min(next - CANVAS_TYPE_FIT_STEP, (next / worstWidthRatio) * 0.97),
+            );
+          } else {
+            next = nextTypeFitScale(next, true, { minScale: scaleFloor });
+          }
         }
         setScale((prev) => (prev === next ? prev : next));
       });
@@ -708,6 +782,15 @@ export function CanvasFitStackedHeadline({
     measure();
     const fonts = document.fonts;
     void fonts?.ready.then(() => measure());
+    // Re-measure after faces used on the canvas actually load (fonts.ready can
+    // resolve before next/font/local requests Montserrat).
+    const face = tokens.headlineFontFamily?.split(",")[0]?.replace(/['"]/g, "").trim();
+    if (face && fonts?.load) {
+      void fonts
+        .load(`${tokens.titleFontWeight} 48px ${face}`)
+        .then(() => measure())
+        .catch(() => {});
+    }
     const ro = new ResizeObserver(measure);
     ro.observe(el);
     if (el.parentElement) ro.observe(el.parentElement);
@@ -723,6 +806,7 @@ export function CanvasFitStackedHeadline({
     subtitle,
     baseFontSizePx,
     minFontSizePx,
+    scaleFloor,
     subBase,
     tokens.headlineFontFamily,
     tokens.titleFontWeight,

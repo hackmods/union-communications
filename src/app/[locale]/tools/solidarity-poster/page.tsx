@@ -85,7 +85,6 @@ import {
   CanvasQrPlate,
   CanvasSafeZoneOverlay,
   CanvasStackSlot,
-  WalletCopyBlock,
 } from "@/components/tools/canvas";
 import { CanvasWrapper } from "@/components/canvas-core";
 import { PRINT_PAGE_LEGACY_REFERENCE_PX } from "@/lib/comms/print-page-formats";
@@ -353,7 +352,13 @@ function SolidarityPosterPageContent() {
     support?.urlPx ?? Math.max(12, Math.round(tokens.subtitleFontSizePx * 0.78));
   const localPx =
     support?.localPx ?? Math.max(12, Math.round(tokens.subtitleFontSizePx * 0.75));
-  const minHeadlinePx = support?.minHeadlinePx ?? Math.max(22, chrome.minHeadlinePx);
+  /** Preferred readable floor from chrome — fit may go lower for wide Keep-Calm words. */
+  const minHeadlinePx = Math.min(
+    18,
+    support?.minHeadlinePx ?? Math.max(16, chrome.minHeadlinePx),
+  );
+  /** Split/banner columns need more shrink than the default 0.42 type-fit floor. */
+  const headlineMinScale = 0.24;
   const logoMaxHeightPx = support?.logoMaxHeightPx;
   const footerOuterPadPx = Math.max(
     chrome.footerPadYPx,
@@ -574,6 +579,7 @@ function SolidarityPosterPageContent() {
                 tokens={tokens}
                 baseFontSizePx={headlineStackPx}
                 minFontSizePx={minHeadlinePx}
+                minScale={headlineMinScale}
                 subtitle={state.closer}
                 subtitleColor={secondaryOnPrimary}
                 subtitleBaseFontSizePx={closerPx}
@@ -594,7 +600,7 @@ function SolidarityPosterPageContent() {
               <div
                 data-canvas-lead=""
                 className={cn(
-                  "flex min-h-0 flex-col overflow-hidden",
+                  "flex min-h-0 flex-col justify-between gap-3 overflow-hidden",
                   !isLandscape && "col-span-2",
                 )}
                 style={{
@@ -603,24 +609,30 @@ function SolidarityPosterPageContent() {
                   padding: splitSidePadPx,
                 }}
               >
-                <div className="relative z-[2] min-h-0 flex-1 overflow-hidden">
-                  <WalletCopyBlock
+                <div className="relative z-[2] min-h-0 min-w-0 overflow-hidden">
+                  <CanvasFitStackedHeadline
                     fit
-                    title={state.leadIn}
-                    body={state.closer}
-                    titleFontPx={leadPx}
-                    bodyFontPx={closerPx}
-                    titleColor={splitSideInk}
-                    bodyColor={splitSideInk}
-                    headlineFontFamily={tokens.headlineFontFamily}
-                    bodyFontFamily={tokens.bodyFontFamily}
-                    titleFontWeight={tokens.titleFontWeight}
-                    titleLetterSpacing={leadLetterSpacing}
-                    titleTextTransform="uppercase"
-                    textAlign="left"
-                    className="h-full"
+                    fitHeight={false}
+                    nowrap={false}
+                    lines={[state.leadIn]}
+                    ink={splitSideInk}
+                    tokens={tokens}
+                    baseFontSizePx={leadPx}
+                    minFontSizePx={14}
+                    minScale={0.35}
+                    align="left"
                   />
                 </div>
+                <p
+                  className="shrink-0 font-semibold leading-snug"
+                  style={{
+                    color: splitSideInk,
+                    fontSize: closerPx,
+                    overflowWrap: "anywhere",
+                  }}
+                >
+                  {state.closer}
+                </p>
               </div>
               <div
                 data-canvas-stack-slot=""
@@ -638,6 +650,7 @@ function SolidarityPosterPageContent() {
                   tokens={tokens}
                   baseFontSizePx={headlineSplitPx}
                   minFontSizePx={minHeadlinePx}
+                  minScale={headlineMinScale}
                 />
               </div>
             </div>
@@ -707,6 +720,7 @@ function SolidarityPosterPageContent() {
                   tokens={tokens}
                   baseFontSizePx={headlineStackPx}
                   minFontSizePx={minHeadlinePx}
+                  minScale={headlineMinScale}
                   subtitle={state.closer}
                   subtitleColor={mutedInk90}
                   subtitleBaseFontSizePx={closerPx}

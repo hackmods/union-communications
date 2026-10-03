@@ -51,8 +51,19 @@ function socialChrome(
   );
 }
 
-function socialLogoMaxHeightPx(aspect: ExampleAspect = "square") {
-  return Math.round(exampleAspectDesignSize(aspect).height * 0.12);
+function socialLogoMaxHeightPx(
+  aspect: ExampleAspect = "square",
+  tokens?: CanvasTokens,
+) {
+  const base = exampleAspectDesignSize(aspect).height * 0.12;
+  // Display type scale yields lockup room so bottom-band copy can fit.
+  const yieldFactor =
+    tokens?.typeScale === "display"
+      ? 0.85
+      : tokens?.typeScale === "dense"
+        ? 1.08
+        : 1;
+  return Math.round(base * yieldFactor);
 }
 
 /**
@@ -94,7 +105,14 @@ function FittedSocialCopy({
       titleLetterSpacing={chrome.titleTracking}
       titleTextTransform={chrome.titleTransform}
       textAlign={chrome.textAlign ?? "left"}
-      className={cn(italicBody && "[&_[data-wallet-body]]:italic", className)}
+      className={cn(
+        // WalletCopyBlock defaults to uppercase for pocket cards — social
+        // layouts must follow Brand Kit titleTextTransform instead.
+        chrome.titleTransform !== "uppercase" &&
+          "[&_[data-wallet-title]]:normal-case",
+        italicBody && "[&_[data-wallet-body]]:italic",
+        className,
+      )}
     />
   );
 }
@@ -477,7 +495,7 @@ function JointActionLayout({
         coalitionBadge={coalitionBadge}
         titleFontSizePx={chrome.titlePx}
         bodyFontSizePx={chrome.bodyPx}
-        logoMaxHeightPx={socialLogoMaxHeightPx(aspect)}
+        logoMaxHeightPx={socialLogoMaxHeightPx(aspect, tokens)}
       />
       <LocalFooter
         localNumber={localNumber}
@@ -545,7 +563,7 @@ function SolidarityLayout({
         style={brandFieldBottomLiftStyle("solidarity")}
       />
       <div
-        className="absolute bottom-0 left-0 right-0 flex max-h-[48%] flex-col"
+        className="absolute bottom-0 left-0 right-0 flex h-[50%] flex-col"
         style={{
           padding: chrome.pad,
           textAlign: chrome.textAlign,
@@ -556,7 +574,7 @@ function SolidarityLayout({
           size={exportMode ? "md" : "sm"}
           backgroundColor={footerBg}
           className="mb-2 shrink-0"
-          maxHeightPx={socialLogoMaxHeightPx(aspect)}
+          maxHeightPx={socialLogoMaxHeightPx(aspect, tokens)}
         />
         <div className="relative z-[2] min-h-0 flex-1 overflow-hidden">
           <FittedSocialCopy
@@ -664,7 +682,7 @@ function SpotlightLayout({
         style={brandFieldBottomLiftStyle("spotlight")}
       />
       <div
-        className="absolute bottom-0 left-0 right-0 flex max-h-[48%] flex-col"
+        className="absolute bottom-0 left-0 right-0 flex h-[50%] flex-col"
         style={{
           padding: chrome.pad,
           textAlign: chrome.textAlign,
@@ -675,7 +693,7 @@ function SpotlightLayout({
           size={exportMode ? "md" : "sm"}
           backgroundColor={footerBg}
           className="mb-2 shrink-0"
-          maxHeightPx={socialLogoMaxHeightPx(aspect)}
+          maxHeightPx={socialLogoMaxHeightPx(aspect, tokens)}
         />
         <div className="relative z-[2] min-h-0 flex-1 overflow-hidden">
           <FittedSocialCopy
@@ -775,7 +793,7 @@ function NoticeLayout({
             logoMode={logoMode}
             size={exportMode ? "md" : "sm"}
             backgroundColor={primary}
-            maxHeightPx={socialLogoMaxHeightPx(aspect)}
+            maxHeightPx={socialLogoMaxHeightPx(aspect, tokens)}
             className="max-w-[55%]"
           />
           <span
@@ -1078,7 +1096,7 @@ function ResultsLayout({
           size={exportMode ? "md" : "sm"}
           backgroundColor={primary}
           className={exportMode ? "mb-4" : "mb-3"}
-          maxHeightPx={socialLogoMaxHeightPx(aspect)}
+          maxHeightPx={socialLogoMaxHeightPx(aspect, tokens)}
         />
         <p
           className={cn(

@@ -11,7 +11,7 @@ describe("solidaritySupportChrome", () => {
     expect(letter.urlPx).toBeLessThanOrEqual(20);
     expect(letter.localPx).toBeLessThanOrEqual(20);
     expect(letter.qrPx).toBeGreaterThanOrEqual(96);
-    expect(letter.minHeadlinePx).toBeGreaterThanOrEqual(32);
+    expect(letter.minHeadlinePx).toBeGreaterThanOrEqual(24);
     expect(letter.logoMaxHeightPx).toBeGreaterThanOrEqual(100);
   });
 
