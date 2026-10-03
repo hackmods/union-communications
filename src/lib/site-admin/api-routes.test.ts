@@ -244,6 +244,10 @@ describe("site-admin locals, assign-local, and integrity HTTP", () => {
       userParams("user-1"),
     );
     expect(assigned.status).toBe(503);
+    expect(await assigned.json()).toEqual({
+      error: "Postgres is not configured",
+      code: "postgres_required",
+    });
 
     const roles = await patchRoles(
       jsonRequest({ roles: ["local_steward"] }),
