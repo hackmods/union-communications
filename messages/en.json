@@ -7839,6 +7839,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "hub-home-command-center": {
+        "title": "Officer Hub home names your local",
+        "body": "After you sign in, Officer Hub greets you with your union and local, puts assigned work first, and shows your tools as tiles."
+      },
       "hub-phone-workspaces": {
         "title": "Officer Hub phone menu keeps Hub and Local Portal together",
         "body": "Open the Officer Hub menu on a phone to switch between Officer Hub and Local Portal. Local officers still see their union tools. Only platform operators see host admin. Brand Kit and Create stay under Site."
@@ -8685,14 +8689,21 @@
     },
     "dashboardHome": {
       "attention": "What needs my attention?",
-      "attentionBody": "Your assigned work in this local. Other casework remains in the navigation.",
+      "attentionBody": "Your assigned work in this local. Other casework remains in Your tools.",
       "platformAttention": "Platform work",
       "platformAttentionBody": "Open host operations here. Local case files remain within their own access rules.",
       "mfaTitle": "Verify to see your work",
       "mfaBody": "Private work areas open after you verify with your authenticator app on this host.",
       "mfaNext": "Your permitted work areas will appear after verification.",
-      "noWorkModules": "No task board or check-ins are enabled for this local. Other work areas are in Next steps.",
+      "noWorkModules": "No task board or check-ins are enabled for this local. Other work areas are listed under Your tools.",
       "tenantPending": "Checking your union settings. If they do not appear, refresh the page or contact your Officer Hub administrator.",
+      "identityPendingTitle": "Your Officer Hub",
+      "identityLocal": "Local {number}",
+      "roleChips": "Your roles",
+      "launchpadTitle": "Your tools",
+      "launchpadBody": "Modules and officer tools this local has turned on for your role.",
+      "launchpadModules": "Modules",
+      "moreTools": "More officer tools",
       "nextSteps": "What can I do next?",
       "nextStepsBody": "Open a work area available to your role.",
       "noNextSteps": "No work modules are enabled for your role. Ask a local officer about access.",
@@ -11918,6 +11929,7 @@
     "answersEmpty": "No answers yet for this period. Remind officers, or check back after the due time.",
     "widgetTitle": "Your unanswered check-ins",
     "widgetAll": "View all",
+    "widgetCount": "{count, plural, =0 {None} one {# waiting} other {# waiting}}",
     "widgetEmpty": "No unanswered check-ins right now. New questions will appear here.",
     "widgetError": "Could not load check-ins. Open the check-ins page or refresh to try again."
   },
@@ -11967,6 +11979,7 @@
     "linkedBumping": "Bumping {id}",
     "widgetTitle": "My tasks",
     "widgetDesc": "Open tasks assigned to you.",
+    "widgetCount": "{count, plural, =0 {None} one {# open} other {# open}}",
     "widgetEmpty": "No open tasks assigned to you. New assignments will show up here.",
     "widgetError": "Could not load your tasks. Open the task board or refresh to try again.",
     "widgetLink": "Open task board",

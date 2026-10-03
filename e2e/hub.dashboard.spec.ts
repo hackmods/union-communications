@@ -7,19 +7,22 @@ import AxeBuilder from "@axe-core/playwright";
 test.describe("Officer Hub task-first home @smoke", () => {
   test.describe.configure({ mode: "serial" });
 
-  test("president sees attention before setup and optional discovery", async ({ page }) => {
+  test("president sees attention before setup and a visible launchpad", async ({ page }) => {
     await loginAsPresident(page);
     await page.goto("/en/app");
+    await expect(page.getByTestId("hub-identity-plate")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: /Behind 7 Proxies/ })).toBeVisible();
     const attention = page.getByRole("heading", { name: "What needs my attention?" });
     await expect(attention).toBeVisible();
     await expect(page.getByTestId("hub-attention-widgets")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "What can I do next?" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Your tools" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Local setup and administration" })).toBeVisible();
     const attentionY = (await attention.boundingBox())!.y;
     const setupY = (await page.getByRole("heading", { name: "Local setup and administration" }).boundingBox())!.y;
     expect(attentionY).toBeLessThan(setupY);
     await expect(page.getByRole("heading", { name: "Your modules" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Local launch checklist" })).toHaveCount(0);
+    await expect(page.getByTestId("hub-officer-tools")).toBeVisible();
   });
 
   test("steward gets permitted work without president setup", async ({ page }) => {
@@ -29,6 +32,7 @@ test.describe("Officer Hub task-first home @smoke", () => {
     await expect(page.getByRole("heading", { name: "Local setup and administration" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Platform operator" })).toHaveCount(0);
     await expect(page.getByRole("link", { name: /Grievances/i }).first()).toBeVisible();
+    await expect(page.getByTestId("hub-launchpad")).toBeVisible();
   });
 
   test("platform admin sees host operations without local Attention widgets", async ({ page }) => {
@@ -39,6 +43,7 @@ test.describe("Officer Hub task-first home @smoke", () => {
     await expect(page.getByRole("heading", { name: "What needs my attention?" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Local setup and administration" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Platform operator" })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Open Site Admin|Site Admin|Platform admin/i }).first()).toBeVisible();
     await page.getByTestId("hub-nav-toggle").click();
     const navigation = page.getByTestId("hub-nav-drawer");
     await expect(navigation).toBeVisible();
@@ -154,15 +159,17 @@ test.describe("Officer Hub task-first home @smoke", () => {
     expect(results.violations).toEqual([]);
   });
 
-  test("notices keep their full text available and discovery is optional", async ({ page }) => {
+  test("notices keep their full text available and tools stay on the home", async ({ page }) => {
     await loginAsPresident(page);
     await page.goto("/en/app");
     await page.getByText("Read details").click();
     await expect(page.getByText(/temporary storage/i)).toBeVisible();
-    const catalog = page.locator("details").filter({ has: page.getByRole("heading", { name: "Officer tools" }) });
-    await expect(catalog.getByTestId("hub-officer-tools")).toBeHidden();
-    await catalog.locator("summary").click();
-    await expect(catalog.getByTestId("hub-officer-tools")).toBeVisible();
+    await expect(page.getByTestId("hub-launchpad")).toBeVisible();
+    await expect(page.getByTestId("hub-officer-tools")).toBeVisible();
+    await page.setViewportSize({ width: 375, height: 900 });
+    await expect(page.getByText("More officer tools")).toBeVisible();
+    await page.getByText("More officer tools").click();
+    await expect(page.getByRole("link", { name: /Meeting minutes/i }).first()).toBeVisible();
   });
 });
 

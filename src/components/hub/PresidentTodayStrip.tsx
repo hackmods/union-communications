@@ -1,9 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { HubHomeTile } from "@/components/hub/HubHomeTile";
 import type { HubModule } from "@/types/tenant";
-import { PUBLIC_SECTION_TITLE_CLASS } from "@/lib/constants/public-type";
 
 /**
  * A short list of president work routes. These links do not claim live status.
@@ -66,28 +66,17 @@ export function PresidentTodayStrip({
   if (visible.length === 0) return null;
 
   return (
-    <section
-      aria-labelledby="president-today-heading"
-      className="space-y-3"
-    >
-      <h2 id="president-today-heading" className={PUBLIC_SECTION_TITLE_CLASS}>
-        {t("title")}
-      </h2>
-      <p className="text-sm text-slate-600">{t("body")}</p>
-      <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+    <section aria-labelledby="president-today-heading" className="space-y-3">
+      <div>
+        <h3 id="president-today-heading" className="text-base font-bold text-opseu-dark">
+          {t("title")}
+        </h3>
+        <p className="mt-1 text-sm leading-relaxed text-slate-600">{t("body")}</p>
+      </div>
+      <ul className="grid gap-3 sm:grid-cols-2">
         {visible.map((card) => (
-          <li key={card.id}>
-            <Link
-              href={card.href}
-              className="flex min-h-11 items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-opseu-blue/40 hover:bg-opseu-blue/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
-              <span className="text-sm font-semibold text-opseu-dark">
-                {card.label}
-              </span>
-              <span className="text-right text-sm leading-snug text-slate-600">
-                {card.blurb}
-              </span>
-            </Link>
+          <li key={card.id} className="min-w-0">
+            <HubHomeTile href={card.href} title={card.label} body={card.blurb} />
           </li>
         ))}
       </ul>

@@ -7785,6 +7785,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "hub-home-command-center": {
+        "title": "L’accueil du Hub des dirigeants nomme votre section",
+        "body": "Après connexion, le Hub des dirigeants vous accueille avec votre syndicat et votre section, place le travail assigné en premier, et affiche vos outils en tuiles."
+      },
       "hub-phone-workspaces": {
         "title": "Le menu téléphone du Hub des dirigeants relie le Hub des dirigeants et le Portail local",
         "body": "Ouvrez le menu du Hub des dirigeants sur un téléphone pour passer du Hub des dirigeants au Portail local. Les dirigeantes et dirigeants locaux voient encore leurs outils syndicaux. Seules les personnes qui administrent la plateforme voient l’admin de l’hôte. La Trousse de marque et Créer restent sous Site."
@@ -8631,14 +8635,21 @@
     },
     "dashboardHome": {
       "attention": "Qu’est-ce qui demande mon attention ?",
-      "attentionBody": "Votre travail assigné dans cette section. Les autres dossiers restent dans la navigation.",
+      "attentionBody": "Votre travail assigné dans cette section. Les autres dossiers restent sous Vos outils.",
       "platformAttention": "Travail de la plateforme",
       "platformAttentionBody": "Ouvrez ici les opérations de l’hôte. L’accès aux dossiers locaux reste régi par leurs propres règles.",
       "mfaTitle": "Vérifiez votre identité pour voir votre travail",
       "mfaBody": "Les espaces de travail privés s’ouvrent après vérification avec votre appli d’authentification sur cet hôte.",
       "mfaNext": "Vos espaces de travail autorisés apparaîtront après la vérification.",
-      "noWorkModules": "Aucun tableau de tâches ni point de suivi n’est activé pour cette section. Les autres espaces de travail sont dans les prochaines actions.",
+      "noWorkModules": "Aucun tableau de tâches ni point de suivi n’est activé pour cette section. Les autres espaces de travail sont listés sous Vos outils.",
       "tenantPending": "Vérification des réglages de votre syndicat. S’ils n’apparaissent pas, actualisez la page ou contactez l’administration du Hub des dirigeants.",
+      "identityPendingTitle": "Votre Hub des dirigeants",
+      "identityLocal": "Section locale {number}",
+      "roleChips": "Vos rôles",
+      "launchpadTitle": "Vos outils",
+      "launchpadBody": "Modules et outils des dirigeants que cette section a activés pour votre rôle.",
+      "launchpadModules": "Modules",
+      "moreTools": "Plus d’outils des dirigeants",
       "nextSteps": "Que puis-je faire ensuite ?",
       "nextStepsBody": "Ouvrez un espace de travail accessible à votre rôle.",
       "noNextSteps": "Aucun module de travail n’est activé pour votre rôle. Demandez l’accès à une personne dirigeante de la section.",
@@ -11864,6 +11875,7 @@
     "answersEmpty": "Aucune réponse pour cette période. Rappelez aux dirigeants, ou revenez après l’échéance.",
     "widgetTitle": "Vos points de suivi en attente",
     "widgetAll": "Tout voir",
+    "widgetCount": "{count, plural, =0 {Aucun} one {# en attente} other {# en attente}}",
     "widgetEmpty": "Aucun point de suivi en attente pour le moment. Les nouvelles questions apparaîtront ici.",
     "widgetError": "Impossible de charger les points de suivi. Ouvrez leur page ou actualisez pour réessayer."
   },
@@ -11913,6 +11925,7 @@
     "linkedBumping": "Bumpage {id}",
     "widgetTitle": "Mes tâches",
     "widgetDesc": "Tâches ouvertes qui vous sont assignées.",
+    "widgetCount": "{count, plural, =0 {Aucune} one {# ouverte} other {# ouvertes}}",
     "widgetEmpty": "Aucune tâche ouverte qui vous est assignée. Les nouvelles assignations apparaîtront ici.",
     "widgetError": "Impossible de charger vos tâches. Ouvrez leur tableau ou actualisez pour réessayer.",
     "widgetLink": "Ouvrir le tableau des tâches",

@@ -13,6 +13,7 @@ export function MyTasksWidget() {
   const t = useTranslations("tasks");
   const locale = useLocale();
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [count, setCount] = useState(0);
   const [state, setState] = useState<LoadState>("loading");
 
   useEffect(() => {
@@ -21,7 +22,9 @@ export function MyTasksWidget() {
       .then(async (res) => {
         if (!res.ok) throw new Error(`Tasks: ${res.status}`);
         const data = (await res.json()) as { tasks?: Task[] };
-        setTasks((data.tasks ?? []).slice(0, 5));
+        const all = data.tasks ?? [];
+        setCount(all.length);
+        setTasks(all.slice(0, 5));
         setState("ready");
       })
       .catch(() => {
@@ -31,14 +34,21 @@ export function MyTasksWidget() {
   }, []);
 
   return (
-    <Card density="compact" className="h-full min-w-0">
+    <Card variant="elevated" density="compact" className="h-full min-w-0">
       <div className="flex flex-wrap items-start justify-between gap-2">
-        <CardTitle>{t("widgetTitle")}</CardTitle>
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
+          <CardTitle>{t("widgetTitle")}</CardTitle>
+          {state === "ready" ? (
+            <span className="rounded-full bg-opseu-blue/10 px-2 py-0.5 text-xs font-semibold text-opseu-blue">
+              {t("widgetCount", { count })}
+            </span>
+          ) : null}
+        </div>
         <Link href="/app/tasks" className="text-sm font-medium text-opseu-blue underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2">
           {t("widgetLink")}
         </Link>
       </div>
-      <div role="status" aria-live="polite" className="mt-3 text-sm leading-relaxed text-gray-700">
+      <div role="status" aria-live="polite" className="mt-3 text-sm leading-relaxed text-slate-700">
         {state === "loading" ? <p>{t("loading")}</p> : null}
         {state === "error" ? <p>{t("widgetError")}</p> : null}
         {state === "ready" && tasks.length === 0 ? <p>{t("widgetEmpty")}</p> : null}
@@ -47,7 +57,7 @@ export function MyTasksWidget() {
             {tasks.map((task) => (
               <li key={task.id} className="border-t border-slate-200 pt-2 first:border-0 first:pt-0">
                 <span className="font-medium text-opseu-dark">{task.title}</span>
-                {task.dueAt ? <span className="ml-2 text-gray-600">{new Date(task.dueAt).toLocaleDateString(locale === "fr" ? "fr-CA" : "en-CA")}</span> : null}
+                {task.dueAt ? <span className="ml-2 text-slate-600">{new Date(task.dueAt).toLocaleDateString(locale === "fr" ? "fr-CA" : "en-CA")}</span> : null}
               </li>
             ))}
           </ul>

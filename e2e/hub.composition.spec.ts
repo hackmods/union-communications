@@ -9,21 +9,21 @@ import { assertDesktopComposition, assertNoHorizontalOverflow } from "./helpers/
 test.describe("Hub / Portal desktop composition @smoke", () => {
   test.describe.configure({ mode: "serial" });
 
-  test("dashboard attention and next-steps compose at 1280", async ({ page }) => {
+  test("dashboard attention and launchpad compose at 1280", async ({ page }) => {
     await loginAsPresident(page);
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/en/app");
     const attention = page.getByRole("heading", { name: "What needs my attention?" });
     const attentionBody = page.getByText(
-      "Your assigned work in this local. Other casework remains in the navigation.",
+      "Your assigned work in this local. Other casework remains in Your tools.",
     );
     await assertDesktopComposition(page, {
       heading: attention,
       measure: attentionBody,
-      maxHeadingY: 480,
+      maxHeadingY: 560,
       maxMeasurePx: 640,
     });
-    await expect(page.getByRole("heading", { name: "What can I do next?" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Your tools" })).toBeVisible();
     const widgets = page.getByTestId("hub-attention-widgets");
     await expect(widgets).toBeVisible();
     const box = await widgets.boundingBox();

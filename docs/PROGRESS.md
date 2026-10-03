@@ -1,3 +1,9 @@
+## 2026-10-03 — Officer Hub command-center home
+
+- Logged-in `/app` now opens with a Brand Kit identity plate (union + local, roles, Portal/Site Admin peer) instead of a generic Dashboard heading.
+- Assigned tasks and check-ins stay first, as elevated cards with counts from the lists already loaded. Officer tools are a visible launchpad (phone: first modules, then a More officer tools disclosure).
+- Platform operators get the host shortcut board on home. Members still see a teaser, restyled to the same plate. What’s new `hub-home-command-center`.
+
 ## 2026-10-03 — Hub phone menu for every role
 
 - Officer Hub drawer now starts with **Officer Hub** and **Local Portal** workspace peers. The empty white context card is gone when the session has no local.
