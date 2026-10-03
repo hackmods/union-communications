@@ -256,6 +256,47 @@ export function PublicCatalogExplorer({
   const visibleFacetCount =
     Number(showAudience) + Number(showTopic) + Number(showFormat) + Number(showPrivacy);
 
+  // Drop facet values that cascading options can no longer reach (stale URL or
+  // incompatible combo), so the page does not stick on a guaranteed empty set.
+  useEffect(() => {
+    const next = catalogState(query, audience, topic, format, storage);
+    let changed = false;
+    if (audience && !audienceOptions.includes(audience)) {
+      next.audience = "";
+      setAudience("");
+      changed = true;
+    }
+    if (topic && !topicOptions.includes(topic)) {
+      next.topic = "";
+      setTopic("");
+      changed = true;
+    }
+    if (format && !formatOptions.includes(format)) {
+      next.format = "";
+      setFormat("");
+      changed = true;
+    }
+    if (storage && !privacyOptions.includes(storage)) {
+      next.privacy = "";
+      setStorage("");
+      changed = true;
+    }
+    if (changed) {
+      writeStateToLocation(next, "replace");
+    }
+  }, [
+    audience,
+    audienceOptions,
+    format,
+    formatOptions,
+    privacyOptions,
+    query,
+    storage,
+    topic,
+    topicOptions,
+    writeStateToLocation,
+  ]);
+
   const items = useMemo(() => {
     return searchScopedItems.filter((item) => {
       if (audience && !item.audiences.includes(audience as PublicCatalogAudience)) return false;
@@ -279,6 +320,7 @@ export function PublicCatalogExplorer({
     setTopic("");
     setFormat("");
     setStorage("");
+    setMobileFiltersOpen(false);
     writeStateToLocation(emptyState, "push");
   };
 

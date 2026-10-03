@@ -99,6 +99,19 @@ describe("public-catalog-facets", () => {
     expect(shouldShowFacet(["maker"], "")).toBe(false);
     expect(shouldShowFacet([], "maker")).toBe(false);
   });
+
+  it("marks incompatible facet values as missing from cascaded options", () => {
+    const learn = modeScopedItems(available, "learn");
+    const topicsForCourse = optionsForFacet(learn, "topic", {
+      ...emptyState,
+      format: "course",
+    });
+    // boards/print never appear on Learn; confirm course cascade stays non-empty
+    // and never invents tool-only topics.
+    expect(topicsForCourse.length).toBeGreaterThan(0);
+    expect(topicsForCourse).not.toContain("boards");
+    expect(topicsForCourse).not.toContain("print");
+  });
 });
 
 describe("public-catalog tool topics", () => {
