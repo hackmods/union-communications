@@ -12,7 +12,11 @@ import {
 } from "@/lib/utils/canvas-tokens";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { officeBandColor } from "@/lib/export/office-brand-styles";
-import { composeLetterheadContact } from "@/lib/export/office-letterhead-layout";
+import {
+  composeLetterheadContact,
+  LETTERHEAD_LOGO_MAX_H_PX,
+  LETTERHEAD_LOGO_MAX_W_PX,
+} from "@/lib/export/office-letterhead-layout";
 import { isLetterBodyPreset } from "@/lib/comms/document-generator-draft";
 import type { DesignTreatment } from "@/types/entities";
 import { cn } from "@/lib/utils";
@@ -94,7 +98,7 @@ function MockLetterheadBand({
 }) {
   return (
     <div
-      className="flex items-center gap-3 px-4 py-3"
+      className="flex w-full items-center gap-3 px-4 py-3"
       style={{ backgroundColor: bandColor, color: ink }}
     >
       {logoSrc ? (
@@ -102,7 +106,11 @@ function MockLetterheadBand({
         <img
           src={logoSrc}
           alt=""
-          className="h-9 w-auto max-w-[110px] object-contain"
+          className="h-auto w-auto shrink-0 object-contain"
+          style={{
+            maxHeight: LETTERHEAD_LOGO_MAX_H_PX,
+            maxWidth: LETTERHEAD_LOGO_MAX_W_PX,
+          }}
         />
       ) : null}
       <div className="min-w-0">

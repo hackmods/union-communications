@@ -233,6 +233,13 @@ describe("office-docx-builders", () => {
     // Absolute DXA content width (US Letter − margins) — never pct (iOS Quick Look).
     expect(docXml).toMatch(/w:tblW[^>]*w:type="dxa"[^>]*w:w="10224"/);
     expect(docXml).not.toMatch(/w:tblW[^>]*w:type="pct"/);
+    // No library-default hairline grid on the brand band.
+    expect(docXml).toMatch(
+      /w:tblBorders><w:top w:val="none"[^/]*\/>[\s\S]*?<w:insideV w:val="none"/,
+    );
+    expect(docXml).not.toMatch(
+      /w:tblBorders>[\s\S]*?w:val="single"[\s\S]*?<\/w:tblBorders>/,
+    );
     expect(docXml).toContain("003366");
     expect(docXml).toContain("Local 110");
     expect(docXml).toContain("Chief steward");
@@ -263,5 +270,8 @@ describe("office-docx-builders", () => {
     expect(headerXml).toMatch(/w:tblLayout[^>]*w:type="fixed"/);
     expect(headerXml).toMatch(/w:tblW[^>]*w:type="dxa"[^>]*w:w="10224"/);
     expect(headerXml).not.toMatch(/w:tblW[^>]*w:type="pct"/);
+    expect(headerXml).toMatch(
+      /w:tblBorders><w:top w:val="none"[^/]*\/>[\s\S]*?<w:insideV w:val="none"/,
+    );
   });
 });

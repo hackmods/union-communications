@@ -13,6 +13,7 @@ import {
   Paragraph,
   ShadingType,
   Table,
+  TableBorders,
   TableCell,
   TableLayoutType,
   TableRow,
@@ -150,9 +151,12 @@ function letterheadBandTable(opts: DocxBuildInput): Table {
 
   // Inner logo | identity row. Absolute DXA widths — never pct (iOS Quick Look
   // ignores w:type="pct" and collapses FIXED tables to content).
+  // TableBorders.NONE kills the library default single grid (hairlines between
+  // logo/text columns and around the band that the CSS preview never shows).
   const innerBand = new Table({
     width: { size: widths.contentTwips, type: WidthType.DXA },
     layout: TableLayoutType.FIXED,
+    borders: TableBorders.NONE,
     columnWidths: [widths.logoColTwips, widths.textColTwips],
     rows: [
       new TableRow({
@@ -223,6 +227,7 @@ function letterheadBandTable(opts: DocxBuildInput): Table {
   return new Table({
     width: { size: widths.contentTwips, type: WidthType.DXA },
     layout: TableLayoutType.FIXED,
+    borders: TableBorders.NONE,
     columnWidths: [widths.contentTwips],
     rows: [
       new TableRow({
