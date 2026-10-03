@@ -21,7 +21,8 @@ test.describe("Hub / Portal desktop composition @smoke", () => {
       heading: attention,
       measure: attentionBody,
       maxHeadingY: 560,
-      maxMeasurePx: 640,
+      // SectionHeading intro is max-w-prose (~65ch ≈ 694px at 1.05rem).
+      maxMeasurePx: 720,
     });
     await expect(page.getByRole("heading", { name: "Your tools" })).toBeVisible();
     const widgets = page.getByTestId("hub-attention-widgets");

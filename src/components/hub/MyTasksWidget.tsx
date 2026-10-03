@@ -39,7 +39,7 @@ export function MyTasksWidget() {
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           <CardTitle>{t("widgetTitle")}</CardTitle>
           {state === "ready" ? (
-            <span className="rounded-full bg-opseu-blue/10 px-2 py-0.5 text-xs font-semibold text-opseu-blue">
+            <span className="rounded-full bg-opseu-blue px-2.5 py-0.5 text-xs font-bold text-white">
               {t("widgetCount", { count })}
             </span>
           ) : null}
