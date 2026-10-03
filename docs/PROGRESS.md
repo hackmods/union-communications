@@ -1,6 +1,6 @@
 ## 2026-10-03 — CI Hub drawer clamp + Playwright failure artifacts
 
-- CI `e2e-smoke (4)` still failed after Tailwind `min-w-0`: Hub `MobileSheet` measured 324px on a 320px Accessibility-max phone. The sheet now pins to `window.innerWidth` with `box-sizing: border-box` below 480px.
+- CI `e2e-smoke (4)` still failed after Tailwind `min-w-0`: Hub `MobileSheet` measured 324px on a 320px Accessibility-max phone. The sheet now pins to the smallest of `innerWidth` / `clientWidth` / `visualViewport` (not `matchMedia(480px)`, which Pixel 5 `isMobile` can disagree with) and uses `!important` inline sizes.
 - e2e shards upload `playwright-report` / `test-results` when a shard fails so the next red run is inspectable.
 
 ## 2026-10-03 — Access-request burst + Local MFA opt-in

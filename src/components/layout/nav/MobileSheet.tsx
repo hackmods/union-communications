@@ -5,8 +5,9 @@ import { createPortal } from "react-dom";
 import { getFocusable } from "./focusables";
 import { lockBodyScroll } from "@/lib/layout/lock-body-scroll";
 import {
-  MOBILE_SHEET_SIDE_PANEL_MQ,
   clampMobileSheetToViewport,
+  isMobileSheetSidePanel,
+  readLayoutViewportWidth,
 } from "@/lib/layout/mobile-sheet-geometry";
 import { cn } from "@/lib/utils";
 
@@ -69,19 +70,20 @@ export function MobileSheet({
   useLayoutEffect(() => {
     const panel = drawerRef.current;
     if (!panel || typeof window === "undefined") return;
-    const clamp = () =>
+    const clamp = () => {
+      const layoutWidth = readLayoutViewportWidth(window);
       clampMobileSheetToViewport(
         panel,
-        window.innerWidth,
-        window.matchMedia(MOBILE_SHEET_SIDE_PANEL_MQ).matches,
+        layoutWidth,
+        isMobileSheetSidePanel(layoutWidth),
       );
+    };
     clamp();
     window.addEventListener("resize", clamp);
-    const mq = window.matchMedia(MOBILE_SHEET_SIDE_PANEL_MQ);
-    mq.addEventListener("change", clamp);
+    window.visualViewport?.addEventListener("resize", clamp);
     return () => {
       window.removeEventListener("resize", clamp);
-      mq.removeEventListener("change", clamp);
+      window.visualViewport?.removeEventListener("resize", clamp);
     };
   }, []);
 
@@ -89,10 +91,11 @@ export function MobileSheet({
     const unlock = lockBodyScroll();
     const panel = drawerRef.current;
     if (panel) {
+      const layoutWidth = readLayoutViewportWidth(window);
       clampMobileSheetToViewport(
         panel,
-        window.innerWidth,
-        window.matchMedia(MOBILE_SHEET_SIDE_PANEL_MQ).matches,
+        layoutWidth,
+        isMobileSheetSidePanel(layoutWidth),
       );
     }
     const focusTimer = window.setTimeout(() => {

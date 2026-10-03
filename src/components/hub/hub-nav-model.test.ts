@@ -127,6 +127,8 @@ describe("HubNav chrome contract", () => {
     expect(sheet).toContain("max-w-full");
     expect(sheet).not.toContain("100vw");
     expect(sheet).toContain("clampMobileSheetToViewport");
+    expect(sheet).toContain("readLayoutViewportWidth");
+    expect(sheet).toContain("isMobileSheetSidePanel");
   });
 
   it("does not put Send feedback on the hub bar (footer / Support still have it)", () => {

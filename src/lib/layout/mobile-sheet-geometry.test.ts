@@ -1,5 +1,29 @@
 import { describe, expect, it } from "vitest";
-import { clampMobileSheetToViewport } from "./mobile-sheet-geometry";
+import {
+  clampMobileSheetToViewport,
+  isMobileSheetSidePanel,
+  readLayoutViewportWidth,
+} from "./mobile-sheet-geometry";
+
+describe("readLayoutViewportWidth", () => {
+  it("uses the smallest of inner, client, and visual widths", () => {
+    expect(
+      readLayoutViewportWidth({
+        innerWidth: 980,
+        visualViewport: { width: 324 },
+        document: { documentElement: { clientWidth: 320 } },
+      }),
+    ).toBe(320);
+  });
+});
+
+describe("isMobileSheetSidePanel", () => {
+  it("pins below 480 CSS px even when a media query would disagree", () => {
+    expect(isMobileSheetSidePanel(320)).toBe(false);
+    expect(isMobileSheetSidePanel(479)).toBe(false);
+    expect(isMobileSheetSidePanel(480)).toBe(true);
+  });
+});
 
 describe("clampMobileSheetToViewport", () => {
   it("pins a phone sheet to the live layout width including box-border", () => {
