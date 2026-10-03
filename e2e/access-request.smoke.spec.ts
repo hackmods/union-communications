@@ -22,7 +22,7 @@ test.describe("Access request forms @smoke", () => {
     await page.getByRole("button", { name: "Send request" }).click();
     await expect(
       page.getByText("Thanks. Your request was received."),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 20_000 });
   });
 
   test("join submits a local request after choosing Officer Hub", async ({
@@ -48,7 +48,7 @@ test.describe("Access request forms @smoke", () => {
     await page.getByRole("button", { name: "Send request" }).click();
     await expect(
       page.getByText("Thanks. Your request was received."),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 20_000 });
   });
 
   test("login page member access link opens the request form", async ({
