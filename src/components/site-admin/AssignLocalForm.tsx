@@ -17,6 +17,12 @@ import {
   type UnionLocalSelectValue,
   type UnionOption,
 } from "@/components/tenant/UnionLocalSelect";
+import {
+  canEditAssignLocal,
+  canSubmitAssignLocal,
+  type AssignLocalFormGateState,
+  type AssignLocalOptionsLoadState,
+} from "@/components/site-admin/assign-local-form-gates";
 
 type Props = {
   userId: string;
@@ -27,8 +33,6 @@ type Props = {
   /** When true, assignment writes are blocked (account is locked). */
   locked?: boolean;
 };
-
-type OptionsLoadState = "loading" | "ready" | "error";
 
 function selectionComplete(value: UnionLocalSelectValue): boolean {
   if (value.unionId === UNION_LOCAL_SELECT_OTHER) {
@@ -56,7 +60,7 @@ export function AssignLocalForm({
   const [collectives, setCollectives] = useState<CollectiveOption[]>([]);
   const [subGroups, setSubGroups] = useState<SubGroupOption[]>([]);
   const [optionsLoadState, setOptionsLoadState] =
-    useState<OptionsLoadState>("loading");
+    useState<AssignLocalOptionsLoadState>("loading");
   const [optionsReloadToken, setOptionsReloadToken] = useState(0);
   const [value, setValue] = useState<UnionLocalSelectValue>(() => ({
     ...emptyUnionLocalSelectValue(),
@@ -105,16 +109,17 @@ export function AssignLocalForm({
     };
   }, [loadOptions, optionsReloadToken]);
 
-  const canEdit =
-    !accountBlocked &&
-    !busy &&
-    !stepUpRequired &&
-    !resultUnconfirmed &&
-    optionsLoadState === "ready";
-  const canSubmit =
-    canEdit &&
-    selectionComplete(value) &&
-    !(stepUpRequired && !mfaCode.trim());
+  const gateState: AssignLocalFormGateState = {
+    accountBlocked,
+    busy,
+    stepUpRequired,
+    resultUnconfirmed,
+    optionsLoadState,
+    selectionComplete: selectionComplete(value),
+    mfaCode,
+  };
+  const canEdit = canEditAssignLocal(gateState);
+  const canSubmit = canSubmitAssignLocal(gateState);
 
   async function submitAssign(options?: { replace?: boolean }) {
     if (accountBlocked) {
