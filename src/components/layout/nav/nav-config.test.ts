@@ -20,6 +20,9 @@ describe("public primary navigation", () => {
   it("uses task chrome without conflating route prefixes", () => {
     expect(shellContextForPath("/create/graphic-maker/")).toBe("public-task");
     expect(shellContextForPath("/utilities/rtw-accommodation/")).toBe("public-task");
+    expect(shellContextForPath("/join")).toBe("public-task");
+    expect(shellContextForPath("/local-portal")).toBe("public-task");
+    expect(shellContextForPath("/local-portal/")).toBe("public-task");
     expect(shellContextForPath("/app/")).toBe("hub");
     expect(shellContextForPath("/portal/circles/example/")).toBe("portal");
     expect(shellContextForPath("/application")).toBe("public");

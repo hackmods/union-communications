@@ -3611,7 +3611,10 @@
       "followUsTagline": "Scannez pour nous suivre",
       "localWebsiteTitle": "Visitez notre site",
       "localWebsiteDesc": "Nouvelles, contacts et ressources pour les membres.",
-      "localWebsiteTagline": "Scannez pour notre site"
+      "localWebsiteTagline": "Scannez pour notre site",
+      "localPortalTitle": "Portail local",
+      "localPortalDesc": "Scannez pour Ensemble, les Cercles et la Salle sur un téléphone. Amenez votre section, ou demandez l’accès membre.",
+      "localPortalTagline": "Scannez le Portail local →"
     },
     "whenToUse": "À utiliser pour des cartes de poche qui dirigent les membres vers votre site Web, votre groupe ou votre lien de soutien."
   },
@@ -7785,6 +7788,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "local-portal-pocket": {
+        "title": "Une page Portail local à garder sur un téléphone",
+        "body": "Scannez un code QR ou ouvrez Portail local pour voir Ensemble, les Cercles et la Salle en une courte page. Amenez votre section, ou demandez l’accès membre. Copiez ou partagez le lien pour que la personne suivante puisse aussi le scanner."
+      },
       "hub-home-command-center": {
         "title": "L’accueil du Hub des dirigeants nomme votre section",
         "body": "Après connexion, le Hub des dirigeants vous accueille avec votre syndicat et votre section, place le travail assigné en premier, et affiche vos outils en tuiles."
@@ -8553,6 +8560,7 @@
       "hubLogin": "Connexion Hub",
       "join": "Amener votre local (accès bêta)",
       "requestAccess": "Demander l'accès membre",
+      "localPortal": "Page de poche Portail local",
       "olLists": "Module Listes de membres et confidentialité",
       "olAdvancedFinance": "Module Finances locales avancées",
       "olDigitalSecurity": "Module Sécurité numérique et transitions",
@@ -17418,6 +17426,37 @@
     "joinPrompt": "Prêt pour que votre section adopte la plateforme hébergée ?",
     "joinLink": "Amener votre section à UnionOps",
     "memberAccessLink": "Demander l’accès membre"
+  },
+  "localPortalShare": {
+    "eyebrow": "Portail local",
+    "title": "Votre section, sur le téléphone",
+    "intro": "Ensemble est l’accueil du Portail local sur un téléphone. Les Cercles gardent un groupe en discussion. La Salle rassemble toute la section.",
+    "bulletTogetherTitle": "Ensemble",
+    "bulletTogether": "Ouvrez l’accueil de votre section sans chercher dans le courriel.",
+    "bulletCirclesTitle": "Cercles et Salle",
+    "bulletCircles": "Parlez dans un Cercle, ou voyez tout le monde dans la Salle. Les noms des membres restent dans la section.",
+    "bulletDispatchTitle": "Relais",
+    "bulletDispatch": "Publiez une courte mise à jour pour que les membres la voient sur leur téléphone.",
+    "bulletSafeTitle": "Sûr pour les membres",
+    "bulletSafe": "Les dossiers de grief et le travail des dirigeants restent dans le Hub des dirigeants. Le Portail local est pour les membres.",
+    "costNote": "Les outils Comms restent gratuits sur votre appareil. Un Portail local hébergé peut recouvrer les frais d’hébergement.",
+    "primaryCta": "Amenez votre section",
+    "secondaryCta": "Demander l’accès membre",
+    "startLink": "Commencer avec les outils Comms gratuits",
+    "platformLink": "Lire comment fonctionnent le Hub des dirigeants et le Portail local",
+    "passAlongTitle": "Montrez à la personne suivante",
+    "passAlongBody": "Gardez cette page sur votre téléphone. Laissez quelqu’un scanner le code, copier le lien ou le partager.",
+    "qrAlt": "Code QR de cette page Portail local",
+    "qrLoading": "Préparation du code QR…",
+    "qrError": "Le code QR n’a pas chargé. Copiez le lien à la place.",
+    "copyLink": "Copier le lien",
+    "copied": "Copié",
+    "share": "Partager",
+    "shared": "Partagé",
+    "shareText": "Votre section, sur le téléphone. Ensemble, Cercles et Salle dans le Portail local.",
+    "shareUnavailable": "Utilisez Copier le lien si Partager n’est pas sur ce téléphone.",
+    "copyError": "Impossible de copier. Sélectionnez la barre d’adresse et copiez depuis là.",
+    "printCard": "Imprimer une carte QR de poche"
   },
   "joinPage": {
     "eyebrow": "Accès bêta",

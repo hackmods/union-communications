@@ -141,6 +141,7 @@ describe("public Comms copy style", () => {
     "publicCatalog",
     "trustPage",
     "legalAvailability",
+    "localPortalShare",
   ] as const;
 
   it("keeps listed new namespaces off the em dash", () => {

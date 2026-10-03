@@ -108,6 +108,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Ask for access to your local's Officer Hub or Local Portal. We review each request and follow up by invitation — this does not create an account.",
     },
+    "/local-portal": {
+      title: "Local Portal on your phone",
+      description:
+        "A short Local Portal pitch you can scan from a QR: Together, Circles, and Hall on a phone. Bring your local, or request member access.",
+    },
     "/captions": {
       title: "Caption & Hashtag Library",
       description:
@@ -461,6 +466,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Demander l'accès membre",
       description:
         "Demandez l'accès au Hub des dirigeants ou au Portail local de votre section. Chaque demande est examinée, puis suivie d'une invitation — cela ne crée pas de compte.",
+    },
+    "/local-portal": {
+      title: "Portail local sur votre téléphone",
+      description:
+        "Un court argumentaire Portail local à scanner depuis un QR : Ensemble, Cercles et Salle sur un téléphone. Amenez votre section, ou demandez l’accès membre.",
     },
     "/captions": {
       title: "Bibliothèque de légendes et de mot-clics",

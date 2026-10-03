@@ -1,3 +1,8 @@
+## 2026-10-03 — Local Portal pocket share page
+
+- Public `/local-portal` is a phone-first Local Portal pitch (Together, Circles, Hall, Dispatch) with Bring your local / Request member access CTAs and an on-page QR, copy, and share kit. No Home hero CTA.
+- QR Card preset `localPortal` encodes `/{locale}/local-portal`. What’s new `local-portal-pocket`.
+
 ## 2026-10-03 — Officer Hub command-center home
 
 - Logged-in `/app` now opens with a Brand Kit identity plate (union + local, roles, Portal/Site Admin peer) instead of a generic Dashboard heading.

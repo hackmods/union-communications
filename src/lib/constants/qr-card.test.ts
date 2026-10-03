@@ -8,6 +8,8 @@ import {
   qrCardPreviewHeightPx,
 } from "./qr-card-sizes";
 import { QR_CARD_PRESETS, getQrCardPreset } from "./qr-card-presets";
+import en from "../../../messages/en.json";
+import fr from "../../../messages/fr.json";
 
 describe("qr-card-sizes", () => {
   it("defaults to quarter letter for 4-up printing", () => {
@@ -83,6 +85,22 @@ describe("qr-card-presets", () => {
     expect(getQrCardPreset("esa")?.defaultUrl).toContain("ontario.ca");
     expect(getQrCardPreset("rightToRefuse")?.layoutMode).toBe("reference");
     expect(getQrCardPreset("stewardRepresentation")?.layoutMode).toBe("reference");
+    expect(getQrCardPreset("localPortal")?.layoutMode).toBe("link");
+    expect(getQrCardPreset("localPortal")?.defaultUrl).toBe("");
+    expect(getQrCardPreset("localPortal")?.bgMode).toBe("gradient");
     expect(getQrCardPreset("missing")).toBeUndefined();
+  });
+
+  it("has EN and FR copy for every preset", () => {
+    const enPresets = en.qrCard.presets as Record<string, string>;
+    const frPresets = fr.qrCard.presets as Record<string, string>;
+    for (const preset of QR_CARD_PRESETS) {
+      expect(enPresets[preset.titleKey], preset.titleKey).toBeTruthy();
+      expect(enPresets[preset.descriptionKey], preset.descriptionKey).toBeTruthy();
+      expect(enPresets[preset.taglineKey], preset.taglineKey).toBeTruthy();
+      expect(frPresets[preset.titleKey], `fr ${preset.titleKey}`).toBeTruthy();
+      expect(frPresets[preset.descriptionKey], `fr ${preset.descriptionKey}`).toBeTruthy();
+      expect(frPresets[preset.taglineKey], `fr ${preset.taglineKey}`).toBeTruthy();
+    }
   });
 });
