@@ -110,6 +110,21 @@ describe("AccessRequestForm", () => {
     });
   });
 
+  it("tells people to retry if an earlier submit failed", () => {
+    render(
+      <NextIntlClientProvider locale="en" messages={en}>
+        <AccessRequestForm kind="member_access" locale="en" />
+      </NextIntlClientProvider>,
+    );
+
+    expect(
+      screen.getByText("If an earlier try failed, send it again"),
+    ).toBeVisible();
+    expect(
+      screen.getByText(/The request form was failing/),
+    ).toBeVisible();
+  });
+
   it("submits member access as a payload the API schema accepts", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,

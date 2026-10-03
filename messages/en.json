@@ -7841,7 +7841,7 @@
     "items": {
       "request-access-open": {
         "title": "Ask for access again",
-        "body": "The request form is taking names again. Send your union, local, and email. We will receive it and follow up. This does not create an account on the spot."
+        "body": "The request form was failing, so many people never got through. Try the same link again. Send your union, local, and email. We will receive it and follow up. This does not create an account on the spot."
       },
       "home-union-work": {
         "title": "Find tools for the union work in front of you",
@@ -17451,6 +17451,8 @@
     "offeringsHint": "Choose at least one. We use this to route your request.",
     "localTitle": "Tell us about your local",
     "memberTitle": "Help us find your local",
+    "retryNoteTitle": "If an earlier try failed, send it again",
+    "retryNote": "The request form was failing. We are taking requests now. Send your union, local, and email. This still does not create an account on the spot.",
     "localRole": "President, officer, steward, or organizer",
     "errorConsent": "Check the consent box to continue. We need your agreement before we can store and follow up on this request.",
     "errorOfferings": "Choose Officer Hub, Local Portal, or both so we know what to review.",

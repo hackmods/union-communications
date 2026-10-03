@@ -184,6 +184,42 @@ describe("access request HTTP", () => {
       expect(rows[0]?.role).toBeUndefined();
     });
 
+    it("accepts a form payload that omits empty optional fields", async () => {
+      const res = await submitAccessRequest(
+        jsonRequest(
+          {
+            submissionKey: "omitted-optionals-16x",
+            kind: "member_access",
+            name: "Alex Rivera",
+            email: "omit@example.test",
+            unionName: "CAAT",
+            localName: "243",
+            offerings: ["local_portal"],
+            locale: "en",
+            consentAccepted: true,
+          },
+          undefined,
+          "203.0.113.42",
+        ),
+      );
+      expect(res.status).toBe(201);
+      expect(await accessRequestStore.list()).toHaveLength(1);
+    });
+
+    it("still returns 201 when notify email throws after the row is saved", async () => {
+      vi.stubEnv("ACCESS_REQUEST_NOTIFY_EMAIL", "ryan@ryanmorris.ca");
+      sendEmailMock.mockRejectedValue(new Error("smtp down"));
+      const res = await submitAccessRequest(
+        jsonRequest(
+          validSubmit({ email: "after-smtp@example.test" }),
+          undefined,
+          "203.0.113.77",
+        ),
+      );
+      expect(res.status).toBe(201);
+      expect(await accessRequestStore.list()).toHaveLength(1);
+    });
+
     it("rejects invalid JSON, extra keys, and missing consent before writing", async () => {
       const invalidJson = await submitAccessRequest(
         jsonRequest("{", "http://localhost/api/access-requests", "203.0.113.2"),

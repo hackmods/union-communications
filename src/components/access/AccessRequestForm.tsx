@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { Callout } from "@/components/ui/Callout";
 
 type Props = {
   kind: "local_interest" | "member_access";
@@ -104,6 +105,10 @@ export function AccessRequestForm({ kind, locale }: Props) {
 
   return (
     <form onSubmit={submit} className="space-y-4" id="access-request-form">
+      <Callout tone="brand">
+        <p className="font-semibold text-opseu-dark">{t("retryNoteTitle")}</p>
+        <p className="mt-1">{t("retryNote")}</p>
+      </Callout>
       <h2 className="text-xl font-bold text-opseu-dark">
         {kind === "local_interest" ? t("localTitle") : t("memberTitle")}
       </h2>

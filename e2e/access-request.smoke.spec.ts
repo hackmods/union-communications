@@ -8,6 +8,9 @@ test.describe("Access request forms @smoke", () => {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
       "Request member access",
     );
+    await expect(
+      page.getByText("If an earlier try failed, send it again"),
+    ).toBeVisible();
     await page.getByLabel("Your name").fill("Alex Rivera");
     await page.getByLabel("Email").fill("alex.smoke@example.test");
     await page.getByLabel("Union").fill("CAAT");

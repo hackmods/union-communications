@@ -79,55 +79,74 @@ export async function POST(request: Request) {
       { status: 503 },
     );
   }
-  await auditLog.log({
-    userId: "anonymous",
-    action: "access_request.submit",
-    resourceType: "access_request",
-    resourceId: row.id,
-    metadata: { kind: row.kind, locale: row.locale },
-  });
 
-  const notify = process.env.ACCESS_REQUEST_NOTIFY_EMAIL?.trim();
-  if (notify) {
-    const sent = await sendTransactionalEmail({
-      to: notify,
-      subject: `UnionOps beta access request (${row.kind})`,
-      text: [
-        "A new UnionOps beta access request is ready in the platform inbox.",
-        `id=${row.id}`,
-        `kind=${row.kind}`,
-        `name=${row.name}`,
-        `email=${row.email}`,
-        `union=${row.unionName}`,
-        `local=${row.localName}`,
-        row.role ? `role=${row.role}` : null,
-        `offerings=${row.offerings.join(",")}`,
-        row.message ? `message=${row.message}` : null,
-        `inbox=${operatorInboxHint(row.locale)}`,
-      ]
-        .filter(Boolean)
-        .join("\n"),
+  // The row is already stored. Receipt mail, operator notify, and RLS-blocked
+  // stamp updates must not turn a successful submit into an error page.
+  try {
+    await auditLog.log({
+      userId: "anonymous",
+      action: "access_request.submit",
+      resourceType: "access_request",
+      resourceId: row.id,
+      metadata: { kind: row.kind, locale: row.locale },
     });
-    if (sent.ok) {
-      await accessRequestStore.update(row.id, {
-        notifySentAt: new Date().toISOString(),
-      });
-    } else {
-      await accessRequestStore.update(row.id, {
-        notificationError: sent.reason,
-      });
-    }
+  } catch (error) {
+    reportApiFailure(error, "POST /api/access-requests audit");
   }
 
-  const receipt = await sendTransactionalEmail({
-    to: row.email,
-    subject: "UnionOps beta access request received",
-    text: "We received your UnionOps beta access request. We’ll review the details and follow up. This message does not create an account or enroll anyone in a union.",
-  });
-  if (receipt.ok) {
-    await accessRequestStore.update(row.id, {
-      receiptSentAt: new Date().toISOString(),
+  try {
+    const notify = process.env.ACCESS_REQUEST_NOTIFY_EMAIL?.trim();
+    if (notify) {
+      const sent = await sendTransactionalEmail({
+        to: notify,
+        subject: `UnionOps beta access request (${row.kind})`,
+        text: [
+          "A new UnionOps beta access request is ready in the platform inbox.",
+          `id=${row.id}`,
+          `kind=${row.kind}`,
+          `name=${row.name}`,
+          `email=${row.email}`,
+          `union=${row.unionName}`,
+          `local=${row.localName}`,
+          row.role ? `role=${row.role}` : null,
+          `offerings=${row.offerings.join(",")}`,
+          row.message ? `message=${row.message}` : null,
+          `inbox=${operatorInboxHint(row.locale)}`,
+        ]
+          .filter(Boolean)
+          .join("\n"),
+      });
+      try {
+        if (sent.ok) {
+          await accessRequestStore.update(row.id, {
+            notifySentAt: new Date().toISOString(),
+          });
+        } else {
+          await accessRequestStore.update(row.id, {
+            notificationError: sent.reason,
+          });
+        }
+      } catch (error) {
+        reportApiFailure(error, "POST /api/access-requests notify stamp");
+      }
+    }
+
+    const receipt = await sendTransactionalEmail({
+      to: row.email,
+      subject: "UnionOps beta access request received",
+      text: "We received your UnionOps beta access request. We’ll review the details and follow up. This message does not create an account or enroll anyone in a union.",
     });
+    if (receipt.ok) {
+      try {
+        await accessRequestStore.update(row.id, {
+          receiptSentAt: new Date().toISOString(),
+        });
+      } catch (error) {
+        reportApiFailure(error, "POST /api/access-requests receipt stamp");
+      }
+    }
+  } catch (error) {
+    reportApiFailure(error, "POST /api/access-requests notify");
   }
 
   return NextResponse.json({ ok: true }, { status: 201 });

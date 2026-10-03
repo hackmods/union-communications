@@ -7787,7 +7787,7 @@
     "items": {
       "request-access-open": {
         "title": "Demandez l’accès de nouveau",
-        "body": "Le formulaire de demande accepte de nouveau les noms. Envoyez votre syndicat, votre section et votre courriel. Nous recevrons la demande et ferons un suivi. Cela ne crée pas de compte sur-le-champ."
+        "body": "Le formulaire de demande échouait, alors plusieurs personnes n’ont pas pu passer. Réessayez le même lien. Envoyez votre syndicat, votre section et votre courriel. Nous recevrons la demande et ferons un suivi. Cela ne crée pas de compte sur-le-champ."
       },
       "home-union-work": {
         "title": "Trouvez des outils pour votre travail syndical",
@@ -17451,6 +17451,8 @@
     "offeringsHint": "Choisissez au moins une option. Nous utilisons ce choix pour acheminer votre demande.",
     "localTitle": "Parlez-nous de votre section",
     "memberTitle": "Aidez-nous à trouver votre section",
+    "retryNoteTitle": "Si une tentative précédente a échoué, renvoyez la demande",
+    "retryNote": "Le formulaire de demande échouait. Nous acceptons les demandes maintenant. Envoyez votre syndicat, votre section et votre courriel. Cela ne crée toujours pas de compte sur-le-champ.",
     "localRole": "Présidence, dirigeance, délégation ou organisation",
     "errorConsent": "Cochez la case de consentement pour continuer. Nous avons besoin de votre accord avant d’enregistrer et de donner suite à cette demande.",
     "errorOfferings": "Choisissez le Hub des dirigeants, le Portail local, ou les deux, pour que nous sachions quoi examiner.",
