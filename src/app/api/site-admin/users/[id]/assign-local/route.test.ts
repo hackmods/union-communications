@@ -19,9 +19,13 @@ vi.mock("@/lib/audit/store", () => ({ auditLog: { log: mocks.auditLog } }));
 vi.mock("@/lib/db/client", () => ({
   isPostgresConfigured: mocks.isPostgresConfigured,
 }));
-vi.mock("@/lib/tenant/assign-local", () => ({
-  assignUserLocal: mocks.assignUserLocal,
-}));
+vi.mock("@/lib/tenant/assign-local", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/tenant/assign-local")>();
+  return {
+    ...actual,
+    assignUserLocal: mocks.assignUserLocal,
+  };
+});
 vi.mock("@/lib/observability/report-server-error", () => ({
   reportApiFailure: mocks.reportApiFailure,
 }));
@@ -188,5 +192,38 @@ describe("POST /api/site-admin/users/[id]/assign-local", () => {
     expect(mocks.assignUserLocal).toHaveBeenCalledOnce();
     expect(response.status).toBe(503);
     expect((await response.json()).code).toBe("assignment_audit_unavailable");
+  });
+
+  it("maps known Postgres membership authority throws to a coded denial", async () => {
+    mocks.assignUserLocal.mockRejectedValue(
+      new Error("membership management authority required"),
+    );
+    const response = await POST(request({ mfaCode: "654321" }), params());
+    const body = await response.json();
+
+    expect(response.status).toBe(403);
+    expect(body.code).toBe("membership_authority_denied");
+    expect(mocks.reportApiFailure).toHaveBeenCalled();
+    expect(mocks.auditLog).toHaveBeenCalledWith(
+      expect.objectContaining({
+        outcome: "denied",
+        metadata: {
+          phase: "assignment_result",
+          reason: "membership_authority_denied",
+        },
+      }),
+    );
+  });
+
+  it("keeps unexpected adapter failures opaque with assignment_failed", async () => {
+    mocks.assignUserLocal.mockRejectedValue(new Error("ECONNRESET"));
+    const response = await POST(request({ mfaCode: "654321" }), params());
+    const body = await response.json();
+
+    expect(response.status).toBe(500);
+    expect(body).toEqual({
+      error: "Assign local failed",
+      code: "assignment_failed",
+    });
   });
 });

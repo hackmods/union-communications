@@ -5,7 +5,10 @@ import { auditLog } from "@/lib/audit/store";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
 import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 import { isPostgresConfigured } from "@/lib/db/client";
-import { assignUserLocal } from "@/lib/tenant/assign-local";
+import {
+  assignUserLocal,
+  classifyAssignLocalFailure,
+} from "@/lib/tenant/assign-local";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
 
@@ -46,7 +49,10 @@ export async function POST(req: Request, { params }: Params) {
   }
   if (!isPostgresConfigured()) {
     return respond(
-      { error: "Postgres is not configured" },
+      {
+        error: "Postgres is not configured",
+        code: "postgres_required",
+      },
       { status: 503 },
     );
   }
@@ -197,10 +203,33 @@ export async function POST(req: Request, { params }: Params) {
     return respond({ ...result });
   } catch (error) {
     reportApiFailure(error, "/api/site-admin/users/[id]/assign-local");
+    const classified = classifyAssignLocalFailure(error);
+    if (classified && !classified.ok) {
+      await recordOutcome(
+        "denied",
+        {
+          phase: "assignment_result",
+          reason: classified.code ?? "assignment_rejected",
+        },
+      ).catch(() => undefined);
+      return respond(
+        {
+          error: classified.error,
+          code: classified.code,
+        },
+        { status: classified.status },
+      );
+    }
     await recordOutcome(
       "error",
       { phase: "assignment_result", reason: "assignment_failed" },
     ).catch(() => undefined);
-    return respond({ error: "Assign local failed" }, { status: 500 });
+    return respond(
+      {
+        error: "Assign local failed",
+        code: "assignment_failed",
+      },
+      { status: 500 },
+    );
   }
 }

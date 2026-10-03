@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
@@ -22,7 +22,21 @@ type Props = {
   userId: string;
   initialUnionId?: string | null;
   initialLocalId?: string | null;
+  /** When true, assignment writes are blocked (account is archived). */
+  archived?: boolean;
+  /** When true, assignment writes are blocked (account is locked). */
+  locked?: boolean;
 };
+
+type OptionsLoadState = "loading" | "ready" | "error";
+
+function selectionComplete(value: UnionLocalSelectValue): boolean {
+  if (value.unionId === UNION_LOCAL_SELECT_OTHER) {
+    return Boolean(value.newUnionName.trim()) && Boolean(value.localNumber.trim());
+  }
+  if (!value.unionId) return false;
+  return Boolean(value.localId) || Boolean(value.localNumber.trim());
+}
 
 /**
  * Site-admin form to restore / assign a user's local membership.
@@ -31,13 +45,19 @@ export function AssignLocalForm({
   userId,
   initialUnionId,
   initialLocalId,
+  archived = false,
+  locked = false,
 }: Props) {
   const t = useTranslations("hub.platformOperator");
   const router = useRouter();
+  const accountBlocked = archived || locked;
   const [unions, setUnions] = useState<UnionOption[]>([]);
   const [locals, setLocals] = useState<LocalOption[]>([]);
   const [collectives, setCollectives] = useState<CollectiveOption[]>([]);
   const [subGroups, setSubGroups] = useState<SubGroupOption[]>([]);
+  const [optionsLoadState, setOptionsLoadState] =
+    useState<OptionsLoadState>("loading");
+  const [optionsReloadToken, setOptionsReloadToken] = useState(0);
   const [value, setValue] = useState<UnionLocalSelectValue>(() => ({
     ...emptyUnionLocalSelectValue(),
     unionId: initialUnionId ?? "",
@@ -52,33 +72,59 @@ export function AssignLocalForm({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  useEffect(() => {
-    let cancelled = false;
-    void (async () => {
-      try {
-        const res = await fetch("/api/site-admin/tenant-options");
-        if (!res.ok) return;
-        const data = (await res.json()) as {
-          unions: UnionOption[];
-          locals: LocalOption[];
-          collectives?: CollectiveOption[];
-          subGroups: SubGroupOption[];
-        };
-        if (cancelled) return;
-        setUnions(data.unions);
-        setLocals(data.locals);
-        setCollectives(data.collectives ?? []);
-        setSubGroups(data.subGroups);
-      } catch {
-        // leave empty — form still allows typed local number after union pick
+  const loadOptions = useCallback(async (signal?: { cancelled: boolean }) => {
+    setOptionsLoadState("loading");
+    try {
+      const res = await fetch("/api/site-admin/tenant-options");
+      if (!res.ok) {
+        if (!signal?.cancelled) setOptionsLoadState("error");
+        return;
       }
-    })();
-    return () => {
-      cancelled = true;
-    };
+      const data = (await res.json()) as {
+        unions: UnionOption[];
+        locals: LocalOption[];
+        collectives?: CollectiveOption[];
+        subGroups: SubGroupOption[];
+      };
+      if (signal?.cancelled) return;
+      setUnions(data.unions);
+      setLocals(data.locals);
+      setCollectives(data.collectives ?? []);
+      setSubGroups(data.subGroups);
+      setOptionsLoadState("ready");
+    } catch {
+      if (!signal?.cancelled) setOptionsLoadState("error");
+    }
   }, []);
 
+  useEffect(() => {
+    const signal = { cancelled: false };
+    void loadOptions(signal);
+    return () => {
+      signal.cancelled = true;
+    };
+  }, [loadOptions, optionsReloadToken]);
+
+  const canEdit =
+    !accountBlocked &&
+    !busy &&
+    !stepUpRequired &&
+    !resultUnconfirmed &&
+    optionsLoadState === "ready";
+  const canSubmit =
+    canEdit &&
+    selectionComplete(value) &&
+    !(stepUpRequired && !mfaCode.trim());
+
   async function submitAssign(options?: { replace?: boolean }) {
+    if (accountBlocked) {
+      setError(t("assignLocalAccountBlocked"));
+      return;
+    }
+    if (!selectionComplete(value)) {
+      setError(t("assignLocalIncomplete"));
+      return;
+    }
     const replace = options?.replace ?? replaceActive;
     setBusy(true);
     setError(null);
@@ -148,10 +194,43 @@ export function AssignLocalForm({
           setNeedsReplace(true);
           setReplaceActive(true);
           setError(t("assignLocalSingleConflict"));
+        } else if (
+          data.code === "membership_authority_denied" ||
+          data.code === "membership_write_blocked"
+        ) {
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("assignLocalAuthorityDenied"));
+        } else if (data.code === "membership_scope_denied") {
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("assignLocalScopeDenied"));
+        } else if (data.code === "membership_sync_required") {
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("assignLocalSyncRequired"));
+        } else if (
+          data.code === "postgres_required" ||
+          data.error === "Postgres is not configured"
+        ) {
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("assignLocalPostgresRequired"));
+        } else if (
+          typeof data.error === "string" &&
+          data.error.toLowerCase().includes("user not found or inactive")
+        ) {
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("assignLocalInactiveAccount"));
         } else {
           setStepUpRequired(false);
           setMfaCode("");
-          setError(data.error ?? t("assignLocalFailed"));
+          setError(
+            data.code === "assignment_failed"
+              ? t("assignLocalFailed")
+              : (data.error ?? t("assignLocalFailed")),
+          );
         }
         return;
       }
@@ -161,10 +240,10 @@ export function AssignLocalForm({
       setSuccess(t("assignLocalSuccess"));
       router.refresh();
     } catch {
-      setResultUnconfirmed(true);
+      // Network / parse failures must not lock the form as "maybe wrote".
       setStepUpRequired(false);
       setMfaCode("");
-      setError(t("assignLocalAuditUnconfirmed"));
+      setError(t("assignLocalNetworkFailed"));
     } finally {
       setBusy(false);
     }
@@ -185,6 +264,36 @@ export function AssignLocalForm({
       </h2>
       <p className="text-sm text-opseu-gray-dark">{t("assignLocalBody")}</p>
 
+      {accountBlocked ? (
+        <Callout tone="warning">
+          <p className="font-semibold">{t("assignLocalBlockedTitle")}</p>
+          <p className="mt-1">{t("assignLocalAccountBlocked")}</p>
+        </Callout>
+      ) : null}
+
+      {optionsLoadState === "loading" ? (
+        <p className="text-sm text-opseu-gray-dark" aria-live="polite">
+          {t("assignLocalOptionsLoading")}
+        </p>
+      ) : null}
+
+      {optionsLoadState === "error" ? (
+        <Callout tone="danger">
+          <p className="font-semibold">{t("assignLocalErrorTitle")}</p>
+          <p className="mt-1">{t("assignLocalOptionsLoadFailed")}</p>
+          <div className="mt-3">
+            <Button
+              type="button"
+              variant="outline"
+              disabled={busy}
+              onClick={() => setOptionsReloadToken((n) => n + 1)}
+            >
+              {t("assignLocalRetryOptions")}
+            </Button>
+          </div>
+        </Callout>
+      ) : null}
+
       <UnionLocalSelect
         mode="platform"
         unions={unions}
@@ -194,9 +303,10 @@ export function AssignLocalForm({
         value={value}
         onChange={(next) => {
           setNeedsReplace(false);
+          setSuccess(null);
           setValue(next);
         }}
-        disabled={busy || stepUpRequired || resultUnconfirmed}
+        disabled={!canEdit}
         allowCreateLocal
       />
 
@@ -204,7 +314,7 @@ export function AssignLocalForm({
         checked={replaceActive}
         onChange={(e) => setReplaceActive(e.target.checked)}
         label={t("assignLocalReplace")}
-        disabled={busy || stepUpRequired || resultUnconfirmed}
+        disabled={!canEdit}
       />
 
       {stepUpRequired ? (
@@ -217,7 +327,7 @@ export function AssignLocalForm({
             maxLength={32}
             autoFocus
             required
-            disabled={busy}
+            disabled={busy || accountBlocked}
           />
           <p className="text-xs text-opseu-gray-dark">
             {t("assignLocalStepUpHelp")}
@@ -245,7 +355,7 @@ export function AssignLocalForm({
             <div className="mt-3">
               <Button
                 type="button"
-                disabled={busy || resultUnconfirmed || (stepUpRequired && !mfaCode.trim())}
+                disabled={!canSubmit}
                 onClick={() => void submitAssign({ replace: true })}
               >
                 {busy ? t("assignLocalSaving") : t("assignLocalReplaceSubmit")}
@@ -261,10 +371,7 @@ export function AssignLocalForm({
         </Callout>
       ) : null}
 
-      <Button
-        type="submit"
-        disabled={busy || resultUnconfirmed || (stepUpRequired && !mfaCode.trim())}
-      >
+      <Button type="submit" disabled={!canSubmit}>
         {busy ? t("assignLocalSaving") : t("assignLocalSubmit")}
       </Button>
     </form>
