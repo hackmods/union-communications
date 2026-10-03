@@ -229,6 +229,42 @@ test.describe("task-first public discovery @smoke", () => {
     await expectNoSeriousA11yViolations(page);
   });
 
+  test("Create and Learn Topic options each return results alone", async ({ page }) => {
+    for (const path of ["/en/create/", "/en/learn/"] as const) {
+      await page.goto(path);
+      const topic = page.getByLabel("Topic");
+      await expect(topic).toBeVisible();
+      const values = await topic.locator("option").evaluateAll((options) =>
+        options
+          .map((option) => (option as HTMLOptionElement).value)
+          .filter((value) => value.length > 0),
+      );
+      expect(values.length).toBeGreaterThan(1);
+      if (path.includes("/create/")) {
+        expect(values).toContain("boards");
+        expect(values).toContain("print");
+        expect(values).not.toContain("training");
+        await expect(page.getByLabel("Format")).toHaveCount(0);
+      } else {
+        expect(values).not.toContain("boards");
+        expect(values).not.toContain("print");
+        const formats = await page.getByLabel("Format").locator("option").evaluateAll((options) =>
+          options
+            .map((option) => (option as HTMLOptionElement).value)
+            .filter((value) => value.length > 0),
+        );
+        expect(formats).not.toContain("maker");
+        expect(formats).not.toContain("worksheet");
+      }
+      for (const value of values) {
+        await topic.selectOption(value);
+        await expect(page.getByRole("status").first()).not.toContainText(/^No results/);
+        await expect.poll(() => new URL(page.url()).searchParams.get("topic")).toBe(value);
+      }
+      await page.getByRole("button", { name: "Clear filters" }).last().click();
+    }
+  });
+
   test("localized search terms forgive accents and add task vocabulary", async ({ page }) => {
     await page.goto("/fr/learn/");
     const search = page.getByRole("searchbox", { name: "Rechercher" });

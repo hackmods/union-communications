@@ -1,3 +1,10 @@
+## 2026-10-03 — Public catalog filters match the page
+
+- Create / Utilities / Learn / Search derive For / Topic / Format / Privacy options from items on that page and cascade so a choice cannot guarantee zero results.
+- Singleton facets (e.g. Create Format = maker only) hide; mobile facets sit behind Show filters.
+- Create/Utilities tools get slug-level topics (boards, print, social, …) so Topic is useful again.
+- What’s new `catalog-filters-page-fit`. Session: `docs/audit/session-knowledge-2026-10-03-catalog-filter-qol.md`.
+
 ## 2026-10-03 — Site Admin Assign local cross-tenant
 
 - Account support Assign local no longer 500s when a platform admin’s home union

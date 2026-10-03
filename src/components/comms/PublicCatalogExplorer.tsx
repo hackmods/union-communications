@@ -16,6 +16,12 @@ import {
   relatedCatalogItems,
 } from "@/lib/comms/public-catalog";
 import {
+  modeScopedItems,
+  optionsForFacet,
+  shouldShowFacet,
+  type CatalogExplorerMode,
+} from "@/lib/comms/public-catalog-facets";
+import {
   normalizeCatalogSearchText,
   parsePublicCatalogQuery,
   updatePublicCatalogQuery,
@@ -32,43 +38,7 @@ import {
   PUBLIC_SECTION_TITLE_CLASS,
 } from "@/lib/constants/public-type";
 
-type ExplorerMode = "create" | "utilities" | "learn" | "search";
-
-const AUDIENCES: readonly PublicCatalogAudience[] = [
-  "comms",
-  "steward",
-  "officer",
-  "member",
-];
-const TOPICS: readonly PublicCatalogTopic[] = [
-  "brand",
-  "boards",
-  "print",
-  "social",
-  "web",
-  "workplace",
-  "grievances",
-  "safety",
-  "governance",
-  "bargaining",
-  "training",
-  "workshops",
-  "accessibility",
-];
-const FORMATS: readonly PublicCatalogFormat[] = [
-  "maker",
-  "worksheet",
-  "playbook",
-  "course",
-  "workshop",
-  "library",
-];
-const STORAGE: readonly PublicCatalogStorage[] = [
-  "on-device",
-  "on-device-hub-optional",
-  "officer-hub",
-  "none",
-];
+type ExplorerMode = CatalogExplorerMode;
 
 const LEARN_COLLECTIONS = [
   { id: "firstWeek", href: "/learn/first-week" },
@@ -167,6 +137,14 @@ export function PublicCatalogExplorer({
   const [topic, setTopic] = useState(initialState.topic);
   const [format, setFormat] = useState(initialState.format);
   const [storage, setStorage] = useState(initialState.privacy);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(
+    () => Boolean(
+      initialState.audience ||
+        initialState.topic ||
+        initialState.format ||
+        initialState.privacy,
+    ),
+  );
   const writeStateToLocation = useCallback((
     state: PublicCatalogQueryState,
     historyMode: "push" | "replace",
@@ -219,22 +197,14 @@ export function PublicCatalogExplorer({
     writeStateToLocation(next, "push");
   };
 
-  const items = useMemo(() => {
-    const normalizedQuery = normalizeCatalogSearchText(query);
-    return available.filter((item) => {
-      if (mode === "create") {
-        if (item.kind !== "tool" || item.toolSurface !== "create") return false;
-      }
-      if (mode === "utilities") {
-        if (item.kind !== "tool" || item.toolSurface !== "utilities") return false;
-      }
-      if (mode === "learn" && item.kind === "tool") return false;
-      if (audience && !item.audiences.includes(audience as PublicCatalogAudience)) return false;
-      if (topic && !item.topics.includes(topic as PublicCatalogTopic)) return false;
-      if (format && !item.formats.includes(format as PublicCatalogFormat)) return false;
-      if (storage && item.storageMode !== storage) return false;
-      if (!normalizedQuery) return true;
+  const modeItems = useMemo(
+    () => modeScopedItems(available, mode),
+    [available, mode],
+  );
 
+  const itemMatchesSearch = useCallback(
+    (item: PublicCatalogItem, normalizedQuery: string) => {
+      if (!normalizedQuery) return true;
       const title = titleFor(item, nav, officerLearning).toLocaleLowerCase();
       const summary = summaryFor(item, tools, guides, t, officerLearning).toLocaleLowerCase();
       const searchTerms = item.searchTermsKey
@@ -247,8 +217,54 @@ export function PublicCatalogExplorer({
       ].join(" ").toLocaleLowerCase();
       return normalizeCatalogSearchText(`${title} ${summary} ${tags} ${searchTerms}`)
         .includes(normalizedQuery);
+    },
+    [guides, nav, officerLearning, t, tools],
+  );
+
+  const searchScopedItems = useMemo(() => {
+    const normalizedQuery = normalizeCatalogSearchText(query);
+    if (!normalizedQuery) return modeItems;
+    return modeItems.filter((item) => itemMatchesSearch(item, normalizedQuery));
+  }, [itemMatchesSearch, modeItems, query]);
+
+  const filterState = useMemo(
+    () => catalogState(query, audience, topic, format, storage),
+    [audience, format, query, storage, topic],
+  );
+
+  const audienceOptions = useMemo(
+    () => optionsForFacet(searchScopedItems, "audience", filterState),
+    [filterState, searchScopedItems],
+  );
+  const topicOptions = useMemo(
+    () => optionsForFacet(searchScopedItems, "topic", filterState),
+    [filterState, searchScopedItems],
+  );
+  const formatOptions = useMemo(
+    () => optionsForFacet(searchScopedItems, "format", filterState),
+    [filterState, searchScopedItems],
+  );
+  const privacyOptions = useMemo(
+    () => optionsForFacet(searchScopedItems, "privacy", filterState),
+    [filterState, searchScopedItems],
+  );
+
+  const showAudience = shouldShowFacet(audienceOptions, audience);
+  const showTopic = shouldShowFacet(topicOptions, topic);
+  const showFormat = shouldShowFacet(formatOptions, format);
+  const showPrivacy = shouldShowFacet(privacyOptions, storage);
+  const visibleFacetCount =
+    Number(showAudience) + Number(showTopic) + Number(showFormat) + Number(showPrivacy);
+
+  const items = useMemo(() => {
+    return searchScopedItems.filter((item) => {
+      if (audience && !item.audiences.includes(audience as PublicCatalogAudience)) return false;
+      if (topic && !item.topics.includes(topic as PublicCatalogTopic)) return false;
+      if (format && !item.formats.includes(format as PublicCatalogFormat)) return false;
+      if (storage && item.storageMode !== storage) return false;
+      return true;
     });
-  }, [available, audience, format, guides, mode, nav, officerLearning, query, storage, t, topic, tools]);
+  }, [audience, format, searchScopedItems, storage, topic]);
 
   const resetFilters = () => {
     const emptyState: PublicCatalogQueryState = {
@@ -353,50 +369,87 @@ export function PublicCatalogExplorer({
       <section className="mt-8" aria-labelledby={`${titleId}-filters`}>
         <h2 id={`${titleId}-filters`} className="sr-only">{t("filtersTitle")}</h2>
         <Card variant="ghost" className="p-4 sm:p-5">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
-            <label className="min-w-0 text-sm font-semibold text-slate-700 sm:col-span-2 lg:col-span-2">
-              {t("searchLabel")}
-              <input
-                type="search"
-                value={query}
-                onChange={(event) => setQuery(event.currentTarget.value)}
-                placeholder={t("searchPlaceholder")}
-                className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 font-normal text-slate-900 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
-              />
-            </label>
-            <FilterSelect
-              label={t("audienceFilter")}
-              value={audience}
-              onChange={(value) => updateFilter("audience", value as PublicCatalogQueryState["audience"])}
-              allLabel={t("allAudiences")}
-              values={AUDIENCES}
-              valueLabel={(key) => t(`audiences.${key}`)}
+          <label className="block min-w-0 text-sm font-semibold text-slate-700">
+            {t("searchLabel")}
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.currentTarget.value)}
+              placeholder={t("searchPlaceholder")}
+              className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 font-normal text-slate-900 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
             />
-            <FilterSelect
-              label={t("topicFilter")}
-              value={topic}
-              onChange={(value) => updateFilter("topic", value as PublicCatalogQueryState["topic"])}
-              allLabel={t("allTopics")}
-              values={TOPICS}
-              valueLabel={(key) => t(`topics.${key}`)}
-            />
-            <FilterSelect
-              label={t("formatFilter")}
-              value={format}
-              onChange={(value) => updateFilter("format", value as PublicCatalogQueryState["format"])}
-              allLabel={t("allFormats")}
-              values={FORMATS}
-              valueLabel={(key) => t(`formats.${key}`)}
-            />
-            <FilterSelect
-              label={t("privacyFilter")}
-              value={storage}
-              onChange={(value) => updateFilter("privacy", value as PublicCatalogQueryState["privacy"])}
-              allLabel={t("allPrivacy")}
-              values={STORAGE}
-              valueLabel={(key) => t(`storage.${key}`)}
-            />
-          </div>
+          </label>
+          {visibleFacetCount > 0 ? (
+            <>
+              <div className="mt-3 sm:hidden">
+                <button
+                  type="button"
+                  aria-expanded={mobileFiltersOpen}
+                  aria-controls={`${titleId}-facet-controls`}
+                  onClick={() => setMobileFiltersOpen((open) => !open)}
+                  className="inline-flex min-h-11 w-full items-center justify-between rounded-lg border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-800 outline-none transition-colors hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+                >
+                  <span>
+                    {mobileFiltersOpen ? t("filtersToggleHide") : t("filtersToggle")}
+                  </span>
+                  <span aria-hidden="true">{mobileFiltersOpen ? "−" : "+"}</span>
+                </button>
+              </div>
+              <div
+                id={`${titleId}-facet-controls`}
+                className={[
+                  "mt-3 grid gap-3",
+                  visibleFacetCount === 1
+                    ? "sm:grid-cols-1"
+                    : visibleFacetCount === 2
+                      ? "sm:grid-cols-2"
+                      : "sm:grid-cols-2 lg:grid-cols-4",
+                  mobileFiltersOpen ? "grid" : "hidden sm:grid",
+                ].join(" ")}
+              >
+                {showAudience ? (
+                  <FilterSelect
+                    label={t("audienceFilter")}
+                    value={audience}
+                    onChange={(value) => updateFilter("audience", value as PublicCatalogQueryState["audience"])}
+                    allLabel={t("allAudiences")}
+                    values={audienceOptions}
+                    valueLabel={(key) => t(`audiences.${key}` as never)}
+                  />
+                ) : null}
+                {showTopic ? (
+                  <FilterSelect
+                    label={t("topicFilter")}
+                    value={topic}
+                    onChange={(value) => updateFilter("topic", value as PublicCatalogQueryState["topic"])}
+                    allLabel={t("allTopics")}
+                    values={topicOptions}
+                    valueLabel={(key) => t(`topics.${key}` as never)}
+                  />
+                ) : null}
+                {showFormat ? (
+                  <FilterSelect
+                    label={t("formatFilter")}
+                    value={format}
+                    onChange={(value) => updateFilter("format", value as PublicCatalogQueryState["format"])}
+                    allLabel={t("allFormats")}
+                    values={formatOptions}
+                    valueLabel={(key) => t(`formats.${key}` as never)}
+                  />
+                ) : null}
+                {showPrivacy ? (
+                  <FilterSelect
+                    label={t("privacyFilter")}
+                    value={storage}
+                    onChange={(value) => updateFilter("privacy", value as PublicCatalogQueryState["privacy"])}
+                    allLabel={t("allPrivacy")}
+                    values={privacyOptions}
+                    valueLabel={(key) => t(`storage.${key}` as never)}
+                  />
+                ) : null}
+              </div>
+            </>
+          ) : null}
           <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
             <p role="status" aria-live="polite" className="text-sm text-slate-600">
               {brandKitHidesItems

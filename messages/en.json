@@ -7842,6 +7842,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "catalog-filters-page-fit": {
+        "title": "Create and Learn filters only list what is on the page",
+        "body": "On Create, Worksheets, and Learn, Topic and the other filters drop choices that would return nothing. On a phone, filters tuck behind Show filters so search stays in front."
+      },
       "poster-adaptive-type": {
         "title": "Poster text and logos resize with your type size",
         "body": "On Solidarity Poster Maker and Graphic Maker, longer headlines and Display type size no longer crowd the lockup or cut off the lead-in. Print and wallpaper sizes keep type and logos inside the sheet."
@@ -17159,6 +17163,8 @@
     "backToSection": "Back to {section}",
     "breadcrumbNav": "Breadcrumb",
     "filtersTitle": "Search and filter the catalog",
+    "filtersToggle": "Show filters",
+    "filtersToggleHide": "Hide filters",
     "searchLabel": "Search",
     "searchPlaceholder": "Try grievance, meeting, poster, or website",
     "audienceFilter": "For",
