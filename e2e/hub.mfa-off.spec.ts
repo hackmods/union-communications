@@ -17,7 +17,7 @@ test.describe("Hub MFA-off dashboard @smoke", () => {
   }) => {
     await page.goto("/en/app");
     await expect(
-      page.getByRole("heading", { level: 1, name: /Dashboard|Tableau/i }),
+      page.getByRole("heading", { level: 1, name: /Behind 7 Proxies|Your Officer Hub|Votre Hub/i }),
     ).toBeVisible();
 
     // MFA chrome must not block demos when the host leaves MFA off.
@@ -36,12 +36,9 @@ test.describe("Hub MFA-off dashboard @smoke", () => {
     await expect(
       page.getByRole("heading", {
         level: 2,
-        name: /Officer tools|Outils dirigeants/i,
+        name: /Your tools|Vos outils/i,
       }),
     ).toBeVisible();
-    await page.locator("details").filter({
-      has: page.getByRole("heading", { name: /Officer tools|Outils dirigeants/i }),
-    }).locator("summary").click();
     await expect(page.getByTestId("hub-officer-tools")).toBeVisible();
     await expect(
       page.getByTestId("hub-officer-tools").getByRole("link", {

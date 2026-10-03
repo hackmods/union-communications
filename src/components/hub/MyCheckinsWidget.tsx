@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
 import type { CheckinPendingItem } from "@/types/checkins";
 
@@ -12,35 +13,59 @@ type LoadState = "loading" | "ready" | "error";
 export function MyCheckinsWidget() {
   const t = useTranslations("checkins");
   const [pending, setPending] = useState<CheckinPendingItem[]>([]);
+  const [count, setCount] = useState(0);
   const [state, setState] = useState<LoadState>("loading");
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
+    setState("loading");
     void fetch("/api/checkins/mine?unanswered=1", { signal: controller.signal })
       .then(async (res) => {
         if (!res.ok) throw new Error(`Check-ins: ${res.status}`);
         const data = (await res.json()) as { pending?: CheckinPendingItem[] };
-        setPending((data.pending ?? []).slice(0, 5));
+        const all = data.pending ?? [];
+        setCount(all.length);
+        setPending(all.slice(0, 5));
         setState("ready");
       })
       .catch(() => {
         if (!controller.signal.aborted) setState("error");
       });
     return () => controller.abort();
-  }, []);
+  }, [reloadKey]);
 
   return (
-    <Card density="compact" className="h-full min-w-0">
+    <Card variant="elevated" density="compact" className="h-full min-w-0" data-testid="hub-checkins-widget">
       <div className="flex flex-wrap items-start justify-between gap-2">
-        <CardTitle>{t("widgetTitle")}</CardTitle>
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
+          <CardTitle>{t("widgetTitle")}</CardTitle>
+          {state === "ready" ? (
+            <span className="rounded-full bg-opseu-blue px-2.5 py-0.5 text-xs font-bold text-white">
+              {t("widgetCount", { count })}
+            </span>
+          ) : null}
+        </div>
         <Link href="/app/checkins" className="text-sm font-medium text-opseu-blue underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2">
           {t("widgetAll")}
         </Link>
       </div>
-      <div role="status" aria-live="polite" className="mt-3 text-sm leading-relaxed text-gray-700">
-        {state === "loading" ? <p>{t("loading")}</p> : null}
-        {state === "error" ? <p>{t("widgetError")}</p> : null}
-        {state === "ready" && pending.length === 0 ? <p>{t("widgetEmpty")}</p> : null}
+      <div className="mt-3 text-sm leading-relaxed text-slate-700">
+        {state === "loading" ? <p role="status">{t("loading")}</p> : null}
+        {state === "error" ? (
+          <div>
+            <p role="status">{t("widgetError")}</p>
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-3"
+              onClick={() => setReloadKey((key) => key + 1)}
+            >
+              {t("widgetRetry")}
+            </Button>
+          </div>
+        ) : null}
+        {state === "ready" && pending.length === 0 ? <p role="status">{t("widgetEmpty")}</p> : null}
         {state === "ready" && pending.length > 0 ? (
           <ul className="space-y-2">
             {pending.map((item) => (
@@ -48,7 +73,7 @@ export function MyCheckinsWidget() {
                 <Link href={`/app/checkins/${item.schedule.id}`} className="font-medium text-opseu-blue underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2">
                   {item.schedule.question}
                 </Link>
-                <p className="text-xs text-gray-600">{t("periodLabel", { period: item.periodLabel })}</p>
+                <p className="text-xs text-slate-600">{t("periodLabel", { period: item.periodLabel })}</p>
               </li>
             ))}
           </ul>

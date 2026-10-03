@@ -28,7 +28,7 @@ export function PortalFeatureTeaser({ roles }: { roles: UserRole[] }) {
             </ButtonLink>
           ) : null}
           {!canConfigure ? (
-            <p className="text-sm text-gray-600 sm:self-center">{t("askOfficers")}</p>
+            <p className="text-sm text-slate-600 sm:self-center">{t("askOfficers")}</p>
           ) : null}
         </>
       }

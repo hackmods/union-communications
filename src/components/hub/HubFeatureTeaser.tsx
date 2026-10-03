@@ -24,7 +24,7 @@ export function HubFeatureTeaser({ portalEnabled }: { portalEnabled: boolean }) 
               {t("openPortal")}
             </ButtonLink>
           ) : null}
-          <p className="text-sm text-gray-600 sm:self-center">
+          <p className="text-sm text-slate-600 sm:self-center">
             {portalEnabled ? t("askOfficers") : t("askOfficersPortalOff")}
           </p>
         </>

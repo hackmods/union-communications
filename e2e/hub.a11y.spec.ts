@@ -99,7 +99,7 @@ const HUB_A11Y_PAGES: {
   {
     label: "dashboard",
     path: "/en/app",
-    heading: /Dashboard|Tableau de bord/i,
+    heading: /Behind 7 Proxies|Your Officer Hub|Votre Hub des dirigeants/i,
   },
   {
     label: "configuration",
