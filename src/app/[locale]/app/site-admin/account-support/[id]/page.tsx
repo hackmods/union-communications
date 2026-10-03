@@ -205,6 +205,8 @@ export default async function AccountSupportDetailPage({
         userId={profile.id}
         initialUnionId={profile.unionId}
         initialLocalId={profile.localId}
+        archived={profile.archivedAt !== null}
+        locked={profile.lockedAt !== null}
       />
 
       <EditRolesForm

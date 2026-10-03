@@ -6,6 +6,9 @@
   manage memberships / portal sync without a matching home `users.union_id`.
 - Assign path always binds those GUCs (including owner DB). Known RLS / sync
   raises become coded bilingual errors instead of “Assign local failed”.
+- Flush-out: tenant-options load/retry, incomplete-selection guard, archived/locked
+  block, network errors no longer lock the form as “maybe wrote”, Postgres-off and
+  inactive-account bilingual mapping.
 
 ## 2026-10-03 — Poster adaptive text and logo sizing
 

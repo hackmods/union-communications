@@ -49,7 +49,10 @@ export async function POST(req: Request, { params }: Params) {
   }
   if (!isPostgresConfigured()) {
     return respond(
-      { error: "Postgres is not configured" },
+      {
+        error: "Postgres is not configured",
+        code: "postgres_required",
+      },
       { status: 503 },
     );
   }
