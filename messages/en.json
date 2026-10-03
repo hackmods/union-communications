@@ -7842,6 +7842,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "poster-adaptive-type": {
+        "title": "Poster text and logos resize with your type size",
+        "body": "On Solidarity Poster Maker and Graphic Maker, longer headlines and Display type size no longer crowd the lockup or cut off the lead-in. Print and wallpaper sizes keep type and logos inside the sheet."
+      },
       "office-letterhead-fidelity": {
         "title": "Letters keep a full Brand Kit header in Word and PowerPoint",
         "body": "Download a letter and the colour band, logo, and local name now span the page the way they do in the tool. Open the file on a phone or in Word: the header should match what you previewed."

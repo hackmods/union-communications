@@ -1,3 +1,9 @@
+## 2026-10-03 — Poster adaptive text and logo sizing
+
+- Solidarity Poster Maker: digital wallpapers author at fixed design px (`CanvasWrapper`) with `solidaritySupportChrome` for all media. Brand Kit type scale multiplies lead and compresses logo under Display / multi-line pressure; split lead/closer fit via `WalletCopyBlock`.
+- Graphic Maker solidarity / spotlight / thanks / notice bands fit title+body into a bounded slot (`WalletCopyBlock`) so long copy and Display scale no longer overflow the sheet.
+- What’s new `poster-adaptive-type`. Session: `docs/audit/session-knowledge-2026-10-03-poster-adaptive-sizing.md`.
+
 ## 2026-10-03 — Document Generator letterhead fidelity
 
 - Word letters put the Brand Kit band in the document body (full-width fixed table) so iOS Quick Look and Google Docs no longer collapse it to a logo stamp. Page 2 keeps a slim running header.
