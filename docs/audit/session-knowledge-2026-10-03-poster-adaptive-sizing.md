@@ -24,3 +24,12 @@ Solidarity Poster Maker (and Graphic Maker poster-style layouts) did not resize 
 - Never put `maxHeight` + `overflow-hidden` on the logo **slot** while the image is `w-full` — cap height on the image.
 - Do not apply portrait QR width shares (~12.5%) to landscape HD footers.
 - Layout-matrix: digital 16:9 proportions + Display + long multi-line headline overlap guards.
+
+## Flush-out (same day)
+
+Browser walk found Banner/Split clipping `SOLIDARITY`→`SOLIDARIT` after the adaptive chrome landed.
+
+1. Fit width budget used `parent.clientWidth` **including padding** — ~90px too wide vs the ink box.
+2. `scrollWidth` under `overflow:hidden` ancestors under-reported single-word overflow; use canvas `measureText` (+ letter-spacing) and ratio jump.
+3. Split lead/closer restored to top/bottom (`justify-between`); Graphic Maker bottom bands use fixed `h-[50%]` so fit has a real height budget.
+4. `CanvasFitStackedHeadline` accepts `minScale` (Solidarity uses ~0.24) for dense print-scaled preferred sizes.
