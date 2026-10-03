@@ -3210,14 +3210,14 @@
     "icsNeedsCalendar": "Indiquez le début du calendrier (et éventuellement la fin) pour que le fichier .ics ait une vraie date/heure.",
     "selectOutput": "Sélectionnez au moins un format.",
     "preview": "Aperçu",
-    "previewHint": "Maquette en direct de la mise en page Word / lettre. Les couleurs et le texte de la Trousse de marque passent dans chaque téléchargement ; PowerPoint et Excel ont d’autres mises en page.",
+    "previewHint": "Maquette en direct de la mise en page de lettre. Les lettres Word et PowerPoint gardent la même bande d’en-tête de la Trousse de marque ; les feuilles Excel ont leur propre mise en page.",
     "structure": {
       "letterheadDocx": "Papeterie Word avec en-tête de marque",
-      "letterheadPptx": "2 diapositives PowerPoint",
+      "letterheadPptx": "1 diapositive PowerPoint avec en-tête de la Trousse de marque",
       "simpleLetterDocx": "Lettre Word prête à envoyer",
-      "simpleLetterPptx": "2 diapositives PowerPoint",
+      "simpleLetterPptx": "1 diapositive PowerPoint avec en-tête de la Trousse de marque",
       "welcomeLetterDocx": "Lettre de bienvenue Word pour nouveaux membres",
-      "welcomeLetterPptx": "2 diapositives PowerPoint",
+      "welcomeLetterPptx": "1 diapositive PowerPoint avec en-tête de la Trousse de marque",
       "eventDocx": "Avis d'événement Word avec Quand/Où",
       "eventXlsx": "RSVP hybride Excel — quorum et repas sur place",
       "eventIcs": "Invitation calendrier (.ics) à partir du début/fin",
@@ -3230,13 +3230,13 @@
       "lecDirectoryDocx": "Répertoire CLE Word avec les couleurs de la Trousse de marque et des lignes vides Poste | Nom | Lieu",
       "lecDirectoryXlsx": "Répertoire CLE Excel avec les mêmes lignes vides",
       "accommodationLetterDocx": "Lettre Word d’adaptation / retour au travail",
-      "accommodationLetterPptx": "2 diapositives PowerPoint",
+      "accommodationLetterPptx": "1 diapositive PowerPoint avec en-tête de la Trousse de marque",
       "grievanceNoticeDocx": "Lettre Word d’avis de grief",
-      "grievanceNoticePptx": "2 diapositives PowerPoint",
+      "grievanceNoticePptx": "1 diapositive PowerPoint avec en-tête de la Trousse de marque",
       "representationRequestDocx": "Demande Word de représentation",
-      "representationRequestPptx": "2 diapositives PowerPoint",
+      "representationRequestPptx": "1 diapositive PowerPoint avec en-tête de la Trousse de marque",
       "meetingFollowUpDocx": "Lettre Word de suivi de rencontre",
-      "meetingFollowUpPptx": "2 diapositives PowerPoint"
+      "meetingFollowUpPptx": "1 diapositive PowerPoint avec en-tête de la Trousse de marque"
     },
     "senioritySheet": {
       "sheetName": "Ancienneté",
@@ -3375,7 +3375,7 @@
       "letterhead": "En-tête vide pour toute correspondance."
     },
     "openFull": "Ouvrir Documents et diapositives au complet",
-    "previewHint": "Modifiez à gauche. L’aperçu montre la mise en page lettre Word ; téléchargez Word pour le fichier imprimable.",
+    "previewHint": "Modifiez à gauche. L’aperçu montre la mise en page de lettre. Word garde la bande d’en-tête de la Trousse de marque au téléchargement.",
     "loadErrorBody": "L’aperçu de la lettre ne s’est pas chargé — souvent après une mise à jour de l’appli ou un rechargement hors ligne. Actualisez une fois pour récupérer les derniers fichiers, puis réessayez.",
     "refreshPage": "Actualiser la page"
   },
