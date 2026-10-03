@@ -3210,14 +3210,14 @@
     "icsNeedsCalendar": "Set Calendar start (and optionally Calendar end) so the .ics file has a real date/time.",
     "selectOutput": "Select at least one output format.",
     "preview": "Preview",
-    "previewHint": "Live mock of the Word / letter layout. Brand Kit colours and text carry into every download; PowerPoint and Excel use different page layouts.",
+    "previewHint": "Live mock of the letter layout. Word and PowerPoint letters keep the same Brand Kit header band; Excel worksheets use their own sheet layout.",
     "structure": {
       "letterheadDocx": "Word stationery with Brand Kit letterhead",
-      "letterheadPptx": "2 PowerPoint slides",
+      "letterheadPptx": "1 PowerPoint slide with Brand Kit letterhead",
       "simpleLetterDocx": "Word letter ready to send",
-      "simpleLetterPptx": "2 PowerPoint slides",
+      "simpleLetterPptx": "1 PowerPoint slide with Brand Kit letterhead",
       "welcomeLetterDocx": "Word welcome letter for new members",
-      "welcomeLetterPptx": "2 PowerPoint slides",
+      "welcomeLetterPptx": "1 PowerPoint slide with Brand Kit letterhead",
       "eventDocx": "Word event notice with When/Where",
       "eventXlsx": "RSVP sheet (Excel)",
       "eventIcs": "Calendar invite (.ics) from Calendar start/end",
@@ -3230,13 +3230,13 @@
       "lecDirectoryDocx": "Word LEC directory with Brand Kit colours and blank Position | Name | Location rows",
       "lecDirectoryXlsx": "Excel LEC directory with the same blank rows",
       "accommodationLetterDocx": "Word accommodation / RTW letter",
-      "accommodationLetterPptx": "2 PowerPoint slides",
+      "accommodationLetterPptx": "1 PowerPoint slide with Brand Kit letterhead",
       "grievanceNoticeDocx": "Word grievance notice letter",
-      "grievanceNoticePptx": "2 PowerPoint slides",
+      "grievanceNoticePptx": "1 PowerPoint slide with Brand Kit letterhead",
       "representationRequestDocx": "Word representation request",
-      "representationRequestPptx": "2 PowerPoint slides",
+      "representationRequestPptx": "1 PowerPoint slide with Brand Kit letterhead",
       "meetingFollowUpDocx": "Word meeting follow-up letter",
-      "meetingFollowUpPptx": "2 PowerPoint slides"
+      "meetingFollowUpPptx": "1 PowerPoint slide with Brand Kit letterhead"
     },
     "senioritySheet": {
       "sheetName": "Seniority",
@@ -3375,7 +3375,7 @@
       "letterhead": "Empty letterhead for any correspondence."
     },
     "openFull": "Open full Document Generator",
-    "previewHint": "Edit on the left. Preview shows the Word letter layout; download Word for the printable file.",
+    "previewHint": "Edit on the left. Preview shows the letter layout. Word keeps the Brand Kit header band when you download.",
     "loadErrorBody": "The letter preview did not load — often after an app update or offline reload. Refresh once to pull the latest files, then try again.",
     "refreshPage": "Refresh page"
   },
@@ -7842,6 +7842,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "office-letterhead-fidelity": {
+        "title": "Letters keep a full Brand Kit header in Word and PowerPoint",
+        "body": "Download a letter and the colour band, logo, and local name now span the page the way they do in the tool. Open the file on a phone or in Word: the header should match what you previewed."
+      },
       "local-portal-pocket": {
         "title": "A Local Portal page you can keep on a phone",
         "body": "Scan a QR or open Local Portal to see Together, Circles, and Hall in a short page. Bring your local, or request member access. Copy or share the link so the next person can scan it too."

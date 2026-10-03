@@ -59,6 +59,11 @@ export function isLetterPreset(id: OfficePresetId): boolean {
   return LETTER_PRESETS.includes(id);
 }
 
+/** Formal letters that show greeting + body (not ruled stationery). */
+export function isLetterBodyPreset(id: OfficePresetId): boolean {
+  return isLetterPreset(id) && id !== "letterhead";
+}
+
 export function isDocumentGeneratorDraft(v: unknown): v is DocumentGeneratorDraft {
   if (!v || typeof v !== "object") return false;
   const o = v as Record<string, unknown>;

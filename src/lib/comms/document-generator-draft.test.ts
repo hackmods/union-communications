@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   mergeLetterSharedFields,
+  isLetterBodyPreset,
   resolveSalutationLine,
   topMarginTwips,
 } from "./document-generator-draft";
@@ -32,5 +33,16 @@ describe("document-generator-draft", () => {
   it("maps top margin presets to twips", () => {
     expect(topMarginTwips("tight")).toBeLessThan(topMarginTwips("standard"));
     expect(topMarginTwips("roomy")).toBeGreaterThan(topMarginTwips("standard"));
+  });
+
+  it("treats accommodation and peer letters as letter bodies, not stationery", () => {
+    expect(isLetterBodyPreset("accommodation-letter")).toBe(true);
+    expect(isLetterBodyPreset("grievance-notice")).toBe(true);
+    expect(isLetterBodyPreset("representation-request")).toBe(true);
+    expect(isLetterBodyPreset("meeting-follow-up")).toBe(true);
+    expect(isLetterBodyPreset("simple-letter")).toBe(true);
+    expect(isLetterBodyPreset("welcome-letter")).toBe(true);
+    expect(isLetterBodyPreset("letterhead")).toBe(false);
+    expect(isLetterBodyPreset("quick-event")).toBe(false);
   });
 });

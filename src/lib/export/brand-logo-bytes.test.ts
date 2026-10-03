@@ -4,6 +4,7 @@ import {
   requireBrandLogoBytes,
   resolveBrandLogoBytes,
   resolveConfiguredBrandLogoBytes,
+  readPngSizeFromIhdr,
   transparentPngBytes,
 } from "./brand-logo-bytes";
 import type { BrandKit } from "@/types/entities";
@@ -81,5 +82,28 @@ describe("brand-logo-bytes", () => {
     const logo = await resolveConfiguredBrandLogoBytes(DEFAULT_BRAND_KIT, { includeLogo: true });
     expect(logo).not.toBeNull();
     expect(logo!.bytes.byteLength).toBeGreaterThan(100);
+  });
+
+  it("reads PNG pixel size from IHDR instead of guessing", async () => {
+    const oneByOne = transparentPngBytes();
+    expect(readPngSizeFromIhdr(oneByOne)).toEqual({ widthPx: 1, heightPx: 1 });
+
+    const kit: BrandKit = {
+      ...DEFAULT_BRAND_KIT,
+      useOfficialLogo: false,
+      customLogoDataUrl: pngDataUrl,
+    };
+    const logo = await resolveBrandLogoBytes(kit, { includeLogo: true });
+    expect(logo?.widthPx).toBe(1);
+    expect(logo?.heightPx).toBe(1);
+
+    const fromDisk = await resolveBrandLogoBytes(DEFAULT_BRAND_KIT, {
+      includeLogo: true,
+    });
+    expect(fromDisk).not.toBeNull();
+    const ihdr = readPngSizeFromIhdr(fromDisk!.bytes);
+    expect(ihdr).not.toBeNull();
+    expect(fromDisk!.widthPx).toBe(ihdr!.widthPx);
+    expect(fromDisk!.heightPx).toBe(ihdr!.heightPx);
   });
 });

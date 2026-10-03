@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "office-letterhead-fidelity",
+    date: "2026-10-03",
+    kind: "improved",
+    href: "/tools/document-generator",
+  },
+  {
     id: "local-portal-pocket",
     date: "2026-10-03",
     kind: "added",

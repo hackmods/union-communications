@@ -12,6 +12,8 @@ import {
 } from "@/lib/utils/canvas-tokens";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { officeBandColor } from "@/lib/export/office-brand-styles";
+import { composeLetterheadContact } from "@/lib/export/office-letterhead-layout";
+import { isLetterBodyPreset } from "@/lib/comms/document-generator-draft";
 import type { DesignTreatment } from "@/types/entities";
 import { cn } from "@/lib/utils";
 
@@ -73,6 +75,50 @@ const FALLBACK_TYPE = {
   labelPx: 12,
 } as const;
 
+function MockLetterheadBand({
+  bandColor,
+  ink,
+  logoSrc,
+  localLabel,
+  contact,
+  titlePx,
+  labelPx,
+}: {
+  bandColor: string;
+  ink: string;
+  logoSrc?: string | null;
+  localLabel: string;
+  contact: string;
+  titlePx: number;
+  labelPx: number;
+}) {
+  return (
+    <div
+      className="flex items-center gap-3 px-4 py-3"
+      style={{ backgroundColor: bandColor, color: ink }}
+    >
+      {logoSrc ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={logoSrc}
+          alt=""
+          className="h-9 w-auto max-w-[110px] object-contain"
+        />
+      ) : null}
+      <div className="min-w-0">
+        <p className="truncate font-bold" style={{ fontSize: titlePx }}>
+          {localLabel}
+        </p>
+        {contact ? (
+          <p className="truncate" style={{ fontSize: labelPx }}>
+            {contact}
+          </p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 export function OfficePresetMock({
   treatment = "full",
   presetId,
@@ -97,6 +143,7 @@ export function OfficePresetMock({
   const greeting =
     salutationLine?.trim() ||
     `Dear ${fields.memberName || "Member"},`;
+  const contact = composeLetterheadContact(fields);
 
   if (presetId === "grievance-intake") {
     const wRows = [
@@ -113,25 +160,15 @@ export function OfficePresetMock({
           className="overflow-hidden rounded-lg border border-gray-200 shadow-sm"
           style={{ backgroundColor: "#fff" }}
         >
-          <div
-            className="flex items-center gap-3 px-4 py-3"
-            style={{ backgroundColor: bandColor, color: ink }}
-          >
-            {logoSrc ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={logoSrc}
-                alt=""
-                className="h-8 w-auto max-w-[96px] object-contain"
-              />
-            ) : null}
-            <span
-              className="font-semibold"
-              style={{ fontSize: type.headerTitlePx }}
-            >
-              {localLabel}
-            </span>
-          </div>
+          <MockLetterheadBand
+            bandColor={bandColor}
+            ink={ink}
+            logoSrc={logoSrc}
+            localLabel={localLabel}
+            contact={contact}
+            titlePx={type.headerTitlePx}
+            labelPx={type.labelPx}
+          />
           <div className="space-y-2" style={{ padding: bodyPadPx }}>
             <p
               className="font-bold"
@@ -190,25 +227,15 @@ export function OfficePresetMock({
           className="overflow-hidden rounded-lg border border-gray-200 shadow-sm"
           style={{ backgroundColor: "#fff" }}
         >
-          <div
-            className="flex items-center gap-3 px-4 py-3"
-            style={{ backgroundColor: bandColor, color: ink }}
-          >
-            {logoSrc ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={logoSrc}
-                alt=""
-                className="h-8 w-auto max-w-[96px] object-contain"
-              />
-            ) : null}
-            <span
-              className="font-semibold"
-              style={{ fontSize: type.headerTitlePx }}
-            >
-              {localLabel}
-            </span>
-          </div>
+          <MockLetterheadBand
+            bandColor={bandColor}
+            ink={ink}
+            logoSrc={logoSrc}
+            localLabel={localLabel}
+            contact={contact}
+            titlePx={type.headerTitlePx}
+            labelPx={type.labelPx}
+          />
           <div className="space-y-2" style={{ padding: bodyPadPx }}>
             <p
               className="font-bold"
@@ -271,6 +298,78 @@ export function OfficePresetMock({
     );
   }
 
+  if (presetId === "lec-directory") {
+    const rows = ["President", "Vice-President", "Secretary", "Treasurer", "Steward"];
+    return (
+      <div className={cn("min-w-0 space-y-3", className)}>
+        <div
+          className="overflow-hidden rounded-lg border border-gray-200 shadow-sm"
+          style={{ backgroundColor: "#fff" }}
+        >
+          <MockLetterheadBand
+            bandColor={bandColor}
+            ink={ink}
+            logoSrc={logoSrc}
+            localLabel={localLabel}
+            contact={contact}
+            titlePx={type.headerTitlePx}
+            labelPx={type.labelPx}
+          />
+          <div className="space-y-2" style={{ padding: bodyPadPx }}>
+            <p
+              className="font-bold"
+              style={{ color: palette.secondary, fontSize: type.docTitlePx }}
+            >
+              Local executive committee
+            </p>
+            {fields.termYears || fields.subtitle ? (
+              <p className="text-gray-600" style={{ fontSize: type.labelPx }}>
+                {[fields.termYears ? `Term ${fields.termYears}` : null, fields.subtitle]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </p>
+            ) : null}
+            <div className="overflow-x-auto">
+              <table
+                className="w-full border-collapse text-gray-700"
+                style={{ fontSize: Math.max(9, type.labelPx - 2) }}
+              >
+                <thead>
+                  <tr>
+                    {["Position", "Name", "Location"].map((c) => (
+                      <th
+                        key={c}
+                        className="border border-gray-200 bg-gray-50 px-1 py-1 text-left font-semibold"
+                      >
+                        {c}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((position) => (
+                    <tr key={position}>
+                      <td className="border border-gray-100 px-1 py-1 font-semibold">
+                        {position}
+                      </td>
+                      <td className="h-5 border border-gray-100 px-1" />
+                      <td className="h-5 border border-gray-100 px-1" />
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <FormatChips
+          includeDocx={includeDocx}
+          includeXlsx={includeXlsx}
+          includePptx={includePptx}
+        />
+      </div>
+    );
+  }
+
   if (presetId === "quick-event") {
     return (
       <div className={cn("min-w-0 space-y-3", className)}>
@@ -278,25 +377,15 @@ export function OfficePresetMock({
           className="overflow-hidden rounded-lg border border-gray-200 shadow-sm"
           style={{ backgroundColor: "#fff" }}
         >
-          <div
-            className="flex items-center gap-3 px-4 py-3"
-            style={{ backgroundColor: bandColor, color: ink }}
-          >
-            {logoSrc ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={logoSrc}
-                alt=""
-                className="h-8 w-auto max-w-[96px] object-contain"
-              />
-            ) : null}
-            <span
-              className="font-semibold"
-              style={{ fontSize: type.headerTitlePx }}
-            >
-              {localLabel}
-            </span>
-          </div>
+          <MockLetterheadBand
+            bandColor={bandColor}
+            ink={ink}
+            logoSrc={logoSrc}
+            localLabel={localLabel}
+            contact={contact}
+            titlePx={type.headerTitlePx}
+            labelPx={type.labelPx}
+          />
           <div className="space-y-3" style={{ padding: bodyPadPx }}>
             <p
               className="font-bold leading-tight"
@@ -360,36 +449,20 @@ export function OfficePresetMock({
     );
   }
 
-  // simple-letter + letterhead
+  // Letters + letterhead stationery
+  const showLetterBody = isLetterBodyPreset(presetId);
   return (
     <div className={cn("min-w-0 space-y-3", className)}>
       <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-        <div
-          className="flex items-center gap-3 px-4 py-3"
-          style={{ backgroundColor: bandColor, color: ink }}
-        >
-          {logoSrc ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={logoSrc}
-              alt=""
-              className="h-9 w-auto max-w-[110px] object-contain"
-            />
-          ) : null}
-          <div className="min-w-0">
-            <p
-              className="truncate font-bold"
-              style={{ fontSize: type.headerTitlePx }}
-            >
-              {localLabel}
-            </p>
-            {fields.contactName ? (
-              <p className="truncate" style={{ fontSize: type.labelPx }}>
-                {fields.contactName}
-              </p>
-            ) : null}
-          </div>
-        </div>
+        <MockLetterheadBand
+          bandColor={bandColor}
+          ink={ink}
+          logoSrc={logoSrc}
+          localLabel={localLabel}
+          contact={contact}
+          titlePx={type.headerTitlePx}
+          labelPx={type.labelPx}
+        />
         <div
           className="space-y-3 text-gray-800"
           style={{
@@ -399,7 +472,7 @@ export function OfficePresetMock({
             letterSpacing,
           }}
         >
-          {presetId === "simple-letter" || presetId === "welcome-letter" ? (
+          {showLetterBody ? (
             <>
               {fields.date ? (
                 <p className="text-gray-600">{fields.date}</p>
@@ -422,6 +495,12 @@ export function OfficePresetMock({
                 {presetId === "welcome-letter"
                   ? fields.presidentName || "Local president"
                   : fields.stewardName || "Steward"}
+              </p>
+              <p className="text-gray-500" style={{ fontSize: type.labelPx }}>
+                {fields.signatureTitle?.trim() ||
+                  (presetId === "welcome-letter"
+                    ? `Local president · ${localLabel}`
+                    : `Steward · ${localLabel}`)}
               </p>
               {qrSrc ? (
                 // eslint-disable-next-line @next/next/no-img-element -- data URL preview

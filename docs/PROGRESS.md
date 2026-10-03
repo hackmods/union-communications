@@ -1,3 +1,9 @@
+## 2026-10-03 — Document Generator letterhead fidelity
+
+- Word letters put the Brand Kit band in the document body (full-width fixed table) so iOS Quick Look and Google Docs no longer collapse it to a logo stamp. Page 2 keeps a slim running header.
+- PowerPoint letters are a letter facsimile (band + greeting + body) with aspect-correct logos. Event decks keep the title-slide metaphor.
+- `OfficePresetMock` shows the letter body for accommodation / grievance-notice / representation / meeting-follow-up. PNG embeds read IHDR size. What’s new `office-letterhead-fidelity`.
+
 ## 2026-10-03 — Local Portal pocket share page
 
 - Public `/local-portal` is a phone-first Local Portal pitch (Together, Circles, Hall, Dispatch) with Bring your local / Request member access CTAs and an on-page QR, copy, and share kit. No Home hero CTA.

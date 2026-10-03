@@ -29,6 +29,11 @@ import {
   createOfficeDesignTokens,
   createPowerPointTheme,
 } from "@/lib/export/office-design-tokens";
+import {
+  composeLetterheadContact,
+  letterheadLogoInches,
+  letterheadPptxBandHeightInches,
+} from "@/lib/export/office-letterhead-layout";
 
 export type DocxData = Record<string, unknown>;
 
@@ -995,6 +1000,8 @@ export type PptxDemoOpts = {
   bodyFont?: string;
   headlineFontId?: CanvasFontId;
   bodyFontId?: CanvasFontId;
+  /** Optional greeting line (letters). */
+  salutationLine?: string;
 };
 
 function stripHash(hex: string): string {
@@ -1023,122 +1030,163 @@ type PptxLike = {
   };
 };
 
+function pngDataForPptx(logo: BrandLogoBytes): string {
+  if (typeof Buffer !== "undefined") {
+    return `data:image/png;base64,${Buffer.from(logo.bytes).toString("base64")}`;
+  }
+  let binary = "";
+  for (let i = 0; i < logo.bytes.length; i++) {
+    binary += String.fromCharCode(logo.bytes[i]!);
+  }
+  return `data:image/png;base64,${btoa(binary)}`;
+}
+
 function addLogo(
   slide: ReturnType<PptxLike["addSlide"]>,
   logo: BrandLogoBytes | null | undefined,
   x: number,
   y: number,
-  w = 1.6,
-  h = 0.64,
-) {
-  if (!logo) return;
-  slide.addImage({ data: logo.bytes, x, y, w, h });
+): { w: number; h: number } {
+  if (!logo) return { w: 0, h: 0 };
+  const { w, h } = letterheadLogoInches(logo);
+  slide.addImage({ data: pngDataForPptx(logo), x, y, w, h });
+  return { w, h };
 }
+
+const PPTX_SLIDE_W = 13.333;
 
 function buildLetterheadOrSimple(
   pptx: PptxLike,
   opts: PptxDemoOpts,
   primary: string,
   secondary: string,
-  accent: string,
+  _accent: string,
   ink: string,
 ) {
-  const title =
-    opts.presetId === "letterhead"
-      ? "Letterhead"
-      : opts.fields.title || "Local correspondence";
   const body = opts.body || opts.fields.body || "";
   const hFace = pptxHeadline(opts);
   const bFace = pptxBody(opts);
+  const contact = composeLetterheadContact(opts.fields);
+  const greeting =
+    opts.salutationLine?.trim() ||
+    (opts.fields.memberName
+      ? `Dear ${opts.fields.memberName},`
+      : "Dear Colleague,");
+  const closerName =
+    opts.fields.stewardName || opts.fields.presidentName || "";
+  const closerTitle =
+    opts.fields.signatureTitle?.trim() ||
+    (opts.presetId === "welcome-letter"
+      ? `Local president · ${opts.localLabel}`
+      : `Steward · ${opts.localLabel}`);
 
-  {
-    const s = pptx.addSlide();
-    s.background = { color: primary };
-    addLogo(s, opts.logo, 0.6, 0.5);
-    s.addText(opts.localLabel, {
-      x: 0.6,
-      y: 1.4,
-      w: 12,
-      h: 0.5,
-      fontSize: 22,
-      bold: true,
-      color: ink,
-      fontFace: hFace,
-    });
-    s.addText(opts.fields.contactName || "", {
-      x: 0.6,
-      y: 2,
-      w: 12,
-      h: 0.4,
-      fontSize: 16,
+  const s = pptx.addSlide();
+  s.background = { color: "FFFFFF" };
+  const bandH = letterheadPptxBandHeightInches(opts.logo);
+  s.addShape(pptx.ShapeType.rect, {
+    x: 0,
+    y: 0,
+    w: PPTX_SLIDE_W,
+    h: bandH,
+    fill: { color: primary },
+  });
+  const logoSize = opts.logo
+    ? addLogo(s, opts.logo, 0.4, (bandH - letterheadLogoInches(opts.logo).h) / 2)
+    : { w: 0, h: 0 };
+  const textX = 0.4 + (logoSize.w ? logoSize.w + 0.25 : 0);
+  const textW = Math.max(4, PPTX_SLIDE_W - textX - 0.4);
+  s.addText(opts.localLabel, {
+    x: textX,
+    y: 0.22,
+    w: textW,
+    h: 0.42,
+    fontSize: 16,
+    bold: true,
+    color: ink,
+    fontFace: hFace,
+  });
+  if (contact) {
+    s.addText(contact, {
+      x: textX,
+      y: 0.64,
+      w: textW,
+      h: 0.32,
+      fontSize: 12,
       color: ink,
       fontFace: bFace,
     });
-    s.addShape(pptx.ShapeType.rect, {
-      x: 0.6,
-      y: 2.7,
-      w: 2.2,
-      h: 0.1,
-      fill: { color: accent },
-    });
-    s.addText(title, {
-      x: 0.6,
-      y: 3.2,
-      w: 12,
-      h: 1,
-      fontSize: 28,
-      bold: true,
-      color: ink,
-      fontFace: hFace,
-    });
   }
 
-  {
-    const s = pptx.addSlide();
-    s.background = { color: "FFFFFF" };
-    s.addShape(pptx.ShapeType.rect, {
-      x: 0,
-      y: 0,
-      w: 13.333,
-      h: 0.35,
-      fill: { color: secondary },
+  let y = bandH + 0.28;
+  if (opts.presetId === "letterhead") {
+    s.addText("Correspondence", {
+      x: 0.7,
+      y,
+      w: 12,
+      h: 0.45,
+      fontSize: 22,
+      bold: true,
+      color: secondary,
+      fontFace: hFace,
     });
-    if (opts.fields.memberName) {
-      s.addText(`Dear ${opts.fields.memberName},`, {
-        x: 0.8,
-        y: 1,
-        w: 11.5,
-        h: 0.5,
-        fontSize: 18,
-        color: "1A1A1A",
-        fontFace: bFace,
-      });
-    }
-    s.addText(body || "In solidarity.", {
-      x: 0.8,
-      y: 1.7,
-      w: 11.5,
-      h: 3.5,
-      fontSize: 18,
+    y += 0.55;
+    s.addText(body || " ", {
+      x: 0.7,
+      y,
+      w: 12,
+      h: Math.max(1.5, 6.8 - y),
+      fontSize: 16,
       color: "1A1A1A",
       fontFace: bFace,
       valign: "top",
     });
-    s.addText(
-      ["In solidarity,", opts.fields.stewardName, opts.localLabel]
-        .filter(Boolean)
-        .join("\n"),
-      {
-        x: 0.8,
-        y: 5.5,
-        w: 11.5,
-        h: 1.2,
-        fontSize: 16,
-        color: secondary,
-        fontFace: bFace,
-      },
-    );
+    return;
   }
+
+  if (opts.fields.date?.trim()) {
+    s.addText(opts.fields.date, {
+      x: 0.7,
+      y,
+      w: 12,
+      h: 0.32,
+      fontSize: 14,
+      color: "4B5563",
+      fontFace: bFace,
+    });
+    y += 0.38;
+  }
+  s.addText(greeting, {
+    x: 0.7,
+    y,
+    w: 12,
+    h: 0.36,
+    fontSize: 16,
+    color: "1A1A1A",
+    fontFace: bFace,
+  });
+  y += 0.42;
+  s.addText(body || "In solidarity.", {
+    x: 0.7,
+    y,
+    w: 12,
+    h: Math.max(1.4, 5.4 - y),
+    fontSize: 16,
+    color: "1A1A1A",
+    fontFace: bFace,
+    valign: "top",
+  });
+  s.addText(
+    ["In solidarity,", closerName, closerTitle].filter(Boolean).join("\n"),
+    {
+      x: 0.7,
+      y: 6.15,
+      w: 12,
+      h: 1.1,
+      fontSize: 14,
+      color: secondary,
+      fontFace: bFace,
+    },
+  );
 }
 
 function buildEvent(
